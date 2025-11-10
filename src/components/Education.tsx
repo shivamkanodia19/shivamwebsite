@@ -22,7 +22,7 @@ const Education = () => {
                     Bachelor of Science in Engineering
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Expected Graduation: 2026
+                    Expected Graduation: 2029
                   </p>
                 </div>
               </div>
@@ -46,33 +46,55 @@ const Education = () => {
           
           <Card className="shadow-card hover:shadow-card-hover transition-shadow">
             <CardHeader>
-              <CardTitle className="text-xl">Relevant Coursework</CardTitle>
+              <CardTitle className="text-xl">Clubs & Organizations</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-x-6 gap-y-2">
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Engineering Mechanics</span>
+                  <span className="text-muted-foreground">Freshman Reaching Excellence in Engineering (FREE)</span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Thermodynamics</span>
+                  <span className="text-muted-foreground">IEEE</span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Circuit Analysis</span>
+                  <span className="text-muted-foreground">Aggie Data Science Club</span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Data Structures</span>
+                  <span className="text-muted-foreground">Cybersecurity Club</span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Control Systems</span>
+                  <span className="text-muted-foreground">Product@TAMU</span>
                 </div>
                 <div className="flex items-center">
                   <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Engineering Design</span>
+                  <span className="text-muted-foreground">Aggie Innovators</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="shadow-card hover:shadow-card-hover transition-shadow">
+            <CardHeader>
+              <CardTitle className="text-xl">Awards</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex items-center">
+                  <span className="w-2 h-2 bg-accent rounded-full mr-3" />
+                  <span className="text-muted-foreground">Ideathon Runner Up</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-2 h-2 bg-accent rounded-full mr-3" />
+                  <span className="text-muted-foreground">National Merit Commendation</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="w-2 h-2 bg-accent rounded-full mr-3" />
+                  <span className="text-muted-foreground">AP Scholar with Distinction</span>
                 </div>
               </div>
             </CardContent>

@@ -39,8 +39,8 @@ All colors MUST be HSL.
     --radius: 0.75rem;
 
     /* Portfolio-specific design tokens */
-    --hero-gradient-start: 200 100% 85%;
-    --hero-gradient-end: 210 90% 92%;
+    --hero-gradient-start: 200 100% 60%;
+    --hero-gradient-end: 210 90% 85%;
     --section-bg: 210 25% 98%;
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
