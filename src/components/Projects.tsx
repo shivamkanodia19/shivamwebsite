@@ -9,21 +9,21 @@ const projects = [
     description: "Developed an IoT-based automation system for efficient resource management using microcontrollers and sensors.",
     tags: ["IoT", "Arduino", "Python", "C++"],
     github: "#",
-    demo: "#"
+    demo: "https://v0-blackjack-strategy-app.vercel.app"
   },
   {
     title: "Data Analytics Platform",
     description: "Built a comprehensive data analysis tool for processing and visualizing large datasets with real-time insights.",
     tags: ["Python", "React", "Machine Learning", "APIs"],
     github: "#",
-    demo: "#"
+    demo: "https://medium.com/@shivamkanodia77"
   },
   {
     title: "Robotics Control System",
     description: "Designed and implemented a control system for autonomous robotic navigation with obstacle detection.",
     tags: ["ROS", "C++", "Computer Vision", "Control Systems"],
     github: "#",
-    demo: "#"
+    demo: "https://devpost.com/software/ideathon-wgsdzp#updates"
   }
 ];
 
