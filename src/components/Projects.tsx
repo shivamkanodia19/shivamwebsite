@@ -1,29 +1,26 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
 const projects = [
   {
-    title: "Smart Automation System",
-    description: "Developed an IoT-based automation system for efficient resource management using microcontrollers and sensors.",
-    tags: ["IoT", "Arduino", "Python", "C++"],
-    github: "#",
-    demo: "https://v0-blackjack-strategy-app.vercel.app"
+    title: "Blackjack Strategy App",
+    description: "An interactive web application that helps players learn optimal blackjack strategy through visual guides and practice scenarios.",
+    tags: ["React", "Game Development", "Strategy", "Web App"],
+    link: "https://v0-blackjack-strategy-app.vercel.app"
   },
   {
-    title: "Data Analytics Platform",
-    description: "Built a comprehensive data analysis tool for processing and visualizing large datasets with real-time insights.",
-    tags: ["Python", "React", "Machine Learning", "APIs"],
-    github: "#",
-    demo: "https://medium.com/@shivamkanodia77"
+    title: "Technical Blog & Research",
+    description: "Collection of in-depth technical articles covering AI cybersecurity research, innovative tech solutions, and emerging technology trends.",
+    tags: ["AI", "Cybersecurity", "Research", "Technical Writing"],
+    link: "https://medium.com/@shivamkanodia77"
   },
   {
-    title: "Robotics Control System",
-    description: "Designed and implemented a control system for autonomous robotic navigation with obstacle detection.",
-    tags: ["ROS", "C++", "Computer Vision", "Control Systems"],
-    github: "#",
-    demo: "https://devpost.com/software/ideathon-wgsdzp#updates"
+    title: "Ideathon Innovation Project",
+    description: "Award-winning project developed during an ideathon hackathon, showcasing innovative problem-solving and rapid prototyping capabilities.",
+    tags: ["Hackathon", "Innovation", "Development", "Collaboration"],
+    link: "https://devpost.com/software/ideathon-wgsdzp#updates"
   }
 ];
 
@@ -55,20 +52,12 @@ const Projects = () => {
                     </Badge>
                   ))}
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" asChild>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                      <Github className="w-4 h-4 mr-2" />
-                      Code
-                    </a>
-                  </Button>
-                  <Button variant="default" size="sm" asChild>
-                    <a href={project.demo} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Demo
-                    </a>
-                  </Button>
-                </div>
+                <Button variant="default" size="sm" asChild className="w-full">
+                  <a href={project.link} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Project Link
+                  </a>
+                </Button>
               </CardContent>
             </Card>
           ))}
