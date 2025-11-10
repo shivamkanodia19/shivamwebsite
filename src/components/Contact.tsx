@@ -28,11 +28,11 @@ const Contact = () => {
                   className="justify-start h-auto py-4 px-6"
                   asChild
                 >
-                  <a href="mailto:shivam@example.com">
+                  <a href="mailto:shivamkanodia77@gmail.com">
                     <Mail className="w-5 h-5 mr-3 text-accent" />
                     <div className="text-left">
                       <div className="font-semibold">Email</div>
-                      <div className="text-sm text-muted-foreground">shivam@example.com</div>
+                      <div className="text-sm text-muted-foreground">shivamkanodia77@gmail.com</div>
                     </div>
                   </a>
                 </Button>
@@ -42,7 +42,7 @@ const Contact = () => {
                   className="justify-start h-auto py-4 px-6"
                   asChild
                 >
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer">
                     <Linkedin className="w-5 h-5 mr-3 text-accent" />
                     <div className="text-left">
                       <div className="font-semibold">LinkedIn</div>
@@ -56,7 +56,7 @@ const Contact = () => {
                   className="justify-start h-auto py-4 px-6"
                   asChild
                 >
-                  <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/shivamkanodia19" target="_blank" rel="noopener noreferrer">
                     <Github className="w-5 h-5 mr-3 text-accent" />
                     <div className="text-left">
                       <div className="font-semibold">GitHub</div>

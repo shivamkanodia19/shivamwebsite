@@ -22,15 +22,17 @@ const About = () => {
               
               <div className="md:col-span-2">
                 <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-                  I'm an Engineering Honors student at Texas A&M University, passionate about 
-                  leveraging technology to solve complex problems. My academic journey has 
-                  equipped me with a strong foundation in engineering principles and a drive 
-                  for innovation.
+                  I'm an Engineering Honors student at Texas A&M University, specializing in AI 
+                  Cybersecurity research. I'm deeply involved in business tech and devoted to 
+                  making innovative technological advancements in the realm of artificial intelligence. 
+                  My passion lies in exploring the intersection of AI and security to build safer, 
+                  more resilient systems.
                 </p>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Through my coursework and projects, I've developed expertise in various 
-                  engineering disciplines and cutting-edge technologies. I'm dedicated to 
-                  continuous learning and applying my knowledge to create impactful solutions.
+                  I love writing technical blogs about my AI cybersecurity research, sharing insights 
+                  and discoveries with the tech community. When I'm not immersed in research or coding, 
+                  you'll find me powerlifting at the gym, where I channel my dedication and discipline 
+                  into building physical strength.
                 </p>
               </div>
             </div>
