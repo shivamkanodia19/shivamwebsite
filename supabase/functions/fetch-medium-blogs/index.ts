@@ -11,6 +11,60 @@ interface BlogPost {
   pubDate: string;
   excerpt: string;
   thumbnail: string | null;
+  aiSummary?: string;
+}
+
+async function generateAISummary(title: string, excerpt: string): Promise<string> {
+  const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+  
+  if (!LOVABLE_API_KEY) {
+    console.log("LOVABLE_API_KEY not configured, skipping AI summary");
+    return excerpt;
+  }
+
+  try {
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          {
+            role: "system",
+            content: "You are a concise technical writer. Write a 1-2 sentence summary of the blog post based on its title and excerpt. Be engaging and highlight the key technical topic. Keep it under 150 characters."
+          },
+          {
+            role: "user",
+            content: `Blog Title: ${title}\n\nExcerpt: ${excerpt}\n\nWrite a brief, engaging summary:`
+          }
+        ],
+      }),
+    });
+
+    if (!response.ok) {
+      if (response.status === 429) {
+        console.log("Rate limited, using excerpt as summary");
+        return excerpt;
+      }
+      if (response.status === 402) {
+        console.log("Payment required, using excerpt as summary");
+        return excerpt;
+      }
+      console.error("AI gateway error:", response.status);
+      return excerpt;
+    }
+
+    const data = await response.json();
+    const summary = data.choices?.[0]?.message?.content?.trim();
+    
+    return summary || excerpt;
+  } catch (error) {
+    console.error("Error generating AI summary:", error);
+    return excerpt;
+  }
 }
 
 serve(async (req) => {
@@ -87,6 +141,14 @@ serve(async (req) => {
     }
     
     console.log(`Parsed ${posts.length} blog posts`);
+    
+    // Generate AI summary for the latest post only
+    if (posts.length > 0) {
+      console.log("Generating AI summary for latest post...");
+      const latestPost = posts[0];
+      latestPost.aiSummary = await generateAISummary(latestPost.title, latestPost.excerpt);
+      console.log("AI summary generated successfully");
+    }
     
     return new Response(
       JSON.stringify({ posts }),

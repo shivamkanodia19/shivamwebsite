@@ -6,9 +6,9 @@ import heroBg from "@/assets/hero-bg.jpg";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image - rotated 90 degrees */}
+      {/* Background Image - rotated so sunset is on top */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat rotate-90 scale-150"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat -rotate-90 scale-150"
         style={{ backgroundImage: `url(${heroBg})` }}
       />
       
