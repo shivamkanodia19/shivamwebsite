@@ -9,6 +9,7 @@ interface BlogPost {
   link: string;
   pubDate: string;
   excerpt: string;
+  aiSummary?: string;
   thumbnail?: string;
 }
 
@@ -24,8 +25,8 @@ const Blog = () => {
         
         if (error) throw error;
         
-        if (data && Array.isArray(data) && data.length > 0) {
-          setPosts(data);
+        if (data?.posts && Array.isArray(data.posts) && data.posts.length > 0) {
+          setPosts(data.posts);
         } else {
           setError("No blog posts available");
         }
@@ -73,7 +74,7 @@ const Blog = () => {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {posts.map((post, index) => (
-                <BlogPreviewCard key={index} post={post} />
+                <BlogPreviewCard key={index} post={post} isLatest={index === 0} />
               ))}
             </div>
           )}

@@ -1,19 +1,22 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ExternalLink, Sparkles } from "lucide-react";
 
 interface BlogPost {
   title: string;
   link: string;
   pubDate: string;
   excerpt: string;
+  aiSummary?: string;
 }
 
 interface BlogPreviewCardProps {
   post: BlogPost;
+  isLatest?: boolean;
 }
 
-const BlogPreviewCard = ({ post }: BlogPreviewCardProps) => {
+const BlogPreviewCard = ({ post, isLatest = false }: BlogPreviewCardProps) => {
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
@@ -27,15 +30,25 @@ const BlogPreviewCard = ({ post }: BlogPreviewCardProps) => {
     }
   };
 
+  const displayText = post.aiSummary || post.excerpt;
+
   return (
     <Card className="h-full flex flex-col shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
       <CardHeader>
-        <div className="text-sm text-muted-foreground mb-1">
-          {formatDate(post.pubDate)}
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-sm text-muted-foreground">
+            {formatDate(post.pubDate)}
+          </span>
+          {isLatest && post.aiSummary && (
+            <Badge variant="outline" className="text-xs flex items-center gap-1">
+              <Sparkles className="w-3 h-3" />
+              AI Summary
+            </Badge>
+          )}
         </div>
         <CardTitle className="text-lg line-clamp-2">{post.title}</CardTitle>
         <CardDescription className="line-clamp-3">
-          {post.excerpt}
+          {displayText}
         </CardDescription>
       </CardHeader>
       <CardContent className="mt-auto">
