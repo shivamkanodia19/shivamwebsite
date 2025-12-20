@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm">
-            © {new Date().getFullYear()} Shivam Kanodia. All rights reserved.
+            Shivam Kanodia
           </p>
           
           <div className="flex items-center gap-4">

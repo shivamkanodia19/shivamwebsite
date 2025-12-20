@@ -1,4 +1,4 @@
-import { Code, Shield, Palette, PenTool } from "lucide-react";
+import { Shield, Palette, PenTool } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 const skills = [
@@ -6,11 +6,6 @@ const skills = [
     icon: Shield,
     title: "AI & Cybersecurity Research",
     description: "Exploring LLMs and ML pipelines for autonomous vulnerability discovery and threat response."
-  },
-  {
-    icon: Code,
-    title: "Full-Stack Development",
-    description: "Building applications with React, TypeScript, Supabase, and modern web technologies."
   },
   {
     icon: Palette,
@@ -32,7 +27,7 @@ const CoreSkills = () => {
           At a Glance
         </h2>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {skills.map((skill, index) => (
             <Card key={index} className="text-center shadow-card hover:shadow-card-hover transition-all duration-300">
               <CardContent className="pt-6">
