@@ -39,9 +39,14 @@ All colors MUST be HSL.
     --radius: 0.75rem;
 
     /* Portfolio-specific design tokens */
-    --hero-gradient-start: 200 100% 60%;
-    --hero-gradient-end: 210 90% 85%;
+    --hero-gradient-start: 220 60% 12%;
+    --hero-gradient-end: 220 55% 25%;
     --section-bg: 210 25% 98%;
+    
+    /* Orb colors */
+    --orb-primary: 200 80% 60%;
+    --orb-secondary: 280 70% 55%;
+    --orb-tertiary: 340 75% 55%;
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --shadow-card: 0 2px 8px -2px hsl(215 25% 15% / 0.08);
@@ -77,9 +82,14 @@ All colors MUST be HSL.
     --input: 215 20% 20%;
     --ring: 0 0% 98%;
 
-    --hero-gradient-start: 200 60% 25%;
-    --hero-gradient-end: 210 55% 30%;
+    --hero-gradient-start: 220 60% 8%;
+    --hero-gradient-end: 220 55% 18%;
     --section-bg: 215 28% 10%;
+    
+    /* Orb colors - dark mode */
+    --orb-primary: 200 80% 50%;
+    --orb-secondary: 280 70% 45%;
+    --orb-tertiary: 340 75% 45%;
     
     --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
     --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 0% / 0.4);
@@ -94,4 +104,59 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Floating orb animations */
+@keyframes float-orb-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(50px, -80px) scale(1.1);
+  }
+  50% {
+    transform: translate(-30px, -120px) scale(0.95);
+  }
+  75% {
+    transform: translate(80px, -60px) scale(1.05);
+  }
+}
+
+@keyframes float-orb-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-70px, 50px) scale(0.9);
+  }
+  50% {
+    transform: translate(40px, 100px) scale(1.15);
+  }
+  75% {
+    transform: translate(-50px, 30px) scale(1);
+  }
+}
+
+@keyframes float-orb-3 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(60px, 80px) scale(1.1);
+  }
+  66% {
+    transform: translate(-40px, 40px) scale(0.95);
+  }
+}
+
+.animate-float-orb-1 {
+  animation: float-orb-1 20s ease-in-out infinite;
+}
+
+.animate-float-orb-2 {
+  animation: float-orb-2 25s ease-in-out infinite;
+}
+
+.animate-float-orb-3 {
+  animation: float-orb-3 18s ease-in-out infinite;
 }

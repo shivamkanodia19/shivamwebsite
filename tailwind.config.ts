@@ -52,6 +52,11 @@ export default {
           end: "hsl(var(--hero-gradient-end))",
         },
         "section-bg": "hsl(var(--section-bg))",
+        orb: {
+          primary: "hsl(var(--orb-primary))",
+          secondary: "hsl(var(--orb-secondary))",
+          tertiary: "hsl(var(--orb-tertiary))",
+        },
       },
       backgroundImage: {
         "hero-gradient": "linear-gradient(135deg, hsl(var(--hero-gradient-start)), hsl(var(--hero-gradient-end)))",
@@ -67,6 +72,9 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        mono: ["'JetBrains Mono'", "monospace"],
       },
       keyframes: {
         "accordion-down": {
@@ -85,10 +93,21 @@ export default {
             height: "0",
           },
         },
+        "fade-in-up": {
+          from: {
+            opacity: "0",
+            transform: "translateY(30px)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in-up": "fade-in-up 0.8s ease-out forwards",
       },
     },
   },
