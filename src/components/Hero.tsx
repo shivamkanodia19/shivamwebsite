@@ -5,15 +5,15 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image - rotated so sunset is on top */}
+<section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image - Texas A&M inspired */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat -rotate-90 scale-150"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroBg})` }}
       />
       
-      {/* Lighter Overlay */}
-      <div className="absolute inset-0 bg-black/20" />
+      {/* Subtle Overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/10" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-20 text-center max-w-3xl">
