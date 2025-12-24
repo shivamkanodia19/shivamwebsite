@@ -2,94 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Texas A&M Inspired Design System - Maroon & White Theme
+   All colors MUST be HSL.
 */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 215 25% 15%;
+    --foreground: 345 50% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 345 50% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 345 50% 15%;
 
-    --primary: 215 45% 25%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 345 100% 25%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 20% 95%;
-    --secondary-foreground: 215 45% 25%;
+    --secondary: 345 15% 95%;
+    --secondary-foreground: 345 100% 25%;
 
-    --muted: 210 20% 96%;
-    --muted-foreground: 215 15% 50%;
+    --muted: 345 10% 96%;
+    --muted-foreground: 345 20% 45%;
 
-    --accent: 195 85% 50%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 38 90% 55%;
+    --accent-foreground: 345 50% 15%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 215 15% 88%;
-    --input: 215 15% 88%;
-    --ring: 215 45% 25%;
+    --border: 345 20% 88%;
+    --input: 345 20% 88%;
+    --ring: 345 100% 25%;
 
     --radius: 0.75rem;
 
     /* Portfolio-specific design tokens */
-    --hero-gradient-start: 220 60% 12%;
-    --hero-gradient-end: 220 55% 25%;
-    --section-bg: 210 25% 98%;
+    --hero-gradient-start: 345 100% 15%;
+    --hero-gradient-end: 345 80% 28%;
+    --section-bg: 345 10% 98%;
     
-    /* Orb colors */
-    --orb-primary: 200 80% 60%;
-    --orb-secondary: 280 70% 55%;
-    --orb-tertiary: 340 75% 55%;
+    /* Orb colors - maroon theme */
+    --orb-primary: 345 85% 35%;
+    --orb-secondary: 345 70% 45%;
+    --orb-tertiary: 38 80% 55%;
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow-card: 0 2px 8px -2px hsl(215 25% 15% / 0.08);
-    --shadow-card-hover: 0 8px 24px -4px hsl(215 25% 15% / 0.12);
+    --shadow-card: 0 2px 8px -2px hsl(345 50% 15% / 0.08);
+    --shadow-card-hover: 0 8px 24px -4px hsl(345 50% 15% / 0.15);
   }
 
   .dark {
-    --background: 215 30% 8%;
+    --background: 345 40% 6%;
     --foreground: 0 0% 98%;
 
-    --card: 215 25% 12%;
+    --card: 345 35% 10%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 215 25% 12%;
+    --popover: 345 35% 10%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 0 0% 98%;
-    --primary-foreground: 215 45% 25%;
+    --primary-foreground: 345 100% 25%;
 
-    --secondary: 215 20% 18%;
+    --secondary: 345 30% 15%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 215 20% 18%;
-    --muted-foreground: 215 15% 65%;
+    --muted: 345 25% 15%;
+    --muted-foreground: 345 15% 65%;
 
-    --accent: 195 85% 55%;
-    --accent-foreground: 215 30% 8%;
+    --accent: 38 85% 50%;
+    --accent-foreground: 345 40% 6%;
 
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 215 20% 20%;
-    --input: 215 20% 20%;
+    --border: 345 25% 18%;
+    --input: 345 25% 18%;
     --ring: 0 0% 98%;
 
-    --hero-gradient-start: 220 60% 8%;
-    --hero-gradient-end: 220 55% 18%;
-    --section-bg: 215 28% 10%;
+    --hero-gradient-start: 345 100% 8%;
+    --hero-gradient-end: 345 80% 18%;
+    --section-bg: 345 35% 8%;
     
-    /* Orb colors - dark mode */
-    --orb-primary: 200 80% 50%;
-    --orb-secondary: 280 70% 45%;
-    --orb-tertiary: 340 75% 45%;
+    /* Orb colors - dark mode maroon */
+    --orb-primary: 345 80% 40%;
+    --orb-secondary: 345 65% 35%;
+    --orb-tertiary: 38 75% 45%;
     
     --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
     --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 0% / 0.4);
