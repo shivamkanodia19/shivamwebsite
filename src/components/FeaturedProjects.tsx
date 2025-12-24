@@ -8,7 +8,7 @@ const FeaturedProjects = () => {
   const featuredProjects = getFeaturedProjects();
 
   return (
-    <section className="py-20 bg-background">
+    <section className="py-20 bg-background border-t border-border/50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-3xl font-bold text-foreground">
