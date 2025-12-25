@@ -6,17 +6,12 @@ const skillCategories = [
   {
     title: "Technical",
     icon: Code2,
-    skills: ["Python", "TypeScript/React", "Supabase", "SQL", "C++", "Arduino", "HTML/CSS"]
+    skills: ["Python", "TypeScript/React", "Supabase", "SQL", "C++", "HTML/CSS"]
   },
   {
-    title: "Tools",
+    title: "Tools & Hardware",
     icon: Wrench,
-    skills: ["Github", "Figma", "Vercel", "Google Labs", "Lovable", "Fusion360", "Canva"]
-  },
-  {
-    title: "Hardware & Embedded",
-    icon: Cpu,
-    skills: ["Arduino", "PCB Design", "Microcontrollers", "IoT", "Raspberry Pi"]
+    skills: ["Github", "Figma", "Fusion360", "Canva", "Arduino", "Raspberry Pi", "Microcontrollers"]
   },
   {
     title: "Soft Skills",
@@ -36,8 +31,8 @@ const Skills = () => {
             Skills & Technologies
           </h2>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {skillCategories.map((category, index) => {
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {skillCategories.map((category, index) => {
             const Icon = category.icon;
             return (
               <Card 
