@@ -27,11 +27,12 @@ const AboutSection = () => {
                 <span className="text-primary font-medium">artificial intelligence</span> and{' '}
                 <span className="text-primary font-medium">cybersecurity</span>.
               </p>
-              <p className="text-muted-foreground leading-relaxed">Outside of class, I split my time between research, creating projects, and exploring a variety of fields like product management and app development
-
-
-
-I currently conduct research under Dr. Jeff Huang, where I focus on researchifocusing ong resilient, AI-based systems through open-source experimentation and analysis. I share my findings through technical blog posts.</p>
+              <p className="text-muted-foreground leading-relaxed">
+                Outside of class, I split my time between research, creating projects, and exploring a variety of fields like product management and app development.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                I currently conduct research under Dr. Jeff Huang, focusing on resilient, AI-based systems through open-source experimentation and analysis. I share my findings through technical blog posts.
+              </p>
               
             </div>
 
