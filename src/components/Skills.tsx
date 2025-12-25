@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Code2, Cpu, Database, Wrench } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const skillCategories = [
   {
@@ -25,14 +26,17 @@ const skillCategories = [
 ];
 
 const Skills = () => {
+  const { ref, isVisible } = useScrollAnimation();
+  
   return (
     <section id="skills" className="py-20 bg-section-bg">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-foreground">
-          Skills & Technologies
-        </h2>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div ref={ref} className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-4xl font-bold text-center mb-12 text-foreground">
+            Skills & Technologies
+          </h2>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {skillCategories.map((category, index) => {
             const Icon = category.icon;
             return (
@@ -64,6 +68,7 @@ const Skills = () => {
               </Card>
             );
           })}
+          </div>
         </div>
       </div>
     </section>

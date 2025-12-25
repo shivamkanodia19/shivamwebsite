@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
-import CoreSkills from "@/components/CoreSkills";
+import Skills from "@/components/Skills";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import ResearchHighlights from "@/components/ResearchHighlights";
 import LatestBlog from "@/components/LatestBlog";
@@ -11,7 +11,7 @@ const Index = () => {
     <Layout>
       <Hero />
       <AboutSection />
-      <CoreSkills />
+      <Skills />
       <FeaturedProjects />
       <ResearchHighlights />
       <LatestBlog />
