@@ -9,7 +9,7 @@ const skillCategories = [
     skills: ["Python", "TypeScript/React", "Supabase", "SQL", "C++", "HTML/CSS"]
   },
   {
-    title: "Tools & Hardware",
+    title: "Tools",
     icon: Wrench,
     skills: ["Github", "Figma", "Fusion360", "Canva", "Arduino"]
   },
