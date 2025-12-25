@@ -1,19 +1,14 @@
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { Badge } from '@/components/ui/badge';
 import { GraduationCap, FlaskConical, BookOpen } from 'lucide-react';
-
 const AboutSection = () => {
-  const { ref, isVisible } = useScrollAnimation();
-
-  return (
-    <section id="about" className="py-24 bg-background">
+  const {
+    ref,
+    isVisible
+  } = useScrollAnimation();
+  return <section id="about" className="py-24 bg-background">
       <div className="container mx-auto px-4">
-        <div
-          ref={ref}
-          className={`max-w-4xl mx-auto transition-all duration-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
+        <div ref={ref} className={`max-w-4xl mx-auto transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {/* Section Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -52,10 +47,10 @@ const AboutSection = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Texas A&M University</h3>
-                    <p className="text-sm text-muted-foreground">Computer Engineering — Honors College</p>
+                    <p className="text-sm text-muted-foreground">Computer Engineering — Engineering Honors</p>
                     <div className="flex items-center gap-2 mt-2">
                       <Badge variant="secondary">Class of 2029</Badge>
-                      <Badge className="bg-primary text-primary-foreground">4.0 GPA</Badge>
+                      <Badge className="bg-primary text-primary-foreground">3.7 GPA</Badge>
                     </div>
                   </div>
                 </div>
@@ -69,8 +64,10 @@ const AboutSection = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">AI Cybersecurity Research</h3>
-                    <p className="text-sm text-muted-foreground">Undergraduate Researcher • June 2025 – Present</p>
-                    <p className="text-xs text-muted-foreground mt-1">Under Dr. Jeff Huang</p>
+                    <p className="text-sm text-muted-foreground">Undergraduate Researcher 
+Sharing research finidngs & insights through weekly technical blogs</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                  </p>
                   </div>
                 </div>
               </div>
@@ -82,8 +79,8 @@ const AboutSection = () => {
                     <BookOpen className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground">Weekly Technical Blog</h3>
-                    <p className="text-sm text-muted-foreground">Sharing research findings & insights</p>
+                    <h3 className="font-semibold text-foreground">Personal Builds</h3>
+                    <p className="text-sm text-muted-foreground">Weekend projects, hackathons, and experimental tools where I explore</p>
                   </div>
                 </div>
               </div>
@@ -91,8 +88,6 @@ const AboutSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default AboutSection;
