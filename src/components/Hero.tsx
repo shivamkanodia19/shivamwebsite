@@ -18,7 +18,8 @@ const Hero = () => {
         loop
         playsInline
         poster={heroBg}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover scale-[1.12] origin-center"
+        style={{ objectPosition: "left top" }}
       >
         <source src={heroVideo} type="video/mp4" />
       </video>
