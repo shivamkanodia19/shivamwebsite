@@ -34,8 +34,19 @@ jobs:
       - name: Build
         run: npm run build
       
-      - name: List build output
-        run: ls -la dist/
+      - name: Verify build output
+        run: |
+          echo "Checking dist folder contents:"
+          ls -la dist/
+          echo ""
+          echo "Checking if index.html exists:"
+          test -f dist/index.html && echo "✓ index.html exists" || echo "✗ index.html missing"
+          echo ""
+          echo "Checking index.html content:"
+          head -25 dist/index.html
+          echo ""
+          echo "Checking for JS files:"
+          ls -la dist/assets/*.js 2>/dev/null || echo "No JS files found in dist/assets/"
         continue-on-error: true
       
       - name: Setup Pages
