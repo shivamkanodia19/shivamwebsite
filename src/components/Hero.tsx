@@ -25,6 +25,9 @@ const Hero = () => {
       
       {/* Gradient overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
+      
+      {/* Corner overlay to hide watermark */}
+      <div className="absolute bottom-0 right-0 w-32 h-24 bg-gradient-to-tl from-black via-black/80 to-transparent" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-20 text-center max-w-3xl">
