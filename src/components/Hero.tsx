@@ -62,7 +62,7 @@ const Hero = () => {
             className="border-white/50 text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm"
           >
             <Link to="/blog">
-              Read Blog
+              Read Blogs
             </Link>
           </Button>
         </div>
