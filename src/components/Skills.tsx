@@ -4,24 +4,24 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const skillCategories = [
   {
-    title: "Programming",
+    title: "Technical",
     icon: Code2,
-    skills: ["Python", "C++", "Java", "JavaScript", "MATLAB"]
+    skills: ["Python", "TypeScript/React", "Supabase", "SQL", "C++", "Arduino", "HTML/CSS"]
   },
   {
-    title: "Engineering Tools",
+    title: "Tools",
     icon: Wrench,
-    skills: ["CAD Design", "AutoCAD", "SolidWorks", "ANSYS", "LabVIEW"]
+    skills: ["Github", "Figma", "Vercel", "Google Labs", "Lovable", "Fusion360", "Canva"]
   },
   {
     title: "Hardware & Embedded",
     icon: Cpu,
-    skills: ["Arduino", "Raspberry Pi", "PCB Design", "Microcontrollers", "IoT"]
+    skills: ["Arduino", "PCB Design", "Microcontrollers", "IoT", "Raspberry Pi"]
   },
   {
-    title: "Data & Analytics",
+    title: "Soft Skills",
     icon: Database,
-    skills: ["Machine Learning", "Data Analysis", "SQL", "TensorFlow", "Statistics"]
+    skills: ["Professional Communication", "Phone Etiquette", "Technical Writing", "Leadership", "Teamwork"]
   }
 ];
 
