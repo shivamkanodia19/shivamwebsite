@@ -64,7 +64,7 @@ const AboutSection = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">AI Cybersecurity Research</h3>
-                    <p className="text-sm text-muted-foreground">.Researching and testing AI‑based cybersecurity defenses to make systems safer and more resilient. I publish technical blogs that break down I publish technical blogs that explain complex topics for practitioners.</p>
+                    <p className="text-sm text-muted-foreground">Researching and testing AI‑based cybersecurity defenses to make systems safer and more resilient. I publish technical blogs that explain complex topics for practitioners.</p>
                     <p className="text-xs text-muted-foreground mt-1">
                   </p>
                   </div>
