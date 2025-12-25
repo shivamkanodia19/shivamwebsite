@@ -24,19 +24,19 @@ const Hero = () => {
       </video>
       
       {/* Gradient overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-20 text-center max-w-3xl">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 animate-fade-in-up drop-shadow-lg">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 animate-fade-in-up drop-shadow-lg">
           Shivam Kanodia
         </h1>
         
-        <p className="text-lg md:text-xl text-white/95 mb-6 animate-fade-in-up [animation-delay:0.1s] drop-shadow-md">
+        <p className="text-lg md:text-xl text-white font-semibold mb-6 animate-fade-in-up [animation-delay:0.1s] drop-shadow-md">
           Engineering Honors Student at Texas A&M University
         </p>
         
-        <p className="text-base md:text-lg text-white/85 mb-10 max-w-xl mx-auto animate-fade-in-up [animation-delay:0.2s] drop-shadow-sm">
+        <p className="text-base md:text-lg text-white/90 font-medium mb-10 max-w-xl mx-auto animate-fade-in-up [animation-delay:0.2s] drop-shadow-sm">
           Engineering solutions through rigorous design, experimentation, and data-driven iteration.
         </p>
 
@@ -57,8 +57,8 @@ const Hero = () => {
             asChild
             className="border-white/50 text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm"
           >
-            <Link to="/about">
-              About Me
+            <Link to="/blog">
+              Read Blog
             </Link>
           </Button>
         </div>
