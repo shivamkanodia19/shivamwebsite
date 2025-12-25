@@ -11,12 +11,12 @@ const skillCategories = [
   {
     title: "Tools & Hardware",
     icon: Wrench,
-    skills: ["Github", "Figma", "Fusion360", "Canva", "Arduino", "Raspberry Pi", "Microcontrollers"]
+    skills: ["Github", "Figma", "Fusion360", "Canva", "Arduino"]
   },
   {
     title: "Soft Skills",
     icon: Database,
-    skills: ["Professional Communication", "Phone Etiquette", "Technical Writing", "Leadership", "Teamwork"]
+    skills: ["Professional Communication", "Phone Etiquette", "Technical Writing", "Leadership", "Teamwork", "Problem Solving"]
   }
 ];
 
