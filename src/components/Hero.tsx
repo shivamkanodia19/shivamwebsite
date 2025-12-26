@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,20 +6,25 @@ import heroVideo from "@/assets/hero-video.mp4";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
   const scrollToContent = () => {
     window.scrollTo({ top: window.innerHeight - 64, behavior: 'smooth' });
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'left top' }}
+    >
       {/* Video Background */}
       <video
         autoPlay
         muted
         loop
         playsInline
-        poster={heroBg}
-        className="absolute inset-0 w-full h-full object-cover scale-[1.12] origin-center"
+        onCanPlay={() => setVideoLoaded(true)}
+        className={`absolute inset-0 w-full h-full object-cover scale-[1.12] origin-center transition-opacity duration-700 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
         style={{ objectPosition: "left top" }}
       >
         <source src={heroVideo} type="video/mp4" />
