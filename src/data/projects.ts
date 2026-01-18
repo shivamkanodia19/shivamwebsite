@@ -9,6 +9,7 @@ export interface Project {
   technologies: string[];
   role: string;
   duration: string;
+  isCurrent?: boolean;
   github?: string;
   liveUrl?: string;
   blogPost?: string;
@@ -16,17 +17,30 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: "dateify",
-    title: "Dateify",
-    tagline: "AI-powered event planning for groups",
-    description: "An AI-powered mobile app designed to streamline event planning using user input for preferred activities and food to recommend local locations.",
-    problem: "Planning group events is challenging—coordinating preferences, finding venues everyone agrees on, and making decisions efficiently often leads to endless back-and-forth messages.",
-    approach: "Built a swipe-based interface that gamifies group decision-making. Integrated Supabase for secure authentication and real-time data synchronization. Leveraged AI to analyze user preferences and recommend personalized venue options.",
-    results: "Created a novel approach to group coordination that reduces planning friction. The swipe-based voting system enables quick consensus-building while the AI recommendations ensure quality venue suggestions.",
-    technologies: ["Lovable", "GitHub", "Supabase", "SQL"],
-    role: "Lead Developer",
+    id: "clinicalhours",
+    title: "ClinicalHours",
+    tagline: "Crowdsourced clinical volunteering platform for pre-med students",
+    description: "A crowdsourced platform that helps pre-med students discover, track, and verify clinical volunteering opportunities.",
+    problem: "Pre-med students often rely on scattered forums or word of mouth to find clinical volunteering opportunities, which makes it hard to compare options and verify legitimacy.",
+    approach: "Building a centralized web platform where students can submit and verify opportunities, keep listings up to date, and surface trustworthy options with community input.",
+    results: "Currently in active development with early user interviews shaping onboarding and verification flows to reduce the time it takes to find quality clinical hours.",
+    technologies: ["TypeScript", "React", "Supabase", "Mapbox", "Resend", "Google APIs"],
+    role: "Co-Founder & CTO",
     duration: "Nov 2025 – Present",
-    github: "https://github.com/shivamkanodia19"
+    isCurrent: true,
+    liveUrl: "https://clinicalhours.org"
+  },
+  {
+    id: "persona",
+    title: "Persona",
+    tagline: "Digital identity platform combating online harassment",
+    description: "A digital identity platform with cross-platform reputation tracking, developed during Product@TAMU's 24-hour ideathon.",
+    problem: "Online harassment persists across platforms because bad actors can simply create new accounts. There's no unified system to track digital reputation.",
+    approach: "Led development of a digital passport concept with user search functionality. Created interactive Figma prototypes and collaborated with a multidisciplinary team on pitch deck and promotional materials.",
+    results: "Earned 2nd place at Product@TAMU Ideathon. Demonstrated viable solution for cross-platform reputation management with working prototype.",
+    technologies: ["Figma", "Product Design", "UI/UX"],
+    role: "Persona Developer",
+    duration: "November 2025"
   },
   {
     id: "chase-redesign",
@@ -53,6 +67,19 @@ export const projects: Project[] = [
     duration: "November 2025"
   },
   {
+    id: "dateify",
+    title: "Dateify",
+    tagline: "AI-powered event planning for groups",
+    description: "An AI-powered mobile app designed to streamline event planning using user input for preferred activities and food to recommend local locations.",
+    problem: "Planning group events is challenging—coordinating preferences, finding venues everyone agrees on, and making decisions efficiently often leads to endless back-and-forth messages.",
+    approach: "Built a swipe-based interface that gamifies group decision-making. Integrated Supabase for secure authentication and real-time data synchronization. Leveraged AI to analyze user preferences and recommend personalized venue options.",
+    results: "Created a novel approach to group coordination that reduces planning friction. The swipe-based voting system enables quick consensus-building while the AI recommendations ensure quality venue suggestions.",
+    technologies: ["Lovable", "GitHub", "Supabase", "SQL"],
+    role: "Lead Developer",
+    duration: "Nov 2025 – Present",
+    github: "https://github.com/shivamkanodia19"
+  },
+  {
     id: "blackjack-simulator",
     title: "Blackjack Simulator",
     tagline: "Learn optimal strategy through practice",
@@ -65,21 +92,11 @@ export const projects: Project[] = [
     duration: "Jul 2025 – Aug 2025",
     liveUrl: "https://v0-blackjack-strategy-app.vercel.app",
     github: "https://github.com/shivamkanodia19"
-  },
-  {
-    id: "persona",
-    title: "Persona",
-    tagline: "Digital identity platform combating online harassment",
-    description: "A digital identity platform with cross-platform reputation tracking, developed during Product@TAMU's 24-hour ideathon.",
-    problem: "Online harassment persists across platforms because bad actors can simply create new accounts. There's no unified system to track digital reputation.",
-    approach: "Led development of a digital passport concept with user search functionality. Created interactive Figma prototypes and collaborated with a multidisciplinary team on pitch deck and promotional materials.",
-    results: "Earned 2nd place at Product@TAMU Ideathon. Demonstrated viable solution for cross-platform reputation management with working prototype.",
-    technologies: ["Figma", "Product Design", "UI/UX"],
-    role: "Persona Developer",
-    duration: "November 2025"
   }
 ];
 
 export const getFeaturedProjects = () => projects.slice(0, 3);
+
+export const getCurrentProjects = () => projects.filter(project => project.isCurrent);
 
 export const getProjectById = (id: string) => projects.find(p => p.id === id);

@@ -28,10 +28,10 @@ const AboutSection = () => {
                 <span className="text-primary font-medium">cybersecurity</span>.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Outside of class, I split my time between research, creating projects, and exploring a variety of fields like product management and app development.
+                Outside of class, I split my time between research, creating projects, exploring product management and app development, and powerlifting.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                I currently conduct research under Dr. Jeff Huang, focusing on resilient, AI-based systems through open-source experimentation and analysis. I share my findings through technical blog posts.
+                I am currently co-founding ClinicalHours, a crowdsourced platform that helps pre-med students discover, track, and verify clinical volunteering opportunities. We are building a trusted hub that makes it easier to find legitimate clinical hours and share real-world insights.
               </p>
               
             </div>
