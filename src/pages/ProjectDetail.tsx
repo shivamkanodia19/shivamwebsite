@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Github, ExternalLink, Calendar, User } from "lucide-react";
+import { ArrowLeft, ArrowRight, Github, ExternalLink, Calendar, User, Trophy, LinkIcon } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -86,6 +86,22 @@ const ProjectDetail = () => {
                         </a>
                       </Button>
                     )}
+                    {project.devpost && (
+                      <Button variant="outline" size="sm" asChild>
+                        <a href={project.devpost} target="_blank" rel="noopener noreferrer">
+                          <LinkIcon className="w-4 h-4 mr-1" />
+                          DevPost
+                        </a>
+                      </Button>
+                    )}
+                    {project.blogPost && (
+                      <Button variant="outline" size="sm" asChild>
+                        <a href={project.blogPost} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="w-4 h-4 mr-1" />
+                          Blog
+                        </a>
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardContent>
@@ -103,6 +119,30 @@ const ProjectDetail = () => {
               ))}
             </div>
           </section>
+
+          {/* Highlights */}
+          {project.highlights && project.highlights.length > 0 && (
+            <section className="mb-12">
+              <Card className="border-primary/20 bg-primary/5">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Trophy className="w-5 h-5 text-primary" />
+                    Key Highlights
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3">
+                    {project.highlights.map((highlight, index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
+                        <span className="text-foreground">{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </section>
+          )}
 
           {/* Content Sections */}
           <div className="space-y-12">
