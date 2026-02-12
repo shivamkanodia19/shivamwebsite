@@ -19,6 +19,20 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "aggie-research-finder",
+    title: "Aggie Research Finder",
+    tagline: "Connecting Texas A&M students with research opportunities",
+    description: "A platform to help Texas A&M students discover and connect with research opportunities across departments.",
+    problem: "Students at large universities struggle to find research opportunities that match their interests, often missing out due to lack of visibility into available positions.",
+    approach: "Building a centralized discovery platform that aggregates research opportunities across Texas A&M departments, making it easy for students to search, filter, and apply.",
+    results: "Currently in active development, focused on creating an intuitive interface for students to find research positions.",
+    technologies: ["TypeScript", "React", "Supabase"],
+    role: "Developer",
+    duration: "2026 – Present",
+    isCurrent: true,
+    liveUrl: "https://aggieresearchfinder.com"
+  },
+  {
     id: "clinicalhours",
     title: "ClinicalHours",
     tagline: "Crowdsourced clinical volunteering platform for pre-med students",
