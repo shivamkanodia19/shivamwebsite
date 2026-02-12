@@ -8,52 +8,6 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 0 0% 8%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 8%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
-
-    --primary: 0 85% 45%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 0 10% 94%;
-    --secondary-foreground: 0 85% 40%;
-
-    --muted: 0 5% 95%;
-    --muted-foreground: 0 0% 40%;
-
-    --accent: 0 75% 50%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 88%;
-    --input: 0 0% 88%;
-    --ring: 0 85% 45%;
-
-    --radius: 0.75rem;
-
-    /* Portfolio-specific design tokens */
-    --hero-gradient-start: 0 0% 5%;
-    --hero-gradient-end: 0 60% 18%;
-    --section-bg: 0 0% 96%;
-    
-    /* Orb colors - red theme */
-    --orb-primary: 0 80% 45%;
-    --orb-secondary: 0 65% 55%;
-    --orb-tertiary: 15 70% 50%;
-    
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.08);
-    --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 0% / 0.15);
-  }
-
-  .dark {
     --background: 0 0% 4%;
     --foreground: 0 0% 96%;
 
@@ -82,17 +36,25 @@
     --input: 0 0% 16%;
     --ring: 0 80% 50%;
 
+    --radius: 0.75rem;
+
+    /* Portfolio-specific design tokens */
     --hero-gradient-start: 0 0% 2%;
     --hero-gradient-end: 0 60% 15%;
     --section-bg: 0 0% 6%;
     
-    /* Orb colors - dark mode red */
+    /* Orb colors - red theme */
     --orb-primary: 0 75% 45%;
     --orb-secondary: 0 60% 40%;
     --orb-tertiary: 15 65% 45%;
     
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.4);
     --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 0% / 0.5);
+  }
+
+  .dark {
+    /* Dark mode matches root — site is always dark */
   }
 }
 
