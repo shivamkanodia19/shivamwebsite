@@ -2,97 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Texas A&M Inspired Design System - Maroon & White Theme
+/* Black & Red Design System
    All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 345 50% 15%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 345 50% 15%;
+    --card-foreground: 0 0% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 345 50% 15%;
+    --popover-foreground: 0 0% 8%;
 
-    --primary: 345 100% 25%;
+    --primary: 0 85% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 345 15% 95%;
-    --secondary-foreground: 345 100% 25%;
+    --secondary: 0 10% 94%;
+    --secondary-foreground: 0 85% 40%;
 
-    --muted: 345 10% 96%;
-    --muted-foreground: 345 20% 45%;
+    --muted: 0 5% 95%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 38 90% 55%;
-    --accent-foreground: 345 50% 15%;
+    --accent: 0 75% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 345 20% 88%;
-    --input: 345 20% 88%;
-    --ring: 345 100% 25%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 0 85% 45%;
 
     --radius: 0.75rem;
 
     /* Portfolio-specific design tokens */
-    --hero-gradient-start: 345 100% 15%;
-    --hero-gradient-end: 345 80% 28%;
-    --section-bg: 345 10% 98%;
+    --hero-gradient-start: 0 0% 5%;
+    --hero-gradient-end: 0 60% 18%;
+    --section-bg: 0 0% 96%;
     
-    /* Orb colors - maroon theme */
-    --orb-primary: 345 85% 35%;
-    --orb-secondary: 345 70% 45%;
-    --orb-tertiary: 38 80% 55%;
+    /* Orb colors - red theme */
+    --orb-primary: 0 80% 45%;
+    --orb-secondary: 0 65% 55%;
+    --orb-tertiary: 15 70% 50%;
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow-card: 0 2px 8px -2px hsl(345 50% 15% / 0.08);
-    --shadow-card-hover: 0 8px 24px -4px hsl(345 50% 15% / 0.15);
+    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.08);
+    --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 0% / 0.15);
   }
 
   .dark {
-    --background: 345 40% 6%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
 
-    --card: 345 35% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 345 35% 10%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 345 100% 25%;
+    --primary: 0 80% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 345 30% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 345 25% 15%;
-    --muted-foreground: 345 15% 65%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 55%;
 
-    --accent: 38 85% 50%;
-    --accent-foreground: 345 40% 6%;
+    --accent: 0 75% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 50%;
+    --destructive: 0 63% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 345 25% 18%;
-    --input: 345 25% 18%;
-    --ring: 0 0% 98%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 0 80% 50%;
 
-    --hero-gradient-start: 345 100% 8%;
-    --hero-gradient-end: 345 80% 18%;
-    --section-bg: 345 35% 8%;
+    --hero-gradient-start: 0 0% 2%;
+    --hero-gradient-end: 0 60% 15%;
+    --section-bg: 0 0% 6%;
     
-    /* Orb colors - dark mode maroon */
-    --orb-primary: 345 80% 40%;
-    --orb-secondary: 345 65% 35%;
-    --orb-tertiary: 38 75% 45%;
+    /* Orb colors - dark mode red */
+    --orb-primary: 0 75% 45%;
+    --orb-secondary: 0 60% 40%;
+    --orb-tertiary: 15 65% 45%;
     
-    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
-    --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 0% / 0.4);
+    --shadow-card: 0 2px 8px -2px hsl(0 0% 0% / 0.4);
+    --shadow-card-hover: 0 8px 24px -4px hsl(0 0% 0% / 0.5);
   }
 }
 
