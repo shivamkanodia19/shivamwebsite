@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import type { Project } from "@/data/projects";
 
 interface ProjectCardProps {
@@ -11,11 +11,16 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
-    <Card className="h-full flex flex-col shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
+    <Card className={`h-full flex flex-col shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 ${project.featured ? "border-primary/40 ring-1 ring-primary/20" : ""}`}>
       <CardHeader>
-        <CardTitle className="text-xl">{project.title}</CardTitle>
-        <CardDescription className="text-base">
-          {project.description}
+        <div className="flex items-start justify-between gap-2">
+          <CardTitle className="text-xl">{project.title}</CardTitle>
+          {project.featured && (
+            <Star className="w-4 h-4 text-primary shrink-0 mt-1 fill-primary" />
+          )}
+        </div>
+        <CardDescription className="text-sm leading-relaxed">
+          {project.tagline}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col justify-between">

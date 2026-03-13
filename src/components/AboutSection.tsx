@@ -22,18 +22,17 @@ const AboutSection = () => {
             {/* Left: Bio Text */}
             <div className="space-y-6">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                I'm a <span className="text-foreground font-semibold">Computer Engineering Honors</span> student 
-                at Texas A&M University exploring the intersection of{' '}
-                <span className="text-primary font-medium">artificial intelligence</span> and{' '}
-                <span className="text-primary font-medium">cybersecurity</span>.
+                I'm a <span className="text-foreground font-semibold">Computer Engineering (Honors)</span> student
+                at Texas A&M (Class of 2029, GPA 3.7) with minors in{' '}
+                <span className="text-primary font-medium">AI in Business</span> and{' '}
+                <span className="text-primary font-medium">Statistics</span>.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Outside of class, I split my time between research, creating projects, exploring product management and app development, and powerlifting.
+                I co-founded <span className="text-foreground font-semibold">ClinicalHours</span>, a live marketplace connecting pre-med students with clinical volunteer opportunities — now at <span className="text-foreground font-medium">170+ users</span> and <span className="text-foreground font-medium">18,000+ hospital profiles</span> with zero paid acquisition.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                I am currently co-founding ClinicalHours, a crowdsourced platform that helps pre-med students discover, track, and verify clinical volunteering opportunities. We are building a trusted hub that makes it easier to find legitimate clinical hours and share real-world insights.
+                I also do undergraduate research in system dynamics and AI cybersecurity. I build things that work.
               </p>
-              
             </div>
 
             {/* Right: Quick Stats */}
@@ -46,7 +45,8 @@ const AboutSection = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Texas A&M University</h3>
-                    <p className="text-sm text-muted-foreground">Computer Engineering — Engineering Honors</p>
+                    <p className="text-sm text-muted-foreground">B.S. Computer Engineering (Honors)</p>
+                    <p className="text-xs text-muted-foreground">Minors: AI in Business · Statistics</p>
                     <div className="flex items-center gap-2 mt-2">
                       <Badge variant="secondary">Class of 2029</Badge>
                       <Badge className="bg-primary text-primary-foreground">3.7 GPA</Badge>
@@ -62,10 +62,8 @@ const AboutSection = () => {
                     <FlaskConical className="w-6 h-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground">AI Cybersecurity Research</h3>
-                    <p className="text-sm text-muted-foreground">Researching and testing AI‑based cybersecurity defenses to make systems safer and more resilient. I publish technical blogs that explain complex topics for practitioners.</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                  </p>
+                    <h3 className="font-semibold text-foreground">System Dynamics Research</h3>
+                    <p className="text-sm text-muted-foreground">Building ML pipelines with XGBoost and Random Forest + SHAP explainability to predict energy/water efficiency metrics. Developing Vensim models simulating the Water-Energy-Food nexus.</p>
                   </div>
                 </div>
               </div>
@@ -77,8 +75,8 @@ const AboutSection = () => {
                     <BookOpen className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground">Personal Builds</h3>
-                    <p className="text-sm text-muted-foreground">Weekend projects, hackathons, and experimental tools where I explore new ideas in AI, security, and developer experience. </p>
+                    <h3 className="font-semibold text-foreground">AI Cybersecurity Research</h3>
+                    <p className="text-sm text-muted-foreground">Researching LLM and ML applications in malware detection under Dr. Jeff Huang. Publishing technical findings on autonomous vulnerability discovery and secure software architectures.</p>
                   </div>
                 </div>
               </div>

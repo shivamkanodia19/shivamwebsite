@@ -3,26 +3,31 @@ export interface SkillCategory {
   skills: string[];
 }
 
+export const mlSkills: SkillCategory = {
+  title: "ML & Modeling",
+  skills: ["XGBoost", "LightGBM", "Random Forest", "LSTM", "SHAP", "Scikit-learn", "Vensim", "ARIMA/SARIMA"]
+};
+
 export const technicalSkills: SkillCategory = {
-  title: "Technical",
-  skills: ["Python", "TypeScript", "React", "Supabase", "SQL", "C++", "Arduino", "HTML/CSS"]
+  title: "Languages & Stack",
+  skills: ["Python", "C++", "SQL", "JavaScript/TypeScript", "Next.js", "React", "Supabase", "PostgreSQL"]
 };
 
 export const toolSkills: SkillCategory = {
   title: "Tools",
-  skills: ["GitHub", "Figma", "Vercel", "Google Labs", "Lovable", "Fusion360", "Canva"]
+  skills: ["Git", "Docker", "Figma", "Arduino", "Fusion360"]
 };
 
 export const softSkills: SkillCategory = {
   title: "Soft Skills",
-  skills: ["Professional Communication", "Phone Etiquette", "Technical Writing", "Leadership", "Teamwork"]
+  skills: ["Technical Writing", "Leadership", "Teamwork", "Literature Review", "Problem Solving"]
 };
 
-export const allSkillCategories = [technicalSkills, toolSkills, softSkills];
+export const allSkillCategories = [mlSkills, technicalSkills, toolSkills, softSkills];
 
 export const coreSkills = [
-  "AI & Cybersecurity Research",
+  "ML Research & Modeling",
   "Full-Stack Development",
-  "Product Design & UI/UX",
+  "Product Strategy",
   "Technical Writing"
 ];

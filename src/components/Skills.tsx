@@ -4,19 +4,19 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const skillCategories = [
   {
-    title: "Technical",
+    title: "ML & Modeling",
+    icon: Cpu,
+    skills: ["XGBoost", "LightGBM", "Random Forest", "LSTM", "SHAP", "Scikit-learn", "Vensim", "ARIMA/SARIMA"]
+  },
+  {
+    title: "Languages & Stack",
     icon: Code2,
-    skills: ["Python", "TypeScript/React", "Supabase", "SQL", "C++", "HTML/CSS"]
+    skills: ["Python", "C++", "SQL", "JavaScript/TypeScript", "Next.js", "React", "Supabase", "PostgreSQL"]
   },
   {
     title: "Tools",
     icon: Wrench,
-    skills: ["Github", "Figma", "Fusion360", "Canva", "Arduino"]
-  },
-  {
-    title: "Soft Skills",
-    icon: Database,
-    skills: ["Professional Communication", "Phone Etiquette", "Technical Writing", "Leadership", "Teamwork", "Problem Solving"]
+    skills: ["Git", "Docker", "Figma", "Arduino", "Fusion360"]
   }
 ];
 

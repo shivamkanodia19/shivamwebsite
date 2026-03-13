@@ -19,10 +19,10 @@ const Education = () => {
                 <div className="flex-1">
                   <CardTitle className="text-2xl mb-2">Texas A&M University</CardTitle>
                   <p className="text-lg text-muted-foreground mb-1">
-                    Bachelor of Science in Engineering
+                    B.S. Computer Engineering (Honors) · GPA: 3.7
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Expected Graduation: 2029
+                    Expected Graduation: May 2029
                   </p>
                 </div>
               </div>
@@ -31,14 +31,11 @@ const Education = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Award className="w-5 h-5 text-accent" />
-                  <span className="text-muted-foreground">Engineering Honors Program</span>
+                  <span className="text-muted-foreground">Minors: AI in Business (Mays Business School) · Statistics (College of Arts and Sciences)</span>
                 </div>
-                <div className="pl-7">
-                  <p className="text-muted-foreground">
-                    Selected for the competitive Engineering Honors Program, focusing on 
-                    advanced coursework, research opportunities, and leadership development 
-                    in engineering disciplines.
-                  </p>
+                <div className="flex items-center gap-2">
+                  <Award className="w-5 h-5 text-accent" />
+                  <span className="text-muted-foreground">Coursework: C++ Design, Engineering Calculus III, Python Programming</span>
                 </div>
               </div>
             </CardContent>
@@ -50,30 +47,12 @@ const Education = () => {
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-x-6 gap-y-2">
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Freshman Reaching Excellence in Engineering (FREE)</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">IEEE</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Aggie Data Science Club</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Cybersecurity Club</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Product@TAMU</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="w-2 h-2 bg-accent rounded-full mr-3" />
-                  <span className="text-muted-foreground">Aggie Innovators</span>
-                </div>
+                {["EDGE", "FREE", "Aggies Create", "Product@TAMU", "IEEE", "Aggie Data Science Club", "Aggie Innovators"].map((org) => (
+                  <div key={org} className="flex items-center">
+                    <span className="w-2 h-2 bg-accent rounded-full mr-3" />
+                    <span className="text-muted-foreground">{org}</span>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>

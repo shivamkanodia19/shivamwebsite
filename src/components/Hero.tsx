@@ -27,7 +27,7 @@ const Hero = () => {
         <div className="flex-1 relative z-10 flex flex-col justify-center px-8 md:px-16 py-32">
           <div className="max-w-lg">
             <p className="text-red-500 text-xs font-mono tracking-[0.2em] uppercase mb-6 animate-fade-in-up">
-              Engineering Honors · Texas A&amp;M University
+              Computer Engineering (Honors) · Texas A&amp;M University
             </p>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 animate-fade-in-up [animation-delay:0.1s]">
@@ -38,9 +38,12 @@ const Hero = () => {
               </span>
             </h1>
 
-            <p className="text-neutral-400 text-base md:text-lg leading-relaxed mb-10 animate-fade-in-up [animation-delay:0.2s]">
-              Engineering solutions through rigorous design, experimentation,
-              and data-driven iteration.
+            <p className="text-neutral-400 text-base md:text-lg leading-relaxed mb-3 animate-fade-in-up [animation-delay:0.2s]">
+              Computer Engineering student at Texas A&M building at the
+              intersection of AI, healthcare, and entrepreneurship.
+            </p>
+            <p className="text-neutral-500 text-sm leading-relaxed mb-10 animate-fade-in-up [animation-delay:0.25s]">
+              Co-founder of ClinicalHours · ML Researcher · Builder
             </p>
 
             <div className="flex flex-col sm:flex-row items-start gap-4 animate-fade-in-up [animation-delay:0.3s]">
@@ -49,10 +52,10 @@ const Hero = () => {
                 asChild
                 className="bg-red-600 text-white hover:bg-red-700 shadow-lg hover:shadow-red-600/30 transition-all duration-300"
               >
-                <Link to="/projects">
-                  View Projects
+                <a href="https://clinicalhours.org" target="_blank" rel="noopener noreferrer">
+                  ClinicalHours
                   <ArrowRight className="w-5 h-5 ml-2" />
-                </Link>
+                </a>
               </Button>
 
               <Button
@@ -61,7 +64,7 @@ const Hero = () => {
                 asChild
                 className="border-white/15 text-white bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
               >
-                <Link to="/blog">Read Blogs</Link>
+                <Link to="/projects">View Projects</Link>
               </Button>
             </div>
           </div>
