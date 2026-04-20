@@ -1,35 +1,38 @@
-# Shivam Kanodia — portfolio deck
+# Shivam Kanodia Portfolio
 
-Fullscreen investor-style pitch deck built with **Vite**, **React**, **TypeScript**, **Framer Motion**, and **Tailwind CSS** (v4). The production bundle under `dist/` is fully static and ready for **GitHub Pages**.
+Static Vite + React + TypeScript site for GitHub Pages.
 
-## Local development
+## 1) Local development
 
 ```bash
 npm install
 npm run dev
 ```
 
-The dev server defaults to port `8080` (see `vite.config.ts`).
-
-## Production build
+## 2) Build and deploy to `gh-pages`
 
 ```bash
 npm run build
 ```
 
-Output is written to `dist/`. A `404.html` that matches the built `index.html` is written to `dist/` at the end of the build so GitHub Pages serves the SPA for unknown routes.
+Then publish the **contents of `dist/`** to your `gh-pages` branch (or use your GitHub Actions Pages workflow to deploy `dist`).
 
-## Deploy to GitHub Pages
+## 3) Custom domain
 
-1. Run `npm run build`.
-2. Push the contents of `dist/` to the `gh-pages` branch, or configure **GitHub Actions → Pages** to publish the `dist` artifact from CI (see `.github/workflows/deploy.yml`).
-3. In the repository **Pages** settings, set the source to the branch or workflow output you use.
+`public/CNAME` is already included with:
 
-## Custom domain
+```txt
+shivamkanodia.com
+```
 
-`public/CNAME` contains `shivamkanodia.com`. It is copied into `dist/` on build. In your DNS provider, add the records GitHub documents for your apex or `www` subdomain, and enable **Enforce HTTPS** in the repo Pages settings once the certificate is issued.
+Point apex DNS to GitHub Pages A records:
 
-## Static hosting notes
+- 185.199.108.153
+- 185.199.109.153
+- 185.199.110.153
+- 185.199.111.153
 
-- `public/.nojekyll` prevents Jekyll from stripping paths that start with `_`.
-- Root `index.html` and `public/404.html` are the same template; **production** `dist/404.html` is replaced during `vite build` so asset hashes match `index.html`.
+## Notes
+
+- `public/.nojekyll` is included.
+- `public/404.html` matches `index.html` template, and build output also writes `dist/404.html` from built `dist/index.html` for SPA fallback.

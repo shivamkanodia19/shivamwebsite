@@ -1,17 +1,36 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap");
-
 @import "tailwindcss";
 @config "../tailwind.config.ts";
+
+@theme {
+  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-body: system-ui, sans-serif;
+
+  --color-deck-bg-dark: #0d0d0d;
+  --color-deck-bg-light: #fafaf8;
+  --color-deck-text-light: #fafaf8;
+  --color-deck-text-dark: #111111;
+  --color-deck-muted-light: #555555;
+  --color-deck-muted-dark: #999999;
+  --color-deck-border: #e8e0d0;
+  --color-deck-accent: #c8f565;
+}
 
 html,
 body,
 #root {
-  height: 100%;
   margin: 0;
-  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
 }
 
 body {
-  font-family: theme(fontFamily.body);
+  font-family: var(--font-body);
+  background: var(--color-deck-bg-dark);
+  color: var(--color-deck-text-light);
   -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
 }

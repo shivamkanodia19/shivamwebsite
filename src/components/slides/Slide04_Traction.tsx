@@ -2,74 +2,51 @@ import { useEffect, useState } from "react";
 import { tractionStats } from "@/data/slides";
 import { SlideWrapper } from "@/components/SlideWrapper";
 
-const DURATION_MS = 1400;
-
-function cubicOut(t: number) {
+function easeOutCubic(t: number) {
   return 1 - (1 - t) ** 3;
 }
 
-function StatNumber({ kind }: { kind: (typeof tractionStats)[number]["kind"] }) {
-  const [text, setText] = useState(() => {
-    if (kind === "plus") return "0";
-    if (kind === "type") return "";
-    if (kind === "decimal") return "0.0";
-    return "0";
-  });
+function StatValue({ kind, active }: { kind: "plus" | "type" | "decimal" | "times"; active: boolean }) {
+  const [value, setValue] = useState(kind === "type" ? "" : kind === "decimal" ? "0.0" : "0");
 
   useEffect(() => {
-    const full =
-      kind === "plus"
-        ? "200+"
-        : kind === "type"
-          ? "RÂ²=0.97"
-          : kind === "decimal"
-            ? "3.7"
-            : "4Ã—";
-    let frame: number;
+    if (!active) return;
     const start = performance.now();
+    const total = kind === "times" ? 800 : kind === "decimal" ? 1200 : 1400;
+    let frame = 0;
 
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / DURATION_MS);
-      const e = cubicOut(t);
-      if (kind === "plus") {
-        const n = Math.round(200 * e);
-        setText(`${n}+`);
-      } else if (kind === "type") {
-        const len = Math.ceil(full.length * e);
-        setText(full.slice(0, len));
-      } else if (kind === "decimal") {
-        const v = 3.7 * e;
-        setText(v.toFixed(1));
-      } else {
-        const n = Math.round(4 * e);
-        setText(`${n}Ã—`);
+      const t = Math.min(1, (now - start) / total);
+      const e = easeOutCubic(t);
+
+      if (kind === "plus") setValue(`${Math.round(200 * e)}+`);
+      else if (kind === "decimal") setValue((3.7 * e).toFixed(1));
+      else if (kind === "times") setValue(`${Math.round(4 * e)}×`);
+      else {
+        const full = "R²=0.97";
+        const chars = Math.ceil(full.length * e);
+        setValue(full.slice(0, chars));
       }
+
       if (t < 1) frame = requestAnimationFrame(tick);
     };
+
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [kind]);
+  }, [active, kind]);
 
-  return (
-    <span className="block font-playfair text-[clamp(48px,12vw,72px)] leading-none text-deck-text-on-dark">
-      {text}
-    </span>
-  );
+  return <span className="font-playfair text-[52px] leading-none text-[#FAFAF8] md:text-[76px]">{value}</span>;
 }
 
-export function Slide04Traction() {
+export function Slide04Traction({ isActive = false }: { isActive?: boolean }) {
   return (
-    <SlideWrapper label="TRACTION" labelTone="dark" className="bg-deck-bg-dark">
-      <h2 className="font-playfair text-[52px] leading-tight text-deck-text-on-dark">
-        The numbers.
-      </h2>
-      <div className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-10">
-        {tractionStats.map((s) => (
-          <div key={s.key} className="text-center">
-            <StatNumber kind={s.kind} />
-            <p className="mt-3 font-mono text-xs leading-snug text-deck-muted-on-dark">
-              {s.label}
-            </p>
+    <SlideWrapper label="TRACTION" labelTone="dark" className="bg-[#0D0D0D]">
+      <h2 className="font-playfair text-[52px] text-[#FAFAF8]">The numbers.</h2>
+      <div className="mt-12 grid grid-cols-2 gap-y-12 gap-x-8 md:gap-y-12 md:gap-x-16">
+        {tractionStats.map((item) => (
+          <div key={item.key} className="text-center">
+            <StatValue kind={item.kind} active={isActive} />
+            <p className="mt-3 font-mono text-[12px] text-[#444]">{item.label}</p>
           </div>
         ))}
       </div>

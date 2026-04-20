@@ -1,62 +1,63 @@
 import { motion } from "framer-motion";
-import { slide01HeadlineLines, slide01Subhead } from "@/data/slides";
+import { slide01Accent, slide01HeadlineLines, slide01Subhead } from "@/data/slides";
 import { SlideWrapper } from "@/components/SlideWrapper";
 
-const WORD_DELAY = 0.055;
-const WORD_DURATION = 0.4;
+type Props = { showHint?: boolean };
 
-export function Slide01Problem() {
-  const lines = slide01HeadlineLines.map((line) =>
-    line.split(/\s+/).filter(Boolean),
-  );
-  const totalWords = lines.reduce((acc, w) => acc + w.length, 0);
-  const subheadDelay = (totalWords - 1) * WORD_DELAY + WORD_DURATION * 0.5 + 0.2;
-
-  let wordIndex = 0;
+export function Slide01Problem({ showHint = false }: Props) {
+  let idx = 0;
 
   return (
-    <SlideWrapper label="PROBLEM" className="bg-deck-bg-light">
-      <h1
-        className="font-playfair font-normal leading-[1.1] tracking-[-0.02em] text-deck-primary"
-        style={{ fontSize: "clamp(42px, 6vw, 88px)" }}
+    <SlideWrapper label="PROBLEM" labelTone="dark" className="bg-[#0D0D0D]">
+      <h2
+        className="font-playfair font-normal leading-[1.08] tracking-[-0.02em] text-[#FAFAF8]"
+        style={{ fontSize: "clamp(36px, 6vw, 92px)" }}
       >
-        {lines.map((wordsInLine, lineIdx) => (
-          <span key={lineIdx} className="block">
-            {wordsInLine.map((word, wi) => {
-              const i = wordIndex++;
-              const isLastInLine = wi === wordsInLine.length - 1;
+        {slide01HeadlineLines.map((line) => (
+          <span key={line} className="block">
+            {line.split(" ").map((word, i, arr) => {
+              const local = idx++;
+              const space = i < arr.length - 1 ? "\u00A0" : "";
               return (
                 <motion.span
-                  key={`${lineIdx}-${wi}-${word}`}
-                  className="inline-block"
-                  initial={{ opacity: 0, y: 12 }}
+                  key={`${line}-${word}-${i}`}
+                  initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: WORD_DURATION,
-                    delay: i * WORD_DELAY,
-                    ease: [0.25, 0.1, 0.25, 1],
-                  }}
+                  transition={{ duration: 0.4, delay: local * 0.055, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="inline-block"
                 >
                   {word}
-                  {!isLastInLine ? "\u00A0" : ""}
+                  {space}
                 </motion.span>
               );
             })}
           </span>
         ))}
-      </h1>
+      </h2>
+
       <motion.p
-        className="mt-5 max-w-xl font-body text-lg text-deck-muted"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{
-          duration: 0.35,
-          delay: subheadDelay,
-          ease: [0.25, 0.1, 0.25, 1],
-        }}
+        transition={{ delay: idx * 0.055 + 0.1, duration: 0.3 }}
+        className="mt-5 text-[18px] text-[#444]"
       >
         {slide01Subhead}
       </motion.p>
+
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: idx * 0.055 + 0.25, duration: 0.3 }}
+        className="mt-3 text-[18px] text-[#C8F565]"
+      >
+        {slide01Accent}
+      </motion.p>
+
+      {showHint ? (
+        <p className="absolute bottom-[72px] left-1/2 -translate-x-1/2 font-mono text-[9px] tracking-[0.2em] text-[#2a2a2a]">
+          PRESS ? TO CONTINUE
+        </p>
+      ) : null}
     </SlideWrapper>
   );
 }

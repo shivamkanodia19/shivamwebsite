@@ -1,15 +1,30 @@
 export type SlideTheme = "light" | "dark";
 
+export type SlideType =
+  | "problem"
+  | "founder"
+  | "portfolio"
+  | "traction"
+  | "vision"
+  | "ask"
+  | "contact";
+
 export type NavDirection = 1 | -1;
 
-/** Metadata for the seven deck slides (labels align with slide components). */
+export type PortfolioStatus = "ACTIVE" | "IN PROGRESS" | "COMPLETE";
+
+export interface Slide {
+  id: number;
+  type: SlideType;
+  label: string;
+  theme: SlideTheme;
+}
+
 export interface SlideMeta {
   id: number;
   label: string;
   theme: SlideTheme;
 }
-
-export type PortfolioStatus = "ACTIVE" | "IN PROGRESS" | "COMPLETE";
 
 export interface PortfolioCard {
   name: string;
@@ -19,7 +34,22 @@ export interface PortfolioCard {
   metric: string;
 }
 
+export interface TractionStat {
+  key: string;
+  value: string;
+  label: string;
+  kind: "plus" | "type" | "decimal" | "times";
+}
+
 export interface TimelineEntry {
   date: string;
   body: string;
+}
+
+export interface ContactLinks {
+  email: string;
+  phoneDisplay: string;
+  phoneTel: string;
+  linkedin: string;
+  linkedinLabel: string;
 }

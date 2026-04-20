@@ -4,42 +4,23 @@ import { clsx } from "clsx";
 type SlideWrapperProps = {
   children: ReactNode;
   label: string;
-  /** Light background slides use muted #999; dark bg slides use #444 for label */
-  labelTone?: "light" | "dark";
   className?: string;
-  contentClassName?: string;
+  labelTone?: "dark" | "light";
+  rootId?: string;
 };
 
-export function SlideWrapper({
-  children,
-  label,
-  labelTone = "light",
-  className,
-  contentClassName,
-}: SlideWrapperProps) {
+export function SlideWrapper({ children, label, className, labelTone = "dark", rootId }: SlideWrapperProps) {
   return (
-    <div
-      className={clsx(
-        "relative h-full min-h-0 w-full overflow-y-auto overflow-x-hidden",
-        className,
-      )}
-    >
-      <div
-        className={clsx(
-          "relative z-[1] mx-auto box-border w-full max-w-[720px] px-6 pb-24 pt-[10vh]",
-          contentClassName,
-        )}
-      >
-        {children}
+    <div id={rootId} className={clsx("absolute inset-0 h-full w-full", className)}>
+      <div className="flex h-full w-full items-center justify-start">
+        <div className="mx-auto w-full max-w-[760px] px-[8vw]">{children}</div>
       </div>
-      <span
-        className={clsx(
-          "pointer-events-none absolute bottom-6 left-6 z-[2] font-mono text-[10px] uppercase tracking-[0.2em]",
-          labelTone === "light" ? "text-deck-muted" : "text-[#444]",
-        )}
+      <p
+        className="absolute bottom-8 left-[8vw] font-mono text-[10px] uppercase tracking-[0.22em]"
+        style={{ color: labelTone === "dark" ? "#444" : "#BBB" }}
       >
         {label}
-      </span>
+      </p>
     </div>
   );
 }
