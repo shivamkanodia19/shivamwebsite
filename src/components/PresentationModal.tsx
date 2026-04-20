@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePresentation } from "@/context/PresentationContext";
 import { DeckEngine } from "@/components/DeckEngine";
 import { PresentationPitchIntro } from "@/components/pitch/PresentationPitchIntro";
+import { VoxelAudienceRow, VoxelPresenter } from "@/components/pitch/VoxelPitchScene";
 
 const INTRO_MS = 2600;
 
@@ -78,11 +79,11 @@ export function PresentationModal() {
 
           {/* Letterboxed stage */}
           <div
-            className="relative z-[205] flex h-[min(92dvh,900px)] w-full max-w-[min(96vw,1200px)] flex-col"
+            className="relative z-[205] flex h-[min(96dvh,980px)] w-full max-w-[min(99vw,1500px)] flex-col"
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => e.stopPropagation()}
           >
-            <p className="mb-2 text-center font-mono text-[9px] uppercase tracking-[0.28em] text-[#555]">
+            <p className="mb-1 text-center font-mono text-[9px] uppercase tracking-[0.28em] text-[#555]">
               {"\u2014 About me \u2014"}
             </p>
             <div className="relative min-h-0 flex-1 overflow-hidden rounded-lg shadow-[0_0_0_1px_rgba(255,255,255,0.07),0_25px_80px_-20px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
@@ -116,6 +117,20 @@ export function PresentationModal() {
                 style={{ pointerEvents: "none" }}
               >
                 <PresentationPitchIntro />
+              </motion.div>
+
+              <motion.div
+                className="pointer-events-none absolute inset-0 z-20"
+                initial={false}
+                animate={{ opacity: showDeck ? 1 : 0 }}
+                transition={{ duration: 0.45 }}
+              >
+                <div className="absolute bottom-[6%] left-[0.8%] w-[min(16%,230px)]">
+                  <VoxelPresenter className="h-auto w-full opacity-90 drop-shadow-[0_22px_50px_rgba(0,0,0,0.95)]" />
+                </div>
+                <div className="absolute bottom-[1%] left-1/2 w-[min(56%,760px)] -translate-x-1/2">
+                  <VoxelAudienceRow className="h-auto w-full opacity-90 drop-shadow-[0_-8px_30px_rgba(0,0,0,0.75)]" />
+                </div>
               </motion.div>
             </div>
           </div>

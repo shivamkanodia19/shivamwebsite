@@ -2,6 +2,7 @@ import { PresentationModal } from "@/components/PresentationModal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
+import { ProfileSections } from "@/components/ProfileSections";
 import { PresentationProvider } from "@/context/PresentationContext";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Navbar />
       <main id="main">
         <Hero />
+        <ProfileSections />
         <SiteFooter />
       </main>
       <PresentationModal />
