@@ -1,15 +1,22 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { usePresentation } from "@/context/PresentationContext";
 import { DeckEngine } from "@/components/DeckEngine";
-import { AudienceSilhouettes } from "@/components/AudienceSilhouettes";
+import { PresentationPitchIntro } from "@/components/pitch/PresentationPitchIntro";
+
+const INTRO_MS = 2600;
 
 export function PresentationModal() {
   const { isOpen, closePresentation, startSlide } = usePresentation();
   const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const reduceMotion = useReducedMotion();
+  const [showDeck, setShowDeck] = useState(false);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      setShowDeck(false);
+      return;
+    }
     document.body.style.overflow = "hidden";
     const t = window.setTimeout(() => closeBtnRef.current?.focus(), 100);
     return () => {
@@ -17,6 +24,17 @@ export function PresentationModal() {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (reduceMotion) {
+      setShowDeck(true);
+      return;
+    }
+    setShowDeck(false);
+    const id = window.setTimeout(() => setShowDeck(true), INTRO_MS);
+    return () => window.clearTimeout(id);
+  }, [isOpen, reduceMotion]);
 
   return (
     <AnimatePresence>
@@ -68,16 +86,37 @@ export function PresentationModal() {
               {"\u2014 About me \u2014"}
             </p>
             <div className="relative min-h-0 flex-1 overflow-hidden rounded-lg shadow-[0_0_0_1px_rgba(255,255,255,0.07),0_25px_80px_-20px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
-              <DeckEngine
-                key={startSlide}
-                mode="presentation"
-                initialSlideIndex={startSlide - 1}
-                onRequestClose={closePresentation}
-              />
-            </div>
-            <div className="mt-3 flex shrink-0 flex-col items-center gap-1">
-              <AudienceSilhouettes />
-              <p className="font-mono text-[8px] uppercase tracking-[0.2em] text-[#3a3a3a]">Audience</p>
+              <motion.div
+                className="absolute inset-0"
+                initial={false}
+                animate={{
+                  opacity: showDeck ? 1 : 0,
+                  scale: showDeck ? 1 : 0.94,
+                }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                style={{ pointerEvents: showDeck ? "auto" : "none" }}
+              >
+                <DeckEngine
+                  key={startSlide}
+                  mode="presentation"
+                  initialSlideIndex={startSlide - 1}
+                  onRequestClose={closePresentation}
+                />
+              </motion.div>
+
+              <motion.div
+                className="absolute inset-0 z-10"
+                aria-hidden={showDeck}
+                initial={false}
+                animate={{
+                  opacity: showDeck ? 0 : 1,
+                  scale: showDeck ? 1.04 : 1,
+                }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                style={{ pointerEvents: "none" }}
+              >
+                <PresentationPitchIntro />
+              </motion.div>
             </div>
           </div>
         </motion.div>
