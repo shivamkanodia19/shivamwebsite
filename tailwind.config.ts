@@ -1,126 +1,36 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
-  prefix: "",
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        "hero-gradient": {
-          start: "hsl(var(--hero-gradient-start))",
-          end: "hsl(var(--hero-gradient-end))",
-        },
-        "section-bg": "hsl(var(--section-bg))",
-        orb: {
-          primary: "hsl(var(--orb-primary))",
-          secondary: "hsl(var(--orb-secondary))",
-          tertiary: "hsl(var(--orb-tertiary))",
-        },
-      },
-      backgroundImage: {
-        "hero-gradient": "linear-gradient(135deg, hsl(var(--hero-gradient-start)), hsl(var(--hero-gradient-end)))",
-      },
-      boxShadow: {
-        "card": "var(--shadow-card)",
-        "card-hover": "var(--shadow-card-hover)",
-      },
-      transitionProperty: {
-        "smooth": "var(--transition-smooth)",
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        "deck-bg-light": "#FAFAF8",
+        "deck-bg-dark": "#0D0D0D",
+        "deck-primary": "#111111",
+        "deck-muted": "#999999",
+        "deck-border": "#E8E0D0",
+        "deck-cream": "#F0EDE8",
+        "deck-text-on-dark": "#FAFAF8",
+        "deck-muted-on-dark": "#555555",
+        "deck-body": "#444444",
+        "deck-card-metric": "#BBBBBB",
+        "deck-hint": "#BBBBBB",
+        "deck-pill-border": "#CCCCCC",
+        "deck-footer": "#333333",
+        "deck-deco-dark": "#161616",
+        "deck-divider-dark": "#222222",
       },
       fontFamily: {
-        mono: ["'JetBrains Mono'", "monospace"],
-      },
-      keyframes: {
-        "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
-        },
-        "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
-        },
-        "fade-in-up": {
-          from: {
-            opacity: "0",
-            transform: "translateY(30px)",
-          },
-          to: {
-            opacity: "1",
-            transform: "translateY(0)",
-          },
-        },
-        "spotlight": {
-          "0%": {
-            opacity: "0",
-            transform: "translate(-72%, -62%) scale(0.5)",
-          },
-          "100%": {
-            opacity: "1",
-            transform: "translate(-50%, -40%) scale(1)",
-          },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in-up": "fade-in-up 0.8s ease-out forwards",
-        "spotlight": "spotlight 2s ease 0.75s 1 forwards",
+        playfair: ['"Playfair Display"', "Georgia", "serif"],
+        mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
+        body: [
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "sans-serif",
+        ],
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
 } satisfies Config;

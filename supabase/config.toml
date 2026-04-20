@@ -1,4 +1,0 @@
-project_id = "fvmxktghunjqxxypfgwq"
-
-[functions.fetch-medium-blogs]
-verify_jwt = false

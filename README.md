@@ -1,73 +1,35 @@
-# Welcome to your Lovable project
+# Shivam Kanodia — portfolio deck
 
-## Project info
+Fullscreen investor-style pitch deck built with **Vite**, **React**, **TypeScript**, **Framer Motion**, and **Tailwind CSS** (v4). The production bundle under `dist/` is fully static and ready for **GitHub Pages**.
 
-**URL**: https://lovable.dev/projects/cb3b6291-eb9c-471c-a55a-e6c5c4e6eff5
+## Local development
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/cb3b6291-eb9c-471c-a55a-e6c5c4e6eff5) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The dev server defaults to port `8080` (see `vite.config.ts`).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Production build
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Output is written to `dist/`. A `404.html` that matches the built `index.html` is written to `dist/` at the end of the build so GitHub Pages serves the SPA for unknown routes.
 
-## What technologies are used for this project?
+## Deploy to GitHub Pages
 
-This project is built with:
+1. Run `npm run build`.
+2. Push the contents of `dist/` to the `gh-pages` branch, or configure **GitHub Actions → Pages** to publish the `dist` artifact from CI (see `.github/workflows/deploy.yml`).
+3. In the repository **Pages** settings, set the source to the branch or workflow output you use.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Custom domain
 
-## How can I deploy this project?
+`public/CNAME` contains `shivamkanodia.com`. It is copied into `dist/` on build. In your DNS provider, add the records GitHub documents for your apex or `www` subdomain, and enable **Enforce HTTPS** in the repo Pages settings once the certificate is issued.
 
-Simply open [Lovable](https://lovable.dev/projects/cb3b6291-eb9c-471c-a55a-e6c5c4e6eff5) and click on Share -> Publish.
+## Static hosting notes
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- `public/.nojekyll` prevents Jekyll from stripping paths that start with `_`.
+- Root `index.html` and `public/404.html` are the same template; **production** `dist/404.html` is replaced during `vite build` so asset hashes match `index.html`.
