@@ -4,7 +4,7 @@ import { SlideWrapper } from "@/components/SlideWrapper";
 
 export function Slide05Vision() {
   return (
-    <SlideWrapper label="VISION" labelTone="light" className="bg-[#FAFAF8]">
+    <SlideWrapper label="VISION" className="bg-[#FAFAF8]">
       <h2 className="font-playfair text-[52px] text-[#111]">Where this is going.</h2>
       <div className="relative mt-10 pl-0">
         <div className="absolute bottom-0 left-[3px] top-0 w-px bg-[#E8E0D0]" aria-hidden />

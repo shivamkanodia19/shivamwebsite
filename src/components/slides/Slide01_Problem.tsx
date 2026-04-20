@@ -8,7 +8,7 @@ export function Slide01Problem({ showHint = false }: Props) {
   let idx = 0;
 
   return (
-    <SlideWrapper label="PROBLEM" labelTone="dark" className="bg-[#0D0D0D]">
+    <SlideWrapper label="PROBLEM" className="bg-[#0D0D0D]">
       <h2
         className="font-playfair font-normal leading-[1.08] tracking-[-0.02em] text-[#FAFAF8]"
         style={{ fontSize: "clamp(36px, 6vw, 92px)" }}
@@ -54,8 +54,8 @@ export function Slide01Problem({ showHint = false }: Props) {
       </motion.p>
 
       {showHint ? (
-        <p className="absolute bottom-[72px] left-1/2 -translate-x-1/2 font-mono text-[9px] tracking-[0.2em] text-[#2a2a2a]">
-          PRESS ? TO CONTINUE
+        <p className="mt-14 text-center font-mono text-[9px] tracking-[0.2em] text-[#3a3a3a]">
+          SCROLL OR ARROWS TO CONTINUE
         </p>
       ) : null}
     </SlideWrapper>

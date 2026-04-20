@@ -34,3 +34,24 @@ body {
 a {
   color: inherit;
 }
+
+/* Respect system motion preference for non-Framer animations */
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-hint {
+    animation: none !important;
+  }
+}
+
+@keyframes hero-scroll-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.hero-scroll-hint {
+  animation: hero-scroll-hint 1.3s ease-in-out infinite;
+}

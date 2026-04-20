@@ -11,7 +11,7 @@ function badge(status: string) {
 
 export function Slide03Portfolio() {
   return (
-    <SlideWrapper label="PORTFOLIO" labelTone="light" className="bg-[#FAFAF8]">
+    <SlideWrapper label="PORTFOLIO" className="bg-[#FAFAF8]">
       <h2 className="font-playfair text-[52px] text-[#111]">The bets.</h2>
       <div className="mt-8 grid grid-cols-1 gap-[14px] md:grid-cols-[repeat(auto-fit,minmax(280px,1fr))]">
         {portfolioCards.map((card, i) => (

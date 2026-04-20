@@ -5,7 +5,7 @@ export function Slide06Ask() {
   const paragraphs = askBody.split("\n\n");
 
   return (
-    <SlideWrapper label="ASK" labelTone="light" className="bg-[#FAFAF8]">
+    <SlideWrapper label="ASK" className="bg-[#FAFAF8]">
       <h2 className="font-playfair text-[52px] text-[#111]">The ask.</h2>
       <div className="mt-7 max-w-[580px]">
         <div className="space-y-5 text-[18px] leading-[1.75] text-[#555]">

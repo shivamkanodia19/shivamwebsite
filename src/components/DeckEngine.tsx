@@ -1,6 +1,7 @@
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { clsx } from "clsx";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SLIDE_COUNT } from "@/data/slides";
+import { SLIDE_COUNT, slides as slideMeta } from "@/data/slides";
 import { Slide01Problem } from "@/components/slides/Slide01_Problem";
 import { Slide02Founder } from "@/components/slides/Slide02_Founder";
 import { Slide03Portfolio } from "@/components/slides/Slide03_Portfolio";
@@ -12,6 +13,14 @@ import type { NavDirection } from "@/types";
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
 const DURATION = 0.4;
+
+function formatSlideTitle(label: string) {
+  return label
+    .toLowerCase()
+    .split(/\s+/)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
 
 const variants = {
   enter: (dir: NavDirection) => ({ x: dir > 0 ? "100vw" : "-100vw" }),
@@ -29,21 +38,40 @@ const slides = [
   Slide07Contact,
 ] as const;
 
+function findScrollableAncestor(start: Element | null, stopAt: HTMLElement | null): HTMLElement | null {
+  let el: HTMLElement | null = start instanceof HTMLElement ? start : null;
+  while (el && el !== stopAt) {
+    const { overflowY } = window.getComputedStyle(el);
+    const canScrollY =
+      (overflowY === "auto" || overflowY === "scroll" || overflowY === "overlay") &&
+      el.scrollHeight > el.clientHeight + 2;
+    if (canScrollY) return el;
+    el = el.parentElement;
+  }
+  return null;
+}
+
 export function DeckEngine() {
+  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<NavDirection>(1);
-  const [active, setActive] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [paused, setPaused] = useState(false);
   const [hasNavigated, setHasNavigated] = useState(false);
 
   const deckRef = useRef<HTMLElement | null>(null);
   const indexRef = useRef(index);
-  const activeRef = useRef(active);
-  const touchStart = useRef<number | null>(null);
+  const inViewRef = useRef(inView);
+  const pausedRef = useRef(paused);
   const wheelAccum = useRef(0);
   const releaseTimer = useRef<number | null>(null);
+  const touchStart = useRef<number | null>(null);
 
   indexRef.current = index;
-  activeRef.current = active;
+  inViewRef.current = inView;
+  pausedRef.current = paused;
+
+  const engaged = inView && !paused;
 
   const setSlide = useCallback((target: number, dir: NavDirection) => {
     const clamped = Math.max(0, Math.min(SLIDE_COUNT - 1, target));
@@ -57,7 +85,7 @@ export function DeckEngine() {
   const releaseLock = useCallback((dir: NavDirection) => {
     if (releaseTimer.current !== null) return;
     releaseTimer.current = window.setTimeout(() => {
-      setActive(false);
+      setPaused(true);
       const deck = deckRef.current;
       if (deck) {
         if (dir > 0) {
@@ -86,13 +114,23 @@ export function DeckEngine() {
     [releaseLock, setSlide],
   );
 
+  /** Resume deck interaction after Esc pause, then move slides (chevrons / programmatic). */
+  const resumeAndStep = useCallback(
+    (dir: NavDirection) => {
+      setPaused(false);
+      step(dir);
+    },
+    [step],
+  );
+
   useEffect(() => {
     const deck = deckRef.current;
     if (!deck) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const on = entry.isIntersecting && entry.intersectionRatio >= 0.6;
-        setActive(on);
+        const visible = entry.isIntersecting && entry.intersectionRatio >= 0.6;
+        setInView(visible);
+        if (!visible) setPaused(false);
       },
       { threshold: [0, 0.6, 1] },
     );
@@ -101,16 +139,23 @@ export function DeckEngine() {
   }, []);
 
   useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = active ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [active]);
+    const deck = deckRef.current;
+    if (!deck) return;
 
-  useEffect(() => {
     const onWheel = (e: WheelEvent) => {
-      if (!activeRef.current) return;
+      if (!inViewRef.current || pausedRef.current) return;
+
+      const scrollEl = findScrollableAncestor(e.target as Element | null, deck);
+      if (scrollEl) {
+        const delta = e.deltaY;
+        const atTop = scrollEl.scrollTop <= 0;
+        const atBottom =
+          scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 2;
+        if ((delta < 0 && !atTop) || (delta > 0 && !atBottom)) {
+          return;
+        }
+      }
+
       e.preventDefault();
       wheelAccum.current += e.deltaY;
       if (Math.abs(wheelAccum.current) < 50) return;
@@ -119,11 +164,37 @@ export function DeckEngine() {
       step(dir);
     };
 
+    deck.addEventListener("wheel", onWheel, { passive: false });
+    return () => deck.removeEventListener("wheel", onWheel);
+  }, [step]);
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (inViewRef.current) {
+          e.preventDefault();
+          setPaused(true);
+        }
+        return;
+      }
+
+      if (e.key === "Enter" && inViewRef.current && pausedRef.current) {
+        e.preventDefault();
+        setPaused(false);
+        return;
+      }
+
       const key = e.key;
       const arrow = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"].includes(key);
       const digit = key >= "1" && key <= "7";
-      if (!activeRef.current && !digit) return;
+      if (!inViewRef.current || pausedRef.current) {
+        if (digit) {
+          setPaused(false);
+          const n = Number(key) - 1;
+          setSlide(n, n >= indexRef.current ? 1 : -1);
+        }
+        return;
+      }
 
       if (arrow || digit || key === "r" || key === "R") e.preventDefault();
 
@@ -143,16 +214,15 @@ export function DeckEngine() {
       if (!slide) return;
       const idx = Math.max(0, Math.min(SLIDE_COUNT - 1, slide - 1));
       setSlide(idx, idx >= indexRef.current ? 1 : -1);
+      setPaused(false);
       if (slide === 7) {
         document.getElementById("contact")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     };
 
-    window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKey, { passive: false });
     window.addEventListener("deck:navigate", onNavigate as EventListener);
     return () => {
-      window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("deck:navigate", onNavigate as EventListener);
     };
@@ -167,12 +237,12 @@ export function DeckEngine() {
   }, []);
 
   const onTouchStart = (e: React.TouchEvent<HTMLElement>) => {
-    if (!active) return;
+    if (!engaged) return;
     touchStart.current = e.changedTouches[0].screenX;
   };
 
   const onTouchEnd = (e: React.TouchEvent<HTMLElement>) => {
-    if (!active || touchStart.current === null) return;
+    if (!engaged || touchStart.current === null) return;
     const delta = e.changedTouches[0].screenX - touchStart.current;
     touchStart.current = null;
     if (delta < -50) step(1);
@@ -181,42 +251,92 @@ export function DeckEngine() {
 
   const Slide = slides[index];
   const progress = ((index + 1) / SLIDE_COUNT) * 100;
+  const slideTitle = formatSlideTitle(slideMeta[index]?.label ?? "");
+  const motionDuration = reduceMotion ? 0 : DURATION;
 
   return (
     <section
       id="deck"
       ref={deckRef}
+      tabIndex={-1}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
-      className="relative h-[100svh] w-full bg-[#0D0D0D]"
+      className="relative h-[100svh] w-full overflow-x-hidden bg-[#0D0D0D]"
       aria-label="Pitch deck"
     >
-      <div className="fixed left-0 right-0 top-0 z-50 h-px bg-[#1a1a1a]">
-        <div className="h-full bg-[#E8E0D0] transition-all duration-300" style={{ width: `${progress}%` }} />
+      <div
+        className="fixed left-0 right-0 top-0 z-50 h-[2px] bg-[#1a1a1a]"
+        role="progressbar"
+        aria-valuemin={1}
+        aria-valuemax={SLIDE_COUNT}
+        aria-valuenow={index + 1}
+        aria-label={`Slide ${index + 1} of ${SLIDE_COUNT}`}
+      >
+        <div
+          className="h-full bg-[#E8E0D0] transition-all duration-300 ease-out"
+          style={{ width: `${progress}%` }}
+        />
       </div>
 
+      {engaged ? (
+        <>
+          <p className="pointer-events-none fixed bottom-[4.5rem] left-1/2 z-40 hidden max-w-[92vw] -translate-x-1/2 text-center font-mono text-[9px] leading-relaxed tracking-[0.12em] text-[#666] sm:bottom-24 sm:block md:bottom-28">
+            {"WHEEL OR ARROWS \u00B7 SWIPE \u00B7 KEYS 1\u20137 \u00B7 ESC FOR PAGE SCROLL"}
+          </p>
+          <p className="pointer-events-none fixed bottom-[4.5rem] left-1/2 z-40 max-w-[92vw] -translate-x-1/2 text-center font-mono text-[9px] tracking-[0.08em] text-[#666] sm:hidden">
+            SWIPE OR TAP EDGES ? ESC TO SCROLL
+          </p>
+        </>
+      ) : null}
+
+      {inView && paused ? (
+        <div
+          className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-center gap-4 border-t border-[#2a2a2a] bg-[#0D0D0D]/95 px-4 py-3 backdrop-blur-md md:py-3.5"
+          role="status"
+        >
+          <p className="max-w-[min(100%,28rem)] text-center font-mono text-[10px] leading-snug tracking-[0.06em] text-[#888] md:text-[11px]">
+            Page scroll unlocked. Scroll normally, or resume the deck to continue.
+          </p>
+          <button
+            type="button"
+            onClick={() => setPaused(false)}
+            className="shrink-0 rounded border border-[#3A3A3A] bg-[#161616] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-[#E8E0D0] transition-colors hover:border-[#E8E0D0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
+          >
+            Resume
+          </button>
+        </div>
+      ) : null}
+
       <button
         type="button"
-        aria-label="Previous"
-        onClick={() => step(-1)}
-        className="group fixed left-5 top-1/2 z-40 -translate-y-1/2 border-0 bg-transparent p-0 font-mono text-[20px] text-[#444]"
+        aria-label="Previous slide"
+        onClick={() => resumeAndStep(-1)}
+        className="fixed left-3 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#2a2a2a] bg-[#0D0D0D]/80 font-mono text-[20px] text-[#B0B0B0] shadow-sm backdrop-blur-sm transition-colors hover:border-[#444] hover:bg-[#141414] hover:text-[#FAFAF8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888] md:left-6"
       >
-        <span className="opacity-0 transition-opacity group-hover:opacity-25">‹</span>
+        {"\u2039"}
       </button>
       <button
         type="button"
-        aria-label="Next"
-        onClick={() => step(1)}
-        className="group fixed right-5 top-1/2 z-40 -translate-y-1/2 border-0 bg-transparent p-0 font-mono text-[20px] text-[#444]"
+        aria-label="Next slide"
+        onClick={() => resumeAndStep(1)}
+        className="fixed right-3 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#2a2a2a] bg-[#0D0D0D]/80 font-mono text-[20px] text-[#B0B0B0] shadow-sm backdrop-blur-sm transition-colors hover:border-[#444] hover:bg-[#141414] hover:text-[#FAFAF8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888] md:right-6"
       >
-        <span className="opacity-0 transition-opacity group-hover:opacity-25">›</span>
+        {"\u203A"}
       </button>
 
-      <p className="pointer-events-none fixed bottom-6 right-8 z-40 font-mono text-[11px] text-[#333]">
-        {String(index + 1).padStart(2, "0")} / 07
-      </p>
+      <div
+        className={clsx(
+          "pointer-events-none fixed left-6 z-40 md:left-10",
+          inView && paused ? "bottom-24 md:bottom-28" : "bottom-6 md:bottom-8",
+        )}
+      >
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#666]">{slideTitle}</p>
+        <p className="mt-1 font-mono text-[11px] tabular-nums text-[#8A8A8A]">
+          {String(index + 1).padStart(2, "0")} / {String(SLIDE_COUNT).padStart(2, "0")}
+        </p>
+      </div>
 
-      <div className="relative h-full overflow-hidden">
+      <div className="relative h-full min-h-0 overflow-hidden">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={index}
@@ -225,10 +345,10 @@ export function DeckEngine() {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: DURATION, ease: EASE }}
-            className="absolute inset-0"
+            transition={{ duration: motionDuration, ease: EASE }}
+            className="absolute inset-0 min-h-0"
           >
-            <Slide isActive={true} showHint={index === 0 && !hasNavigated} />
+            <Slide isActive={inView} showHint={index === 0 && !hasNavigated} />
           </motion.div>
         </AnimatePresence>
       </div>

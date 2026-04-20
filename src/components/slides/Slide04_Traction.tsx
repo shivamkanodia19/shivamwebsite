@@ -40,7 +40,7 @@ function StatValue({ kind, active }: { kind: "plus" | "type" | "decimal" | "time
 
 export function Slide04Traction({ isActive = false }: { isActive?: boolean }) {
   return (
-    <SlideWrapper label="TRACTION" labelTone="dark" className="bg-[#0D0D0D]">
+    <SlideWrapper label="TRACTION" className="bg-[#0D0D0D]">
       <h2 className="font-playfair text-[52px] text-[#FAFAF8]">The numbers.</h2>
       <div className="mt-12 grid grid-cols-2 gap-y-12 gap-x-8 md:gap-y-12 md:gap-x-16">
         {tractionStats.map((item) => (

@@ -4,7 +4,7 @@ import { SlideWrapper } from "@/components/SlideWrapper";
 
 export function Slide02Founder() {
   return (
-    <SlideWrapper label="FOUNDER" labelTone="light" className="bg-[#FAFAF8]">
+    <SlideWrapper label="FOUNDER" className="bg-[#FAFAF8]">
       <div className="pointer-events-none absolute left-[-20px] top-[-30px] z-0 font-playfair text-[220px] leading-none text-[#F0EDE8]" aria-hidden>
         02
       </div>

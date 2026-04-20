@@ -3,24 +3,21 @@ import { clsx } from "clsx";
 
 type SlideWrapperProps = {
   children: ReactNode;
+  /** Shown in deck chrome + `aria-label` for the slide surface. */
   label: string;
   className?: string;
-  labelTone?: "dark" | "light";
   rootId?: string;
 };
 
-export function SlideWrapper({ children, label, className, labelTone = "dark", rootId }: SlideWrapperProps) {
+/** Full-bleed slide area with internal vertical scroll so tall slides (e.g. portfolio) remain readable. */
+export function SlideWrapper({ children, label, className, rootId }: SlideWrapperProps) {
   return (
-    <div id={rootId} className={clsx("absolute inset-0 h-full w-full", className)}>
-      <div className="flex h-full w-full items-center justify-start">
-        <div className="mx-auto w-full max-w-[760px] px-[8vw]">{children}</div>
+    <div id={rootId} className={clsx("absolute inset-0 flex min-h-0 flex-col", className)} aria-label={label}>
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain">
+        <div className="flex min-h-full w-full items-start justify-start">
+          <div className="mx-auto w-full max-w-[760px] px-[8vw] pb-28 pt-16 md:pb-32 md:pt-20">{children}</div>
+        </div>
       </div>
-      <p
-        className="absolute bottom-8 left-[8vw] font-mono text-[10px] uppercase tracking-[0.22em]"
-        style={{ color: labelTone === "dark" ? "#444" : "#BBB" }}
-      >
-        {label}
-      </p>
     </div>
   );
 }
