@@ -4,7 +4,7 @@ import { SlideWrapper } from "@/components/SlideWrapper";
 
 export function Slide07Contact() {
   return (
-    <SlideWrapper rootId="contact" label="CONTACT" className="bg-[#0D0D0D]">
+    <SlideWrapper rootId="slide-contact" label="CONTACT" className="bg-[#0D0D0D]">
       <div className="pointer-events-none absolute bottom-[-20px] right-[4vw] z-0 font-playfair text-[280px] leading-none text-[#111]" aria-hidden>
         SK
       </div>

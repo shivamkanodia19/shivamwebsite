@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-
-function emitDeckNavigate(slide: number) {
-  window.dispatchEvent(new CustomEvent("deck:navigate", { detail: { slide } }));
-}
+import { usePresentation } from "@/context/PresentationContext";
 
 export function Hero() {
+  const { openPresentation } = usePresentation();
   const [showScroll, setShowScroll] = useState(true);
 
   useEffect(() => {
@@ -15,13 +13,12 @@ export function Hero() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const onCta = () => {
-    emitDeckNavigate(1);
-    document.getElementById("deck")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const onAbout = () => {
+    openPresentation(1);
   };
 
   return (
-    <section id="hero" className="relative h-[100svh] overflow-hidden bg-[#0D0D0D]" aria-label="Hero">
+    <section id="hero" className="relative min-h-[100svh] overflow-hidden bg-[#0D0D0D]" aria-label="Hero">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(250,250,248,0.08),transparent_42%),radial-gradient(circle_at_78%_62%,rgba(250,250,248,0.05),transparent_48%)]" aria-hidden />
       <div
         className="absolute inset-0 opacity-30"
@@ -35,7 +32,7 @@ export function Hero() {
 
       <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-[#0D0D0D]" aria-hidden />
 
-      <div className="relative z-20 mx-auto flex h-full w-full max-w-6xl items-center px-6 pt-20 md:px-12">
+      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-6xl items-center px-6 pt-20 md:px-12">
         <div className="grid w-full items-center gap-12 md:grid-cols-[minmax(0,1fr)_320px] md:gap-10">
           <div className="max-w-2xl">
             <motion.p
@@ -70,14 +67,14 @@ export function Hero() {
 
             <motion.button
               type="button"
-              onClick={onCta}
+              onClick={onAbout}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.35 }}
               className="mt-9 rounded border border-[#3A3A3A] bg-transparent px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-[#A0A0A0] transition-colors duration-200 hover:border-[#FAFAF8] hover:text-[#FAFAF8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
               style={{ borderRadius: "4px" }}
             >
-              See the pitch
+              About me
             </motion.button>
           </div>
 
