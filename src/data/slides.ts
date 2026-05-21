@@ -32,7 +32,7 @@ export const slide01Accent = "Shivam Kanodia doesn't.";
 export const slide02Paragraphs = [
   "Freshman. Industrial & Systems Engineering (Honors), Texas A&M. GPA 3.7.",
   "Co-founded ClinicalHours at 18. Volunteer infrastructure for free clinics. 200+ organic users. Zero marketing spend. Meloy Kickstart Accelerator.",
-  "Undergraduate researcher. Cattle futures forecasting with SARIMA (R²=0.97), LSTM, XGBoost. Presented at TAMU Student Research Week.",
+  "Undergraduate researcher. Cattle futures forecasting with SARIMA (RÂ²=0.97), LSTM, XGBoost. Presented at TAMU Student Research Week.",
   "Wearable NMES devices. Fraud detection platforms. AI intake systems. System dynamics models. Builds across domains.",
   "Texas state bench press record. Competed since 16.",
   "Thinks in systems. Builds things that work.",
@@ -45,15 +45,15 @@ export const portfolioCards: PortfolioCard[] = [
     detail:
       "Lifecycle management across applications, scheduling, interviews, communications. Claude-powered marketing agent + Gmail API outreach pipeline.",
     status: "ACTIVE",
-    metric: "200+ users · $30M SAM · BCS Free Health Clinic live",
+    metric: "200+ users Â· $30M SAM Â· BCS Free Health Clinic live",
   },
   {
     name: "FEDVT Research",
     thesis: "ML forecasting dashboard for feedlot cattle futures decisions.",
     detail:
-      "65 inputs, 6 cost categories. SARIMA (R²=0.97) selected over LSTM and XGBoost via walk-forward validation. Paper in progress.",
+      "65 inputs, 6 cost categories. SARIMA (RÂ²=0.97) selected over LSTM and XGBoost via walk-forward validation. Paper in progress.",
     status: "IN PROGRESS",
-    metric: "Presented · TAMU Student Research Week",
+    metric: "Presented Â· TAMU Student Research Week",
   },
   {
     name: "FinSeek",
@@ -61,13 +61,13 @@ export const portfolioCards: PortfolioCard[] = [
     detail:
       "3-model ensemble: Logistic Regression, Isolation Forest, LightGBM. 2-of-3 voting consensus. 200k+ PaySim transactions.",
     status: "COMPLETE",
-    metric: "95%+ precision · 99% false positive reduction",
+    metric: "95%+ precision Â· 99% false positive reduction",
   },
   {
     name: "Clara",
     thesis: "AI pre-visit intake system for clinical settings.",
     detail:
-      "Twilio voice calls, GPT-4o mini entity extraction, Epic FHIR sync. Conversational AI ? structured SOAP notes.",
+      "Twilio voice calls, GPT-4o mini entity extraction, Epic FHIR sync. Conversational AI â†’ structured SOAP notes.",
     status: "COMPLETE",
     metric: "~4.5 min/visit reduction in intake time",
   },
@@ -77,15 +77,15 @@ export const portfolioCards: PortfolioCard[] = [
     detail:
       "Business plan, financial model, PCB layout in Altium, pulse generator circuitry. FDA 510K compliance positioning.",
     status: "COMPLETE",
-    metric: "$382M NMES market · $45 COGS target",
+    metric: "$382M NMES market Â· $45 COGS target",
   },
 ];
 
 export const tractionStats: TractionStat[] = [
   { key: "users", value: "200+", label: "organic ClinicalHours users", kind: "plus" },
-  { key: "sarima", value: "R²=0.97", label: "SARIMA production model accuracy", kind: "type" },
+  { key: "sarima", value: "RÂ²=0.97", label: "SARIMA production model accuracy", kind: "type" },
   { key: "gpa", value: "3.7", label: "GPA, ISE Honors, freshman year", kind: "decimal" },
-  { key: "wins", value: "4×", label: "competition placements, first semester", kind: "times" },
+  { key: "wins", value: "4Ã—", label: "competition placements, first semester", kind: "times" },
 ];
 
 export const visionTimeline: TimelineEntry[] = [
@@ -94,7 +94,7 @@ export const visionTimeline: TimelineEntry[] = [
     body: "Internship at a DFW-area startup or tech company. Operations, product, or engineering.",
   },
   {
-    date: "2026 – 2027",
+    date: "2026 â€“ 2027",
     body: "Scale ClinicalHours to 10 Texas universities. Publish FEDVT cattle futures paper. Complete WEF nexus system dynamics research.",
   },
   {

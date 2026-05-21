@@ -282,12 +282,16 @@ export function DeckEngine({
 
   const onTouchStart = (e: React.TouchEvent<HTMLElement>) => {
     if (!engaged) return;
-    touchStart.current = e.changedTouches[0].screenX;
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    touchStart.current = touch.screenX;
   };
 
   const onTouchEnd = (e: React.TouchEvent<HTMLElement>) => {
     if (!engaged || touchStart.current === null) return;
-    const delta = e.changedTouches[0].screenX - touchStart.current;
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    const delta = touch.screenX - touchStart.current;
     touchStart.current = null;
     if (delta < -50) step(1);
     else if (delta > 50) step(-1);

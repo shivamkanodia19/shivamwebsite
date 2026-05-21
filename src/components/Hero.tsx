@@ -1,9 +1,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { usePresentation } from "@/context/PresentationContext";
+import { Link } from "react-router-dom";
 
 export function Hero() {
-  const { openPresentation } = usePresentation();
   const [showScroll, setShowScroll] = useState(true);
 
   useEffect(() => {
@@ -12,10 +11,6 @@ export function Hero() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const onAbout = () => {
-    openPresentation(1);
-  };
 
   return (
     <section id="hero" className="relative min-h-[100svh] overflow-hidden bg-[#0D0D0D]" aria-label="Hero">
@@ -41,7 +36,7 @@ export function Hero() {
               transition={{ delay: 0.1, duration: 0.35 }}
               className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#575757]"
             >
-              {"TEXAS A&M \u00B7 ISE HONORS \u00B7 CLASS OF 2029"}
+              {"TEXAS A&M · ISE HONORS · CLASS OF 2029"}
             </motion.p>
 
             <motion.h1
@@ -60,22 +55,35 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.45, duration: 0.35 }}
-              className="mt-6 max-w-xl font-mono text-[12px] leading-relaxed tracking-[0.08em] text-[#8A8A8A]"
+              className="mt-6 max-w-xl font-mono text-[13px] leading-relaxed tracking-[0.06em] text-[#9A9A9A]"
             >
               Building disciplined systems across research, product, and performance.
             </motion.p>
 
-            <motion.button
-              type="button"
-              onClick={onAbout}
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.35 }}
-              className="mt-9 rounded border border-[#3A3A3A] bg-transparent px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-[#A0A0A0] transition-colors duration-200 hover:border-[#FAFAF8] hover:text-[#FAFAF8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
-              style={{ borderRadius: "4px" }}
+              className="mt-9 flex flex-wrap items-center gap-3"
             >
-              About me
-            </motion.button>
+              <button
+                type="button"
+                onClick={() =>
+                  document.getElementById("about")?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+                className="rounded border border-[#3A3A3A] bg-transparent px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-[#A0A0A0] transition-colors duration-200 hover:border-[#FAFAF8] hover:text-[#FAFAF8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
+                style={{ borderRadius: "4px" }}
+              >
+                About me
+              </button>
+              <Link
+                to="/pitch"
+                className="rounded border border-[#3A3A3A] bg-transparent px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-[#A0A0A0] transition-colors duration-200 hover:border-[#FAFAF8] hover:text-[#FAFAF8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
+                style={{ borderRadius: "4px" }}
+              >
+                View pitch
+              </Link>
+            </motion.div>
           </div>
 
           <motion.aside
@@ -114,7 +122,7 @@ export function Hero() {
       {showScroll ? (
         <div className="pointer-events-none absolute bottom-4 left-1/2 z-30 -translate-x-1/2 text-center">
           <p className="font-mono text-[9px] tracking-[0.2em] text-[#5a5a5a]">SCROLL</p>
-          <span className="hero-scroll-hint mt-1 block text-[#5a5a5a]">{"\u2193"}</span>
+          <span className="hero-scroll-hint mt-1 block text-[#5a5a5a]">{"↓"}</span>
         </div>
       ) : null}
     </section>

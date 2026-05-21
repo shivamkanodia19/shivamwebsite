@@ -1,13 +1,14 @@
-import { PresentationModal } from "@/components/PresentationModal";
+import { Routes, Route } from "react-router-dom";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
 import { ProfileSections } from "@/components/ProfileSections";
-import { PresentationProvider } from "@/context/PresentationContext";
+import { CredibilityStrip } from "@/components/CredibilityStrip";
+import { PitchPage } from "@/pages/PitchPage";
 
-function App() {
+function HomePage() {
   return (
-    <PresentationProvider>
+    <>
       <a
         href="#main"
         className="pointer-events-none fixed left-4 top-4 z-[100] -translate-y-16 rounded border border-[#333] bg-[#0D0D0D] px-3 py-2 font-mono text-[11px] text-[#FAFAF8] opacity-0 transition-transform focus:pointer-events-auto focus:translate-y-0 focus:opacity-100"
@@ -17,11 +18,20 @@ function App() {
       <Navbar />
       <main id="main">
         <Hero />
+        <CredibilityStrip />
         <ProfileSections />
         <SiteFooter />
       </main>
-      <PresentationModal />
-    </PresentationProvider>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/pitch" element={<PitchPage />} />
+    </Routes>
   );
 }
 
