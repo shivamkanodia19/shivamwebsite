@@ -80,6 +80,14 @@ export const portfolioCards: PortfolioCard[] = [
     status: "COMPLETE",
     metric: "$382M NMES market · $45 COGS target",
   },
+  {
+    name: "Persona",
+    thesis: "Universal digital identity layer for safer online interactions.",
+    detail:
+      "Government-verified identity with a portable reputation score (Karma) that follows users across platforms. Infrastructure for accountability without sacrificing privacy — one verified identity, safer interactions everywhere.",
+    status: "COMPLETE",
+    metric: "Product@TAMU Ideathon — 2nd place · 24-hour build",
+  },
 ];
 
 export const tractionStats: TractionStat[] = [

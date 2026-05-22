@@ -30,6 +30,10 @@ const ROLE_LABELS: Record<string, { role: string; tags: string[] }> = {
     role: "Product & Hardware",
     tags: ["Altium", "FDA 510K", "PCB", "Financial model"],
   },
+  Persona: {
+    role: "Product Designer",
+    tags: ["Identity", "Trust & Safety", "Reputation Systems", "Product@TAMU"],
+  },
 };
 
 export function ProfileSections() {
