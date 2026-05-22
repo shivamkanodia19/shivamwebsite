@@ -1,63 +1,110 @@
 import { motion } from "framer-motion";
-import { slide01Accent, slide01HeadlineLines, slide01Subhead } from "@/data/slides";
 import { SlideWrapper } from "@/components/SlideWrapper";
 
-type Props = { showHint?: boolean };
+type Props = { isActive?: boolean; showHint?: boolean };
+
+const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Slide01Problem({ showHint = false }: Props) {
-  let idx = 0;
-
   return (
-    <SlideWrapper label="PROBLEM" className="bg-[#0D0D0D]">
-      <h2
-        className="font-playfair font-normal leading-[1.08] tracking-[-0.02em] text-[#FAFAF8]"
-        style={{ fontSize: "clamp(36px, 6vw, 92px)" }}
-      >
-        {slide01HeadlineLines.map((line) => (
-          <span key={line} className="block">
-            {line.split(" ").map((word, i, arr) => {
-              const local = idx++;
-              const space = i < arr.length - 1 ? "\u00A0" : "";
-              return (
-                <motion.span
-                  key={`${line}-${word}-${i}`}
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: local * 0.055, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="inline-block"
-                >
-                  {word}
-                  {space}
-                </motion.span>
-              );
-            })}
-          </span>
-        ))}
-      </h2>
+    <SlideWrapper label="PROBLEM" className="bg-[#080808]">
+      {/* Noise grain overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.025]"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E\")",
+          backgroundRepeat: "repeat",
+          backgroundSize: "128px",
+        }}
+        aria-hidden
+      />
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: idx * 0.055 + 0.1, duration: 0.3 }}
-        className="mt-5 text-[18px] text-[#444]"
-      >
-        {slide01Subhead}
-      </motion.p>
+      <div className="grid grid-cols-1 gap-0 md:grid-cols-[1fr_auto]">
+        {/* Left: main content */}
+        <div>
+          {/* Accent rule */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.7, ease }}
+            className="mb-8 h-px w-14 origin-left bg-[#2D6A50]"
+            aria-hidden
+          />
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: idx * 0.055 + 0.25, duration: 0.3 }}
-        className="mt-3 text-[18px] text-[#C8F565]"
-      >
-        {slide01Accent}
-      </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.5, ease }}
+            className="mb-5 font-mono text-[10px] uppercase tracking-[0.35em] text-[#3a3a3a]"
+          >
+            01 — Problem
+          </motion.p>
 
-      {showHint ? (
-        <p className="mt-14 text-center font-mono text-[9px] tracking-[0.2em] text-[#3a3a3a]">
-          SCROLL OR ARROWS TO CONTINUE
-        </p>
-      ) : null}
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.38, duration: 0.7, ease }}
+            className="font-playfair font-normal leading-[1.08] tracking-[-0.025em] text-[#F5F2EE]"
+            style={{ fontSize: "clamp(42px, 6vw, 88px)" }}
+          >
+            The systems
+            <br />
+            around you
+            <br />
+            are broken.
+          </motion.h2>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.85, duration: 0.6 }}
+            className="mt-8 space-y-1"
+          >
+            <p
+              className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#444]"
+            >
+              Most people accept that.
+            </p>
+            <p
+              className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#2D6A50]"
+            >
+              Shivam Kanodia doesn&apos;t.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Right: identifier badge */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1, duration: 0.6 }}
+          className="hidden items-end pb-1 pl-16 md:flex"
+        >
+          <div className="flex flex-col items-end gap-[6px] text-right">
+            <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]">
+              Texas A&amp;M
+            </p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]">
+              ISE Honors
+            </p>
+            <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#2a2a2a]">
+              Class of 2029
+            </p>
+          </div>
+        </motion.div>
+      </div>
+
+      {showHint && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.6, duration: 0.5 }}
+          className="mt-16 font-mono text-[9px] tracking-[0.22em] text-[#2a2a2a]"
+        >
+          ARROWS · SWIPE · KEYS 1–7
+        </motion.p>
+      )}
     </SlideWrapper>
   );
 }
