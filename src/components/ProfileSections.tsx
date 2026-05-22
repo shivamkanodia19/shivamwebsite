@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+import { animate, useInView, useMotionValue, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   askBody,
@@ -8,6 +10,44 @@ import {
   tractionStats,
   visionTimeline,
 } from "@/data/slides";
+
+function parseStatValue(value: string): { prefix: string; target: number; suffix: string; decimals: number } {
+  if (value.startsWith("R²=")) {
+    const num = parseFloat(value.slice(3));
+    return { prefix: "R²=", target: num, suffix: "", decimals: 2 };
+  }
+  if (value.endsWith("+")) {
+    const num = parseFloat(value.slice(0, -1));
+    return { prefix: "", target: num, suffix: "+", decimals: 0 };
+  }
+  const num = parseFloat(value);
+  const decimals = value.includes(".") ? value.split(".")[1].length : 0;
+  return { prefix: "", target: num, suffix: "", decimals };
+}
+
+function StatValue({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const { prefix, target, suffix, decimals } = parseStatValue(value);
+  const mv = useMotionValue(0);
+  const display = useTransform(mv, (v) => {
+    const formatted = decimals > 0 ? v.toFixed(decimals) : Math.round(v).toString();
+    return `${prefix}${formatted}${suffix}`;
+  });
+  const [text, setText] = useState(value);
+
+  useEffect(() => {
+    return display.on("change", (v) => setText(v));
+  }, [display]);
+
+  useEffect(() => {
+    if (isInView) {
+      animate(mv, target, { duration: 1.2, ease: "easeOut" });
+    }
+  }, [isInView, mv, target]);
+
+  return <span ref={ref}>{text}</span>;
+}
 
 const ROLE_LABELS: Record<string, { role: string; tags: string[] }> = {
   ClinicalHours: {
@@ -174,7 +214,7 @@ export function ProfileSections() {
             <div className="mt-5 grid grid-cols-2 gap-4">
               {tractionStats.map((stat) => (
                 <div key={stat.key} className="rounded-lg border border-[#D8D0C4] bg-[#F9F6F0] p-4">
-                  <p className="font-playfair text-[32px] leading-none text-[#1C1C1A]">{stat.value}</p>
+                  <p className="font-playfair text-[32px] leading-none text-[#1C1C1A]"><StatValue value={stat.value} /></p>
                   <p className="mt-2 font-mono text-[10px] leading-snug text-[#8A8580]">{stat.label}</p>
                 </div>
               ))}
