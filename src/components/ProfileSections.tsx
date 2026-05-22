@@ -42,7 +42,8 @@ function StatValue({ value }: { value: string }) {
 
   useEffect(() => {
     if (isInView) {
-      animate(mv, target, { duration: 1.2, ease: "easeOut" });
+      const controls = animate(mv, target, { duration: 1.2, ease: "easeOut" });
+      return () => controls.stop();
     }
   }, [isInView, mv, target]);
 
