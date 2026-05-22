@@ -47,28 +47,48 @@ export function PitchPage() {
         <p className="mb-1 text-center font-mono text-[9px] uppercase tracking-[0.28em] text-[#555]">
           {"— Pitch —"}
         </p>
-        <div className="relative min-h-0 flex-1 overflow-hidden rounded-lg shadow-[0_0_0_1px_rgba(255,255,255,0.07),0_25px_80px_-20px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
+
+        {/* Combined screen + theater floor — single rounded frame */}
+        <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg shadow-[0_0_0_1px_rgba(255,255,255,0.07),0_25px_80px_-20px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
+
+          {/* Slide screen — fills all remaining space */}
           <motion.div
-            className="absolute inset-0"
+            className="relative min-h-0 flex-1"
             initial={{ opacity: 0, scale: reduceMotion ? 1 : 0.96 }}
             animate={{ opacity: ready ? 1 : 0, scale: 1 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
-            <DeckEngine
-              mode="presentation"
-              initialSlideIndex={0}
-              onRequestClose={() => {
-                window.location.href = "/";
-              }}
-            />
+            <div className="absolute inset-0">
+              <DeckEngine
+                mode="presentation"
+                initialSlideIndex={0}
+                onRequestClose={() => {
+                  window.location.href = "/";
+                }}
+              />
+            </div>
           </motion.div>
 
-          <div className="pointer-events-none absolute inset-0 z-20">
-            <div className="absolute bottom-[6%] left-[0.8%] w-[min(16%,230px)]">
-              <VoxelPresenter className="h-auto w-full opacity-90 drop-shadow-[0_22px_50px_rgba(0,0,0,0.95)]" />
+          {/* Theater floor — presenter stage-left, audience centered, zero overlap with slides */}
+          <div
+            className="relative shrink-0 overflow-hidden"
+            style={{
+              height: "clamp(68px, 9%, 104px)",
+              background: "linear-gradient(to bottom, #0c0c0c 0%, #030303 85%)",
+              borderTop: "1px solid rgba(255,255,255,0.05)",
+            }}
+          >
+            {/* Subtle stage-light upward glow */}
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_90%_at_50%_0%,rgba(255,255,255,0.025),transparent)]" />
+
+            {/* Presenter — stage left, bottom-anchored */}
+            <div className="absolute bottom-0 left-[2.5%] z-10 w-[clamp(34px,5%,68px)]">
+              <VoxelPresenter className="h-auto w-full opacity-80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
             </div>
-            <div className="absolute bottom-[1%] left-1/2 w-[min(56%,760px)] -translate-x-1/2">
-              <VoxelAudienceRow className="h-auto w-full opacity-90 drop-shadow-[0_-8px_30px_rgba(0,0,0,0.75)]" />
+
+            {/* Audience row — centered, bottom-anchored */}
+            <div className="absolute bottom-0 left-1/2 w-[min(68%,800px)] -translate-x-1/2">
+              <VoxelAudienceRow className="h-auto w-full opacity-72 drop-shadow-[0_-2px_10px_rgba(0,0,0,0.85)]" />
             </div>
           </div>
         </div>
