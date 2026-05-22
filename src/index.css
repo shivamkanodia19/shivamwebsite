@@ -15,14 +15,14 @@
   --color-deck-border: #e8e0d0;
   --color-deck-accent: #c8f565;
 
-  --color-site-bg: #F7F4EE;
+  --color-site-bg: #F9F6F0;
   --color-site-surface: #F0ECE3;
   --color-site-text: #1C1C1A;
   --color-site-text-2: #4A4845;
   --color-site-muted: #8A8580;
   --color-site-border: #D8D0C4;
   --color-site-border-subtle: #E8E2D8;
-  --color-site-accent: #3D5A80;
+  --color-site-accent: #1B4332;
 }
 
 html,
@@ -35,7 +35,7 @@ body,
 
 body {
   font-family: var(--font-body);
-  background: #F7F4EE;
+  background: #F9F6F0;
   color: #1C1C1A;
   -webkit-font-smoothing: antialiased;
 }

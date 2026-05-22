@@ -13,14 +13,14 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="hero" className="relative min-h-[100svh] overflow-hidden bg-[#F7F4EE]" aria-label="Hero">
+    <section id="hero" className="relative min-h-[100svh] overflow-hidden bg-[#F9F6F0]" aria-label="Hero">
       <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-6xl items-center px-6 pt-20 md:px-12">
         <div className="max-w-2xl">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1, duration: 0.35 }}
-            className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#8A8580]"
+            className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#666660]"
           >
             {"TEXAS A&M · ISE HONORS · CLASS OF 2029"}
           </motion.p>
@@ -50,7 +50,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.55, duration: 0.35 }}
-            className="mt-2 font-mono text-[12px] leading-relaxed tracking-[0.06em] text-[#3D5A80]"
+            className="mt-2 font-mono text-[12px] leading-relaxed tracking-[0.06em] text-[#1B4332]"
           >
             Incoming BI Intern at Legends Global · Summer 2026.
           </motion.p>
@@ -73,7 +73,7 @@ export function Hero() {
             </button>
             <Link
               to="/pitch"
-              className="rounded border border-[#D8D0C4] bg-transparent px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-[#5A5855] transition-colors duration-200 hover:border-[#1C1C1A] hover:text-[#1C1C1A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
+              className="rounded border border-[#1B4332] bg-[#1B4332] px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-white transition-colors duration-200 hover:bg-[#2D6A50] hover:border-[#2D6A50] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
               style={{ borderRadius: "4px" }}
             >
               View pitch
