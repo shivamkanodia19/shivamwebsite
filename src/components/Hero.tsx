@@ -52,7 +52,7 @@ export function Hero() {
             transition={{ delay: 0.55, duration: 0.35 }}
             className="mt-2 font-mono text-[12px] leading-relaxed tracking-[0.06em] text-[#3D5A80]"
           >
-            Seeking a Summer 2026 internship — ops, product, or engineering.
+            Incoming BI Intern at Legends Global · Summer 2026.
           </motion.p>
 
           <motion.div
