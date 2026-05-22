@@ -32,9 +32,10 @@ export const slide01Accent = "Shivam Kanodia doesn't.";
 export const slide02Paragraphs = [
   "Freshman. Industrial & Systems Engineering (Honors), Texas A&M. 3.7 GPA.",
   "Incoming Business Intelligence Intern at Legends Global — Summer 2026.",
-  "Co-founded ClinicalHours at 18 — volunteer scheduling infrastructure for free clinics. 200+ organic users, zero marketing spend, Meloy Kickstart Accelerator.",
-  "Lead researcher on FEDVT: cattle futures forecasting with SARIMA (R²=0.97), LSTM, and XGBoost. Presented at TAMU Student Research Week.",
-  "Also built: a wearable NMES rehab device, an AI voice intake system (Clara), and a fraud detection ensemble that hit 95%+ precision on 200k+ transactions.",
+  "Aggie Venture Fund Cohort 6 · EH EDGE (Adam C. Sinn '00 Center for Investment Management).",
+  "Co-founded ClinicalHours — volunteer scheduling infrastructure for free clinics. 200+ users, clinicalhours.org. Good Bull Pitch winner · Ideas Challenge finalist · Meloy Bullet Pitch 3/60 · Meloy Kickstart Launch (1 of 3 teams selected).",
+  "Undergraduate researcher with Dr. Karun Kaniyamattam: cattle futures forecasting (SARIMA R²=0.97, LSTM, XGBoost). Presented at TAMU Student Research Week. Coauthoring paper on economic dashboards and system dynamics.",
+  "Also built: a wearable NMES rehab device, an AI voice intake system (Clara), and a fraud detection ensemble (95%+ precision, 200k+ transactions). Product@TAMU Ideathon — 2nd place.",
   "Texas state bench press record. I apply the same discipline to code.",
 ];
 
@@ -43,9 +44,9 @@ export const portfolioCards: PortfolioCard[] = [
     name: "ClinicalHours",
     thesis: "B2B volunteer infrastructure for free clinics and pre-med students.",
     detail:
-      "Lifecycle management across applications, scheduling, interviews, communications. Claude-powered marketing agent + Gmail API outreach pipeline.",
+      "Lifecycle management across applications, scheduling, interviews, communications. Claude-powered marketing agent + Gmail API outreach pipeline. clinicalhours.org",
     status: "ACTIVE",
-    metric: "200+ users · $30M SAM · BCS Free Health Clinic live",
+    metric: "200+ users · Good Bull Pitch winner · Meloy Kickstart Launch · BCS Free Health Clinic live",
   },
   {
     name: "FEDVT Research",
@@ -85,7 +86,7 @@ export const tractionStats: TractionStat[] = [
   { key: "users", value: "200+", label: "organic ClinicalHours users", kind: "plus" },
   { key: "sarima", value: "R²=0.97", label: "SARIMA production model accuracy", kind: "type" },
   { key: "gpa", value: "3.7", label: "GPA, ISE Honors, freshman year", kind: "decimal" },
-  { key: "wins", value: "4×", label: "competition placements, first semester", kind: "times" },
+  { key: "wins", value: "5+", label: "competition placements, first semester", kind: "times" },
 ];
 
 export const visionTimeline: TimelineEntry[] = [
