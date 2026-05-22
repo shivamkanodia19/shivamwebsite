@@ -55,9 +55,9 @@ export function Navbar() {
     <header
       className="fixed left-0 right-0 top-0 z-50 transition-all duration-200"
       style={{
-        backgroundColor: scrolled ? "rgba(13,13,13,0.88)" : "transparent",
+        backgroundColor: scrolled ? "rgba(247, 244, 238, 0.92)" : "transparent",
         backdropFilter: scrolled ? "blur(12px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(0,0,0,0.08)" : "none",
       }}
     >
       <div className="flex items-center justify-between px-6 py-4 md:px-12 md:py-5">
@@ -66,7 +66,7 @@ export function Navbar() {
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className={`border-0 bg-transparent p-0 font-playfair text-[20px] font-normal tracking-[0.05em] transition-colors duration-200 ${
-              homeActive ? "text-[#FAFAF8]" : "text-[#8A8A8A] hover:text-[#E0E0E0]"
+              homeActive ? "text-[#1C1C1A]" : "text-[#8A8580] hover:text-[#1C1C1A]"
             }`}
             aria-label="Back to top"
           >
@@ -75,7 +75,7 @@ export function Navbar() {
         ) : (
           <Link
             to="/"
-            className="font-playfair text-[20px] font-normal tracking-[0.05em] text-[#8A8A8A] transition-colors duration-200 hover:text-[#E0E0E0]"
+            className="font-playfair text-[20px] font-normal tracking-[0.05em] text-[#8A8580] transition-colors duration-200 hover:text-[#1C1C1A]"
             aria-label="Home"
           >
             SK
@@ -87,7 +87,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => scrollTo("portfolio")}
-              className={`${navBtn} text-[#666] hover:text-[#C0C0C0]`}
+              className={`${navBtn} text-[#8A8580] hover:text-[#1C1C1A]`}
             >
               Portfolio
             </button>
@@ -95,21 +95,30 @@ export function Navbar() {
 
           <Link
             to="/pitch"
-            className={`${navBtn} ${location.pathname === "/pitch" ? "text-[#E8E0D0]" : "text-[#666] hover:text-[#C0C0C0]"}`}
+            className={`${navBtn} ${location.pathname === "/pitch" ? "text-[#1C1C1A]" : "text-[#8A8580] hover:text-[#1C1C1A]"}`}
             aria-current={location.pathname === "/pitch" ? "page" : undefined}
           >
             Pitch
           </Link>
 
           {isHome ? (
-            <button
-              type="button"
-              onClick={() => scrollTo("site-contact")}
-              className={`${navBtn} ${contactActive ? "text-[#E8E0D0]" : "text-[#666] hover:text-[#C0C0C0]"}`}
-              aria-current={contactActive ? "page" : undefined}
-            >
-              Contact
-            </button>
+            <>
+              <button
+                type="button"
+                onClick={() => scrollTo("site-contact")}
+                className={`${navBtn} ${contactActive ? "text-[#1C1C1A]" : "text-[#8A8580] hover:text-[#1C1C1A]"}`}
+                aria-current={contactActive ? "page" : undefined}
+              >
+                Contact
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollTo("site-contact")}
+                className="ml-1 rounded-full border border-[#3D5A80] bg-[#EBF0F7] px-3 py-1 font-mono text-[10px] tracking-[0.1em] text-[#3D5A80] transition-colors hover:bg-[#3D5A80] hover:text-white"
+              >
+                Summer '26
+              </button>
+            </>
           ) : null}
         </nav>
       </div>

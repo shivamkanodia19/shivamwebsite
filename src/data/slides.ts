@@ -30,12 +30,11 @@ export const slide01Subhead = "Most people accept that.";
 export const slide01Accent = "Shivam Kanodia doesn't.";
 
 export const slide02Paragraphs = [
-  "Freshman. Industrial & Systems Engineering (Honors), Texas A&M. GPA 3.7.",
-  "Co-founded ClinicalHours at 18. Volunteer infrastructure for free clinics. 200+ organic users. Zero marketing spend. Meloy Kickstart Accelerator.",
-  "Undergraduate researcher. Cattle futures forecasting with SARIMA (R²=0.97), LSTM, XGBoost. Presented at TAMU Student Research Week.",
-  "Wearable NMES devices. Fraud detection platforms. AI intake systems. System dynamics models. Builds across domains.",
-  "Texas state bench press record. Competed since 16.",
-  "Thinks in systems. Builds things that work.",
+  "Freshman. Industrial & Systems Engineering (Honors), Texas A&M. 3.7 GPA.",
+  "Co-founded ClinicalHours at 18 — volunteer scheduling infrastructure for free clinics. 200+ organic users, zero marketing spend, Meloy Kickstart Accelerator.",
+  "Lead researcher on FEDVT: cattle futures forecasting with SARIMA (R²=0.97), LSTM, and XGBoost. Presented at TAMU Student Research Week.",
+  "Also built: a wearable NMES rehab device, an AI voice intake system (Clara), and a fraud detection ensemble that hit 95%+ precision on 200k+ transactions.",
+  "Texas state bench press record. I apply the same discipline to code.",
 ];
 
 export const portfolioCards: PortfolioCard[] = [
@@ -103,13 +102,13 @@ export const visionTimeline: TimelineEntry[] = [
   },
 ];
 
-export const askBody = `Looking for a summer 2026 internship in operations, product, or engineering
-at a company building something real in DFW or remote.
+export const askBody = `Seeking a Summer 2026 internship in operations, product, or engineering — DFW area or remote.
 
-Open to research collaborations around ClinicalHours, FEDVT, or applied ML.
-Happy to talk if you're building something interesting.`;
+Open to research collaborations on ClinicalHours, FEDVT, or applied ML.
 
-export const askPills = ["Summer 2026 Internship", "Research Collab", "Advisor / Mentor"];
+If you're building something worth building, reach out.`;
+
+export const askPills = ["Summer 2026 · DFW or Remote", "Research Collab", "Mentor / Advisor"];
 
 export const contactLinks: ContactLinks = {
   email: "shivamkanodia77@gmail.com",
