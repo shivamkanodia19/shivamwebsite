@@ -73,7 +73,7 @@ export function Hero() {
             </button>
             <Link
               to="/pitch"
-              className="rounded border border-[#1B4332] bg-[#1B4332] px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-white transition-colors duration-200 hover:bg-[#2D6A50] hover:border-[#2D6A50] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
+              className="rounded border border-[#2D6A50] bg-[#2D6A50] px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-white transition-colors duration-200 hover:bg-[#1B4332] hover:border-[#1B4332] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
               style={{ borderRadius: "4px" }}
             >
               View pitch
