@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { animate, useInView, useMotionValue, useTransform } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   askBody,
@@ -147,8 +147,12 @@ export function ProfileSections() {
             {portfolioCards.map((card, i) => {
               const meta = ROLE_LABELS[card.name];
               return (
-                <article
+                <motion.article
                   key={card.name}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
                   className={`rounded-lg border bg-[#F9F6F0] ${i === 0 ? "md:col-span-2 p-6" : "p-5"} ${
                     i === 0 ? "border-[#C8BFAF]" : i < 2 ? "border-[#C8BFAF]" : "border-[#E8E2D8]"
                   }`}
@@ -202,7 +206,7 @@ export function ProfileSections() {
                   <p className="mt-3 border-t border-[#E8E2D8] pt-3 font-mono text-[11px] text-[#6A6560]">
                     {card.metric}
                   </p>
-                </article>
+                </motion.article>
               );
             })}
           </div>
