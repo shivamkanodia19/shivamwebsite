@@ -49,6 +49,9 @@ a {
   .hero-scroll-hint {
     animation: none !important;
   }
+  .pill-pulse {
+    animation: none !important;
+  }
 }
 
 @keyframes hero-scroll-hint {
@@ -63,4 +66,17 @@ a {
 
 .hero-scroll-hint {
   animation: hero-scroll-hint 1.3s ease-in-out infinite;
+}
+
+@keyframes pill-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(45, 106, 80, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(45, 106, 80, 0);
+  }
+}
+
+.pill-pulse {
+  animation: pill-pulse 2.5s ease-in-out infinite;
 }

@@ -114,7 +114,7 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => scrollTo("site-contact")}
-                className="ml-1 rounded-full border border-[#1B4332] bg-[#E8F3ED] px-3 py-1 font-mono text-[10px] tracking-[0.1em] text-[#1B4332] transition-colors hover:bg-[#1B4332] hover:text-white"
+                className="ml-1 rounded-full border border-[#1B4332] bg-[#E8F3ED] px-3 py-1 font-mono text-[10px] tracking-[0.1em] text-[#1B4332] transition-colors hover:bg-[#1B4332] hover:text-white pill-pulse"
               >
                 Summer '26
               </button>
