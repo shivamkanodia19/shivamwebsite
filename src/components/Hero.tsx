@@ -66,10 +66,11 @@ export function Hero() {
               onClick={() =>
                 document.getElementById("about")?.scrollIntoView({ behavior: "smooth", block: "start" })
               }
-              className="rounded border border-[#D8D0C4] bg-transparent px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-[#5A5855] transition-colors duration-200 hover:border-[#1C1C1A] hover:text-[#1C1C1A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
+              className="group relative overflow-hidden rounded border border-[#D8D0C4] bg-transparent px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-[#5A5855] transition-colors duration-200 hover:border-[#1C1C1A] hover:text-[#1C1C1A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
               style={{ borderRadius: "4px" }}
             >
-              About me
+              <span className="absolute inset-0 -translate-x-full bg-[#F0EDE6] transition-transform duration-300 ease-out group-hover:translate-x-0" />
+              <span className="relative z-10">About me</span>
             </button>
             <Link
               to="/pitch"
