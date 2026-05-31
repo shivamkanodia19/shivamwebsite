@@ -36,6 +36,8 @@ jobs:
       
       - name: Build
         run: npm run build
+        env:
+          VITE_ANTHROPIC_API_KEY: ${{ secrets.VITE_ANTHROPIC_API_KEY }}
       
       - name: Verify build output
         run: |
