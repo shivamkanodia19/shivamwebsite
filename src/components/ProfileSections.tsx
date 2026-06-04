@@ -105,15 +105,6 @@ export function ProfileSections() {
           </div>
         </section>
 
-        {/* Competition photo strip */}
-        <section className="overflow-hidden rounded-xl border border-[#D8D0C4]">
-          <img
-            src="/img/competition-pitch.jpg"
-            alt="Shivam Kanodia presenting at competition"
-            className="h-[200px] w-full object-cover object-center"
-          />
-        </section>
-
         {/* Resume */}
         <section className="rounded-xl border border-[#D8D0C4] bg-[#F0ECE3] p-6 md:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -219,7 +210,7 @@ export function ProfileSections() {
                       <img
                         src="/img/research-poster.jpg"
                         alt="FEDVT Cattle Research — TAMU Student Research Week"
-                        className="h-[120px] w-full object-cover object-top"
+                        className="h-[120px] w-full object-cover object-center"
                       />
                     </div>
                   ) : null}
@@ -228,7 +219,7 @@ export function ProfileSections() {
                       <img
                         src="/img/celvio-deck.jpg"
                         alt="Celvio — MedXplore presentation"
-                        className="h-[100px] w-full object-cover object-top"
+                        className="h-[100px] w-full object-cover object-center"
                       />
                     </div>
                   ) : null}

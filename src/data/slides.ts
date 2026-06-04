@@ -36,7 +36,6 @@ export const slide02Paragraphs = [
   "Co-founded ClinicalHours — volunteer scheduling infrastructure for free clinics. 200+ users, clinicalhours.org. Good Bull Pitch winner · Ideas Challenge finalist · Meloy Bullet Pitch 3/60 · Meloy Kickstart Launch (1 of 3 teams selected).",
   "Undergraduate researcher with Dr. Karun Kaniyamattam: cattle futures forecasting (SARIMA R²=0.97, LSTM, XGBoost). Presented at TAMU Student Research Week. Coauthoring paper on economic dashboards and system dynamics.",
   "Also built: a wearable NMES rehab device, an AI voice intake system (Clara), and a fraud detection ensemble (95%+ precision, 200k+ transactions). Product@TAMU Ideathon — 2nd place.",
-  "Texas state bench press record. I apply the same discipline to code.",
 ];
 
 export const portfolioCards: PortfolioCard[] = [
