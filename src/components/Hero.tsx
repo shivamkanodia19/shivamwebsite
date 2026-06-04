@@ -100,7 +100,7 @@ export function Hero() {
             <img
               src="/headshot.jpg"
               alt="Shivam Kanodia"
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-cover object-[center_10%]"
             />
           </div>
         </motion.div>

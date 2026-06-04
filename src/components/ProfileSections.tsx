@@ -174,7 +174,7 @@ export function ProfileSections() {
                       <img
                         src="/img/clinicalhours-win.jpg"
                         alt="Good Bull Pitch winners — ClinicalHours"
-                        className="h-[200px] w-full object-cover object-center"
+                        className="h-[200px] w-full object-cover object-bottom"
                       />
                     </div>
                   ) : null}
@@ -210,7 +210,7 @@ export function ProfileSections() {
                       <img
                         src="/img/research-poster.jpg"
                         alt="FEDVT Cattle Research — TAMU Student Research Week"
-                        className="h-[120px] w-full object-cover object-center"
+                        className="h-[170px] w-full object-cover object-top"
                       />
                     </div>
                   ) : null}

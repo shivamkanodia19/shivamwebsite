@@ -53,7 +53,7 @@ export function Slide02Founder(_props: Props) {
             <img
               src="/headshot.jpg"
               alt="Shivam Kanodia"
-              className="h-[88px] w-[88px] rounded-2xl object-cover"
+              className="h-[88px] w-[88px] rounded-2xl object-cover object-[center_15%]"
               style={{ filter: "grayscale(100%)" }}
             />
           </motion.div>
@@ -113,11 +113,13 @@ export function Slide02Founder(_props: Props) {
                   {c.sub}
                 </p>
                 {c.accent && (
-                  <img
-                    src="/img/legends-logo.jpg"
-                    alt="Legends Global"
-                    className="mt-3 h-12 w-auto object-contain opacity-70"
-                  />
+                  <div className="mt-3 overflow-hidden rounded bg-[#111] px-2 py-1.5">
+                    <img
+                      src="/img/legends-logo.jpg"
+                      alt="Legends Global"
+                      className="h-12 w-auto object-contain"
+                    />
+                  </div>
                 )}
               </div>
             </motion.div>
