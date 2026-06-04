@@ -44,6 +44,19 @@ export function Slide02Founder(_props: Props) {
           transition={{ duration: 0.6, ease }}
           className="flex flex-col justify-center"
         >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease }}
+            className="mb-5 w-fit"
+          >
+            <img
+              src="/headshot.jpg"
+              alt="Shivam Kanodia"
+              className="h-[88px] w-[88px] rounded-2xl object-cover"
+              style={{ filter: "grayscale(100%)" }}
+            />
+          </motion.div>
           <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.35em] text-[#AAA]">
             02 — Founder
           </p>
@@ -62,9 +75,9 @@ export function Slide02Founder(_props: Props) {
           <p className="font-mono text-[11px] leading-[1.9] text-[#888]">
             Texas A&amp;M · ISE Honors
             <br />
-            Aggie Venture Fund · EH EDGE
+            Aggie Venture Fund Cohort 6
             <br />
-            State bench press record
+            EH EDGE · Investment Management
           </p>
         </motion.div>
 
@@ -99,6 +112,13 @@ export function Slide02Founder(_props: Props) {
                 <p className="mt-1.5 font-mono text-[9px] leading-[1.7] text-[#AAA]">
                   {c.sub}
                 </p>
+                {c.accent && (
+                  <img
+                    src="/img/legends-logo.jpg"
+                    alt="Legends Global"
+                    className="mt-3 h-12 w-auto object-contain opacity-70"
+                  />
+                )}
               </div>
             </motion.div>
           ))}

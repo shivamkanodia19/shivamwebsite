@@ -105,17 +105,35 @@ export function ProfileSections() {
           </div>
         </section>
 
+        {/* Competition photo strip */}
+        <section className="overflow-hidden rounded-xl border border-[#D8D0C4]">
+          <img
+            src="/img/competition-pitch.jpg"
+            alt="Shivam Kanodia presenting at competition"
+            className="h-[200px] w-full object-cover object-center"
+          />
+        </section>
+
         {/* Resume */}
         <section className="rounded-xl border border-[#D8D0C4] bg-[#F0ECE3] p-6 md:p-8">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#8A8580]">Resume</p>
+          </div>
+          <div className="mt-4 flex gap-3">
             <a
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded border border-[#D8D0C4] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-[#5A5855] transition-colors hover:border-[#1C1C1A] hover:text-[#1C1C1A]"
+              className="inline-flex items-center gap-2 rounded border border-[#1B4332] bg-[#1B4332] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#2D6A50]"
             >
-              Open / Download
+              Open Resume ↗
+            </a>
+            <a
+              href="/resume.pdf"
+              download
+              className="inline-flex items-center gap-2 rounded border border-[#D8D0C4] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[#5A5855] transition-colors hover:border-[#1C1C1A] hover:text-[#1C1C1A]"
+            >
+              Download
             </a>
           </div>
           <div className="mt-4 overflow-hidden rounded-lg border border-[#D8D0C4] bg-[#E8E2D8]">
@@ -160,6 +178,15 @@ export function ProfileSections() {
                   {i === 0 ? (
                     <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-[#1B4332]">Featured Project</p>
                   ) : null}
+                  {i === 0 ? (
+                    <div className="mb-4 overflow-hidden rounded-lg border border-[#E8E2D8]">
+                      <img
+                        src="/img/clinicalhours-win.jpg"
+                        alt="Good Bull Pitch winners — ClinicalHours"
+                        className="h-[200px] w-full object-cover object-center"
+                      />
+                    </div>
+                  ) : null}
                   <div className="flex items-start justify-between gap-3">
                     <h3
                       className={`font-playfair leading-tight text-[#1C1C1A] ${
@@ -185,6 +212,25 @@ export function ProfileSections() {
                     <p className="mt-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-[#8A8580]">
                       {meta.role}
                     </p>
+                  ) : null}
+
+                  {i === 1 ? (
+                    <div className="mt-3 overflow-hidden rounded border border-[#E8E2D8]">
+                      <img
+                        src="/img/research-poster.jpg"
+                        alt="FEDVT Cattle Research — TAMU Student Research Week"
+                        className="h-[120px] w-full object-cover object-top"
+                      />
+                    </div>
+                  ) : null}
+                  {i === 4 ? (
+                    <div className="mt-3 overflow-hidden rounded border border-[#E8E2D8]">
+                      <img
+                        src="/img/celvio-deck.jpg"
+                        alt="Celvio — MedXplore presentation"
+                        className="h-[100px] w-full object-cover object-top"
+                      />
+                    </div>
                   ) : null}
 
                   <p className="mt-3 text-[13px] italic leading-snug text-[#555555]">{card.thesis}</p>

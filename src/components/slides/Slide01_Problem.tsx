@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { SlideWrapper } from "@/components/SlideWrapper";
+import { slide01HeadlineLines, slide01Subhead, slide01Accent } from "@/data/slides";
 
 type Props = { isActive?: boolean; showHint?: boolean };
 
@@ -48,11 +49,9 @@ export function Slide01Problem({ showHint = false }: Props) {
             className="font-playfair font-normal leading-[1.08] tracking-[-0.025em] text-[#F5F2EE]"
             style={{ fontSize: "clamp(42px, 6vw, 88px)" }}
           >
-            The systems
-            <br />
-            around you
-            <br />
-            are broken.
+            {slide01HeadlineLines.map((line, i) => (
+              <span key={i}>{line}{i < slide01HeadlineLines.length - 1 ? <br /> : null}</span>
+            ))}
           </motion.h2>
 
           <motion.div
@@ -61,15 +60,11 @@ export function Slide01Problem({ showHint = false }: Props) {
             transition={{ delay: 0.85, duration: 0.6 }}
             className="mt-8 space-y-1"
           >
-            <p
-              className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#444]"
-            >
-              Most people accept that.
+            <p className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#444]">
+              {slide01Subhead}
             </p>
-            <p
-              className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#2D6A50]"
-            >
-              Shivam Kanodia doesn&apos;t.
+            <p className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#2D6A50]">
+              {slide01Accent}
             </p>
           </motion.div>
         </div>

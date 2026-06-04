@@ -14,7 +14,7 @@ export function Hero() {
 
   return (
     <section id="hero" className="relative min-h-[100svh] overflow-hidden bg-[#F9F6F0]" aria-label="Hero">
-      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-6xl items-center px-6 pt-20 md:px-12">
+      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-6xl items-center justify-between px-6 pt-20 md:px-12">
         <div className="max-w-2xl">
           <motion.p
             initial={{ opacity: 0 }}
@@ -43,7 +43,7 @@ export function Hero() {
             transition={{ delay: 0.45, duration: 0.35 }}
             className="mt-6 max-w-xl font-mono text-[13px] leading-relaxed tracking-[0.06em] text-[#4A4845]"
           >
-            Freshman at TAMU. Co-founder. Researcher. I build things that work.
+            I build operational systems — scheduling infrastructure, forecasting models, fraud detection — and ship them to real users.
           </motion.p>
 
           <motion.p
@@ -81,6 +81,29 @@ export function Hero() {
             </Link>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+          className="hidden md:block flex-shrink-0 ml-12"
+        >
+          <div
+            className="overflow-hidden border border-[#D8D0C4]"
+            style={{
+              width: "280px",
+              height: "380px",
+              borderRadius: "4px",
+              boxShadow: "6px 8px 24px rgba(90, 75, 60, 0.12)",
+            }}
+          >
+            <img
+              src="/headshot.jpg"
+              alt="Shivam Kanodia"
+              className="w-full h-full object-cover object-top"
+            />
+          </div>
+        </motion.div>
       </div>
 
       {showScroll ? (

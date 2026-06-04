@@ -25,9 +25,9 @@ export const slideMetas: SlideMeta[] = slides.map(({ id, label, theme }) => ({
 
 export const SLIDE_COUNT = slides.length;
 
-export const slide01HeadlineLines = ["The systems around you", "are broken."];
-export const slide01Subhead = "Most people accept that.";
-export const slide01Accent = "Shivam Kanodia doesn't.";
+export const slide01HeadlineLines = ["Built and launched", "three systems.", "As a freshman."];
+export const slide01Subhead = "200+ users. R²=0.97. 5 competition wins.";
+export const slide01Accent = "Here's how I think.";
 
 export const slide02Paragraphs = [
   "Freshman. Industrial & Systems Engineering (Honors), Texas A&M. 3.7 GPA.",
