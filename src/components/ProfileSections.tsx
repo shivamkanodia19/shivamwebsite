@@ -174,7 +174,7 @@ export function ProfileSections() {
                       <img
                         src="/img/clinicalhours-win.jpg"
                         alt="Good Bull Pitch winners — ClinicalHours"
-                        className="h-[200px] w-full object-cover object-bottom"
+                        className="h-[200px] w-full object-cover object-[center_65%]"
                       />
                     </div>
                   ) : null}
