@@ -75,13 +75,13 @@ export function Slide05Vision(_props: Props) {
                 aria-hidden
               />
 
-              {/* Date badge */}
-              <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.28em] text-[#2D6A50]">
+              {/* Date badge — larger and more prominent */}
+              <p className="mb-2 font-mono text-[11px] font-medium uppercase tracking-[0.28em] text-[#2D6A50]">
                 {m.date}
               </p>
 
               {/* Title */}
-              <p className="mb-2 font-playfair text-[clamp(16px,1.8vw,22px)] font-normal text-[#F5F2EE]">
+              <p className="mb-2 font-playfair text-[clamp(18px,2vw,26px)] font-normal text-[#F5F2EE]">
                 {m.title}
               </p>
 
@@ -93,6 +93,18 @@ export function Slide05Vision(_props: Props) {
           ))}
         </div>
       </div>
+
+      {/* Pull quote */}
+      <motion.blockquote
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.0, duration: 0.6 }}
+        className="mt-10 border-l-2 border-[#2D6A50] pl-5"
+      >
+        <p className="font-playfair text-[clamp(14px,1.5vw,18px)] italic leading-[1.6] text-[#444]">
+          "Data-driven decisions at the intersection of operations and capital."
+        </p>
+      </motion.blockquote>
 
       {/* Decorative arrow at end */}
       <motion.div

@@ -16,25 +16,25 @@ const projects: {
   {
     name: "ClinicalHours",
     one: "Volunteer scheduling infra for free clinics",
-    metric: "200+ users",
+    metric: "BCS Free Health Clinic pilot",
     status: "ACTIVE",
   },
   {
     name: "FEDVT Research",
     one: "ML forecasting for feedlot cattle futures",
-    metric: "R²=0.97 SARIMA",
+    metric: "SARIMA · TAMU Research Week",
     status: "IN PROGRESS",
   },
   {
     name: "FinSeek",
     one: "3-model fraud detection ensemble",
-    metric: "95%+ precision",
+    metric: "PaySim benchmark",
     status: "COMPLETE",
   },
   {
     name: "Clara",
     one: "AI voice intake for clinical pre-visits",
-    metric: "~4.5 min/visit saved",
+    metric: "Workflow prototype",
     status: "COMPLETE",
   },
   {
@@ -93,8 +93,21 @@ export function Slide03Portfolio(_props: Props) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.28 + i * 0.07, duration: 0.45, ease }}
-            className="flex flex-col justify-between rounded-xl border border-[#1a1a1a] bg-[#0e0e0e] px-5 py-4"
+            className="flex flex-col justify-between rounded-xl border border-[#1a1a1a] bg-[#0e0e0e] px-5 py-4 min-h-[110px] transition-colors hover:border-[#2a2a2a] hover:bg-[#111]"
           >
+            {/* ClinicalHours pitch photo */}
+            {p.name === "ClinicalHours" && (
+              <div className="mb-2 overflow-hidden rounded">
+                <img src="/img/clinicalhours-pitch.jpg" alt="ClinicalHours pitch" className="h-[60px] w-full object-cover object-[center_25%] opacity-60" />
+              </div>
+            )}
+            {/* Persona win photo */}
+            {p.name === "Persona" && (
+              <div className="mb-2 overflow-hidden rounded">
+                <img src="/img/persona-win.jpg" alt="Persona competition win" className="h-[60px] w-full object-cover object-center opacity-60" />
+              </div>
+            )}
+
             {/* Top row: name + status dot */}
             <div className="flex items-start justify-between gap-2">
               <h3 className="font-playfair text-[clamp(13px,1.4vw,17px)] font-normal text-[#F5F2EE]">

@@ -10,73 +10,38 @@ function easeOutCubic(t: number) {
   return 1 - (1 - t) ** 3;
 }
 
-type StatKind = "plus" | "type" | "decimal" | "times";
 
 const stats: {
   key: string;
-  label: string;
+  target: number;
+  decimals: number;
+  suffix: string;
   sublabel: string;
-  kind: StatKind;
-  final: string;
 }[] = [
-  {
-    key: "users",
-    label: "200+",
-    sublabel: "Organic ClinicalHours users",
-    kind: "plus",
-    final: "200+",
-  },
-  {
-    key: "sarima",
-    label: "R²=0.97",
-    sublabel: "SARIMA model accuracy — cattle futures",
-    kind: "type",
-    final: "R²=0.97",
-  },
-  {
-    key: "gpa",
-    label: "3.7",
-    sublabel: "GPA · ISE Honors · Freshman year",
-    kind: "decimal",
-    final: "3.7",
-  },
-  {
-    key: "wins",
-    label: "5+",
-    sublabel: "Competition placements · First semester",
-    kind: "times",
-    final: "5+",
-  },
+  { key: "students", target: 400, decimals: 0, suffix: "+", sublabel: "Students on ClinicalHours · BCS Free Health Clinic pilot" },
+  { key: "wins",     target: 5,   decimals: 0, suffix: "+", sublabel: "Competition placements · First semester" },
+  { key: "gpa",      target: 3.7, decimals: 1, suffix: "",  sublabel: "GPA · ISE Honors · Freshman year" },
+  { key: "projects", target: 6,   decimals: 0, suffix: "",  sublabel: "Projects shipped · 3 live · 1 in progress · 1 prototype" },
 ];
 
-function AnimatedValue({ kind, active }: { kind: StatKind; active: boolean }) {
-  const [value, setValue] = useState(kind === "type" ? "" : kind === "decimal" ? "0.0" : "0");
+function AnimatedValue({ target, decimals, suffix, active }: { target: number; decimals: number; suffix: string; active: boolean }) {
+  const [value, setValue] = useState(decimals > 0 ? `0.${"0".repeat(decimals)}` : "0");
 
   useEffect(() => {
     if (!active) return;
     const start = performance.now();
-    const total = kind === "times" ? 700 : kind === "decimal" ? 1100 : 1300;
+    const duration = target > 100 ? 1300 : decimals > 0 ? 1100 : 700;
     let frame = 0;
-
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / total);
+      const t = Math.min(1, (now - start) / duration);
       const e = easeOutCubic(t);
-
-      if (kind === "plus") setValue(`${Math.round(200 * e)}+`);
-      else if (kind === "decimal") setValue((3.7 * e).toFixed(1));
-      else if (kind === "times") setValue(`${Math.round(5 * e)}+`);
-      else {
-        const full = "R²=0.97";
-        const chars = Math.ceil(full.length * e);
-        setValue(full.slice(0, chars));
-      }
-
+      const v = target * e;
+      setValue(`${decimals > 0 ? v.toFixed(decimals) : Math.round(v)}${suffix}`);
       if (t < 1) frame = requestAnimationFrame(tick);
     };
-
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [active, kind]);
+  }, [active, target, decimals, suffix]);
 
   return (
     <span className="font-playfair leading-none tabular-nums text-[#F5F2EE]" style={{ fontSize: "clamp(38px, 5vw, 72px)" }}>
@@ -121,7 +86,7 @@ export function Slide04Traction({ isActive = false }: Props) {
 
             {/* Big number on dark pill */}
             <div className="inline-flex items-baseline rounded-lg bg-[#111] px-5 py-3 self-start">
-              <AnimatedValue kind={s.kind} active={isActive} />
+              <AnimatedValue target={s.target} decimals={s.decimals} suffix={s.suffix} active={isActive} />
             </div>
 
             {/* Label */}

@@ -26,50 +26,50 @@ export const slideMetas: SlideMeta[] = slides.map(({ id, label, theme }) => ({
 export const SLIDE_COUNT = slides.length;
 
 export const slide01HeadlineLines = ["Built and launched", "three systems.", "As a freshman."];
-export const slide01Subhead = "200+ users. R²=0.97. 5 competition wins.";
+export const slide01Subhead = "~400 students. BCS Free Health Clinic. 5 competition wins.";
 export const slide01Accent = "Here's how I think.";
 
 export const slide02Paragraphs = [
   "Freshman. Industrial & Systems Engineering (Honors), Texas A&M. 3.7 GPA.",
   "Incoming Business Intelligence Intern at Legends Global — Summer 2026.",
   "Aggie Venture Fund Cohort 6 · EH EDGE (Adam C. Sinn '00 Center for Investment Management).",
-  "Co-founded ClinicalHours — volunteer scheduling infrastructure for free clinics. 200+ users, clinicalhours.org. Good Bull Pitch winner · Ideas Challenge finalist · Meloy Bullet Pitch 3/60 · Meloy Kickstart Launch (1 of 3 teams selected).",
-  "Undergraduate researcher with Dr. Karun Kaniyamattam: cattle futures forecasting (SARIMA R²=0.97, LSTM, XGBoost). Presented at TAMU Student Research Week. Coauthoring paper on economic dashboards and system dynamics.",
-  "Also built: a wearable NMES rehab device, an AI voice intake system (Clara), and a fraud detection ensemble (95%+ precision, 200k+ transactions). Product@TAMU Ideathon — 2nd place.",
+  "Co-founded ClinicalHours — volunteer scheduling infrastructure for free clinics and pre-med students. Pilot clinic: BCS Free Health Clinic. clinicalhours.org. Good Bull Pitch winner · Ideas Challenge finalist · Meloy Kickstart Launch (1 of 3 teams selected).",
+  "Undergraduate researcher with Dr. Karun Kaniyamattam: cattle futures forecasting using SARIMA, LSTM, and XGBoost. Presented at TAMU Student Research Week. Coauthoring paper on economic dashboards and system dynamics.",
+  "Also built: a wearable NMES rehab device (Celvio), an AI voice intake system (Clara), and a fraud detection ML pipeline (FinSeek). Product@TAMU Ideathon — 2nd place.",
 ];
 
 export const portfolioCards: PortfolioCard[] = [
   {
     name: "ClinicalHours",
-    thesis: "B2B volunteer infrastructure for free clinics and pre-med students.",
+    thesis: "Volunteer scheduling infrastructure for free clinics and pre-med students.",
     detail:
-      "Lifecycle management across applications, scheduling, interviews, communications. Claude-powered marketing agent + Gmail API outreach pipeline. clinicalhours.org",
+      "Lifecycle management across applications, scheduling, interviews, and communications. Claude-powered outreach pipeline. Pilot clinic: BCS Free Health Clinic. clinicalhours.org",
     status: "ACTIVE",
-    metric: "200+ users · Good Bull Pitch winner · Meloy Kickstart Launch · BCS Free Health Clinic live",
+    metric: "Good Bull Pitch winner · Meloy Kickstart Launch · BCS Free Health Clinic pilot",
   },
   {
     name: "FEDVT Research",
     thesis: "ML forecasting dashboard for feedlot cattle futures decisions.",
     detail:
-      "65 inputs, 6 cost categories. SARIMA (R²=0.97) selected over LSTM and XGBoost via walk-forward validation. Paper in progress.",
+      "65 inputs, 6 cost categories. Compared SARIMA, LSTM, and XGBoost via walk-forward validation. Paper in progress with Dr. Karun Kaniyamattam.",
     status: "IN PROGRESS",
     metric: "Presented · TAMU Student Research Week",
   },
   {
     name: "FinSeek",
-    thesis: "Fintech fraud detection platform.",
+    thesis: "Fraud detection ML pipeline on synthetic transaction data.",
     detail:
-      "3-model ensemble: Logistic Regression, Isolation Forest, LightGBM. 2-of-3 voting consensus. 200k+ PaySim transactions.",
+      "3-model ensemble: Logistic Regression, Isolation Forest, LightGBM. 2-of-3 voting consensus on PaySim benchmark dataset.",
     status: "COMPLETE",
-    metric: "95%+ precision · 99% false positive reduction",
+    metric: "Strong precision on PaySim benchmark",
   },
   {
     name: "Clara",
-    thesis: "AI pre-visit intake system for clinical settings.",
+    thesis: "AI voice intake system for clinical pre-visit workflows.",
     detail:
-      "Twilio voice calls, GPT-4o mini entity extraction, Epic FHIR sync. Conversational AI → structured SOAP notes.",
+      "Twilio voice calls, GPT-4o mini entity extraction, Epic FHIR sync. Converts conversational intake into structured SOAP notes.",
     status: "COMPLETE",
-    metric: "~4.5 min/visit reduction in intake time",
+    metric: "Prototype · Clinical workflow proof-of-concept",
   },
   {
     name: "Celvio",
@@ -90,10 +90,10 @@ export const portfolioCards: PortfolioCard[] = [
 ];
 
 export const tractionStats: TractionStat[] = [
-  { key: "users", value: "200+", label: "organic ClinicalHours users", kind: "plus" },
-  { key: "sarima", value: "R²=0.97", label: "SARIMA production model accuracy", kind: "type" },
-  { key: "gpa", value: "3.7", label: "GPA, ISE Honors, freshman year", kind: "decimal" },
-  { key: "wins", value: "5+", label: "competition placements, first semester", kind: "times" },
+  { key: "students", value: "400+", label: "students on ClinicalHours · BCS Free Health Clinic pilot", kind: "plus" },
+  { key: "clinic", value: "1", label: "live pilot clinic · BCS Free Health Clinic · Spring 2025", kind: "decimal" },
+  { key: "gpa", value: "3.7", label: "GPA · ISE Honors · freshman year", kind: "decimal" },
+  { key: "wins", value: "5+", label: "competition placements · first semester", kind: "times" },
 ];
 
 export const visionTimeline: TimelineEntry[] = [

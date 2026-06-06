@@ -172,9 +172,9 @@ export function ProfileSections() {
                   {i === 0 ? (
                     <div className="mb-4 overflow-hidden rounded-lg border border-[#E8E2D8]">
                       <img
-                        src="/img/clinicalhours-win.jpg"
-                        alt="Good Bull Pitch winners — ClinicalHours"
-                        className="h-[200px] w-full object-cover object-[center_65%]"
+                        src="/img/clinicalhours-pitch.jpg"
+                        alt="Shivam pitching ClinicalHours at Good Bull Pitch competition"
+                        className="h-[200px] w-full object-cover object-[center_25%]"
                       />
                     </div>
                   ) : null}
@@ -220,6 +220,15 @@ export function ProfileSections() {
                         src="/img/celvio-deck.jpg"
                         alt="Celvio — MedXplore presentation"
                         className="h-[100px] w-full object-cover object-center"
+                      />
+                    </div>
+                  ) : null}
+                  {i === 5 ? (
+                    <div className="mt-3 overflow-hidden rounded border border-[#E8E2D8]">
+                      <img
+                        src="/img/persona-win.jpg"
+                        alt="Persona team — Product@TAMU Ideathon 2nd place"
+                        className="h-[120px] w-full object-cover object-[center_30%]"
                       />
                     </div>
                   ) : null}

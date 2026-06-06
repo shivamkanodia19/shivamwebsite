@@ -9,6 +9,14 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function Slide01Problem({ showHint = false }: Props) {
   return (
     <SlideWrapper label="PROBLEM" className="bg-[#080808]">
+      {/* Atmospheric photo accent — right edge */}
+      <img
+        src="/img/clinicalhours-pitch.jpg"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-0 h-full w-[35%] object-cover opacity-[0.15] grayscale"
+      />
+
       {/* Noise grain overlay */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.025]"

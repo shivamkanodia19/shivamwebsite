@@ -59,6 +59,15 @@ export function Slide06Ask(_props: Props) {
             <br />
             from operators.
           </p>
+
+          {/* Decorative large numeral */}
+          <p
+            className="mt-6 select-none font-playfair font-normal leading-none tracking-[-0.04em] text-[#E8E4DF]"
+            aria-hidden
+            style={{ fontSize: "clamp(72px, 9vw, 120px)" }}
+          >
+            3
+          </p>
         </motion.div>
 
         {/* Right: ask cards */}
@@ -76,7 +85,7 @@ export function Slide06Ask(_props: Props) {
               }
               style={a.accent ? { backgroundColor: "rgba(45,106,80,0.05)" } : undefined}
             >
-              <span className="font-mono text-[11px] tabular-nums text-[#CCC] shrink-0">
+              <span className={`font-mono text-[13px] tabular-nums shrink-0 font-medium ${a.accent ? "text-[#2D6A50]" : "text-[#BBB]"}`}>
                 {a.index}
               </span>
               <div>

@@ -19,9 +19,9 @@ const credentials = [
     accent: false,
   },
   {
-    label: "Users",
-    value: "200+",
-    sub: "ClinicalHours · Organic · Active",
+    label: "Students",
+    value: "400+",
+    sub: "ClinicalHours · BCS Free Health Clinic pilot",
     accent: false,
   },
   {
@@ -113,13 +113,11 @@ export function Slide02Founder(_props: Props) {
                   {c.sub}
                 </p>
                 {c.accent && (
-                  <div className="mt-3 overflow-hidden rounded bg-[#111] px-2 py-1.5">
-                    <img
-                      src="/img/legends-logo.jpg"
-                      alt="Legends Global"
-                      className="h-12 w-auto object-contain"
-                    />
-                  </div>
+                  <img
+                    src="/img/legends-logo-black.jpg"
+                    alt="Legends Global"
+                    className="mt-3 h-10 w-auto object-contain opacity-80"
+                  />
                 )}
               </div>
             </motion.div>
