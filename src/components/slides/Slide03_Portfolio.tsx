@@ -97,14 +97,14 @@ export function Slide03Portfolio(_props: Props) {
           >
             {/* ClinicalHours pitch photo */}
             {p.name === "ClinicalHours" && (
-              <div className="mb-2 overflow-hidden rounded">
-                <img src="/img/clinicalhours-pitch.jpg" alt="ClinicalHours pitch" className="h-[60px] w-full object-cover object-top opacity-60" />
+              <div className="mb-2 overflow-hidden rounded bg-[#1a1a1a]">
+                <img src="/img/clinicalhours-pitch.jpg" alt="ClinicalHours pitch" className="h-[100px] w-full object-contain opacity-80" />
               </div>
             )}
             {/* Persona win photo */}
             {p.name === "Persona" && (
-              <div className="mb-2 overflow-hidden rounded">
-                <img src="/img/persona-win.jpg" alt="Persona competition win" className="h-[60px] w-full object-cover object-[center_65%] opacity-60" />
+              <div className="mb-2 overflow-hidden rounded bg-[#1a1a1a]">
+                <img src="/img/persona-win.jpg" alt="Persona competition win" className="h-[100px] w-full object-contain opacity-80" />
               </div>
             )}
 
