@@ -174,7 +174,7 @@ export function ProfileSections() {
                       <img
                         src="/img/clinicalhours-pitch.jpg"
                         alt="Shivam pitching ClinicalHours at Good Bull Pitch competition"
-                        className="h-[200px] w-full object-cover object-[center_25%]"
+                        className="h-[200px] w-full object-cover object-top"
                       />
                     </div>
                   ) : null}
@@ -228,7 +228,7 @@ export function ProfileSections() {
                       <img
                         src="/img/persona-win.jpg"
                         alt="Persona team — Product@TAMU Ideathon 2nd place"
-                        className="h-[120px] w-full object-cover object-[center_30%]"
+                        className="h-[120px] w-full object-cover object-[center_65%]"
                       />
                     </div>
                   ) : null}
