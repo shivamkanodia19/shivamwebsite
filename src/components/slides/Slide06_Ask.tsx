@@ -62,9 +62,9 @@ export function Slide06Ask(_props: Props) {
 
           {/* Decorative large numeral */}
           <p
-            className="mt-6 select-none font-playfair font-normal leading-none tracking-[-0.04em] text-[#E8E4DF]"
+            className="mt-4 select-none font-playfair font-normal leading-none tracking-[-0.04em] text-[#E8E4DF]"
             aria-hidden
-            style={{ fontSize: "clamp(72px, 9vw, 120px)" }}
+            style={{ fontSize: "clamp(60px, 7vw, 96px)" }}
           >
             3
           </p>
@@ -77,7 +77,7 @@ export function Slide06Ask(_props: Props) {
               key={a.index}
               initial={{ opacity: 0, x: 14 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.22 + i * 0.12, duration: 0.55, ease }}
+              transition={{ delay: 0.10 + i * 0.08, duration: 0.55, ease }}
               className={
                 a.accent
                   ? "flex items-center gap-5 rounded-xl border border-[#2D6A50]/25 px-6 py-5"

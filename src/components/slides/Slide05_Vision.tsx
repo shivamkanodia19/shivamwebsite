@@ -29,7 +29,7 @@ export function Slide05Vision(_props: Props) {
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
+        transition={{ delay: 0.05, duration: 0.4 }}
         className="mb-4 font-mono text-[10px] uppercase tracking-[0.35em] text-[#333]"
       >
         05 — Vision
@@ -38,7 +38,7 @@ export function Slide05Vision(_props: Props) {
       <motion.h2
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.18, duration: 0.55, ease }}
+        transition={{ delay: 0.08, duration: 0.55, ease }}
         className="mb-12 font-playfair font-normal leading-tight tracking-[-0.02em] text-[#F5F2EE]"
         style={{ fontSize: "clamp(30px, 3.8vw, 52px)" }}
       >
@@ -51,7 +51,7 @@ export function Slide05Vision(_props: Props) {
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ delay: 0.4, duration: 0.9, ease }}
+          transition={{ delay: 0.15, duration: 0.9, ease }}
           className="absolute left-0 right-0 origin-left"
           style={{ top: "12px", height: "1px", backgroundColor: "#222" }}
           aria-hidden
@@ -63,7 +63,7 @@ export function Slide05Vision(_props: Props) {
               key={m.date}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 + i * 0.15, duration: 0.55, ease }}
+              transition={{ delay: 0.2 + i * 0.08, duration: 0.55, ease }}
               className="relative pt-8 md:pt-8"
             >
               {/* Node dot */}
@@ -86,7 +86,7 @@ export function Slide05Vision(_props: Props) {
               </p>
 
               {/* Body */}
-              <p className="font-mono text-[10px] leading-[1.75] text-[#555]">
+              <p className="font-mono text-[10px] leading-[1.75] text-[#666]">
                 {m.body}
               </p>
             </motion.div>
@@ -98,10 +98,10 @@ export function Slide05Vision(_props: Props) {
       <motion.blockquote
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.0, duration: 0.6 }}
+        transition={{ delay: 0.5, duration: 0.6 }}
         className="mt-10 border-l-2 border-[#2D6A50] pl-5"
       >
-        <p className="font-playfair text-[clamp(14px,1.5vw,18px)] italic leading-[1.6] text-[#444]">
+        <p className="font-playfair text-[clamp(14px,1.5vw,18px)] italic leading-[1.6] text-[#666]">
           "Data-driven decisions at the intersection of operations and capital."
         </p>
       </motion.blockquote>
@@ -110,7 +110,7 @@ export function Slide05Vision(_props: Props) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.1, duration: 0.5 }}
+        transition={{ delay: 0.55, duration: 0.5 }}
         className="mt-12 hidden md:flex items-center gap-3"
         aria-hidden
       >

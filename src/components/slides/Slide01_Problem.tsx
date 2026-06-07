@@ -44,7 +44,7 @@ export function Slide01Problem({ showHint = false }: Props) {
           <motion.p
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.5, ease }}
+            transition={{ delay: 0.1, duration: 0.5, ease }}
             className="mb-5 font-mono text-[10px] uppercase tracking-[0.35em] text-[#3a3a3a]"
           >
             01 — Problem
@@ -53,7 +53,7 @@ export function Slide01Problem({ showHint = false }: Props) {
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.38, duration: 0.7, ease }}
+            transition={{ delay: 0.15, duration: 0.7, ease }}
             className="font-playfair font-normal leading-[1.08] tracking-[-0.025em] text-[#F5F2EE]"
             style={{ fontSize: "clamp(42px, 6vw, 88px)" }}
           >
@@ -65,10 +65,10 @@ export function Slide01Problem({ showHint = false }: Props) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.85, duration: 0.6 }}
+            transition={{ delay: 0.35, duration: 0.6 }}
             className="mt-8 space-y-1"
           >
-            <p className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#444]">
+            <p className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#666]">
               {slide01Subhead}
             </p>
             <p className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#2D6A50]">
@@ -81,7 +81,7 @@ export function Slide01Problem({ showHint = false }: Props) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.6 }}
+          transition={{ delay: 0.45, duration: 0.6 }}
           className="hidden items-end pb-1 pl-16 md:flex"
         >
           <div className="flex flex-col items-end gap-[6px] text-right">
@@ -102,7 +102,7 @@ export function Slide01Problem({ showHint = false }: Props) {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.6, duration: 0.5 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
           className="mt-16 font-mono text-[9px] tracking-[0.22em] text-[#2a2a2a]"
         >
           ARROWS · SWIPE · KEYS 1–7

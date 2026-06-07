@@ -56,7 +56,7 @@ export function Slide04Traction({ isActive = false }: Props) {
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
+        transition={{ delay: 0.05, duration: 0.4 }}
         className="mb-4 font-mono text-[10px] uppercase tracking-[0.35em] text-[#AAA]"
       >
         04 — Traction
@@ -65,7 +65,7 @@ export function Slide04Traction({ isActive = false }: Props) {
       <motion.h2
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.18, duration: 0.55, ease }}
+        transition={{ delay: 0.08, duration: 0.55, ease }}
         className="mb-10 font-playfair font-normal leading-tight tracking-[-0.02em] text-[#111]"
         style={{ fontSize: "clamp(30px, 3.8vw, 52px)" }}
       >
@@ -78,7 +78,7 @@ export function Slide04Traction({ isActive = false }: Props) {
             key={s.key}
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.28 + i * 0.12, duration: 0.5, ease }}
+            transition={{ delay: 0.12 + i * 0.07, duration: 0.5, ease }}
             className="flex flex-col"
           >
             {/* Top rule */}
@@ -90,7 +90,7 @@ export function Slide04Traction({ isActive = false }: Props) {
             </div>
 
             {/* Label */}
-            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[#999]">
+            <p className="mt-3 font-mono text-[9px] leading-[1.65] text-[#777]">
               {s.sublabel}
             </p>
           </motion.div>

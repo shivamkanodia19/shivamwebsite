@@ -12,7 +12,7 @@ import { Slide07Contact } from "@/components/slides/Slide07_Contact";
 import type { NavDirection } from "@/types";
 
 const EASE = [0.25, 0.1, 0.25, 1] as const;
-const DURATION = 0.4;
+const DURATION = 0.25;
 
 export type DeckMode = "scroll" | "presentation";
 

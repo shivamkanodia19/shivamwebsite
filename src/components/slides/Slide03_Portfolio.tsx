@@ -69,7 +69,7 @@ export function Slide03Portfolio(_props: Props) {
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.4 }}
+        transition={{ delay: 0.05, duration: 0.4 }}
         className="mb-4 font-mono text-[10px] uppercase tracking-[0.35em] text-[#333]"
       >
         03 — Portfolio
@@ -78,7 +78,7 @@ export function Slide03Portfolio(_props: Props) {
       <motion.h2
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.18, duration: 0.55, ease }}
+        transition={{ delay: 0.08, duration: 0.55, ease }}
         className="mb-7 font-playfair font-normal leading-tight tracking-[-0.02em] text-[#F5F2EE]"
         style={{ fontSize: "clamp(30px, 3.8vw, 52px)" }}
       >
@@ -92,8 +92,8 @@ export function Slide03Portfolio(_props: Props) {
             key={p.name}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.28 + i * 0.07, duration: 0.45, ease }}
-            className="flex flex-col justify-between rounded-xl border border-[#1a1a1a] bg-[#0e0e0e] px-5 py-4 min-h-[110px] transition-colors hover:border-[#2a2a2a] hover:bg-[#111]"
+            transition={{ delay: 0.1 + i * 0.04, duration: 0.45, ease }}
+            className="flex flex-col justify-between rounded-xl border border-[#1a1a1a] bg-[#0e0e0e] px-5 py-4 min-h-[130px] transition-colors hover:border-[#2a2a2a] hover:bg-[#111]"
           >
             {/* ClinicalHours pitch photo */}
             {p.name === "ClinicalHours" && (
@@ -121,7 +121,7 @@ export function Slide03Portfolio(_props: Props) {
             </div>
 
             {/* One-liner */}
-            <p className="mt-2 font-mono text-[10px] leading-[1.6] text-[#555]">
+            <p className="mt-2 font-mono text-[10px] leading-[1.6] text-[#777]">
               {p.one}
             </p>
 
@@ -137,13 +137,13 @@ export function Slide03Portfolio(_props: Props) {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.9, duration: 0.4 }}
+        transition={{ delay: 0.4, duration: 0.4 }}
         className="mt-5 flex gap-6"
       >
         {(["ACTIVE", "IN PROGRESS", "COMPLETE"] as Status[]).map((s) => (
           <span key={s} className="flex items-center gap-1.5">
             <span className={`h-[6px] w-[6px] rounded-full ${statusDot[s]}`} aria-hidden />
-            <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-[#3a3a3a]">
+            <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-[#555]">
               {s}
             </span>
           </span>

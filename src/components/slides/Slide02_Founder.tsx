@@ -41,13 +41,13 @@ export function Slide02Founder(_props: Props) {
         <motion.div
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease }}
+          transition={{ delay: 0.25, duration: 0.6, ease }}
           className="flex flex-col justify-center"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, ease }}
+            transition={{ delay: 0.1, duration: 0.45, ease }}
             className="mb-5 w-fit"
           >
             <img
@@ -88,11 +88,11 @@ export function Slide02Founder(_props: Props) {
               key={c.label}
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.18 + i * 0.1, duration: 0.5, ease }}
+              transition={{ delay: 0.08 + i * 0.06, duration: 0.5, ease }}
               className={
                 c.accent
-                  ? "flex flex-col justify-between rounded-xl border border-[#2D6A50]/30 bg-[#2D6A50]/8 px-5 py-5"
-                  : "flex flex-col justify-between rounded-xl border border-[#E0DAD2] bg-white px-5 py-5"
+                  ? "flex flex-col justify-between rounded-xl border border-[#2D6A50]/30 bg-[#2D6A50]/8 px-5 py-4"
+                  : "flex flex-col justify-between rounded-xl border border-[#E0DAD2] bg-white px-5 py-4"
               }
               style={c.accent ? { backgroundColor: "rgba(45,106,80,0.06)" } : undefined}
             >
