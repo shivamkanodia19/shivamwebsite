@@ -30,3 +30,27 @@ dist-ssr
 
 # Local tooling
 .claude/
+.playwright-mcp/
+
+# Scratch / verification screenshots
+verify-*.png
+audit-*.png
+handoff-*.png
+li-img-*.png
+linkedin-*.png
+linkedin-*.json
+check_prompt.mjs
+
+# Planning/research artifacts
+prd/
+implementation/
+_spec_extract.txt
+claude.md
+
+# Misc root-level screenshots
+*.png
+!public/**/*.png
+
+# Unreferenced LinkedIn images
+public/img/linkedin-*.jpg
+public/linkedin-*.jpg
