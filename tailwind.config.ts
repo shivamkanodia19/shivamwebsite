@@ -21,9 +21,10 @@ export default {
         "deck-divider-dark": "#222222",
       },
       fontFamily: {
-        playfair: ['"Playfair Display"', "Georgia", "serif"],
         mono: ['"IBM Plex Mono"', "ui-monospace", "monospace"],
+        sans: ['"Instrument Sans"', "ui-sans-serif", "system-ui", "sans-serif"],
         body: [
+          "Instrument Sans",
           "system-ui",
           "-apple-system",
           "BlinkMacSystemFont",

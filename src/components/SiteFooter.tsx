@@ -6,17 +6,18 @@ export function SiteFooter() {
       <div className="site-container footer-grid">
         <div>
           <p className="footer-name">Shivam Kanodia</p>
-          <p className="footer-position">Product thinking. Technical execution. Operational impact.</p>
+          <p className="footer-position">Software, products, research, and shipped work.</p>
         </div>
         <div className="footer-links">
-          <a href={`mailto:${contactLinks.email}`}>Email <span>↗</span></a>
-          <a href={contactLinks.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span>↗</span></a>
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Résumé <span>↗</span></a>
+          <a href={`mailto:${contactLinks.email}`}>Email <span aria-hidden="true">↗</span></a>
+          <a href={contactLinks.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a>
+          <a href="/pitch">Pitch <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       <div className="site-container footer-meta">
-        <span>Texas A&amp;M · Industrial &amp; Systems Engineering Honors</span>
-        <span>Built with intent · 2026</span>
+        <span>Texas A&amp;M / Industrial &amp; Systems Engineering Honors</span>
+        <span>Evidence checked / 2026</span>
       </div>
     </footer>
   );

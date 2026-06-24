@@ -1,98 +1,76 @@
-import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useReducedMotion } from "framer-motion";
-import { DeckEngine } from "@/components/DeckEngine";
-import { VoxelAudienceRow, VoxelPresenter } from "@/components/pitch/VoxelPitchScene";
+
+const pitchRoles = [
+  ["/brand/matic-logo-white.svg", "Matic", "Software Engineering Intern", "2026 / Current"],
+  ["/brand/legends-global-logo.svg", "Legends Global", "Business Intelligence Intern", "Summer 2026"],
+  ["/brand/clinicalhours-logo.png", "ClinicalHours", "Co-founder", "2026 / Current"],
+] as const;
 
 export function PitchPage() {
-  const reduceMotion = useReducedMotion();
-  const [ready, setReady] = useState(false);
-  const closeBtnRef = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    const t = window.setTimeout(() => {
-      setReady(true);
-      closeBtnRef.current?.focus();
-    }, 80);
-    return () => {
-      window.clearTimeout(t);
-      document.body.style.overflow = "";
-    };
-  }, []);
-
   return (
-    <div
-      className="fixed inset-0 z-0 flex flex-col items-center justify-center bg-[#030303] p-3 sm:p-6"
-      style={{
-        backgroundImage:
-          "radial-gradient(ellipse 85% 65% at 50% 38%, rgba(55,52,48,0.45) 0%, transparent 55%), radial-gradient(ellipse 100% 90% at 50% 100%, rgba(0,0,0,0.85) 0%, #030303 45%)",
-      }}
-    >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,transparent_0%,rgba(0,0,0,0.55)_100%)]" />
+    <main className="min-h-screen bg-[#111827] px-4 py-4 font-sans text-white sm:px-8 sm:py-7">
+      <div className="mx-auto max-w-[1280px]">
+        <header className="flex items-center justify-between border-b border-white/15 pb-4">
+          <Link to="/" className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#b8c5e5] hover:text-white">
+            ← Portfolio
+          </Link>
+          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#7080a5]">Evidence brief / 2026</p>
+        </header>
 
-      <Link
-        ref={closeBtnRef}
-        to="/"
-        className="absolute left-4 top-4 z-[210] rounded border border-[#3a3a3a] bg-[#0d0d0d]/90 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#b0b0b0] backdrop-blur-sm transition-colors hover:border-[#888] hover:text-[#fafaf8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888] sm:left-6 sm:top-6"
-      >
-        ← Home
-      </Link>
-
-      <p className="absolute right-4 top-4 z-[210] hidden font-mono text-[9px] uppercase tracking-[0.2em] text-[#444] sm:right-6 sm:top-[1.4rem] sm:block">
-        shivamkanodia.com/pitch
-      </p>
-
-      <div className="relative z-[205] flex h-[min(96dvh,980px)] w-full max-w-[min(99vw,1500px)] flex-col">
-        <p className="mb-1 text-center font-mono text-[9px] uppercase tracking-[0.28em] text-[#555]">
-          {"— Pitch —"}
-        </p>
-
-        {/* Combined screen + theater floor — single rounded frame */}
-        <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg shadow-[0_0_0_1px_rgba(255,255,255,0.07),0_25px_80px_-20px_rgba(0,0,0,0.9)] ring-1 ring-white/10">
-
-          {/* Slide screen — fills all remaining space */}
-          <motion.div
-            className="relative min-h-0 flex-1"
-            initial={{ opacity: 0, scale: reduceMotion ? 1 : 0.96 }}
-            animate={{ opacity: ready ? 1 : 0, scale: 1 }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="absolute inset-0">
-              <DeckEngine
-                mode="presentation"
-                initialSlideIndex={0}
-                onRequestClose={() => {
-                  window.location.href = "/";
-                }}
-              />
-            </div>
-          </motion.div>
-
-          {/* Theater floor — presenter stage-left, audience centered, zero overlap with slides */}
-          <div
-            className="relative shrink-0 overflow-hidden"
-            style={{
-              height: "clamp(68px, 9%, 104px)",
-              background: "linear-gradient(to bottom, #0c0c0c 0%, #030303 85%)",
-              borderTop: "1px solid rgba(255,255,255,0.05)",
-            }}
-          >
-            {/* Subtle stage-light upward glow */}
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_90%_at_50%_0%,rgba(255,255,255,0.025),transparent)]" />
-
-            {/* Presenter — stage left, bottom-anchored */}
-            <div className="absolute bottom-0 left-[2.5%] z-10 w-[clamp(34px,5%,68px)]">
-              <VoxelPresenter className="h-auto w-full opacity-80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]" />
-            </div>
-
-            {/* Audience row — centered, bottom-anchored */}
-            <div className="absolute bottom-0 left-1/2 w-[min(68%,800px)] -translate-x-1/2">
-              <VoxelAudienceRow className="h-auto w-full opacity-72 drop-shadow-[0_-2px_10px_rgba(0,0,0,0.85)]" />
-            </div>
+        <section className="grid gap-8 py-10 lg:grid-cols-[1fr_1.05fr] lg:items-end lg:py-14">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#8fa9ff]">Shivam Kanodia / Product-minded engineer</p>
+            <h1 className="mt-5 max-w-[720px] text-[clamp(52px,7vw,104px)] font-semibold leading-[0.9] tracking-[-0.07em]">
+              I build things <span className="block text-[#8fa9ff]">that work.</span>
+            </h1>
+            <p className="mt-6 max-w-[620px] text-[clamp(16px,1.7vw,22px)] leading-relaxed text-[#c3cbe0]">
+              Software, products, research, and everything it takes to ship them.
+            </p>
           </div>
-        </div>
+
+          <div className="grid gap-3">
+            {pitchRoles.map(([logo, company, role, date]) => (
+              <article key={company} className="grid grid-cols-[74px_1fr_auto] items-center gap-4 border border-white/15 bg-white/[0.04] p-3">
+                <div className="flex h-14 items-center justify-center bg-[#0c1220] p-2">
+                  <img src={logo} alt={`${company} logo`} className={company === "ClinicalHours" ? "h-11 w-11 object-contain" : "max-h-9 w-full object-contain"} />
+                </div>
+                <div>
+                  <h2 className="text-base font-semibold">{company}</h2>
+                  <p className="mt-1 text-xs text-[#aeb8ce]">{role}</p>
+                </div>
+                <span className="font-mono text-[9px] uppercase tracking-[0.08em] text-[#7180a0]">{date}</span>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-3 border-t border-white/15 pt-5 md:grid-cols-3">
+          <article className="min-h-[210px] bg-[#e3f0e8] p-6 text-[#153d2c]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#1e6a4c]">ClinicalHours / Shipped</p>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.035em]">A product with public proof.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-[#416453]">Good Bull Pitch, 3rd place. Ideas Challenge finalist. Meloy Bullet Pitch, 3 of 60. First clinic pilot partner.</p>
+          </article>
+          <article className="min-h-[210px] bg-[#f4e3c8] p-6 text-[#3b2914]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#8b500f]">Research / Presented</p>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.035em]">Forecasting for real decisions.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-[#6c5438]">65 inputs. Six cost categories. Three model families. Walk-forward validation. Texas A&amp;M Student Research Week.</p>
+          </article>
+          <article className="min-h-[210px] bg-[#dfe7ff] p-6 text-[#172b68]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#234fd1]">Projects / Built</p>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.035em]">Eight verified builds.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-[#3e5188]">Healthcare intake, rehabilitation hardware, fraud detection, identity, consumer finance, study tools, CAD, and simulation.</p>
+          </article>
+        </section>
+
+        <footer className="mt-5 flex flex-col gap-4 border-t border-white/15 py-5 text-xs text-[#9ba7c3] sm:flex-row sm:items-center sm:justify-between">
+          <p>Texas A&amp;M / Industrial &amp; Systems Engineering Honors</p>
+          <div className="flex gap-5">
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="text-white">Resume ↗</a>
+            <a href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer" className="text-white">LinkedIn ↗</a>
+            <a href="mailto:shivamkanodia77@gmail.com" className="text-white">Email ↗</a>
+          </div>
+        </footer>
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,6 +1,6 @@
 /**
  * Lightweight “audience” row: abstract human outlines (head + torso) with CSS 3D tilt.
- * Inspired by theater seating — no WebGL (council: fast SVG + perspective beats Spline for this surface).
+ * Inspired by theater seating. no WebGL (council: fast SVG + perspective beats Spline for this surface).
  */
 export function AudienceSilhouettes() {
   return (

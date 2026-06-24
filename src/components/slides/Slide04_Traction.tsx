@@ -18,10 +18,10 @@ const stats: {
   suffix: string;
   sublabel: string;
 }[] = [
-  { key: "students", target: 400, decimals: 0, suffix: "+", sublabel: "Students on ClinicalHours · BCS Free Health Clinic pilot" },
-  { key: "wins",     target: 5,   decimals: 0, suffix: "+", sublabel: "Competition placements · First semester" },
-  { key: "gpa",      target: 3.7, decimals: 1, suffix: "",  sublabel: "GPA · ISE Honors · Freshman year" },
-  { key: "projects", target: 6,   decimals: 0, suffix: "",  sublabel: "Projects shipped · 3 live · 1 in progress · 1 prototype" },
+  { key: "students", target: 200, decimals: 0, suffix: "+", sublabel: "Public ClinicalHours student milestone" },
+  { key: "inputs",   target: 65,  decimals: 0, suffix: "",  sublabel: "Research inputs across six cost categories" },
+  { key: "projects", target: 8,   decimals: 0, suffix: "",  sublabel: "Verified projects in the archive" },
+  { key: "meets",    target: 3,   decimals: 0, suffix: "",  sublabel: "First-place USAPL meet results" },
 ];
 
 function AnimatedValue({ target, decimals, suffix, active }: { target: number; decimals: number; suffix: string; active: boolean }) {
@@ -44,7 +44,7 @@ function AnimatedValue({ target, decimals, suffix, active }: { target: number; d
   }, [active, target, decimals, suffix]);
 
   return (
-    <span className="font-playfair leading-none tabular-nums text-[#F5F2EE]" style={{ fontSize: "clamp(38px, 5vw, 72px)" }}>
+    <span className="font-sans leading-none tabular-nums text-[#F5F2EE]" style={{ fontSize: "clamp(38px, 5vw, 72px)" }}>
       {value}
     </span>
   );
@@ -59,17 +59,17 @@ export function Slide04Traction({ isActive = false }: Props) {
         transition={{ delay: 0.05, duration: 0.4 }}
         className="mb-4 font-mono text-[10px] uppercase tracking-[0.35em] text-[#AAA]"
       >
-        04 — Traction
+        04 / Recognition
       </motion.p>
 
       <motion.h2
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08, duration: 0.55, ease }}
-        className="mb-10 font-playfair font-normal leading-tight tracking-[-0.02em] text-[#111]"
+        className="mb-10 font-sans font-normal leading-tight tracking-[-0.02em] text-[#111]"
         style={{ fontSize: "clamp(30px, 3.8vw, 52px)" }}
       >
-        The numbers.
+        Public proof.
       </motion.h2>
 
       <div className="grid grid-cols-2 gap-x-8 gap-y-8 md:gap-x-16 md:gap-y-10">

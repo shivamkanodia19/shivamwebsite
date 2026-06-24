@@ -1,5 +1,5 @@
 /**
- * Monochrome voxel-style figures (no faces, no hue) — rects only, inspired by low-poly block characters.
+ * Monochrome voxel-style figures (no faces, no hue). rects only, inspired by low-poly block characters.
  * Presenter points toward +X (the pitch). Audience faces the pitch (toward top / center).
  */
 
@@ -26,7 +26,7 @@ export function VoxelPresenter({ className }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
     >
-      {/* Head — blank cube, no face */}
+      {/* Head. blank cube, no face */}
       <Box x={32} y={8} w={34} h={32} />
       <Box x={36} y={12} w={10} h={8} tone="side" />
       {/* Neck */}
@@ -38,7 +38,7 @@ export function VoxelPresenter({ className }: { className?: string }) {
       <Box x={22} y={52} w={12} h={22} />
       <Box x={20} y={74} w={11} h={20} tone="side" />
       <Box x={22} y={94} w={9} h={9} />
-      {/* Right arm — upper + forearm + hand pointing right */}
+      {/* Right arm. upper + forearm + hand pointing right */}
       <Box x={78} y={52} w={14} h={20} />
       <g transform="translate(88 58) rotate(-28)">
         <rect x={0} y={0} width={44} height={11} fill={F.main} stroke={F.stroke} strokeWidth={0.4} rx={0.5} />

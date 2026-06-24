@@ -32,6 +32,8 @@ dist-ssr
 # Local tooling
 .claude/
 .playwright-mcp/
+playwright-report/
+test-results/
 
 # Scratch / verification screenshots
 verify-*.png

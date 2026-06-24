@@ -54,7 +54,7 @@ export function PresentationProvider({ children }: { children: ReactNode }) {
   return <PresentationContext.Provider value={value}>{children}</PresentationContext.Provider>;
 }
 
-/** @see https://react.dev/learn/splitting-context — hook is intentionally co-located with provider */
+/** @see https://react.dev/learn/splitting-context. Hook is intentionally co-located with provider. */
 // eslint-disable-next-line react-refresh/only-export-components -- hook must live next to context
 export function usePresentation() {
   const ctx = useContext(PresentationContext);

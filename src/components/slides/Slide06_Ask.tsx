@@ -8,27 +8,27 @@ const ease = [0.16, 1, 0.3, 1] as const;
 const asks = [
   {
     index: "01",
-    title: "Legends Global · BI Intern",
-    sub: "Summer 2026 — confirmed",
+    title: "Good Bull Pitch",
+    sub: "3rd place / $200 / March 2026",
     accent: true,
   },
   {
     index: "02",
-    title: "Research Collaboration",
-    sub: "ClinicalHours · FEDVT · Applied ML",
+    title: "Ideas Challenge",
+    sub: "Finalist / McFerrin Center",
     accent: false,
   },
   {
     index: "03",
-    title: "Mentor · Advisor",
-    sub: "If you're building something worth building",
+    title: "Meloy Kickstart Launch",
+    sub: "1 of 3 teams selected from 11",
     accent: false,
   },
 ];
 
 export function Slide06Ask(_props: Props) {
   return (
-    <SlideWrapper label="ASK" className="bg-[#F5F2EE]">
+    <SlideWrapper label="RECORD" className="bg-[#F5F2EE]">
       <div className="grid grid-cols-1 gap-10 md:grid-cols-[auto_1fr] md:gap-20">
 
         {/* Left: heading */}
@@ -39,30 +39,30 @@ export function Slide06Ask(_props: Props) {
           className="flex flex-col justify-center"
         >
           <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.35em] text-[#AAA]">
-            06 — Ask
+            06 / Record
           </p>
           <h2
-            className="font-playfair font-normal leading-[1.08] tracking-[-0.02em] text-[#111]"
+            className="font-sans font-normal leading-[1.08] tracking-[-0.02em] text-[#111]"
             style={{ fontSize: "clamp(40px, 4.8vw, 68px)" }}
           >
             The
             <br />
-            ask.
+            proof.
           </h2>
 
           <div className="mt-8 h-px w-10 bg-[#CCC]" aria-hidden />
 
-          <p className="mt-8 max-w-[200px] font-mono text-[10px] leading-[1.85] text-[#AAA]">
-            Open to internships,
+          <p className="mt-8 max-w-[220px] font-mono text-[10px] leading-[1.85] text-[#AAA]">
+            Exact placements.
             <br />
-            research, and mentorship
+            Public evidence.
             <br />
-            from operators.
+            Conservative claims.
           </p>
 
           {/* Decorative large numeral */}
           <p
-            className="mt-4 select-none font-playfair font-normal leading-none tracking-[-0.04em] text-[#E8E4DF]"
+            className="mt-4 select-none font-sans font-normal leading-none tracking-[-0.04em] text-[#E8E4DF]"
             aria-hidden
             style={{ fontSize: "clamp(60px, 7vw, 96px)" }}
           >
@@ -89,7 +89,7 @@ export function Slide06Ask(_props: Props) {
                 {a.index}
               </span>
               <div>
-                <p className={`font-playfair text-[clamp(15px,1.6vw,19px)] font-normal ${a.accent ? "text-[#2D6A50]" : "text-[#111]"}`}>
+                <p className={`font-sans text-[clamp(15px,1.6vw,19px)] font-normal ${a.accent ? "text-[#2D6A50]" : "text-[#111]"}`}>
                   {a.title}
                 </p>
                 <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.2em] text-[#AAA]">

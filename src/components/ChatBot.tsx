@@ -46,7 +46,7 @@ function recordRequest() {
 const GREETING: Message = {
   id: '0',
   role: 'assistant',
-  content: "Hi — I'm here to answer questions about Shivam's work, projects, and career. What would you like to know?",
+  content: "Hi. I'm here to answer questions about Shivam's work, projects, and research. What would you like to know?",
 };
 
 export default function ChatBot() {
@@ -231,7 +231,7 @@ export default function ChatBot() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask a question…"
+              placeholder="Ask a question..."
               disabled={loading}
               className="flex-1 bg-transparent font-mono text-[12px] text-[#FAFAF8] placeholder-[#444] outline-none disabled:opacity-50"
             />

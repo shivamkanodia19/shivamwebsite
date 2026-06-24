@@ -7,27 +7,27 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 const credentials = [
   {
-    label: "Incoming Intern",
-    value: "Legends Global",
-    sub: "Business Intelligence · Summer 2026",
+    label: "Current Intern",
+    value: "Matic",
+    sub: "Software Engineering / 2026",
     accent: true,
   },
   {
-    label: "GPA",
-    value: "3.7",
-    sub: "ISE Honors · Freshman",
+    label: "Summer 2026",
+    value: "Legends Global",
+    sub: "Business Intelligence Intern",
     accent: false,
   },
   {
-    label: "Students",
-    value: "400+",
-    sub: "ClinicalHours · BCS Free Health Clinic pilot",
+    label: "Public milestone",
+    value: "200+",
+    sub: "ClinicalHours student users",
     accent: false,
   },
   {
-    label: "Competition Wins",
-    value: "5+",
-    sub: "First semester · Multiple categories",
+    label: "Presented",
+    value: "Research Week",
+    sub: "Texas A&M student research",
     accent: false,
   },
 ];
@@ -58,26 +58,26 @@ export function Slide02Founder(_props: Props) {
             />
           </motion.div>
           <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.35em] text-[#AAA]">
-            02 — Founder
+            02 / Experience
           </p>
           <h2
-            className="font-playfair font-normal leading-[1.05] tracking-[-0.02em] text-[#111]"
+            className="font-sans font-normal leading-[1.05] tracking-[-0.02em] text-[#111]"
             style={{ fontSize: "clamp(40px, 5vw, 72px)" }}
           >
             The
             <br />
-            Founder.
+            record.
           </h2>
 
           {/* Divider */}
           <div className="my-7 h-px w-10 bg-[#CCC]" aria-hidden />
 
           <p className="font-mono text-[11px] leading-[1.9] text-[#888]">
-            Texas A&amp;M · ISE Honors
+            Texas A&amp;M / ISE Honors
             <br />
             Aggie Venture Fund Cohort 6
             <br />
-            EH EDGE · Investment Management
+            EH EDGE / 2026 cohort
           </p>
         </motion.div>
 
@@ -103,8 +103,8 @@ export function Slide02Founder(_props: Props) {
                 <p
                   className={
                     c.accent
-                      ? "font-playfair text-[clamp(18px,2.2vw,28px)] font-normal leading-tight text-[#2D6A50]"
-                      : "font-playfair text-[clamp(18px,2.2vw,28px)] font-normal leading-tight text-[#111]"
+                      ? "font-sans text-[clamp(18px,2.2vw,28px)] font-normal leading-tight text-[#2D6A50]"
+                      : "font-sans text-[clamp(18px,2.2vw,28px)] font-normal leading-tight text-[#111]"
                   }
                 >
                   {c.value}
@@ -114,8 +114,8 @@ export function Slide02Founder(_props: Props) {
                 </p>
                 {c.accent && (
                   <img
-                    src="/img/legends-logo-black.jpg"
-                    alt="Legends Global"
+                    src="/brand/matic-logo-dark.svg"
+                    alt="Matic"
                     className="mt-3 h-10 w-auto object-contain opacity-80"
                   />
                 )}

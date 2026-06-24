@@ -3,7 +3,6 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
 import { ProfileSections } from "@/components/ProfileSections";
-import { CredibilityStrip } from "@/components/CredibilityStrip";
 import { PitchPage } from "@/pages/PitchPage";
 
 function HomePage() {
@@ -18,7 +17,6 @@ function HomePage() {
       <Navbar />
       <main id="main">
         <Hero />
-        <CredibilityStrip />
         <ProfileSections />
         <SiteFooter />
       </main>

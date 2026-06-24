@@ -33,7 +33,7 @@ export function Slide07Contact(_props: Props) {
         transition={{ delay: 0.05, duration: 0.4 }}
         className="mb-5 font-mono text-[10px] uppercase tracking-[0.35em] text-[#333]"
       >
-        07 — Contact
+        07 / Contact
       </motion.p>
 
       <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
@@ -44,7 +44,7 @@ export function Slide07Contact(_props: Props) {
           transition={{ delay: 0.08, duration: 0.6, ease }}
         >
           <h2
-            className="font-playfair font-normal leading-[1.05] tracking-[-0.025em] text-[#F5F2EE]"
+            className="font-sans font-normal leading-[1.05] tracking-[-0.025em] text-[#F5F2EE]"
             style={{ fontSize: "clamp(42px, 5.5vw, 80px)" }}
           >
             Shivam
@@ -95,7 +95,7 @@ export function Slide07Contact(_props: Props) {
 
       {/* Decorative large initials */}
       <div
-        className="pointer-events-none absolute bottom-[-0.1em] right-[4vw] z-0 select-none font-playfair leading-none text-[#0f0f0f]"
+        className="pointer-events-none absolute bottom-[-0.1em] right-[4vw] z-0 select-none font-sans leading-none text-[#0f0f0f]"
         style={{ fontSize: "clamp(100px, 18vw, 260px)" }}
         aria-hidden
       >

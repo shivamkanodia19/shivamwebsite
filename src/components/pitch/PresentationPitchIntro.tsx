@@ -5,7 +5,7 @@ const spring = { type: "spring" as const, stiffness: 120, damping: 18, mass: 0.8
 const ease = [0.22, 1, 0.36, 1] as const;
 
 /**
- * Full-bleed theatrics: spotlight, presenter enters, audience rises, beam to pitch — all monochrome.
+ * Full-bleed theatrics: spotlight, presenter enters, audience rises, beam to pitch. all monochrome.
  */
 export function PresentationPitchIntro() {
   return (
@@ -43,7 +43,7 @@ export function PresentationPitchIntro() {
         }}
       />
 
-      {/* Presenter — left */}
+      {/* Presenter. left */}
       <motion.div
         className="pointer-events-none absolute bottom-[18%] left-[-2%] w-[min(42%,200px)] md:bottom-[20%]"
         initial={{ x: -120, opacity: 0, rotate: -4 }}
@@ -71,7 +71,7 @@ export function PresentationPitchIntro() {
         />
       </motion.div>
 
-      {/* Label — subtle */}
+      {/* Label. subtle */}
       <motion.p
         className="pointer-events-none absolute right-[8%] top-[6%] font-mono text-[8px] uppercase tracking-[0.35em] text-[#4a4a4a] md:right-[12%]"
         initial={{ opacity: 0, y: -6 }}
@@ -81,7 +81,7 @@ export function PresentationPitchIntro() {
         The pitch
       </motion.p>
 
-      {/* Audience — bottom, facing the pitch */}
+      {/* Audience. bottom, facing the pitch */}
       <motion.div
         className="relative w-full px-4 pb-2 pt-6"
         style={{ perspective: "900px" }}

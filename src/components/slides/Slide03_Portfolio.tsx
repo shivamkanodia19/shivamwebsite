@@ -72,14 +72,14 @@ export function Slide03Portfolio(_props: Props) {
         transition={{ delay: 0.05, duration: 0.4 }}
         className="mb-4 font-mono text-[10px] uppercase tracking-[0.35em] text-[#333]"
       >
-        03 — Portfolio
+        03 / Portfolio
       </motion.p>
 
       <motion.h2
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08, duration: 0.55, ease }}
-        className="mb-7 font-playfair font-normal leading-tight tracking-[-0.02em] text-[#F5F2EE]"
+        className="mb-7 font-sans font-normal leading-tight tracking-[-0.02em] text-[#F5F2EE]"
         style={{ fontSize: "clamp(30px, 3.8vw, 52px)" }}
       >
         The work.
@@ -110,7 +110,7 @@ export function Slide03Portfolio(_props: Props) {
 
             {/* Top row: name + status dot */}
             <div className="flex items-start justify-between gap-2">
-              <h3 className="font-playfair text-[clamp(13px,1.4vw,17px)] font-normal text-[#F5F2EE]">
+              <h3 className="font-sans text-[clamp(13px,1.4vw,17px)] font-normal text-[#F5F2EE]">
                 {p.name}
               </h3>
               <span

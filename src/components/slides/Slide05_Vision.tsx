@@ -7,42 +7,42 @@ const ease = [0.16, 1, 0.3, 1] as const;
 
 const milestones = [
   {
-    date: "Summer 2026",
-    title: "Legends Global",
-    body: "Business Intelligence Intern. Sports and entertainment analytics at scale.",
+    date: "Presented",
+    title: "Cattle futures",
+    body: "65 inputs. Six cost categories. Three model families. Walk-forward validation.",
   },
   {
-    date: "2026 – 2027",
-    title: "Scale & Publish",
-    body: "ClinicalHours to 10 Texas universities. FEDVT cattle futures paper. WEF nexus research.",
+    date: "In progress",
+    title: "Dairy decision support",
+    body: "Systems modeling and economic decision-support tools for dairy-farm management.",
   },
   {
-    date: "2027+",
-    title: "Quant or VC",
-    body: "Quantitative finance or venture capital. Data meets real-world operations.",
+    date: "Collaborator",
+    title: "Dr. Karun Kaniyamattam",
+    body: "Applied research at Texas A&M University.",
   },
 ];
 
 export function Slide05Vision(_props: Props) {
   return (
-    <SlideWrapper label="VISION" className="bg-[#080808]">
+    <SlideWrapper label="RESEARCH" className="bg-[#080808]">
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.05, duration: 0.4 }}
         className="mb-4 font-mono text-[10px] uppercase tracking-[0.35em] text-[#333]"
       >
-        05 — Vision
+        05 / Research
       </motion.p>
 
       <motion.h2
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.08, duration: 0.55, ease }}
-        className="mb-12 font-playfair font-normal leading-tight tracking-[-0.02em] text-[#F5F2EE]"
+        className="mb-12 font-sans font-normal leading-tight tracking-[-0.02em] text-[#F5F2EE]"
         style={{ fontSize: "clamp(30px, 3.8vw, 52px)" }}
       >
-        Where this goes.
+        Models for decisions.
       </motion.h2>
 
       {/* Horizontal timeline */}
@@ -75,13 +75,13 @@ export function Slide05Vision(_props: Props) {
                 aria-hidden
               />
 
-              {/* Date badge — larger and more prominent */}
+              {/* Date badge */}
               <p className="mb-2 font-mono text-[11px] font-medium uppercase tracking-[0.28em] text-[#2D6A50]">
                 {m.date}
               </p>
 
               {/* Title */}
-              <p className="mb-2 font-playfair text-[clamp(18px,2vw,26px)] font-normal text-[#F5F2EE]">
+              <p className="mb-2 font-sans text-[clamp(18px,2vw,26px)] font-normal text-[#F5F2EE]">
                 {m.title}
               </p>
 
@@ -101,8 +101,8 @@ export function Slide05Vision(_props: Props) {
         transition={{ delay: 0.5, duration: 0.6 }}
         className="mt-10 border-l-2 border-[#2D6A50] pl-5"
       >
-        <p className="font-playfair text-[clamp(14px,1.5vw,18px)] italic leading-[1.6] text-[#666]">
-          "Data-driven decisions at the intersection of operations and capital."
+        <p className="font-sans text-[clamp(14px,1.5vw,18px)] leading-[1.6] text-[#666]">
+          Research status is stated conservatively. No publication outcome is implied.
         </p>
       </motion.blockquote>
 

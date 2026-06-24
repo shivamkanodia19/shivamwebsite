@@ -74,7 +74,7 @@ export function PresentationModal() {
           </button>
 
           <p id="presentation-title" className="sr-only">
-            About me — presentation
+            About me / presentation
           </p>
 
           {/* Letterboxed stage */}

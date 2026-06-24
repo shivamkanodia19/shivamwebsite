@@ -9,7 +9,7 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function Slide01Problem({ showHint = false }: Props) {
   return (
     <SlideWrapper label="PROBLEM" className="bg-[#080808]">
-      {/* Atmospheric photo accent — right edge */}
+      {/* Atmospheric photo accent at the right edge */}
       <img
         src="/img/clinicalhours-pitch.jpg"
         alt=""
@@ -47,14 +47,14 @@ export function Slide01Problem({ showHint = false }: Props) {
             transition={{ delay: 0.1, duration: 0.5, ease }}
             className="mb-5 font-mono text-[10px] uppercase tracking-[0.35em] text-[#3a3a3a]"
           >
-            01 — Problem
+            01 / Proof
           </motion.p>
 
           <motion.h2
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.7, ease }}
-            className="font-playfair font-normal leading-[1.08] tracking-[-0.025em] text-[#F5F2EE]"
+            className="font-sans font-normal leading-[1.08] tracking-[-0.025em] text-[#F5F2EE]"
             style={{ fontSize: "clamp(42px, 6vw, 88px)" }}
           >
             {slide01HeadlineLines.map((line, i) => (
@@ -68,10 +68,10 @@ export function Slide01Problem({ showHint = false }: Props) {
             transition={{ delay: 0.35, duration: 0.6 }}
             className="mt-8 space-y-1"
           >
-            <p className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#666]">
+            <p className="font-sans text-[clamp(17px,1.8vw,24px)] leading-[1.5] text-[#666]">
               {slide01Subhead}
             </p>
-            <p className="font-playfair text-[clamp(17px,1.8vw,24px)] italic leading-[1.5] text-[#2D6A50]">
+            <p className="font-sans text-[clamp(17px,1.8vw,24px)] leading-[1.5] text-[#2D6A50]">
               {slide01Accent}
             </p>
           </motion.div>
@@ -105,7 +105,7 @@ export function Slide01Problem({ showHint = false }: Props) {
           transition={{ delay: 0.7, duration: 0.5 }}
           className="mt-16 font-mono text-[9px] tracking-[0.22em] text-[#2a2a2a]"
         >
-          ARROWS · SWIPE · KEYS 1–7
+          ARROWS / SWIPE / KEYS 1 TO 7
         </motion.p>
       )}
     </SlideWrapper>

@@ -8,7 +8,7 @@ type SlideWrapperProps = {
   rootId?: string;
 };
 
-/** Full-bleed slide — vertically centered, no internal scroll. Content must fit viewport. */
+/** Full-bleed slide. Vertically centered with no internal scroll. Content must fit the viewport. */
 export function SlideWrapper({ children, label, className, rootId }: SlideWrapperProps) {
   return (
     <div
