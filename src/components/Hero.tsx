@@ -1,117 +1,97 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
+const roles = [
+  { company: "Matic", role: "Software Engineering Intern", tone: "blue" },
+  { company: "Legends Global", role: "Insights Intern", tone: "amber" },
+  { company: "ClinicalHours", role: "Co-founder", tone: "green" },
+] as const;
 
 export function Hero() {
-  const [showScroll, setShowScroll] = useState(true);
-
-  useEffect(() => {
-    const onScroll = () => setShowScroll(window.scrollY <= 50);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <section id="hero" className="relative min-h-[100svh] overflow-hidden bg-[#F9F6F0]" aria-label="Hero">
-      <div className="relative z-20 mx-auto flex min-h-[100svh] w-full max-w-6xl items-center justify-between px-6 pt-20 md:px-12">
-        <div className="max-w-2xl">
+    <section id="hero" className="hero-shell" aria-labelledby="hero-title">
+      <div className="hero-orb hero-orb-one" aria-hidden="true" />
+      <div className="hero-orb hero-orb-two" aria-hidden="true" />
+
+      <div className="site-container hero-grid">
+        <div className="hero-copy">
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.35 }}
-            className="font-mono text-[10px] uppercase tracking-[0.25em] text-[#666660]"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45 }}
+            className="eyebrow"
           >
-            {"TEXAS A&M · ISE HONORS · CLASS OF 2029"}
+            Shivam Kanodia · Product-minded engineer
           </motion.p>
 
           <motion.h1
+            id="hero-title"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.45 }}
-            className="mt-4 font-playfair font-normal leading-[0.92] tracking-[-0.02em] text-[#1C1C1A]"
-            style={{ fontSize: "clamp(50px, 8vw, 108px)" }}
+            transition={{ delay: 0.08, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-title"
           >
-            Shivam
-            <br />
-            Kanodia
+            I turn messy operations into <em>useful systems.</em>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.45, duration: 0.35 }}
-            className="mt-6 max-w-xl font-mono text-[13px] leading-relaxed tracking-[0.06em] text-[#4A4845]"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18, duration: 0.45 }}
+            className="hero-intro"
           >
-            I build operational systems — scheduling infrastructure, forecasting models, fraud detection — and ship them to real users.
+            I work across product, software, and analysis to make healthcare and hospitality workflows clearer, faster, and easier to run.
           </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.55, duration: 0.35 }}
-            className="mt-2 font-mono text-[12px] leading-relaxed tracking-[0.06em] text-[#1B4332]"
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.26, duration: 0.45 }}
+            className="seeking-note"
           >
-            Incoming BI Intern at Legends Global · Summer 2026.
-          </motion.p>
+            <span className="seeking-dot" aria-hidden="true" />
+            <p><strong>What I’m looking for:</strong> product, strategy, and software engineering roles where technical execution meets real operating problems.</p>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.35 }}
-            className="mt-9 flex flex-wrap items-center gap-3"
+            transition={{ delay: 0.34, duration: 0.45 }}
+            className="hero-actions"
           >
-            <button
-              type="button"
-              onClick={() =>
-                document.getElementById("about")?.scrollIntoView({ behavior: "smooth", block: "start" })
-              }
-              className="group relative overflow-hidden rounded border border-[#D8D0C4] bg-transparent px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-[#5A5855] transition-colors duration-200 hover:border-[#1C1C1A] hover:text-[#1C1C1A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
-              style={{ borderRadius: "4px" }}
-            >
-              <span aria-hidden="true" className="absolute inset-0 -translate-x-full bg-[#F0EDE6] transition-transform duration-300 ease-out group-hover:translate-x-0" />
-              <span className="relative z-10">About me</span>
-            </button>
-            <Link
-              to="/pitch"
-              className="rounded border border-[#2D6A50] bg-[#2D6A50] px-7 py-3 font-mono text-[12px] tracking-[0.08em] text-white transition-colors duration-200 hover:bg-[#1B4332] hover:border-[#1B4332] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#888]"
-              style={{ borderRadius: "4px" }}
-            >
-              View pitch
-            </Link>
+            <a href="#work" className="button button-primary">Explore my work <span aria-hidden="true">↓</span></a>
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="button button-secondary">View résumé <span aria-hidden="true">↗</span></a>
           </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="hidden md:block flex-shrink-0 ml-12"
+        <motion.aside
+          initial={{ opacity: 0, x: 24 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.18, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="hero-proof"
+          aria-label="Current work"
         >
-          <div
-            className="overflow-hidden border border-[#D8D0C4]"
-            style={{
-              width: "280px",
-              height: "380px",
-              borderRadius: "4px",
-              boxShadow: "6px 8px 24px rgba(90, 75, 60, 0.12)",
-            }}
-          >
-            <img
-              src="/headshot.jpg"
-              alt="Shivam Kanodia"
-              className="w-full h-full object-cover object-[center_10%]"
-            />
+          <div className="hero-portrait-row">
+            <img src="/headshot.jpg" alt="Shivam Kanodia" className="hero-portrait" />
+            <div>
+              <p className="proof-kicker">Currently building across</p>
+              <p className="proof-domains">Healthcare · Hospitality · Operations</p>
+            </div>
           </div>
-        </motion.div>
+          <div className="role-stack">
+            {roles.map((item, index) => (
+              <a key={item.company} href={`#${item.company === "ClinicalHours" ? "clinicalhours" : "work"}`} className={`role-card role-card-${item.tone}`}>
+                <span className="role-index">0{index + 1}</span>
+                <span className="role-content">
+                  <strong>{item.company}</strong>
+                  <small>{item.role}</small>
+                </span>
+                <span className="role-arrow" aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </div>
+          <p className="proof-footer">Texas A&amp;M · Industrial &amp; Systems Engineering Honors</p>
+        </motion.aside>
       </div>
-
-      {showScroll ? (
-        <div className="pointer-events-none absolute bottom-4 left-1/2 z-30 -translate-x-1/2 text-center">
-          <p className="font-mono text-[9px] tracking-[0.2em] text-[#B8B2AC]">SCROLL</p>
-          <span className="hero-scroll-hint mt-1 block text-[#B8B2AC]">{"↓"}</span>
-        </div>
-      ) : null}
     </section>
   );
 }

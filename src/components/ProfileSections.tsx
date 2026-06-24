@@ -1,331 +1,218 @@
-import { useEffect, useRef, useState } from "react";
-import { animate, motion, useInView, useMotionValue, useTransform } from "framer-motion";
-import { Link } from "react-router-dom";
-import {
-  askBody,
-  askPills,
-  contactLinks,
-  portfolioCards,
-  slide02Paragraphs,
-  tractionStats,
-  visionTimeline,
-} from "@/data/slides";
-
-function parseStatValue(value: string): { prefix: string; target: number; suffix: string; decimals: number } {
-  if (value.startsWith("R²=")) {
-    const num = parseFloat(value.slice(3));
-    return { prefix: "R²=", target: num, suffix: "", decimals: 2 };
-  }
-  if (value.endsWith("+")) {
-    const num = parseFloat(value.slice(0, -1));
-    return { prefix: "", target: num, suffix: "+", decimals: 0 };
-  }
-  const num = parseFloat(value);
-  const decimals = value.includes(".") ? value.split(".")[1].length : 0;
-  return { prefix: "", target: num, suffix: "", decimals };
-}
-
-function StatValue({ value }: { value: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const { prefix, target, suffix, decimals } = parseStatValue(value);
-  const mv = useMotionValue(0);
-  const display = useTransform(mv, (v) => {
-    const formatted = decimals > 0 ? v.toFixed(decimals) : Math.round(v).toString();
-    return `${prefix}${formatted}${suffix}`;
-  });
-  const [text, setText] = useState(value);
-
-  useEffect(() => {
-    return display.on("change", (v) => setText(v));
-  }, [display]);
-
-  useEffect(() => {
-    if (isInView) {
-      const controls = animate(mv, target, { duration: 1.2, ease: "easeOut" });
-      return () => controls.stop();
-    }
-  }, [isInView, mv, target]);
-
-  return <span ref={ref}>{text}</span>;
-}
-
-const ROLE_LABELS: Record<string, { role: string; tags: string[] }> = {
-  ClinicalHours: {
-    role: "Co-Founder · Product & Ops",
-    tags: ["SaaS", "Claude API", "Gmail API", "Accelerator"],
-  },
-  "FEDVT Research": {
-    role: "Lead Researcher",
-    tags: ["SARIMA", "LSTM", "XGBoost", "R", "Walk-forward validation"],
-  },
-  FinSeek: {
-    role: "ML Engineer",
-    tags: ["LightGBM", "Isolation Forest", "Python", "200k+ rows"],
-  },
-  Clara: {
-    role: "System Designer",
-    tags: ["Twilio", "GPT-4o mini", "Epic FHIR", "Voice AI"],
-  },
-  Celvio: {
-    role: "Product & Hardware",
-    tags: ["Altium", "FDA 510K", "PCB", "Financial model"],
-  },
-  Persona: {
-    role: "Product Designer",
-    tags: ["Identity", "Trust & Safety", "Reputation Systems", "Product@TAMU"],
-  },
+type SectionHeadingProps = {
+  label: string;
+  title: string;
+  intro?: string;
 };
+
+function SectionHeading({ label, title, intro }: SectionHeadingProps) {
+  return (
+    <div className="section-heading">
+      <p className="eyebrow">{label}</p>
+      <div>
+        <h2>{title}</h2>
+        {intro ? <p>{intro}</p> : null}
+      </div>
+    </div>
+  );
+}
+
+function WorkflowVisual() {
+  return (
+    <div className="workflow-visual" aria-label="Operational workflow from intake through resolution">
+      <div className="workflow-label-row"><span>Operational workflow</span><span>Human in the loop</span></div>
+      <div className="workflow-track">
+        {["Intake", "Triage", "Draft", "Review", "Resolve"].map((step, index) => (
+          <div key={step} className="workflow-step">
+            <span>{index + 1}</span>
+            <strong>{step}</strong>
+          </div>
+        ))}
+      </div>
+      <div className="workflow-pulse"><span /><p>Designing for the handoffs—not just the happy path.</p></div>
+    </div>
+  );
+}
+
+const principles = [
+  {
+    number: "01",
+    title: "Map the real workflow",
+    copy: "Start with the operators, handoffs, edge cases, and incentives—not a feature list.",
+  },
+  {
+    number: "02",
+    title: "Make ambiguity legible",
+    copy: "Turn scattered data and conversations into a model people can inspect and act on.",
+  },
+  {
+    number: "03",
+    title: "Ship the useful version",
+    copy: "Build, test, and tighten the system around what changes the operator’s next decision.",
+  },
+];
+
+const projects = [
+  { name: "Clara", type: "Healthcare workflow", copy: "A voice-based intake concept that turns patient conversations into structured pre-visit information." },
+  { name: "Celvio", type: "Medical product", copy: "A wearable rehabilitation concept developed across product economics, hardware, and regulatory positioning." },
+  { name: "FinSeek", type: "Decision system", copy: "A fraud detection pipeline designed to surface suspicious transactions while limiting false positives." },
+];
 
 export function ProfileSections() {
   return (
-    <section className="bg-[#F9F6F0] px-6 py-14 md:px-12">
-      <div className="mx-auto max-w-6xl space-y-14">
+    <div className="page-sections">
+      <section id="work" className="section-block featured-work">
+        <div className="site-container">
+          <SectionHeading
+            label="Selected experience"
+            title="Work with real operators and real constraints."
+            intro="The common thread is operational clarity: understanding how work moves, identifying where it breaks, and building a better way through."
+          />
 
-        {/* About */}
-        <section id="about" className="rounded-xl border border-[#D8D0C4] bg-[#F0ECE3] p-6 md:p-8">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#8A8580]">About</p>
-          <h2 className="mt-4 font-playfair text-[36px] leading-tight text-[#1C1C1A] md:text-[50px]">
-            Freshman. Builder. Systems thinker.
-          </h2>
-          <div className="mt-6 space-y-4">
-            {slide02Paragraphs.map((line) => (
-              <p key={line} className="font-mono text-[13px] leading-relaxed tracking-[0.04em] text-[#555555]">
-                {line}
-              </p>
-            ))}
-          </div>
-          <div className="mt-8">
-            <Link
-              to="/pitch"
-              className="inline-block rounded border border-[#D8D0C4] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[#5A5855] transition-colors hover:border-[#1C1C1A] hover:text-[#1C1C1A]"
-            >
-              View pitch →
-            </Link>
-          </div>
-        </section>
-
-        {/* Resume */}
-        <section className="rounded-xl border border-[#D8D0C4] bg-[#F0ECE3] p-6 md:p-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#8A8580]">Resume</p>
-          </div>
-          <div className="mt-4 flex gap-3">
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded border border-[#1B4332] bg-[#1B4332] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#2D6A50]"
-            >
-              Open Resume ↗
-            </a>
-            <a
-              href="/resume.pdf"
-              download
-              className="inline-flex items-center gap-2 rounded border border-[#D8D0C4] px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[#5A5855] transition-colors hover:border-[#1C1C1A] hover:text-[#1C1C1A]"
-            >
-              Download
-            </a>
-          </div>
-          <div className="mt-4 overflow-hidden rounded-lg border border-[#D8D0C4] bg-[#E8E2D8]">
-            <iframe
-              title="Shivam Kanodia Resume"
-              src="/resume.pdf#view=fitH"
-              className="h-[68vh] min-h-[540px] w-full"
-            />
-          </div>
-          <p className="mt-3 font-mono text-[11px] leading-relaxed tracking-[0.04em] text-[#8A8580]">
-            If the embed is blank,{" "}
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#1B4332] underline underline-offset-2 transition-colors hover:text-[#1C1C1A]"
-            >
-              open it directly
-            </a>
-            . File lives at{" "}
-            <span className="text-[#8A8580]">public/resume.pdf</span>.
-          </p>
-        </section>
-
-        {/* Portfolio */}
-        <section id="portfolio" className="rounded-xl border border-[#D8D0C4] bg-[#F0ECE3] p-6 md:p-8">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#8A8580]">Selected Work</p>
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {portfolioCards.map((card, i) => {
-              const meta = ROLE_LABELS[card.name];
-              return (
-                <motion.article
-                  key={card.name}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: i * 0.08 }}
-                  className={`rounded-lg border bg-[#F9F6F0] ${i === 0 ? "md:col-span-2 p-6" : "p-5"} ${
-                    i === 0 ? "border-[#C8BFAF]" : i < 2 ? "border-[#C8BFAF]" : "border-[#E8E2D8]"
-                  }`}
-                >
-                  {i === 0 ? (
-                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-[#1B4332]">Featured Project</p>
-                  ) : null}
-                  {i === 0 ? (
-                    <div className="mb-4 overflow-hidden rounded-lg border border-[#E8E2D8] bg-[#E8E2D8]">
-                      <img
-                        src="/img/clinicalhours-pitch.jpg"
-                        alt="Shivam pitching ClinicalHours at Good Bull Pitch competition"
-                        className="h-[280px] w-full object-contain"
-                      />
-                    </div>
-                  ) : null}
-                  <div className="flex items-start justify-between gap-3">
-                    <h3
-                      className={`font-playfair leading-tight text-[#1C1C1A] ${
-                        i === 0 ? "text-[28px]" : "text-[22px]"
-                      }`}
-                    >
-                      {card.name}
-                    </h3>
-                    <span
-                      className={`mt-1 shrink-0 rounded-full border px-2.5 py-1 font-mono text-[9px] tracking-[0.08em] ${
-                        card.status === "ACTIVE"
-                          ? "border-[#2D6A4F] bg-[#E8F5EE] text-[#2D6A4F]"
-                          : card.status === "IN PROGRESS"
-                            ? "border-[#8B5E1A] bg-[#FBF3E8] text-[#8B5E1A]"
-                            : "border-[#D8D0C4] text-[#8A8580]"
-                      }`}
-                    >
-                      {card.status}
-                    </span>
+          <div className="work-grid">
+            <article className="work-card work-card-matic">
+              <div className="work-card-topline">
+                <span className="work-number">01 · Featured</span>
+                <span className="role-pill">Software Engineering</span>
+              </div>
+              <div className="matic-layout">
+                <div className="work-copy">
+                  <p className="company-label">Matic</p>
+                  <h3>Building software around complex healthcare workflows.</h3>
+                  <p className="work-summary">Working on physician-facing operational systems where speed, accuracy, and human review all matter.</p>
+                  <div className="contribution-list">
+                    <div><span>Focus</span><strong>Healthcare workflow automation</strong></div>
+                    <div><span>Approach</span><strong>Product thinking + engineering execution</strong></div>
+                    <div><span>Environment</span><strong>High-context, operationally sensitive systems</strong></div>
                   </div>
-
-                  {meta?.role ? (
-                    <p className="mt-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-[#8A8580]">
-                      {meta.role}
-                    </p>
-                  ) : null}
-
-                  {i === 1 ? (
-                    <div className="mt-3 overflow-hidden rounded border border-[#E8E2D8] bg-[#E8E2D8]">
-                      <img
-                        src="/img/research-poster.jpg"
-                        alt="FEDVT Cattle Research — TAMU Student Research Week"
-                        className="h-[240px] w-full object-contain"
-                      />
-                    </div>
-                  ) : null}
-                  {i === 4 ? (
-                    <div className="mt-3 overflow-hidden rounded border border-[#E8E2D8] bg-[#E8E2D8]">
-                      <img
-                        src="/img/celvio-deck.jpg"
-                        alt="Celvio — MedXplore presentation"
-                        className="h-[160px] w-full object-contain"
-                      />
-                    </div>
-                  ) : null}
-                  {i === 5 ? (
-                    <div className="mt-3 overflow-hidden rounded border border-[#E8E2D8] bg-[#E8E2D8]">
-                      <img
-                        src="/img/persona-win.jpg"
-                        alt="Persona team — Product@TAMU Ideathon 2nd place"
-                        className="h-[180px] w-full object-contain"
-                      />
-                    </div>
-                  ) : null}
-
-                  <p className="mt-3 text-[13px] italic leading-snug text-[#555555]">{card.thesis}</p>
-                  <p className="mt-2 text-[12px] leading-relaxed text-[#5A5855]">{card.detail}</p>
-
-                  {meta?.tags?.length ? (
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {meta.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded border border-[#D8D0C4] px-2 py-0.5 font-mono text-[9px] tracking-[0.06em] text-[#8A8580]"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-
-                  <p className="mt-3 border-t border-[#E8E2D8] pt-3 font-mono text-[11px] text-[#6A6560]">
-                    {card.metric}
-                  </p>
-                </motion.article>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Traction + Vision */}
-        <section className="grid gap-6 md:grid-cols-2">
-          <article className="rounded-xl border border-[#D8D0C4] bg-[#F0ECE3] p-6 md:p-8">
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#8A8580]">Traction</p>
-            <div className="mt-5 grid grid-cols-2 gap-4">
-              {tractionStats.map((stat) => (
-                <div key={stat.key} className="rounded-lg border border-[#D8D0C4] bg-[#F9F6F0] p-4">
-                  <p className="font-playfair text-[32px] leading-none text-[#1C1C1A]"><StatValue value={stat.value} /></p>
-                  <p className="mt-2 font-mono text-[10px] leading-snug text-[#8A8580]">{stat.label}</p>
+                  <p className="confidential-note">Public-safe overview; implementation details remain private.</p>
                 </div>
-              ))}
-            </div>
-          </article>
+                <WorkflowVisual />
+              </div>
+            </article>
 
-          <article className="rounded-xl border border-[#D8D0C4] bg-[#F0ECE3] p-6 md:p-8">
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#8A8580]">Direction</p>
-            <ul className="mt-5 space-y-3">
-              {visionTimeline.map((item) => (
-                <li key={item.date} className="rounded-lg border border-[#D8D0C4] bg-[#F9F6F0] p-4">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#6A6560]">{item.date}</p>
-                  <p className="mt-2 text-[13px] leading-relaxed text-[#5A5855]">{item.body}</p>
-                </li>
-              ))}
-            </ul>
-          </article>
-        </section>
+            <article className="work-card work-card-legends">
+              <div className="work-card-topline">
+                <span className="work-number">02</span>
+                <span className="role-pill">Insights &amp; Strategy</span>
+              </div>
+              <p className="company-label">Legends Global</p>
+              <h3>Turning venue data into clearer operating decisions.</h3>
+              <p className="work-summary">Supporting hospitality insights across the questions that shape product, pricing, and venue operations.</p>
+              <div className="insight-flow" aria-label="Data to decision process">
+                <div><span>01</span><strong>Context</strong><small>What is happening?</small></div>
+                <i aria-hidden="true">→</i>
+                <div><span>02</span><strong>Insight</strong><small>What matters?</small></div>
+                <i aria-hidden="true">→</i>
+                <div><span>03</span><strong>Action</strong><small>What changes?</small></div>
+              </div>
+            </article>
 
-        {/* Ask / Contact */}
-        <section id="contact" className="rounded-xl border border-[#D8D0C4] bg-[#F0ECE3] p-6 md:p-8">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#8A8580]">Available</p>
-          <div className="mt-4 space-y-4 text-[14px] leading-relaxed text-[#555555]">
-            {askBody.split("\n\n").map((chunk) => (
-              <p key={chunk}>{chunk}</p>
-            ))}
-          </div>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {askPills.map((pill) => (
-              <span
-                key={pill}
-                className="rounded-full border border-[#D8D0C4] px-3 py-1.5 font-mono text-[10px] text-[#6A6560]"
-              >
-                {pill}
-              </span>
-            ))}
-          </div>
-          <div className="mt-6 flex flex-col gap-3">
-            <a
-              href={`mailto:${contactLinks.email}`}
-              className="inline-flex w-fit items-center gap-2 rounded border border-[#1B4332] bg-[#E8F3ED] px-5 py-2.5 font-mono text-[12px] tracking-[0.08em] text-[#1B4332] transition-colors hover:bg-[#1B4332] hover:text-white"
+            <article
+              id="clinicalhours"
+              className="work-card work-card-clinical"
             >
-              Email me →
-            </a>
-            <div className="mt-2 grid gap-2 font-mono text-[13px] text-[#5A5855]">
-              <a href={`tel:${contactLinks.phoneTel}`} className="w-fit transition-colors hover:text-[#1C1C1A]">
-                {contactLinks.phoneDisplay}
-              </a>
-              <a
-                href={contactLinks.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-fit transition-colors hover:text-[#1C1C1A]"
+              <div className="work-card-topline">
+                <span className="work-number">03</span>
+                <span className="role-pill">Founder · Product &amp; Ops</span>
+              </div>
+              <p className="company-label">ClinicalHours</p>
+              <h3>Volunteer infrastructure built around the clinic.</h3>
+              <p className="work-summary">Co-building the application, onboarding, scheduling, and communication workflow connecting clinics with pre-health students.</p>
+              <div className="clinical-proof">
+                <img src="/img/clinicalhours-pitch.jpg" alt="Shivam presenting ClinicalHours to judges" />
+                <div>
+                  <p><strong>BCS Free Health Clinic</strong><span>Pilot partner</span></p>
+                  <p><strong>Good Bull Pitch</strong><span>Winner</span></p>
+                  <p><strong>End-to-end</strong><span>Product, GTM &amp; operations</span></p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="approach" className="section-block approach-section">
+        <div className="site-container">
+          <SectionHeading
+            label="Operating style"
+            title="How I approach messy systems."
+            intro="I’m most useful where the problem crosses functions and the answer needs both structured thinking and hands-on execution."
+          />
+          <div className="principle-grid">
+            {principles.map((item) => (
+              <article
+                key={item.title}
+                className="principle-card"
               >
-                {contactLinks.linkedinLabel}
-              </a>
+                <span>{item.number}</span>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="research" className="section-block research-section">
+        <div className="site-container">
+          <SectionHeading label="Research" title="Rigorous models, grounded decisions." />
+          <div className="research-grid">
+            <article className="research-feature">
+              <div className="research-copy">
+                <p className="card-label">Forecasting · Applied ML</p>
+                <h3>Cattle futures forecasting for feedlot decision support</h3>
+                <p>Built a forecasting dashboard using 65 inputs across six cost categories, comparing time-series approaches through walk-forward validation.</p>
+                <ul>
+                  <li>SARIMA selected through comparative validation</li>
+                  <li>Presented at Texas A&amp;M Student Research Week</li>
+                </ul>
+              </div>
+              <img src="/img/research-poster.jpg" alt="Cattle futures forecasting research poster" />
+            </article>
+            <article className="research-secondary">
+              <p className="card-label">System dynamics</p>
+              <h3>Modeling stress across interconnected dairy systems</h3>
+              <p>Exploring how economic and material shocks move through water, energy, and food systems using scenario-based models.</p>
+              <div className="system-rings" aria-hidden="true"><span>Water</span><span>Energy</span><span>Food</span></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" className="section-block projects-section">
+        <div className="site-container">
+          <SectionHeading
+            label="Selected earlier builds"
+            title="Experiments that sharpened the toolkit."
+            intro="Compact explorations across healthcare, hardware, and decision systems."
+          />
+          <div className="project-list">
+            {projects.map((project, index) => (
+              <article key={project.name} className="project-row">
+                <span className="project-index">0{index + 1}</span>
+                <div><p>{project.type}</p><h3>{project.name}</h3></div>
+                <p className="project-copy">{project.copy}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="resume" className="resume-section">
+        <div className="site-container resume-panel">
+          <div>
+            <p className="eyebrow">The short version</p>
+            <h2>Looking for someone who can connect the system—and help build it?</h2>
+          </div>
+          <div className="resume-actions">
+            <p>I’m interested in product, strategy, and software engineering roles tied to real operational problems.</p>
+            <div>
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="button button-light">Open résumé ↗</a>
+              <a href="mailto:shivamkanodia77@gmail.com" className="text-link-light">Start a conversation →</a>
             </div>
           </div>
-        </section>
-      </div>
-    </section>
+        </div>
+      </section>
+    </div>
   );
 }

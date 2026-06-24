@@ -30,8 +30,9 @@ export const slide01Subhead = "~400 students. BCS Free Health Clinic. 5 competit
 export const slide01Accent = "Here's how I think.";
 
 export const slide02Paragraphs = [
-  "Freshman. Industrial & Systems Engineering (Honors), Texas A&M. 3.7 GPA.",
-  "Incoming Business Intelligence Intern at Legends Global — Summer 2026.",
+  "Industrial & Systems Engineering (Honors), Texas A&M. 3.7 GPA.",
+  "Software Engineering Intern at Matic, working on healthcare workflow automation.",
+  "Insights Intern at Legends Global, supporting hospitality and venue decisions.",
   "Aggie Venture Fund Cohort 6 · EH EDGE (Adam C. Sinn '00 Center for Investment Management).",
   "Co-founded ClinicalHours — volunteer scheduling infrastructure for free clinics and pre-med students. Pilot clinic: BCS Free Health Clinic. clinicalhours.org. Good Bull Pitch winner · Ideas Challenge finalist · Meloy Kickstart Launch (1 of 3 teams selected).",
   "Undergraduate researcher with Dr. Karun Kaniyamattam: cattle futures forecasting using SARIMA, LSTM, and XGBoost. Presented at TAMU Student Research Week. Coauthoring paper on economic dashboards and system dynamics.",
@@ -98,8 +99,8 @@ export const tractionStats: TractionStat[] = [
 
 export const visionTimeline: TimelineEntry[] = [
   {
-    date: "Summer 2026",
-    body: "Business Intelligence Intern at Legends Global. Sports and entertainment analytics.",
+    date: "Now",
+    body: "Building across healthcare software at Matic, hospitality insights at Legends Global, and volunteer infrastructure through ClinicalHours.",
   },
   {
     date: "2026 – 2027",
@@ -111,13 +112,11 @@ export const visionTimeline: TimelineEntry[] = [
   },
 ];
 
-export const askBody = `Interning at Legends Global this summer as a Business Intelligence Intern.
+export const askBody = `Interested in product, strategy, and software engineering roles tied to real operational problems.
 
-Open to research collaborations on ClinicalHours, FEDVT, or applied ML.
+Also open to research collaborations on ClinicalHours, FEDVT, or applied ML.`;
 
-If you're building something worth building, reach out.`;
-
-export const askPills = ["Legends Global · BI Intern · Summer 2026", "Research Collab", "Mentor / Advisor"];
+export const askPills = ["Product & Strategy", "Software Engineering", "Research Collaboration"];
 
 export const contactLinks: ContactLinks = {
   email: "shivamkanodia77@gmail.com",

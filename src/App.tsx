@@ -5,7 +5,6 @@ import { Navbar } from "@/components/Navbar";
 import { ProfileSections } from "@/components/ProfileSections";
 import { CredibilityStrip } from "@/components/CredibilityStrip";
 import { PitchPage } from "@/pages/PitchPage";
-import ChatBot from "@/components/ChatBot";
 
 function HomePage() {
   return (
@@ -29,13 +28,10 @@ function HomePage() {
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/pitch" element={<PitchPage />} />
-      </Routes>
-      <ChatBot />
-    </>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/pitch" element={<PitchPage />} />
+    </Routes>
   );
 }
 

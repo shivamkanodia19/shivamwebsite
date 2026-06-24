@@ -1,25 +1,20 @@
-import { tractionStats } from "@/data/slides";
+const signals = [
+  ["Build", "Software & automation"],
+  ["Analyze", "Data & operations"],
+  ["Decide", "Product & strategy"],
+];
 
 export function CredibilityStrip() {
   return (
-    <div className="border-y border-[#D8D0C4] bg-[#F0ECE3]">
-      <div className="mx-auto max-w-6xl px-6 py-5 md:px-12">
-        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
-          {tractionStats.map((stat) => (
-            <div key={stat.key} className="flex items-baseline gap-3">
-              <span className="font-playfair text-[22px] leading-none text-[#1C1C1A]">{stat.value}</span>
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8A8580]">{stat.label}</span>
-            </div>
-          ))}
-          <div className="flex items-baseline gap-3">
-            <span className="font-playfair text-[22px] leading-none text-[#1C1C1A]">5+</span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8A8580]">shipped projects</span>
+    <div className="signal-strip" aria-label="Core capabilities">
+      <div className="site-container signal-grid">
+        <p className="signal-lead">One operating thread</p>
+        {signals.map(([verb, detail]) => (
+          <div key={verb} className="signal-item">
+            <span>{verb}</span>
+            <small>{detail}</small>
           </div>
-          <div className="flex items-baseline gap-3">
-            <span className="font-playfair text-[22px] leading-none text-[#1C1C1A]">#1</span>
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8A8580]">Texas state bench press record</span>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
