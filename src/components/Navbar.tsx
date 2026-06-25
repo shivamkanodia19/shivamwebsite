@@ -5,7 +5,7 @@ const links = [
   ["Work", "matic"],
   ["Research", "research"],
   ["Projects", "projects"],
-  ["Recognition", "recognition"],
+  ["Outside work", "recognition"],
 ] as const;
 
 function scrollToSection(id: string) {

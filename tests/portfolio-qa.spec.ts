@@ -12,7 +12,7 @@ for (const viewport of homeViewports) {
   test(`homepage layout ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: "I build products and turn data into decisions." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "I turn messy systems into working software." })).toBeVisible();
     await expect(page.locator(".role-card")).toHaveCount(3);
     await expect(page.locator("img")).not.toHaveCount(0);
 
@@ -118,6 +118,34 @@ test("30-second evidence scan exposes proof and contact paths", async ({ page })
   await expect(page.getByRole("link", { name: /Email/ }).first()).toHaveAttribute("href", /^mailto:/);
 });
 
+test("outside work keeps only the strength record proof", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/#recognition");
+  await expect(page.getByRole("heading", { name: "Strength outside the screen." })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Three first-place USAPL meet results/ })).toHaveAttribute("href", /openpowerlifting\.org/);
+  await expect(page.getByText("152.5 kg competition bench.")).toBeVisible();
+  const sectionText = await page.locator("#recognition").innerText();
+  expect(sectionText).not.toMatch(/Persona|Chase redesign|Aggie Venture Fund|EH EDGE|Student Research Week/);
+});
+
+test("hero profile card is a primary visual element", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const portrait = page.locator(".hero-portrait");
+  const proof = page.locator(".hero-proof");
+  await expect(proof).toBeVisible();
+  const metrics = await portrait.evaluate((image) => {
+    const imageRect = image.getBoundingClientRect();
+    const cardRect = image.closest(".hero-proof")?.getBoundingClientRect();
+    return {
+      portraitWidth: imageRect.width,
+      cardWidth: cardRect?.width ?? 0,
+    };
+  });
+  expect(metrics.portraitWidth).toBeGreaterThanOrEqual(140);
+  expect(metrics.cardWidth).toBeGreaterThanOrEqual(480);
+});
+
 test("ClinicalHours uses a real local product artifact without exposing private records", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/#clinicalhours");
@@ -159,7 +187,7 @@ for (const viewport of [
   test(`pitch layout ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/pitch");
-    await expect(page.getByRole("heading", { name: "I build products and turn data into decisions." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "I turn messy systems into working software." })).toBeVisible();
     await expect(page.getByText("Matic", { exact: true })).toBeVisible();
     await expect(page.getByText("Legends Global", { exact: true })).toBeVisible();
     await expect(page.getByText("ClinicalHours", { exact: true })).toBeVisible();

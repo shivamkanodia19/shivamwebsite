@@ -54,14 +54,6 @@ const archiveProjects = [
   ["Blackjack Simulator", "React training simulator", "Designed in Figma and deployed"],
 ] as const;
 
-const recognition = [
-  ["Persona", "Product@TAMU Ideathon, 2nd place"],
-  ["Chase redesign", "Product@TAMU semester project, 3rd place"],
-  ["Aggie Venture Fund", "Cohort 6"],
-  ["EH EDGE", "One of 35 in the 2026 cohort"],
-  ["Student Research Week", "Cattle futures forecasting presenter"],
-] as const;
-
 export function ProfileSections() {
   return (
     <div className="page-sections">
@@ -69,7 +61,7 @@ export function ProfileSections() {
         <a href="#matic">Work</a>
         <a href="#research">Research</a>
         <a href="#projects">Projects</a>
-        <a href="#recognition">Recognition</a>
+        <a href="#recognition">Outside work</a>
       </nav>
 
       <section id="work" className="section-block featured-work">
@@ -238,14 +230,13 @@ export function ProfileSections() {
 
       <section id="recognition" className="section-block recognition-section">
         <div className="site-container">
-          <SectionHeading label="Recognition" title="Selected recognition." />
-          <div className="recognition-list">
-            {recognition.map(([name, result], index) => (
-              <div key={name} className="recognition-row"><span>0{index + 1}</span><strong>{name}</strong><p>{result}</p></div>
-            ))}
-          </div>
+          <SectionHeading
+            label="Outside work"
+            title="Strength outside the screen."
+            intro="A compact personal proof point: consistent training, competition, and measurable progress."
+          />
           <a className="personal-proof" href="https://www.openpowerlifting.org/u/shivamkanodia" target="_blank" rel="noopener noreferrer">
-            <span className="proof-stamp proof-stamp-light">OUTSIDE WORK</span>
+            <span className="proof-stamp proof-stamp-light">USAPL</span>
             <strong>Three first-place USAPL meet results.</strong>
             <p>152.5 kg competition bench.</p>
             <b aria-hidden="true">↗</b>

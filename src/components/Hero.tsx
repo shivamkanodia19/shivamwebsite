@@ -38,10 +38,10 @@ export function Hero() {
       <div className="site-container hero-grid">
         <div className="hero-copy">
           <motion.p {...reveal(0)} className="eyebrow">
-            Software engineering / Business intelligence / Founder
+            Builder / Analyst / Founder
           </motion.p>
           <motion.h1 {...reveal(0.06)} id="hero-title" className="hero-title">
-            I build products and turn data into decisions.
+            I turn messy systems into working software.
           </motion.h1>
           <motion.p {...reveal(0.13)} className="hero-intro">
             Software engineering at Matic. Business intelligence at Legends Global. Co-founder of ClinicalHours, a live clinic operations platform.

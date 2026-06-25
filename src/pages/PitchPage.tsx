@@ -19,9 +19,9 @@ export function PitchPage() {
 
         <section className="grid gap-8 py-10 lg:grid-cols-[1fr_1.05fr] lg:items-end lg:py-14">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#8fa9ff]">Software engineering / Business intelligence / Founder</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#8fa9ff]">Builder / Analyst / Founder</p>
             <h1 className="mt-5 max-w-[760px] text-[clamp(48px,6.5vw,92px)] font-semibold leading-[0.92] tracking-[-0.065em]">
-              I build products and turn data into <span className="text-[#8fa9ff]">decisions.</span>
+              I turn messy systems into <span className="text-[#8fa9ff]">working software.</span>
             </h1>
             <p className="mt-6 max-w-[620px] text-[clamp(16px,1.7vw,22px)] leading-relaxed text-[#c3cbe0]">
               Software engineering at Matic. Business intelligence at Legends Global. Co-founder of ClinicalHours, a live clinic operations platform.
