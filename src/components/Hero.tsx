@@ -38,13 +38,13 @@ export function Hero() {
       <div className="site-container hero-grid">
         <div className="hero-copy">
           <motion.p {...reveal(0)} className="eyebrow">
-            Shivam Kanodia / Product-minded engineer
+            Software engineering / Business intelligence / Founder
           </motion.p>
           <motion.h1 {...reveal(0.06)} id="hero-title" className="hero-title">
-            I build things <span>that work.</span>
+            I build products and turn data into decisions.
           </motion.h1>
           <motion.p {...reveal(0.13)} className="hero-intro">
-            Software, products, research, and everything it takes to ship them.
+            Software engineering at Matic. Business intelligence at Legends Global. Co-founder of ClinicalHours, a live clinic operations platform.
           </motion.p>
           <motion.div {...reveal(0.2)} className="hero-actions">
             <a href="#matic" className="button button-primary">Explore work <span aria-hidden="true">↓</span></a>
@@ -55,8 +55,8 @@ export function Hero() {
         <motion.aside {...reveal(0.14)} className="hero-proof" aria-label="Current roles">
           <div className="hero-proof-heading">
             <div>
-              <p className="proof-kicker">Current work</p>
-              <p className="proof-title">Three operating contexts. One record of shipping.</p>
+              <p className="proof-kicker">Shivam Kanodia</p>
+              <p className="proof-title">Engineer. Analyst. Founder.</p>
             </div>
             <img src="/headshot.jpg" alt="Shivam Kanodia" className="hero-portrait" />
           </div>

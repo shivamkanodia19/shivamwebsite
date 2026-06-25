@@ -19,12 +19,12 @@ export function PitchPage() {
 
         <section className="grid gap-8 py-10 lg:grid-cols-[1fr_1.05fr] lg:items-end lg:py-14">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#8fa9ff]">Shivam Kanodia / Product-minded engineer</p>
-            <h1 className="mt-5 max-w-[720px] text-[clamp(52px,7vw,104px)] font-semibold leading-[0.9] tracking-[-0.07em]">
-              I build things <span className="block text-[#8fa9ff]">that work.</span>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#8fa9ff]">Software engineering / Business intelligence / Founder</p>
+            <h1 className="mt-5 max-w-[760px] text-[clamp(48px,6.5vw,92px)] font-semibold leading-[0.92] tracking-[-0.065em]">
+              I build products and turn data into <span className="text-[#8fa9ff]">decisions.</span>
             </h1>
             <p className="mt-6 max-w-[620px] text-[clamp(16px,1.7vw,22px)] leading-relaxed text-[#c3cbe0]">
-              Software, products, research, and everything it takes to ship them.
+              Software engineering at Matic. Business intelligence at Legends Global. Co-founder of ClinicalHours, a live clinic operations platform.
             </p>
           </div>
 
@@ -47,8 +47,8 @@ export function PitchPage() {
         <section className="grid gap-3 border-t border-white/15 pt-5 md:grid-cols-3">
           <article className="min-h-[210px] bg-[#e3f0e8] p-6 text-[#153d2c]">
             <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#1e6a4c]">ClinicalHours / Shipped</p>
-            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.035em]">A product with public proof.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#416453]">Good Bull Pitch, 3rd place. Ideas Challenge finalist. Meloy Bullet Pitch, 3 of 60. First clinic pilot partner.</p>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.035em]">Built from idea to clinic pilot.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-[#416453]">200+ student users. First clinic pilot partner. Product, onboarding, scheduling, go-to-market work, and operations.</p>
           </article>
           <article className="min-h-[210px] bg-[#f4e3c8] p-6 text-[#3b2914]">
             <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#8b500f]">Research / Presented</p>

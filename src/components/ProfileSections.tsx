@@ -16,106 +16,51 @@ function SectionHeading({ label, title, intro }: SectionHeadingProps) {
   );
 }
 
-function MaticWorkflow() {
-  return (
-    <div className="workflow-visual" aria-label="Public Matic product context from clinical input to physician review">
-      <div className="workflow-label-row">
-        <span>Public product context</span>
-        <span>Physician in control</span>
-      </div>
-      <div className="workflow-track">
-        {["Capture", "Structure", "Summarize", "Review"].map((step, index) => (
-          <div key={step} className="workflow-step">
-            <span>0{index + 1}</span>
-            <strong>{step}</strong>
-          </div>
-        ))}
-      </div>
-      <div className="workflow-status"><span aria-hidden="true" />Company-level context only. Work details remain private.</div>
-    </div>
-  );
-}
-
 const clinicalMilestones = [
-  { stamp: "3RD PLACE", name: "Good Bull Pitch", detail: "$200 award / March 2026" },
-  { stamp: "FINALIST", name: "Ideas Challenge", detail: "McFerrin Center" },
-  { stamp: "3 OF 60", name: "Meloy Bullet Pitch", detail: "Selected placement" },
-  { stamp: "1 OF 3", name: "Meloy Kickstart Launch", detail: "Selected from 11 teams" },
-  { stamp: "PILOT", name: "BCS Free Health Clinic", detail: "First clinic partner" },
-  { stamp: "200+", name: "Student users", detail: "Conservative public milestone" },
-];
+  { value: "3RD", name: "Good Bull Pitch", detail: "$200 award" },
+  { value: "FINALIST", name: "Ideas Challenge", detail: "McFerrin Center" },
+  { value: "3 OF 60", name: "Meloy Bullet Pitch", detail: "Selected placement" },
+  { value: "1 OF 3", name: "Meloy Kickstart Launch", detail: "Selected from 11" },
+] as const;
 
-const projects = [
+const featuredProjects = [
   {
     name: "Clara",
-    meta: "Healthcare workflow / Prototype",
-    what: "AI voice intake concept for clinical pre-visit workflows.",
-    owned: "System design from conversational intake to structured clinical information.",
-    proof: "Working workflow prototype documented in the portfolio.",
-  },
-  {
-    name: "Celvio",
-    meta: "Medical product / February 2026",
-    what: "Wearable NMES rehabilitation concept.",
-    owned: "Product strategy, business case, PCB layout, and pulse generator circuitry.",
-    proof: "$45 COGS target with a product demonstration and competition pitch.",
-    image: "/img/celvio-deck.jpg",
-    alt: "Celvio MedXplore presentation title slide listing Shivam Kanodia on the team",
+    type: "Healthcare workflow",
+    description: "AI voice intake concept for clinical pre-visit workflows.",
+    ownership: "Designed the flow from conversation to structured clinical information.",
+    proof: "Working workflow prototype",
   },
   {
     name: "FinSeek",
-    meta: "Fraud detection / January 2026",
-    what: "Full-stack fraud detection platform built for TAMUHack.",
-    owned: "Model ensemble, API, risk dashboard, and containerized delivery.",
-    proof: "95%+ precision and 99% fewer false positives, self-reported on PaySim.",
+    type: "Fraud detection",
+    description: "Full-stack fraud detection platform built for TAMUHack.",
+    ownership: "Built the model ensemble, API, risk dashboard, and containerized delivery.",
+    proof: "95%+ precision on PaySim, self-reported",
   },
   {
-    name: "Persona",
-    meta: "Digital identity / November 2025",
-    what: "Cross-platform identity and reputation concept.",
-    owned: "Product development, interactive prototype, pitch, and launch story.",
-    proof: "Product@TAMU 24-hour Ideathon, 2nd place.",
-    image: "/img/persona-win.jpg",
-    alt: "Persona team holding certificates after placing second at the Product at TAMU Ideathon",
+    name: "Celvio",
+    type: "Medical product",
+    description: "Wearable NMES rehabilitation concept.",
+    ownership: "Owned product strategy, business case, PCB layout, and pulse generator circuitry.",
+    proof: "$45 COGS target and product demonstration",
   },
-];
+] as const;
 
 const archiveProjects = [
-  {
-    name: "JPMorgan Chase App Redesign",
-    meta: "Product@TAMU / August to November 2025",
-    owned: "Semester-long Figma redesign, MVP, pitch deck, and AI assistant concept.",
-    proof: "3rd place. Impact figures were estimates, not measured outcomes.",
-  },
-  {
-    name: "Study Buddy",
-    meta: "Google Labs Make-A-Thon / November 2025",
-    owned: "Prompt design for personalized study guides and practice tests in a three-person team.",
-    proof: "Built and presented on the Google Opal platform.",
-  },
-  {
-    name: "Ignite Design Challenge",
-    meta: "Engineering design / October 2025",
-    owned: "CAD solution, technical documentation, and final presentation for a Formula SAE stability scenario.",
-    proof: "Completed Texas A&amp;M first-year engineering design challenge.",
-  },
-  {
-    name: "Blackjack Simulator",
-    meta: "React application / June to September 2025",
-    owned: "Single-page simulator with bankroll tracking, strategy guidance, and a testing mode.",
-    proof: "Designed in Figma and deployed as a working application.",
-  },
-];
+  ["Persona", "Digital identity concept", "Product@TAMU Ideathon, 2nd place"],
+  ["JPMorgan Chase App Redesign", "Consumer finance product", "Product@TAMU, 3rd place"],
+  ["Study Buddy", "Personalized AI study tools", "Built and presented at Google Labs Make-A-Thon"],
+  ["Blackjack Simulator", "React training simulator", "Designed in Figma and deployed"],
+] as const;
 
 const recognition = [
-  ["ClinicalHours", "Good Bull Pitch, 3rd place / Ideas Challenge finalist"],
-  ["Meloy", "Bullet Pitch, 3 of 60 / Kickstart Launch, 1 of 3 from 11"],
   ["Persona", "Product@TAMU Ideathon, 2nd place"],
   ["Chase redesign", "Product@TAMU semester project, 3rd place"],
   ["Aggie Venture Fund", "Cohort 6"],
   ["EH EDGE", "One of 35 in the 2026 cohort"],
-  ["Research", "Texas A&amp;M Student Research Week presenter"],
-];
+  ["Student Research Week", "Cattle futures forecasting presenter"],
+] as const;
 
 export function ProfileSections() {
   return (
@@ -130,104 +75,100 @@ export function ProfileSections() {
       <section id="work" className="section-block featured-work">
         <div className="site-container">
           <SectionHeading
-            label="Featured experience"
-            title="The record, in context."
-            intro="Software inside clinical workflows. Business intelligence around live experiences. A healthcare product built from zero."
+            label="Experience"
+            title="Engineering, intelligence, and ownership."
+            intro="Two internships inside complex operating environments, followed by a product built all the way to a clinic pilot."
           />
 
-          <div className="work-grid">
-            <article id="matic" className="work-card work-card-matic">
-              <div className="work-card-topline">
-                <span className="proof-stamp">CURRENT</span>
-                <span className="work-date">2026 / Current</span>
+          <div className="experience-grid">
+            <article id="matic" className="experience-card matic-card">
+              <div className="experience-card-topline">
+                <span className="proof-stamp proof-stamp-light">CURRENT</span>
+                <span>2026</span>
               </div>
-              <div className="experience-brand experience-brand-matic">
-                <a href="https://maticinside.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit Matic">
-                  <img src="/brand/matic-logo-white.svg" alt="Matic" />
-                </a>
-                <span>Software Engineering Intern</span>
-              </div>
-              <div className="matic-layout">
-                <div className="work-copy">
-                  <h3>Software for clinical work that has to hold up in practice.</h3>
-                  <p className="work-summary">Engineering in the context of Matic's public clinical intelligence platform, which spans documentation, coding, summarization, and care workflows.</p>
-                  <div className="proof-list">
-                    <p><span>Scope</span><strong>Healthcare software and physician-facing workflows</strong></p>
-                    <p><span>Constraint</span><strong>Accuracy, speed, and human review all matter</strong></p>
-                    <p><span>Safety</span><strong>Company-level context only</strong></p>
-                  </div>
-                </div>
-                <MaticWorkflow />
+              <a className="experience-logo matic-logo" href="https://maticinside.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit Matic">
+                <img src="/brand/matic-logo-white.svg" alt="Matic" />
+              </a>
+              <p className="role-label">Software Engineering Intern</p>
+              <h3>Building software for clinical workflows where accuracy and speed both matter.</h3>
+              <p className="experience-summary">Software engineering inside Matic&apos;s clinical intelligence platform, where healthcare context, product requirements, and software quality meet.</p>
+              <div className="experience-signals" aria-label="Matic role scope">
+                <span>Production software</span>
+                <span>Clinical workflows</span>
+                <span>Product quality</span>
               </div>
             </article>
 
-            <article id="legends" className="work-card work-card-legends">
-              <div className="work-card-topline">
-                <span className="proof-stamp proof-stamp-dark">IN PROGRESS</span>
-                <span className="work-date">Summer 2026</span>
+            <article id="legends" className="experience-card legends-card">
+              <div className="experience-card-topline">
+                <span className="proof-stamp proof-stamp-dark">SUMMER 2026</span>
+                <span>IN PROGRESS</span>
               </div>
-              <div className="experience-brand experience-brand-legends">
-                <a href="https://legendsglobal.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Legends Global">
-                  <img src="/brand/legends-global-logo.svg" alt="Legends Global" />
-                </a>
-                <span>Business Intelligence Intern</span>
+              <a className="experience-logo legends-logo" href="https://legendsglobal.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Legends Global">
+                <img src="/brand/legends-global-logo.svg" alt="Legends Global" />
+              </a>
+              <p className="role-label">Business Intelligence Intern</p>
+              <h3>Turning hospitality data into clearer operating decisions.</h3>
+              <p className="experience-summary">Business intelligence for a live-events business, connecting analysis to decisions behind venue, hospitality, and guest operations.</p>
+              <div className="legends-signal" aria-label="Business intelligence from data to operating decision">
+                <span>Data</span><i aria-hidden="true" /><span>Signal</span><i aria-hidden="true" /><span>Decision</span>
               </div>
-              <h3>Data in service of live hospitality decisions.</h3>
-              <p className="work-summary">Supporting the hospitality team with business intelligence in the public context of sports and entertainment experiences.</p>
-              <div className="decision-line" aria-label="Business intelligence flow">
-                <span>Operating context</span><i aria-hidden="true" /><span>Useful signal</span><i aria-hidden="true" /><span>Clear decision</span>
-              </div>
-              <p className="safety-note">No internal venue data, recommendations, or performance metrics are published here.</p>
             </article>
+          </div>
+        </div>
+      </section>
 
-            <article id="clinicalhours" className="work-card work-card-clinical">
-              <div className="work-card-topline">
-                <span className="proof-stamp proof-stamp-green">SHIPPED</span>
-                <span className="work-date">2026 / Current</span>
-              </div>
-              <div className="experience-brand experience-brand-clinical">
+      <section id="clinicalhours" className="section-block clinical-section">
+        <div className="site-container">
+          <SectionHeading
+            label="ClinicalHours"
+            title="Built from idea to clinic pilot."
+            intro="Product, users, operations, and recognition in one founder story."
+          />
+
+          <article className="clinical-case">
+            <div className="clinical-story">
+              <div className="clinical-brand">
                 <a href="https://clinicalhours.org/" target="_blank" rel="noopener noreferrer" aria-label="Visit ClinicalHours">
                   <img src="/brand/clinicalhours-logo.png" alt="ClinicalHours logo" />
                   <strong>ClinicalHours</strong>
                 </a>
                 <span>Co-founder</span>
               </div>
-              <h3>Volunteer infrastructure built around the clinic.</h3>
-              <p className="work-summary">Co-building the application, onboarding, scheduling, and communication workflow connecting clinics with pre-health students.</p>
-              <div className="clinical-ownership">
-                <span>Product</span><span>Go to market</span><span>Operations</span><span>Pilot delivery</span>
+              <h3>Built the operating layer between clinics and student volunteers.</h3>
+              <p>Co-founded ClinicalHours and owned the product, onboarding, scheduling, go-to-market work, and pilot rollout from first build to first clinic partner.</p>
+              <div className="clinical-stats" aria-label="ClinicalHours traction">
+                <div><strong>200+</strong><span>student users</span></div>
+                <div><strong>01</strong><span>first clinic pilot partner</span></div>
+                <div><strong>05</strong><span>ownership areas</span></div>
               </div>
-              <figure className="clinical-photo">
-                <img src="/img/clinicalhours-pitch.jpg" alt="Shivam presenting ClinicalHours to judges" loading="lazy" />
-                <figcaption>Pitching the product and clinic-side workflow.</figcaption>
-              </figure>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section id="clinicalhours-recognition" className="section-block clinical-recognition-section">
-        <div className="site-container">
-          <SectionHeading
-            label="ClinicalHours recognition"
-            title="A product with public proof."
-            intro="Exact placements, a clinic partner, and the conservative public user milestone. No inflated totals."
-          />
-          <div className="clinical-evidence-grid">
-            <figure className="award-photo">
-              <img src="/img/clinicalhours-win.jpg" alt="ClinicalHours team holding the Good Bull Pitch award check" loading="lazy" />
-              <figcaption>Good Bull Pitch / 3rd place / $200</figcaption>
-            </figure>
-            <div className="milestone-rail" aria-label="ClinicalHours verified milestones">
-              {clinicalMilestones.map((item) => (
-                <article key={item.name} className="milestone-card">
-                  <span>{item.stamp}</span>
-                  <h3>{item.name}</h3>
-                  <p>{item.detail}</p>
-                </article>
-              ))}
             </div>
-          </div>
+
+            <figure className="product-proof">
+              <img src="/img/clinicalhours-product.png" alt="ClinicalHours opportunity map interface" width="1800" height="1039" />
+              <figcaption><span>LIVE PRODUCT</span> Opportunity discovery and tracking across clinical sites.</figcaption>
+            </figure>
+
+            <div className="clinical-ownership" aria-label="ClinicalHours founder ownership">
+              <span>Product</span><span>Onboarding</span><span>Scheduling</span><span>Go to market</span><span>Pilot rollout</span>
+            </div>
+
+            <div className="clinical-proof-row">
+              <div className="milestone-rail" aria-label="ClinicalHours recognition">
+                {clinicalMilestones.map((item) => (
+                  <article key={item.name} className="milestone-card">
+                    <span>{item.value}</span>
+                    <h4>{item.name}</h4>
+                    <p>{item.detail}</p>
+                  </article>
+                ))}
+              </div>
+              <figure className="pitch-proof">
+                <img src="/img/clinicalhours-pitch.jpg" alt="Shivam presenting ClinicalHours to judges" loading="lazy" />
+                <figcaption>Presenting the product and clinic workflow.</figcaption>
+              </figure>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -235,39 +176,30 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="Research"
-            title="Two decision-support strands."
-            intro="Applied modeling with Dr. Karun Kaniyamattam, presented with careful language about what is complete and what remains in progress."
+            title="Models built for real decisions."
+            intro="Forecasting, validation, and decision support with Dr. Karun Kaniyamattam."
           />
           <div className="research-grid">
-            <article className="research-card research-cattle">
+            <article className="research-primary">
               <div className="research-copy">
-                <div className="card-meta"><span className="proof-stamp proof-stamp-blue">PRESENTED</span><span>Texas A&amp;M Student Research Week</span></div>
-                <h3>Cattle futures forecasting for feedlot decision support</h3>
-                <p>A forecasting dashboard built from 65 inputs across six cost categories. SARIMA, LSTM, and XGBoost were compared through walk-forward validation.</p>
-                <ul>
-                  <li><span>Researcher</span>Shivam Kanodia</li>
-                  <li><span>Faculty</span>Dr. Karun Kaniyamattam</li>
-                  <li><span>Status</span>Research in progress</li>
-                </ul>
+                <p className="card-kicker">PRESENTED / STUDENT RESEARCH WEEK</p>
+                <h3>Cattle futures forecasting for feedlot planning.</h3>
+                <p>Built a 65-input forecasting dashboard and compared SARIMA, LSTM, and XGBoost through walk-forward validation for feedlot cattle futures planning.</p>
+                <div className="research-metrics">
+                  <span><strong>65</strong> inputs</span>
+                  <span><strong>06</strong> cost categories</span>
+                  <span><strong>03</strong> model families</span>
+                </div>
               </div>
-              <div className="poster-panel">
-                <a href="/img/research-poster.jpg" target="_blank" rel="noopener noreferrer" className="poster-link">
-                  <img src="/img/research-poster.jpg" alt="Full cattle futures forecasting research poster" width="483" height="378" loading="lazy" />
-                  <span>View full poster <b aria-hidden="true">↗</b></span>
-                </a>
-                <p>Original available asset / 483 by 378 pixels / shown without crop</p>
-              </div>
+              <a href="/img/research-poster.jpg" target="_blank" rel="noopener noreferrer" className="poster-link">
+                <img src="/img/research-poster.jpg" alt="Full cattle futures forecasting research poster" width="483" height="378" loading="lazy" />
+                <span>View full poster <b aria-hidden="true">↗</b></span>
+              </a>
             </article>
-
-            <article className="research-card research-dairy">
-              <div className="card-meta"><span className="proof-stamp proof-stamp-amber">IN PROGRESS</span><span>Systems modeling</span></div>
-              <h3>Dairy farm decision support</h3>
-              <p>Building systems models and economic decision-support tools for dairy-farm management with Dr. Karun Kaniyamattam.</p>
-              <div className="research-note">
-                <span>Verified scope</span>
-                <strong>Forecasting dashboards, decision-support tools, systems modeling, and machine learning.</strong>
-              </div>
-              <p className="safety-note">A formal title, model artifact, collaborator list, and publication status remain unpublished until confirmed.</p>
+            <article className="research-secondary">
+              <p className="card-kicker">RESEARCH IN PROGRESS</p>
+              <h3>Dairy farm decision support.</h3>
+              <p>Extending the research into systems models and economic decision tools for dairy management.</p>
             </article>
           </div>
         </div>
@@ -276,80 +208,46 @@ export function ProfileSections() {
       <section id="projects" className="section-block projects-section">
         <div className="site-container">
           <SectionHeading
-            label="Selected projects"
-            title="Different problems. Concrete ownership."
-            intro="Each build states the premise, the part Shivam owned, and the evidence behind the result."
+            label="Projects"
+            title="A wider build range."
+            intro="Supporting proof across healthcare, machine learning, hardware, and consumer products."
           />
-
           <div className="featured-projects">
-            {projects.slice(0, 2).map((project, index) => (
-              <article key={project.name} className={`project-card project-card-featured project-card-${index + 1}`} tabIndex={0}>
-                <div className="project-card-copy">
-                  <p className="project-meta">{project.meta}</p>
-                  <h3>{project.name}</h3>
-                  <p className="project-premise">{project.what}</p>
-                  <dl>
-                    <div><dt>Owned</dt><dd>{project.owned}</dd></div>
-                    <div><dt>Proof</dt><dd>{project.proof}</dd></div>
-                  </dl>
-                </div>
-                {project.image ? <img src={project.image} alt={project.alt} loading="lazy" /> : (
-                  <div className="clara-flow" aria-label="Clara workflow concept">
-                    <span>Conversation</span><i aria-hidden="true">→</i><span>Structured intake</span><i aria-hidden="true">→</i><span>Clinical handoff</span>
-                  </div>
-                )}
+            {featuredProjects.map((project, index) => (
+              <article key={project.name} className="project-card" tabIndex={0}>
+                <div className="project-index">0{index + 1}</div>
+                <p className="project-meta">{project.type}</p>
+                <h3>{project.name}</h3>
+                <p className="project-description">{project.description}</p>
+                <p className="project-owned">{project.ownership}</p>
+                <strong>{project.proof}</strong>
               </article>
             ))}
           </div>
 
-          <div className="medium-projects">
-            {projects.slice(2).map((project) => (
-              <article key={project.name} className="project-card project-card-medium" tabIndex={0}>
-                {project.image ? <img src={project.image} alt={project.alt} loading="lazy" /> : null}
-                <div className="project-card-copy">
-                  <p className="project-meta">{project.meta}</p>
-                  <h3>{project.name}</h3>
-                  <p className="project-premise">{project.what}</p>
-                  <dl>
-                    <div><dt>Owned</dt><dd>{project.owned}</dd></div>
-                    <div><dt>Proof</dt><dd>{project.proof}</dd></div>
-                  </dl>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div className="archive-heading"><p className="eyebrow">More builds</p><span>04 archived projects</span></div>
+          <div className="archive-heading"><p className="eyebrow">More builds</p><span>04 selected</span></div>
           <div className="project-archive">
-            {archiveProjects.map((project, index) => (
-              <article key={project.name} className="archive-row">
-                <span className="archive-index">0{index + 1}</span>
-                <div><p>{project.meta}</p><h3>{project.name}</h3></div>
-                <p><strong>Owned:</strong> {project.owned}</p>
-                <p><strong>Proof:</strong> {project.proof}</p>
+            {archiveProjects.map(([name, type, proof], index) => (
+              <article key={name} className="archive-row">
+                <span>0{index + 1}</span><h3>{name}</h3><p>{type}</p><strong>{proof}</strong>
               </article>
             ))}
           </div>
-          <a className="writing-link" href="https://medium.com/@shivamkanodia77/inside-fuzzingbrain-how-an-llm-powered-crs-detects-and-patches-vulnerabilities-at-scale-918fac5c5b1c" target="_blank" rel="noopener noreferrer">
-            <span>Technical writing</span>
-            <strong>Inside FuzzingBrain</strong>
-            <span className="writing-action">Read on Medium ↗</span>
-          </a>
         </div>
       </section>
 
       <section id="recognition" className="section-block recognition-section">
         <div className="site-container">
-          <SectionHeading label="Recognition and programs" title="A concise index of verified proof." />
+          <SectionHeading label="Recognition" title="Selected recognition." />
           <div className="recognition-list">
             {recognition.map(([name, result], index) => (
               <div key={name} className="recognition-row"><span>0{index + 1}</span><strong>{name}</strong><p>{result}</p></div>
             ))}
           </div>
           <a className="personal-proof" href="https://www.openpowerlifting.org/u/shivamkanodia" target="_blank" rel="noopener noreferrer">
-            <span className="proof-stamp">PERSONAL PROOF</span>
+            <span className="proof-stamp proof-stamp-light">OUTSIDE WORK</span>
             <strong>Three first-place USAPL meet results.</strong>
-            <p>152.5 kg competition bench. The public record is linked, and the broader state-record label is intentionally not claimed.</p>
+            <p>152.5 kg competition bench.</p>
             <b aria-hidden="true">↗</b>
           </a>
         </div>
@@ -358,15 +256,13 @@ export function ProfileSections() {
       <section id="resume" className="resume-section">
         <div className="site-container resume-panel">
           <div>
-            <p className="eyebrow">The short version</p>
-            <h2>Roles, work, and proof in one page.</h2>
+            <p className="eyebrow">Contact</p>
+            <h2>See the full record.</h2>
           </div>
-          <div className="resume-actions">
-            <p>Open the resume, scan LinkedIn, or start a direct conversation.</p>
-            <div>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="button button-light">Open resume ↗</a>
-              <a href="mailto:shivamkanodia77@gmail.com" className="text-link-light">Email Shivam →</a>
-            </div>
+          <div className="contact-actions">
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a>
+            <a href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+            <a href="mailto:shivamkanodia77@gmail.com">Email <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </section>

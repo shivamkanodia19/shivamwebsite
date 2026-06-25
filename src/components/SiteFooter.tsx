@@ -6,7 +6,7 @@ export function SiteFooter() {
       <div className="site-container footer-grid">
         <div>
           <p className="footer-name">Shivam Kanodia</p>
-          <p className="footer-position">Software, products, research, and shipped work.</p>
+          <p className="footer-position">Software engineering, business intelligence, and product ownership.</p>
         </div>
         <div className="footer-links">
           <a href={`mailto:${contactLinks.email}`}>Email <span aria-hidden="true">↗</span></a>

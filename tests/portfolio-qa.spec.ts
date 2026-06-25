@@ -12,7 +12,7 @@ for (const viewport of homeViewports) {
   test(`homepage layout ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: "I build things that work." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "I build products and turn data into decisions." })).toBeVisible();
     await expect(page.locator(".role-card")).toHaveCount(3);
     await expect(page.locator("img")).not.toHaveCount(0);
 
@@ -85,11 +85,71 @@ test("project proof is keyboard visible and reduced motion is respected", async 
   await page.goto("/#projects");
   const project = page.locator(".project-card").first();
   await project.focus();
-  await expect(project.getByText("Owned")).toBeVisible();
+  await expect(project.getByText("Designed the flow from conversation to structured clinical information.")).toBeVisible();
   const focusStyle = await project.evaluate((element) => getComputedStyle(element).outlineStyle);
   expect(focusStyle).not.toBe("none");
-  const animationDuration = await page.locator(".workflow-track").evaluate((element) => getComputedStyle(element, "::before").animationDuration);
-  expect(Number.parseFloat(animationDuration)).toBeLessThanOrEqual(0.001);
+  const transitionDuration = await project.evaluate((element) => getComputedStyle(element).transitionDuration);
+  expect(Number.parseFloat(transitionDuration)).toBeLessThanOrEqual(0.001);
+});
+
+test("15-second recruiter scan identifies the complete range", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  await expect(page.getByText("Software Engineering Intern", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("Business Intelligence Intern", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("Co-founder", { exact: true }).first()).toBeVisible();
+  const experienceTop = await page.locator("#work").evaluate((element) => element.getBoundingClientRect().top);
+  expect(experienceTop).toBeLessThan(900);
+});
+
+test("30-second evidence scan exposes proof and contact paths", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/");
+  for (const proof of [
+    "200+",
+    "first clinic pilot partner",
+    "65",
+    "Working workflow prototype",
+  ]) {
+    await expect(page.getByText(proof, { exact: true }).first()).toBeAttached();
+  }
+  await expect(page.getByRole("link", { name: /Resume/ }).first()).toHaveAttribute("href", "/resume.pdf");
+  await expect(page.getByRole("link", { name: /LinkedIn/ }).first()).toHaveAttribute("href", /linkedin\.com/);
+  await expect(page.getByRole("link", { name: /Email/ }).first()).toHaveAttribute("href", /^mailto:/);
+});
+
+test("ClinicalHours uses a real local product artifact without exposing private records", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/#clinicalhours");
+  const product = page.getByAltText("ClinicalHours opportunity map interface");
+  await product.scrollIntoViewIfNeeded();
+  await expect(product).toBeVisible();
+  const metrics = await product.evaluate((image) => ({
+    src: (image as HTMLImageElement).getAttribute("src"),
+    naturalWidth: (image as HTMLImageElement).naturalWidth,
+    renderedWidth: image.getBoundingClientRect().width,
+  }));
+  expect(metrics.src).toBe("/img/clinicalhours-product.png");
+  expect(metrics.naturalWidth).toBe(1800);
+  expect(metrics.renderedWidth).toBeLessThan(metrics.naturalWidth);
+  const sectionText = await page.locator("#clinicalhours").innerText();
+  expect(sectionText).not.toMatch(/patient|email address|phone/i);
+});
+
+test("page length and ClinicalHours placement meet scan targets", async ({ page }) => {
+  for (const viewport of [
+    { width: 1440, height: 900, maxPageHeight: 6500 },
+    { width: 390, height: 844, maxPageHeight: 8000 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    const metrics = await page.evaluate(() => ({
+      pageHeight: document.documentElement.scrollHeight,
+      clinicalTop: document.querySelector("#clinicalhours")?.getBoundingClientRect().top ?? Infinity,
+    }));
+    expect(metrics.pageHeight).toBeLessThanOrEqual(viewport.maxPageHeight);
+    expect(metrics.clinicalTop).toBeLessThanOrEqual(viewport.height * 3);
+  }
 });
 
 for (const viewport of [
@@ -99,7 +159,7 @@ for (const viewport of [
   test(`pitch layout ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/pitch");
-    await expect(page.getByRole("heading", { name: "I build things that work." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "I build products and turn data into decisions." })).toBeVisible();
     await expect(page.getByText("Matic", { exact: true })).toBeVisible();
     await expect(page.getByText("Legends Global", { exact: true })).toBeVisible();
     await expect(page.getByText("ClinicalHours", { exact: true })).toBeVisible();
