@@ -56,7 +56,7 @@ export function Hero() {
           <div className="hero-proof-heading">
             <div>
               <p className="proof-kicker">Shivam Kanodia</p>
-              <p className="proof-title">Systems engineer.</p>
+              <p className="proof-title">Engineer. Analyst. Founder.</p>
             </div>
             <img src="/headshot.jpg" alt="Shivam Kanodia" className="hero-portrait" />
           </div>
