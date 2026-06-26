@@ -19,12 +19,12 @@ export function PitchPage() {
 
         <section className="grid gap-8 py-10 lg:grid-cols-[1fr_1.05fr] lg:items-end lg:py-14">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#8fa9ff]">Builder / Analyst / Founder</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#8fa9ff]">Product / Data / Operations</p>
             <h1 className="mt-5 max-w-[760px] text-[clamp(48px,6.5vw,92px)] font-semibold leading-[0.92] tracking-[-0.065em]">
-              I turn messy systems into <span className="text-[#8fa9ff]">working software.</span>
+              Systems <span className="text-[#8fa9ff]">engineer.</span>
             </h1>
             <p className="mt-6 max-w-[620px] text-[clamp(16px,1.7vw,22px)] leading-relaxed text-[#c3cbe0]">
-              Software engineering at Matic. Business intelligence at Legends Global. Co-founder of ClinicalHours, a live clinic operations platform.
+              Software engineering at Matic. Business intelligence at Legends Global, the world&apos;s largest venue consulting firm. Co-founder of ClinicalHours, a clinic operations platform with 500+ users.
             </p>
           </div>
 
@@ -48,7 +48,7 @@ export function PitchPage() {
           <article className="min-h-[210px] bg-[#e3f0e8] p-6 text-[#153d2c]">
             <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#1e6a4c]">ClinicalHours / Shipped</p>
             <h2 className="mt-8 text-2xl font-semibold tracking-[-0.035em]">Built from idea to clinic pilot.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#416453]">200+ student users. First clinic pilot partner. Product, onboarding, scheduling, go-to-market work, and operations.</p>
+            <p className="mt-3 text-sm leading-relaxed text-[#416453]">500+ users. First clinic pilot partner. Product, onboarding, scheduling, go-to-market work, and operations.</p>
           </article>
           <article className="min-h-[210px] bg-[#f4e3c8] p-6 text-[#3b2914]">
             <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#8b500f]">Research / Presented</p>

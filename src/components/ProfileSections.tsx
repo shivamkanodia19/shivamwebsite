@@ -57,13 +57,6 @@ const archiveProjects = [
 export function ProfileSections() {
   return (
     <div className="page-sections">
-      <nav className="section-index" aria-label="Page sections">
-        <a href="#matic">Work</a>
-        <a href="#research">Research</a>
-        <a href="#projects">Projects</a>
-        <a href="#recognition">Outside work</a>
-      </nav>
-
       <section id="work" className="section-block featured-work">
         <div className="site-container">
           <SectionHeading
@@ -100,8 +93,8 @@ export function ProfileSections() {
                 <img src="/brand/legends-global-logo.svg" alt="Legends Global" />
               </a>
               <p className="role-label">Business Intelligence Intern</p>
-              <h3>Turning hospitality data into clearer operating decisions.</h3>
-              <p className="experience-summary">Business intelligence for a live-events business, connecting analysis to decisions behind venue, hospitality, and guest operations.</p>
+              <h3>Turning venue intelligence into clearer operating decisions.</h3>
+              <p className="experience-summary">Business intelligence at the world&apos;s largest venue consulting firm, connecting analysis to decisions behind venue, hospitality, and guest operations.</p>
               <div className="legends-signal" aria-label="Business intelligence from data to operating decision">
                 <span>Data</span><i aria-hidden="true" /><span>Signal</span><i aria-hidden="true" /><span>Decision</span>
               </div>
@@ -128,9 +121,9 @@ export function ProfileSections() {
                 <span>Co-founder</span>
               </div>
               <h3>Built the operating layer between clinics and student volunteers.</h3>
-              <p>Co-founded ClinicalHours and owned the product, onboarding, scheduling, go-to-market work, and pilot rollout from first build to first clinic partner.</p>
+              <p>Co-founded ClinicalHours and owned the product, onboarding, scheduling, go-to-market work, and pilot rollout from first build to first clinic partner and 500+ users.</p>
               <div className="clinical-stats" aria-label="ClinicalHours traction">
-                <div><strong>200+</strong><span>student users</span></div>
+                <div><strong>500+</strong><span>users</span></div>
                 <div><strong>01</strong><span>first clinic pilot partner</span></div>
                 <div><strong>05</strong><span>ownership areas</span></div>
               </div>

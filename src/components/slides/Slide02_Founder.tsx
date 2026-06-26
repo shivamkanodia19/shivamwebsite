@@ -15,13 +15,13 @@ const credentials = [
   {
     label: "Summer 2026",
     value: "Legends Global",
-    sub: "Business Intelligence Intern",
+    sub: "BI at the world's largest venue consulting firm",
     accent: false,
   },
   {
     label: "Public milestone",
-    value: "200+",
-    sub: "ClinicalHours student users",
+    value: "500+",
+    sub: "ClinicalHours users",
     accent: false,
   },
   {

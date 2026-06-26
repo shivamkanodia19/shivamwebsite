@@ -12,7 +12,7 @@ for (const viewport of homeViewports) {
   test(`homepage layout ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: "I turn messy systems into working software." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Systems engineer." })).toBeVisible();
     await expect(page.locator(".role-card")).toHaveCount(3);
     await expect(page.locator("img")).not.toHaveCount(0);
 
@@ -106,7 +106,7 @@ test("30-second evidence scan exposes proof and contact paths", async ({ page })
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   for (const proof of [
-    "200+",
+    "500+",
     "first clinic pilot partner",
     "65",
     "Working workflow prototype",
@@ -187,7 +187,7 @@ for (const viewport of [
   test(`pitch layout ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto("/pitch");
-    await expect(page.getByRole("heading", { name: "I turn messy systems into working software." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Systems engineer." })).toBeVisible();
     await expect(page.getByText("Matic", { exact: true })).toBeVisible();
     await expect(page.getByText("Legends Global", { exact: true })).toBeVisible();
     await expect(page.getByText("ClinicalHours", { exact: true })).toBeVisible();

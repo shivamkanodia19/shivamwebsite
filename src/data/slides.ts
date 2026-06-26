@@ -27,9 +27,9 @@ export const slide01Accent = "Every claim backed by public proof.";
 export const slide02Paragraphs = [
   "Industrial & Systems Engineering Honors at Texas A&M.",
   "Software Engineering Intern at Matic in 2026.",
-  "Business Intelligence Intern at Legends Global in Summer 2026.",
+  "Business Intelligence Intern at Legends Global, the world's largest venue consulting firm, in Summer 2026.",
   "Aggie Venture Fund Cohort 6 and EH EDGE, one of 35 in the 2026 cohort.",
-  "Co-founded ClinicalHours, volunteer infrastructure for clinics and pre-health students.",
+  "Co-founded ClinicalHours, volunteer infrastructure for clinics and pre-health students with 500+ users.",
   "Research with Dr. Karun Kaniyamattam on cattle and dairy decision-support tools.",
 ];
 
@@ -79,7 +79,7 @@ export const portfolioCards: PortfolioCard[] = [
 ];
 
 export const tractionStats: TractionStat[] = [
-  { key: "students", value: "200+", label: "public ClinicalHours student milestone", kind: "plus" },
+  { key: "students", value: "500+", label: "ClinicalHours users", kind: "plus" },
   { key: "clinic", value: "1", label: "first clinic pilot partner", kind: "decimal" },
   { key: "projects", value: "8", label: "verified projects in the archive", kind: "decimal" },
   { key: "placements", value: "4", label: "named ClinicalHours milestones", kind: "times" },
