@@ -17,6 +17,7 @@ const selectors = {
   experience: "#work",
   clinicalhours: "#clinicalhours",
   research: "#research",
+  builds: "#builds",
   projects: "#projects",
   recognition: "#recognition",
   closing: "#resume",

@@ -21,6 +21,8 @@
   --amber: #a55d10;
   --amber-soft: #f5e5ca;
   --dark: #101827;
+  --plum: #61295b;
+  --plum-soft: #efdfe9;
 }
 
 * { box-sizing: border-box; }
@@ -162,6 +164,33 @@ button { color: inherit; }
 .research-secondary .card-kicker { color: #8cc7aa; }
 .research-secondary > p:not(.card-kicker) { color: #b8cabf; }
 
+/* Personal builds */
+.builds-section { background: var(--paper); border-top: 1px solid var(--line); }
+.builds-section .card-kicker { color: var(--plum); }
+.builds-feature-grid { align-items: stretch; display: grid; gap: 14px; grid-template-columns: .88fr 1.12fr; }
+.build-card { background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; padding: 26px; transition: border-color .2s ease, transform .2s ease; }
+.build-card:hover, .build-card:focus-visible { border-color: var(--plum); transform: translateY(-3px); }
+.build-topline { align-items: baseline; display: flex; gap: 14px; justify-content: space-between; }
+.build-topline > span { color: var(--faint); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; }
+.build-card h3 { font-size: clamp(26px, 2.4vw, 33px); font-weight: 650; letter-spacing: -.045em; line-height: 1.05; margin: 16px 0 0; text-wrap: balance; }
+.build-description { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 14px 0 0; }
+.build-owned { border-top: 1px solid var(--line); font-size: 12px; line-height: 1.55; margin: 18px 0 0; padding-top: 12px; }
+.build-rails { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 22px; }
+.build-rails span { border: 1px solid #cbb0c5; color: var(--plum); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; padding: 8px 10px; text-transform: uppercase; }
+.build-shot { background: #14101d; border: 1px solid #2b2138; margin: 20px 0 22px; overflow: hidden; }
+.build-shot img { aspect-ratio: 1440 / 620; height: auto; object-fit: cover; object-position: 50% 40%; width: 100%; }
+.build-shot figcaption { align-items: center; color: #cfc8d8; display: flex; font-size: 12px; gap: 12px; padding: 12px 14px; }
+.build-shot figcaption span { color: #cfa2c9; flex-shrink: 0; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .11em; text-transform: uppercase; white-space: nowrap; }
+.build-stats { border-top: 1px solid var(--line); display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); margin-top: auto; padding-top: 13px; }
+.build-stats span { color: var(--muted); font-size: 10px; }
+.build-stats strong { color: var(--plum); display: block; font-size: 23px; letter-spacing: -.03em; }
+.build-receipt { color: var(--plum); display: block; font-size: 11px; font-weight: 650; margin-top: 13px; }
+.build-wide { align-items: center; display: grid; gap: 18px; grid-template-columns: 32px 1fr 1.15fr auto; margin-top: 14px; }
+.build-wide > span { color: var(--faint); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; }
+.build-wide h3 { font-size: 24px; margin: 8px 0 0; }
+.build-wide .build-owned { margin: 10px 0 0; }
+.build-wide .build-receipt { margin: 0; max-width: 200px; }
+
 /* Projects */
 .projects-section { background: var(--surface); }
 .featured-projects { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); }
@@ -218,6 +247,10 @@ button { color: inherit; }
   .clinical-story { grid-template-columns: 1fr 1fr; }
   .research-grid { grid-template-columns: 1fr; }
   .research-primary { grid-template-columns: 1fr minmax(280px, 360px); }
+  .builds-feature-grid { grid-template-columns: 1fr; }
+  .build-wide { grid-template-columns: 32px 1fr; }
+  .build-wide > div + div { grid-column: 2; }
+  .build-wide .build-receipt { grid-column: 2; max-width: none; }
   .featured-projects { grid-template-columns: 1fr 1fr; }
   .project-card:last-child { grid-column: 1 / -1; min-height: 250px; }
 }
@@ -276,6 +309,13 @@ button { color: inherit; }
   .research-copy, .research-secondary { padding: 22px 18px; }
   .research-copy h3, .research-secondary h3 { font-size: 32px; }
   .poster-link { border-left: 0; margin: 10px; }
+  .build-card { padding: 21px 18px; }
+  .build-card h3 { font-size: 26px; }
+  .build-shot img { aspect-ratio: 1440 / 760; }
+  .build-stats span { font-size: 9px; }
+  .build-stats strong { font-size: 20px; }
+  .build-wide { gap: 10px 14px; padding: 21px 18px; }
+  .build-wide h3 { font-size: 22px; }
   .featured-projects { grid-template-columns: 1fr; }
   .project-card, .project-card:last-child { grid-column: auto; min-height: 0; padding: 21px 18px; }
   .project-meta { margin-top: 20px; }

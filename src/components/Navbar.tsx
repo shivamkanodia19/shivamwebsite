@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 const links = [
   ["Work", "matic"],
   ["Research", "research"],
+  ["Builds", "builds"],
   ["Projects", "projects"],
   ["Outside work", "recognition"],
 ] as const;

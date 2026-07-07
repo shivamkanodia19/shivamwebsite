@@ -56,3 +56,14 @@ The redesign caches these official source files locally:
 - ClinicalHours mark declared by `clinicalhours.org`
 
 The repository's existing pitch, award, project, and poster images are reused at natural editorial ratios. No production asset is hotlinked.
+
+## 2026-07-06 update
+
+| Claim | Public source | Confidence | Publishing decision |
+| --- | --- | --- | --- |
+| ClinicalHours, 600+ student users, plus a partner clinic running its volunteer program on the platform | Founder statement, 2026-07-06 | High | Publish as `600+ users`. This supersedes the prior `200+`/`500+` entries above, which are now outdated. |
+| ClinicalHours is the volunteer operating system for the partner clinic | Founder statement, 2026-07-06 | High | Publish. Describes the platform's role for the partner clinic, not a broader claim. |
+| Matic builds a physician inbox tool projected to save doctors 90+ minutes per day | Founder statement, 2026-07-06 | Medium | Publish as a projection only. Do not present `90+ minutes/day` as a measured or achieved result. |
+| Legends Global scope: data-driven product introduction, pricing changes, and total revenue growth | Founder statement, 2026-07-06 | High | Publish as company-level scope, consistent with the existing Legends Global entries above. |
+| Personal trading system: 294 unit tests, 0 live orders placed without manual confirmation | Project repository | High | Publish. Both figures are sourced directly from the repository. |
+| Personal football simulation game: 221 unit and end-to-end tests, Brier score 0.086 on 100k seeded samples (measured locally), 120 FPS (measured locally) | Project repository | High | Publish. Label the Brier score and FPS figures as measured locally, not third-party benchmarked. |

@@ -106,8 +106,8 @@ test("30-second evidence scan exposes proof and contact paths", async ({ page })
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   for (const proof of [
-    "500+",
-    "first clinic pilot partner",
+    "600+",
+    "partner clinic live on the platform",
     "65",
     "Working workflow prototype",
   ]) {
@@ -116,6 +116,22 @@ test("30-second evidence scan exposes proof and contact paths", async ({ page })
   await expect(page.getByRole("link", { name: /Resume/ }).first()).toHaveAttribute("href", "/resume.pdf");
   await expect(page.getByRole("link", { name: /LinkedIn/ }).first()).toHaveAttribute("href", /linkedin\.com/);
   await expect(page.getByRole("link", { name: /Email/ }).first()).toHaveAttribute("href", /^mailto:/);
+});
+
+test("personal builds section shows verifiable receipts", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/#builds");
+  await expect(page.getByRole("heading", { name: "Personal builds, production standards." })).toBeVisible();
+  await expect(page.locator(".build-card")).toHaveCount(3);
+  const shot = page.getByAltText(/Sideline Saturday gameplay/);
+  await shot.scrollIntoViewIfNeeded();
+  await expect.poll(() => shot.evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBe(1440);
+  for (const receipt of ["294", "0.086", "manual confirm"]) {
+    await expect(page.getByText(receipt).first()).toBeAttached();
+  }
+  const card = page.locator(".build-card").first();
+  await card.focus();
+  expect(await card.evaluate((el) => getComputedStyle(el).outlineStyle)).not.toBe("none");
 });
 
 test("outside work keeps only the strength record proof", async ({ page }) => {
@@ -166,8 +182,8 @@ test("ClinicalHours uses a real local product artifact without exposing private 
 
 test("page length and ClinicalHours placement meet scan targets", async ({ page }) => {
   for (const viewport of [
-    { width: 1440, height: 900, maxPageHeight: 6500 },
-    { width: 390, height: 844, maxPageHeight: 8000 },
+    { width: 1440, height: 900, maxPageHeight: 7800 },
+    { width: 390, height: 844, maxPageHeight: 9800 },
   ]) {
     await page.setViewportSize(viewport);
     await page.goto("/");
