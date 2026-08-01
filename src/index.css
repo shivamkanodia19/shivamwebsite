@@ -351,3 +351,45 @@ button { color: inherit; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* Personal builds — compact card grid + tools strip (redesign 2026-08-01) */
+.builds-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); }
+.build { background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; padding: 16px; transition: border-color .2s ease, transform .2s ease; }
+.build:hover, .build:focus-visible { border-color: var(--plum); outline: none; transform: translateY(-3px); }
+.build-visual { aspect-ratio: 16 / 10; background: var(--paper); border: 1px solid var(--line); border-radius: 3px; margin-bottom: 15px; overflow: hidden; padding: 9px; }
+.build-visual img { border-radius: 2px; display: block; height: 100%; object-fit: cover; object-position: 50% 26%; width: 100%; }
+.build .card-kicker { margin-bottom: 7px; }
+.build h3 { font-size: clamp(19px, 1.5vw, 22px); font-weight: 650; letter-spacing: -.03em; line-height: 1.12; margin: 0; }
+.build-line { color: var(--muted); font-size: 13.5px; line-height: 1.45; margin: 9px 0 15px; }
+.build-foot { display: flex; flex-direction: column; margin-top: auto; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips span { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: .03em; padding: 4px 10px; white-space: nowrap; }
+.build-link { align-self: flex-start; color: var(--plum); font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .05em; margin-top: 13px; text-transform: uppercase; }
+.build-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.build-diagram { display: block; height: 100%; width: 100%; }
+.build-diagram .node { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; }
+.build-diagram .node-gate { stroke: var(--plum); stroke-width: 2; }
+.build-diagram .node-faint { fill: var(--surface); stroke: var(--faint); }
+.build-diagram text { fill: var(--ink); font-family: var(--font-mono); font-size: 13px; letter-spacing: .05em; text-anchor: middle; }
+.build-diagram .t-faint { fill: var(--faint); }
+.build-diagram .edge-tag { font-size: 11px; letter-spacing: .04em; }
+.build-diagram .t-pass { fill: var(--green); }
+.build-diagram .edge { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+.build-diagram .edge-pass { stroke: var(--green); }
+.build-diagram .edge-block { stroke: var(--faint); }
+
+.tools-kicker { margin: 30px 0 12px; }
+.tools-strip { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
+.tool { align-items: center; background: var(--surface); border: 1px solid var(--line); display: flex; gap: 14px; padding: 15px 18px; transition: border-color .2s ease; }
+.tool:hover, .tool:focus-visible { border-color: var(--plum); outline: none; }
+.tool-mark { align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: 3px; color: var(--plum); display: flex; flex-shrink: 0; font-size: 18px; height: 42px; justify-content: center; width: 42px; }
+.tool-body { flex: 1; min-width: 0; }
+.tool h4 { font-size: 15px; font-weight: 650; letter-spacing: -.01em; margin: 0; }
+.tool p { color: var(--muted); font-size: 12.5px; line-height: 1.4; margin: 3px 0 0; }
+.tool-link { color: var(--plum); flex-shrink: 0; font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; margin-left: 10px; text-transform: uppercase; white-space: nowrap; }
+
+@media (max-width: 860px) {
+  .builds-grid { grid-template-columns: 1fr; }
+  .tools-strip { grid-template-columns: 1fr; }
+}

@@ -36,9 +36,10 @@ jobs:
       
       - name: Build
         run: npm run build
-        env:
-          VITE_ANTHROPIC_API_KEY: ${{ secrets.VITE_ANTHROPIC_API_KEY }}
-      
+
+      - name: SPA fallback for client-side routes
+        run: cp dist/index.html dist/404.html
+
       - name: Verify build output
         run: |
           echo "Checking dist folder contents:"

@@ -54,66 +54,102 @@ const archiveProjects = [
   ["Blackjack Simulator", "React training simulator", "Designed in Figma and deployed"],
 ] as const;
 
-type BuildStat = { value: string; label: string };
-
-type FeaturedBuild = {
+type Build = {
   kicker: string;
-  headline: string;
-  description: string;
-  ownership: string;
-  stats: [BuildStat, BuildStat, BuildStat];
-  receipt: string;
-  rails?: readonly string[];
-  shot?: { src: string; alt: string; label: string; caption: string };
+  title: string;
+  line: string;
+  chips: [string, string, string];
+  shot?: { src: string; alt: string };
+  diagram?: boolean;
+  href?: string;
+  linkLabel?: string;
 };
 
-const featuredBuilds: FeaturedBuild[] = [
+const builds: Build[] = [
   {
-    kicker: "Trading research system",
-    headline: "Agents propose. Deterministic rails decide.",
-    description:
-      "A trading research and execution prep system. Agents draft structured trade proposals or explicit no-trades. A deterministic risk engine, not the model, decides what is tradable.",
-    ownership:
-      "Built the agent orchestrator, risk engine, action rails, exit engine, portfolio optimizer, attribution, and a paper trading loop that reviews its own decision memory.",
-    rails: ["Risk engine", "Action rails", "Exit engine", "Portfolio optimizer", "Attribution"],
-    stats: [
-      { value: "294", label: "unit tests" },
-      { value: "12", label: "policy and strategy docs" },
-      { value: "0", label: "live orders without manual confirm" },
-    ],
-    receipt: "Framed as research scaffolding in its own docs. No profitability claim.",
+    kicker: "Autonomous trading",
+    title: "Agents propose. Rails decide.",
+    line: "A stock and options trader where a deterministic risk engine has the final call on every order.",
+    chips: ["Stocks + options", "Risk-gated", "294 tests"],
+    diagram: true,
   },
   {
-    kicker: "Multiplayer football sim",
-    headline: "Retro Bowl, but better.",
-    description:
-      "Sideline Saturday is a two player browser football game on an authoritative headless simulation. The sim bans unseeded randomness and wall clock time, so every play replays exactly from a seed.",
-    ownership:
-      "Built the deterministic 60 Hz engine for all 22 players, multiplayer netcode with delta snapshots and reconnect, procedural animation, and Why cards that explain each play's stored probability and strongest causes.",
-    shot: {
-      src: "/img/sideline-saturday-catch.png",
-      alt: "Sideline Saturday gameplay showing a pass arriving at the catch point",
-      label: "LOCAL BUILD",
-      caption: "A live catch point in a seeded multiplayer play.",
-    },
-    stats: [
-      { value: "221", label: "unit and e2e tests" },
-      { value: "0.086", label: "Brier score, 100k seeded samples" },
-      { value: "120", label: "FPS measured locally" },
-    ],
-    receipt: "Calibration and frame rate measured locally on seeded runs.",
+    kicker: "Multiplayer game",
+    title: "Retro Bowl, but better.",
+    line: "A two-player online football game running on a real-time physics engine.",
+    chips: ["2-player online", "Real-time sim", "120 FPS"],
+    shot: { src: "/img/sideline-saturday-catch.png", alt: "Sideline Saturday gameplay" },
+  },
+  {
+    kicker: "Social trading",
+    title: "Strava for paper trading.",
+    line: "A social paper-trading app with a live feed and a verified-only leaderboard.",
+    chips: ["$100k accounts", "Verified leaderboard", "Risk-adjusted"],
+    shot: { src: "/img/alphaforge-leaderboard.png", alt: "AlphaForge leaderboard" },
+  },
+  {
+    kicker: "Multiplayer card game",
+    title: "Poker and blackjack, coached.",
+    line: "Multiplayer Hold'em with an AI opponent, plus blackjack with live strategy hints.",
+    chips: ["Realtime multiplayer", "Poker AI", "56 engine tests"],
+    shot: { src: "/img/felt-blackjack.png", alt: "Felt blackjack table" },
+    href: "https://felt.bet",
+    linkLabel: "Play",
   },
 ];
 
-const wideBuild = {
-  kicker: "Agent safety rails",
-  headline: "An agent that cannot pad a resume.",
-  description:
-    "A local-first internship copilot that discovers roles across four job boards, scores them, and tailors a LaTeX resume inside hard code-enforced limits.",
-  ownership:
-    "Built the discovery pipeline and the enforcement layer: byte-identical skeleton diffs, whitelisted bullet slots, a required evidence ID for every edit, and one page PDF validation.",
-  receipt: "Never auto-applies. A human reviews every packet.",
-} as const;
+type Tool = { name: string; blurb: string; mark: string; href?: string; linkLabel?: string };
+
+const tools: Tool[] = [
+  {
+    name: "Sticky Markdown Notes",
+    blurb: "Desktop notes wired into my agent system, so each note becomes context my agents can act on.",
+    mark: "≡",
+    href: "https://github.com/shivamkanodia19/sticky-markdown-note",
+    linkLabel: "GitHub",
+  },
+  {
+    name: "Google Tasks Sync",
+    blurb: "Syncs Google Tasks with my cloud agents, so a tagged task kicks off an autonomous run.",
+    mark: "✓",
+  },
+];
+
+function TradingDiagram() {
+  return (
+    <svg
+      className="build-diagram"
+      viewBox="0 0 440 240"
+      role="img"
+      aria-label="An agent proposes a trade, a risk engine decides, and it becomes an order or a no-trade"
+    >
+      <defs>
+        <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0 0 L7 4 L0 8 z" fill="#625e57" />
+        </marker>
+        <marker id="ahp" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0 0 L7 4 L0 8 z" fill="#185d43" />
+        </marker>
+        <marker id="ahb" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <path d="M0 0 L7 4 L0 8 z" fill="#8a8379" />
+        </marker>
+      </defs>
+      <path className="edge" d="M110 120 H154" markerEnd="url(#ah)" />
+      <path className="edge edge-pass" d="M288 112 C312 98 320 78 330 70" markerEnd="url(#ahp)" />
+      <path className="edge edge-block" d="M288 128 C312 142 320 162 330 170" markerEnd="url(#ahb)" />
+      <text className="edge-tag t-pass" x="305" y="88">PASS</text>
+      <text className="edge-tag t-faint" x="303" y="158">BLOCK</text>
+      <rect className="node" x="10" y="98" width="100" height="44" rx="9" />
+      <text x="60" y="124">AGENT</text>
+      <rect className="node node-gate" x="158" y="88" width="130" height="64" rx="9" />
+      <text x="223" y="124">RISK ENGINE</text>
+      <rect className="node" x="332" y="46" width="98" height="42" rx="9" />
+      <text x="381" y="72">ORDER</text>
+      <rect className="node node-faint" x="332" y="152" width="98" height="42" rx="9" />
+      <text className="t-faint" x="381" y="178">NO-TRADE</text>
+    </svg>
+  );
+}
 
 export function ProfileSections() {
   return (
@@ -251,64 +287,12 @@ export function ProfileSections() {
         </div>
       </section>
 
-      <section id="builds" className="section-block builds-section">
-        <div className="site-container">
-          <SectionHeading
-            label="Personal builds"
-            title="Personal builds, production standards."
-            intro="Three systems built end to end on personal time. Every number below is a test count, a calibration score, or a measurement taken locally."
-          />
-          <div className="builds-feature-grid">
-            {featuredBuilds.map((build, index) => (
-              <article key={build.headline} className="build-card build-feature" tabIndex={0}>
-                <div className="build-topline">
-                  <span>0{index + 1}</span>
-                  <p className="card-kicker">{build.kicker}</p>
-                </div>
-                <h3>{build.headline}</h3>
-                <p className="build-description">{build.description}</p>
-                <p className="build-owned">{build.ownership}</p>
-                {build.rails ? (
-                  <div className="build-rails" aria-label={`${build.kicker} components`}>
-                    {build.rails.map((rail) => <span key={rail}>{rail}</span>)}
-                  </div>
-                ) : null}
-                {build.shot ? (
-                  <figure className="build-shot">
-                    <img src={build.shot.src} alt={build.shot.alt} width="1440" height="900" loading="lazy" />
-                    <figcaption><span>{build.shot.label}</span> {build.shot.caption}</figcaption>
-                  </figure>
-                ) : null}
-                <div className="build-stats" aria-label={`${build.kicker} receipts`}>
-                  {build.stats.map((stat) => (
-                    <span key={stat.label}><strong>{stat.value}</strong> {stat.label}</span>
-                  ))}
-                </div>
-                <strong className="build-receipt">{build.receipt}</strong>
-              </article>
-            ))}
-          </div>
-          <article className="build-card build-wide" tabIndex={0}>
-            <span className="build-topline">03</span>
-            <div>
-              <p className="card-kicker">{wideBuild.kicker}</p>
-              <h3>{wideBuild.headline}</h3>
-            </div>
-            <div>
-              <p className="build-description">{wideBuild.description}</p>
-              <p className="build-owned">{wideBuild.ownership}</p>
-            </div>
-            <strong className="build-receipt">{wideBuild.receipt}</strong>
-          </article>
-        </div>
-      </section>
-
       <section id="projects" className="section-block projects-section">
         <div className="site-container">
           <SectionHeading
-            label="Projects"
+            label="Hackathon projects"
             title="A wider build range."
-            intro="Supporting proof across healthcare, machine learning, hardware, and consumer products."
+            intro="Competition and hackathon builds across healthcare, machine learning, hardware, and consumer products."
           />
           <div className="featured-projects">
             {featuredProjects.map((project, index) => (
@@ -323,13 +307,73 @@ export function ProfileSections() {
             ))}
           </div>
 
-          <div className="archive-heading"><p className="eyebrow">More builds</p><span>04 selected</span></div>
+          <div className="archive-heading"><p className="eyebrow">More projects</p><span>04 selected</span></div>
           <div className="project-archive">
             {archiveProjects.map(([name, type, proof], index) => (
               <article key={name} className="archive-row">
                 <span>0{index + 1}</span><h3>{name}</h3><p>{type}</p><strong>{proof}</strong>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="builds" className="section-block builds-section">
+        <div className="site-container">
+          <SectionHeading
+            label="Personal builds"
+            title="Things I build for myself."
+            intro="Software I design and ship on my own time."
+          />
+          <div className="builds-grid">
+            {builds.map((build) => (
+              <article key={build.title} className="build" tabIndex={0}>
+                <div className="build-visual">
+                  {build.diagram ? (
+                    <TradingDiagram />
+                  ) : (
+                    <img src={build.shot!.src} alt={build.shot!.alt} loading="lazy" />
+                  )}
+                </div>
+                <p className="card-kicker">{build.kicker}</p>
+                <h3>{build.title}</h3>
+                <p className="build-line">{build.line}</p>
+                <div className="build-foot">
+                  <div className="chips">
+                    {build.chips.map((chip) => <span key={chip}>{chip}</span>)}
+                  </div>
+                  {build.href ? (
+                    <a className="build-link" href={build.href} target="_blank" rel="noopener noreferrer">
+                      {build.linkLabel} →
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="tools-kicker card-kicker">Small tools</p>
+          <div className="tools-strip">
+            {tools.map((tool) => {
+              const inner = (
+                <>
+                  <span className="tool-mark" aria-hidden="true">{tool.mark}</span>
+                  <div className="tool-body">
+                    <h4>{tool.name}</h4>
+                    <p>{tool.blurb}</p>
+                  </div>
+                  {tool.href ? <span className="tool-link">{tool.linkLabel} ↗</span> : null}
+                </>
+              );
+              return tool.href ? (
+                <a key={tool.name} className="tool" href={tool.href} target="_blank" rel="noopener noreferrer">
+                  {inner}
+                </a>
+              ) : (
+                <article key={tool.name} className="tool" tabIndex={0}>
+                  {inner}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
