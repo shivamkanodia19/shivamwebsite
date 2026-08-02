@@ -44,7 +44,7 @@ export function Hero() {
             Systems engineer.
           </motion.h1>
           <motion.p {...reveal(0.13)} className="hero-intro">
-            Software engineering at Matic on physician inbox tooling. Business intelligence at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics with 600+ users.
+            I build agentic systems.
           </motion.p>
           <motion.div {...reveal(0.2)} className="hero-actions">
             <a href="#matic" className="button button-primary">Explore work <span aria-hidden="true">↓</span></a>

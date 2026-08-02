@@ -24,7 +24,7 @@ export function PitchPage() {
               Systems <span className="text-[#8fa9ff]">engineer.</span>
             </h1>
             <p className="mt-6 max-w-[620px] text-[clamp(16px,1.7vw,22px)] leading-relaxed text-[#c3cbe0]">
-              Software engineering at Matic on physician inbox tooling. Business intelligence at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics with 600+ users.
+              I build agentic systems.
             </p>
           </div>
 
