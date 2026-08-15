@@ -24,6 +24,7 @@ const controlledValues = new Map(
     new Set<string>(values),
   ]),
 );
+const trackablePageviewPaths = new Set(["/", "/pitch"]);
 let analyticsInitialized = false;
 let replayStoppedForAdmin = false;
 let routeSyncInstalled = false;
@@ -70,9 +71,11 @@ function sanitizeSdkUrl(value: unknown) {
       return undefined;
     }
 
-    url.hash = "";
-    url.search = "";
-    return url.toString();
+    if (!isTrackablePageviewPath(url.pathname)) {
+      return undefined;
+    }
+
+    return `${url.origin}${url.pathname}`;
   } catch {
     return undefined;
   }
@@ -117,6 +120,10 @@ function getKnownProperties<EventName extends AnalyticsEventName>(
 
 export function isTrackablePath(pathname: string) {
   return pathname !== "/admin" && !pathname.startsWith("/admin/");
+}
+
+export function isTrackablePageviewPath(pathname: string) {
+  return trackablePageviewPaths.has(pathname);
 }
 
 export function syncAnalyticsRoute(pathname = getCurrentPath()) {

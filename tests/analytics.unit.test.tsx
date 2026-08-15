@@ -184,7 +184,7 @@ describe("analytics boundary", () => {
       event: "$pageview",
       properties: {
         $current_url: "https://shivamkanodia.com/pitch?email=private@example.com#contact",
-        $referrer: "https://search.example/results?q=private#top",
+        $referrer: "https://search.example/?q=private#top",
       },
     });
 
@@ -192,31 +192,67 @@ describe("analytics boundary", () => {
       event: "$pageview",
       properties: {
         $current_url: "https://shivamkanodia.com/pitch",
-        $referrer: "https://search.example/results",
+        $referrer: "https://search.example/",
       },
     });
   });
 
-  it("captures one pageview for the home page and another when navigating to pitch", () => {
+  it("drops SDK URL properties whose path is not an allowlisted public route", () => {
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    initializeAnalytics();
+    const options = posthogMock.init.mock.calls.at(-1)?.[1] as {
+      before_send: (event: Record<string, unknown>) => Record<string, unknown>;
+    };
+
+    const event = options.before_send({
+      event: "$pageview",
+      properties: {
+        $current_url: "https://shivamkanodia.com/private/customer-name?token=secret",
+        $referrer: "https://search.example/results/private-query#match",
+      },
+    });
+
+    expect(event).toEqual({ event: "$pageview", properties: {} });
+  });
+
+  it("captures exactly one pageview for home and pitch without stable-rerender duplicates", () => {
     vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
     vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
 
-    render(
+    const view = render(
       <BrowserRouter>
         <RouteProbe />
       </BrowserRouter>,
     );
+    const pageviewCalls = () => posthogMock.capture.mock.calls.filter(([eventName]) => eventName === "$pageview");
+
+    expect(pageviewCalls()).toEqual([["$pageview", {}]]);
+    view.rerender(
+      <BrowserRouter>
+        <RouteProbe />
+      </BrowserRouter>,
+    );
+    expect(pageviewCalls()).toHaveLength(1);
 
     fireEvent.click(screen.getByRole("button", { name: "Open pitch" }));
+    expect(pageviewCalls()).toEqual([
+      ["$pageview", {}],
+      ["$pageview", {}],
+    ]);
 
-    expect(posthogMock.capture).toHaveBeenNthCalledWith(1, "$pageview", {});
-    expect(posthogMock.capture).toHaveBeenNthCalledWith(2, "$pageview", {});
+    view.rerender(
+      <BrowserRouter>
+        <RouteProbe />
+      </BrowserRouter>,
+    );
+    expect(pageviewCalls()).toHaveLength(2);
   });
 
-  it("does not capture a pageview on the private admin route", () => {
+  it.each(["/private/customer-name", "/admin"])('does not capture a pageview on "%s"', (pathname) => {
     vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
     vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
-    window.history.replaceState({}, "", "/admin");
+    window.history.replaceState({}, "", pathname);
 
     render(
       <BrowserRouter>

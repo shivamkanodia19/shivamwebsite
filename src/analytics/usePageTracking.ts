@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { captureAnalyticsEvent, initializeAnalytics, syncAnalyticsRoute } from "./client";
+import {
+  captureAnalyticsEvent,
+  initializeAnalytics,
+  isTrackablePageviewPath,
+  syncAnalyticsRoute,
+} from "./client";
 
 export function usePageTracking() {
   const location = useLocation();
@@ -11,6 +16,8 @@ export function usePageTracking() {
 
   useEffect(() => {
     syncAnalyticsRoute(location.pathname);
-    captureAnalyticsEvent("$pageview", {});
+    if (isTrackablePageviewPath(location.pathname)) {
+      captureAnalyticsEvent("$pageview", {});
+    }
   }, [location.pathname]);
 }
