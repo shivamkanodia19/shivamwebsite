@@ -95,6 +95,14 @@ export async function verifyAdminToken(
   }
 }
 
+export function adminTokenExpiresAt(token: string): string {
+  const body = token.split(".")[1];
+  if (!body) throw new TypeError("Invalid issued token");
+  const payload = JSON.parse(decodeBase64Url(body)) as Record<string, unknown>;
+  if (!isTimestamp(payload.exp)) throw new TypeError("Invalid issued token expiry");
+  return new Date(payload.exp * 1_000).toISOString();
+}
+
 function parsePasswordHash(value: string): {
   iterations: number;
   salt: Uint8Array;

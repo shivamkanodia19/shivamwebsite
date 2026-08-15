@@ -1,4 +1,4 @@
-import { ADMIN_TOKEN_LIFETIME_SECONDS } from "./auth.ts";
+import { adminTokenExpiresAt } from "./auth.ts";
 import { corsHeaders, isAllowedOrigin, type CorsConfig } from "./cors.ts";
 
 const maximumPasswordLength = 1_024;
@@ -10,15 +10,15 @@ export type ThrottleReservation = {
 };
 
 export type ThrottleStore = {
-  reserve(ipHash: string, globalHash: string, at: Date): Promise<ThrottleReservation>;
-  clear(ipHash: string, globalHash: string, at: Date): Promise<void>;
+  reserve(ipHash: string, at: Date): Promise<ThrottleReservation>;
+  clear(ipHash: string, at: Date): Promise<void>;
 };
 
 export type AdminLoginDependencies = {
   throttle: ThrottleStore;
   corsConfig: CorsConfig;
   now: () => Date;
-  hashScope: (scope: string) => Promise<string>;
+  hashIp: (ip: string) => Promise<string>;
   verifyPassword: (password: string) => Promise<boolean>;
   issueToken: (now: Date) => Promise<string>;
 };
@@ -31,7 +31,7 @@ export function createAdminLoginHandler(dependencies: AdminLoginDependencies) {
       return response({ error: "Invalid request" }, 403, headers);
     }
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers });
-    if (request.method !== "POST" || request.headers.get("content-type")?.trim().toLowerCase() !== "application/json") {
+    if (request.method !== "POST" || !isJsonMediaType(request.headers.get("content-type"))) {
       return response({ error: "Invalid request" }, 400, headers);
     }
 
@@ -46,22 +46,19 @@ export function createAdminLoginHandler(dependencies: AdminLoginDependencies) {
 
     try {
       const now = dependencies.now();
-      const [ipHash, globalHash] = await Promise.all([
-        dependencies.hashScope(ip),
-        dependencies.hashScope("global"),
-      ]);
-      const reservation = await dependencies.throttle.reserve(ipHash, globalHash, now);
+      const ipHash = await dependencies.hashIp(ip);
+      const reservation = await dependencies.throttle.reserve(ipHash, now);
       if (!reservation.allowed) return response({ error: "Too many attempts" }, 429, headers);
 
       if (!(await dependencies.verifyPassword(parsed.password))) {
         return response({ error: "Invalid password" }, 401, headers);
       }
 
-      await dependencies.throttle.clear(ipHash, globalHash, now);
+      await dependencies.throttle.clear(ipHash, now);
       const token = await dependencies.issueToken(now);
       return response({
         token,
-        expiresAt: new Date(now.getTime() + ADMIN_TOKEN_LIFETIME_SECONDS * 1_000).toISOString(),
+        expiresAt: adminTokenExpiresAt(token),
       }, 200, headers);
     } catch {
       return response({ error: "Invalid request" }, 500, headers);
@@ -91,7 +88,14 @@ async function readRequestBody(request: Request, limit: number): Promise<{ passw
       const { done, value } = await reader.read();
       if (done) break;
       length += value.length;
-      if (length > limit) return "too-large";
+      if (length > limit) {
+        try {
+          await reader.cancel();
+        } catch {
+          // The request is still rejected even if the transport has already closed.
+        }
+        return "too-large";
+      }
       chunks.push(value);
     }
     const bytes = new Uint8Array(length);
@@ -107,6 +111,13 @@ async function readRequestBody(request: Request, limit: number): Promise<{ passw
   } finally {
     reader.releaseLock();
   }
+}
+
+function isJsonMediaType(contentType: string | null): boolean {
+  if (!contentType) return false;
+  const [mediaType, ...parameters] = contentType.split(";");
+  if (mediaType.trim().toLowerCase() !== "application/json") return false;
+  return parameters.every((parameter) => parameter.trim().includes("="));
 }
 
 function response(body: Record<string, string>, status: number, headers: Record<string, string>): Response {

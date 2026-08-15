@@ -19,7 +19,7 @@ Deno.test("CORS permits only HTTPS origins and explicit local development origin
   assert(!("Access-Control-Allow-Origin" in corsHeaders("https://evil.example", config)));
 });
 
-Deno.test("login rejects non-exact JSON media types before reserving an attempt", async () => {
+Deno.test("login accepts application/json media-type parameters", async () => {
   const store = new RecordingThrottleStore();
   const handler = createHandler(store);
   const response = await handler(request({
@@ -27,8 +27,8 @@ Deno.test("login rejects non-exact JSON media types before reserving an attempt"
     body: JSON.stringify({ password: "valid-password" }),
   }));
 
-  assert(response.status === 400);
-  assert(store.reservations === 0);
+  assert(response.status === 200);
+  assert(store.reservations === 1);
 });
 
 Deno.test("login rejects an oversized declared body before parsing it", async () => {
@@ -107,19 +107,19 @@ Deno.test("a locked throttle reservation skips password verification", async () 
   assert(verificationCalls === 0);
 });
 
-Deno.test("the global reservation prevents unlimited guesses from rotating client IPs", async () => {
+Deno.test("per-IP reservations do not lock other trusted addresses", async () => {
   const store = new InMemoryAtomicThrottleStore();
   for (let index = 1; index <= 5; index += 1) {
-    const result = await store.reserve(`ip-${index}`, "global", now);
+    const result = await store.reserve("ip-one", now);
     assert(result.allowed, `attempt ${index} should be allowed`);
   }
 
-  const locked = await store.reserve("ip-6", "global", now);
+  const locked = await store.reserve("ip-one", now);
   assert(!locked.allowed);
   assert(locked.lockedUntil === "2026-08-15T12:15:00.000Z");
 
-  const stillLocked = await store.reserve("ip-7", "global", new Date("2026-08-15T12:14:59.000Z"));
-  assert(stillLocked.lockedUntil === "2026-08-15T12:15:00.000Z");
+  const otherIp = await store.reserve("ip-two", now);
+  assert(otherIp.allowed);
 });
 
 function createHandler(store: ThrottleStore) {
@@ -131,8 +131,8 @@ function dependencies(store: ThrottleStore) {
     throttle: store,
     now: () => now,
     corsConfig: { allowedOrigins: [origin] },
-    hashScope: async (scope: string) => `hashed-${scope}`,
-    issueToken: async () => "test-token",
+    hashIp: async (ip: string) => `hashed-${ip}`,
+    issueToken: async () => tokenWithExpiry("2026-08-15T20:00:00.000Z"),
   };
 }
 
@@ -168,26 +168,33 @@ class RecordingThrottleStore implements ThrottleStore {
 
 class InMemoryAtomicThrottleStore implements ThrottleStore {
   private readonly attempts = new Map<string, Date[]>();
-  private lockedUntil: Date | null = null;
+  private readonly lockedUntil = new Map<string, Date>();
 
-  reserve(ipHash: string, globalHash: string, at: Date): Promise<ThrottleReservation> {
-    if (this.lockedUntil && this.lockedUntil > at) {
-      return Promise.resolve({ allowed: false, lockedUntil: this.lockedUntil.toISOString() });
+  reserve(ipHash: string, at: Date): Promise<ThrottleReservation> {
+    const lockedUntil = this.lockedUntil.get(ipHash);
+    if (lockedUntil && lockedUntil > at) {
+      return Promise.resolve({ allowed: false, lockedUntil: lockedUntil.toISOString() });
     }
-    for (const key of [ipHash, globalHash]) {
-      const recent = (this.attempts.get(key) ?? []).filter((attempt) => at.getTime() - attempt.getTime() < 15 * 60 * 1000);
-      recent.push(at);
-      this.attempts.set(key, recent);
-      if (recent.length === 5) this.lockedUntil = new Date(at.getTime() + 15 * 60 * 1000);
-    }
+    const recent = (this.attempts.get(ipHash) ?? []).filter((attempt) => at.getTime() - attempt.getTime() < 15 * 60 * 1000);
+    recent.push(at);
+    this.attempts.set(ipHash, recent);
+    if (recent.length === 5) this.lockedUntil.set(ipHash, new Date(at.getTime() + 15 * 60 * 1000));
     return Promise.resolve({ allowed: true, lockedUntil: null });
   }
 
-  clear(): Promise<void> {
-    this.attempts.clear();
-    this.lockedUntil = null;
+  clear(ipHash: string): Promise<void> {
+    this.attempts.delete(ipHash);
+    this.lockedUntil.delete(ipHash);
     return Promise.resolve();
   }
+}
+
+function tokenWithExpiry(expiresAt: string): string {
+  const payload = btoa(JSON.stringify({ exp: Math.floor(new Date(expiresAt).getTime() / 1_000) }))
+    .replaceAll("+", "-")
+    .replaceAll("/", "_")
+    .replace(/=+$/, "");
+  return `header.${payload}.signature`;
 }
 
 function assert(condition: unknown, message = "assertion failed"): asserts condition {

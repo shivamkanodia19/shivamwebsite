@@ -1,4 +1,5 @@
 import {
+  adminTokenExpiresAt,
   issueAdminToken,
   verifyAdminToken,
   verifyPassword,
@@ -34,6 +35,13 @@ Deno.test("issued admin tokens validate before expiry", async () => {
   const token = await issueAdminToken(now, testConfig);
 
   assert(await verifyAdminToken(token, now, testConfig));
+});
+
+Deno.test("issued token expiry is read from its integer-second payload", async () => {
+  const now = new Date("2026-08-15T12:00:00.750Z");
+  const token = await issueAdminToken(now, testConfig);
+
+  assert(adminTokenExpiresAt(token) === "2026-08-15T20:00:00.000Z");
 });
 
 Deno.test("modified token signatures are rejected", async () => {

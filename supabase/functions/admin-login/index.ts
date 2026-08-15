@@ -11,7 +11,7 @@ Deno.serve((request) => createAdminLoginHandler({
   throttle: supabaseThrottleStore(),
   corsConfig: runtimeCorsConfig(),
   now: () => new Date(),
-  hashScope: (scope) => hashRateLimitScope(scope, requiredSecret("ADMIN_RATE_LIMIT_SALT")),
+  hashIp: (ip) => hashRateLimitScope(ip, requiredSecret("ADMIN_RATE_LIMIT_SALT")),
   verifyPassword,
   issueToken: issueAdminToken,
 })(request));
@@ -23,9 +23,9 @@ function supabaseThrottleStore(): ThrottleStore {
     { auth: { autoRefreshToken: false, persistSession: false } },
   );
   return {
-    async reserve(ipHash, globalHash): Promise<ThrottleReservation> {
+    async reserve(ipHash): Promise<ThrottleReservation> {
       const { data, error } = await database
-        .rpc("reserve_admin_login_attempt", { p_ip_hash: ipHash, p_global_hash: globalHash })
+        .rpc("reserve_admin_login_attempt", { p_ip_hash: ipHash })
         .single();
       if (error || !data || typeof data.allowed !== "boolean") throw error ?? new TypeError("Invalid throttle response");
       return {
@@ -33,11 +33,8 @@ function supabaseThrottleStore(): ThrottleStore {
         lockedUntil: typeof data.locked_until === "string" ? data.locked_until : null,
       };
     },
-    async clear(ipHash, globalHash): Promise<void> {
-      const { error } = await database.rpc("clear_admin_login_attempts", {
-        p_ip_hash: ipHash,
-        p_global_hash: globalHash,
-      });
+    async clear(ipHash): Promise<void> {
+      const { error } = await database.rpc("clear_admin_login_attempts", { p_ip_hash: ipHash });
       if (error) throw error;
     },
   };
