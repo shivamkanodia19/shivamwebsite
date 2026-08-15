@@ -172,7 +172,7 @@ describe("analytics boundary", () => {
     expect(posthogMock.capture).not.toHaveBeenCalled();
   });
 
-  it("strips query strings and fragments from SDK URL properties", () => {
+  it("uses canonical current URLs for allowed routes and removes referrers", () => {
     vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
     vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
     initializeAnalytics();
@@ -180,19 +180,31 @@ describe("analytics boundary", () => {
       before_send: (event: Record<string, unknown>) => Record<string, unknown>;
     };
 
-    const event = options.before_send({
+    const pitchEvent = options.before_send({
       event: "$pageview",
       properties: {
-        $current_url: "https://shivamkanodia.com/pitch?email=private@example.com#contact",
+        $current_url: "https://arbitrary-origin.example/pitch?email=private@example.com#contact",
         $referrer: "https://search.example/?q=private#top",
       },
     });
+    const homeEvent = options.before_send({
+      event: "$pageview",
+      properties: {
+        $current_url: "https://another-origin.example/?token=private#top",
+        $referrer: "https://referrer.example/pitch",
+      },
+    });
 
-    expect(event).toEqual({
+    expect(pitchEvent).toEqual({
       event: "$pageview",
       properties: {
         $current_url: "https://shivamkanodia.com/pitch",
-        $referrer: "https://search.example/",
+      },
+    });
+    expect(homeEvent).toEqual({
+      event: "$pageview",
+      properties: {
+        $current_url: "https://shivamkanodia.com/",
       },
     });
   });

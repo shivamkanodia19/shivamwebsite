@@ -24,7 +24,10 @@ const controlledValues = new Map(
     new Set<string>(values),
   ]),
 );
-const trackablePageviewPaths = new Set(["/", "/pitch"]);
+const canonicalPageviewUrls = new Map([
+  ["/", "https://shivamkanodia.com/"],
+  ["/pitch", "https://shivamkanodia.com/pitch"],
+]);
 let analyticsInitialized = false;
 let replayStoppedForAdmin = false;
 let routeSyncInstalled = false;
@@ -59,7 +62,7 @@ function isSafeAnalyticsValue(propertyName: string, value: unknown) {
   );
 }
 
-function sanitizeSdkUrl(value: unknown) {
+function sanitizeSdkCurrentUrl(value: unknown) {
   if (typeof value !== "string") {
     return undefined;
   }
@@ -71,11 +74,7 @@ function sanitizeSdkUrl(value: unknown) {
       return undefined;
     }
 
-    if (!isTrackablePageviewPath(url.pathname)) {
-      return undefined;
-    }
-
-    return `${url.origin}${url.pathname}`;
+    return canonicalPageviewUrls.get(url.pathname);
   } catch {
     return undefined;
   }
@@ -83,16 +82,14 @@ function sanitizeSdkUrl(value: unknown) {
 
 const sanitizeSdkUrlProperties: BeforeSendFn = (event) => {
   const properties = { ...event.properties };
+  const sanitizedCurrentUrl = sanitizeSdkCurrentUrl(properties.$current_url);
 
-  for (const propertyName of ["$current_url", "$referrer"]) {
-    const sanitizedValue = sanitizeSdkUrl(properties[propertyName]);
-
-    if (sanitizedValue) {
-      properties[propertyName] = sanitizedValue;
-    } else {
-      delete properties[propertyName];
-    }
+  if (sanitizedCurrentUrl) {
+    properties.$current_url = sanitizedCurrentUrl;
+  } else {
+    delete properties.$current_url;
   }
+  delete properties.$referrer;
 
   return { ...event, properties };
 };
@@ -123,7 +120,7 @@ export function isTrackablePath(pathname: string) {
 }
 
 export function isTrackablePageviewPath(pathname: string) {
-  return trackablePageviewPaths.has(pathname);
+  return canonicalPageviewUrls.has(pathname);
 }
 
 export function syncAnalyticsRoute(pathname = getCurrentPath()) {
