@@ -119,4 +119,42 @@ describe("analytics boundary", () => {
 
     expect(posthogMock.capture).not.toHaveBeenCalled();
   });
+
+  it("rejects arbitrary sentences and phone numbers in controlled event values", () => {
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    initializeAnalytics();
+
+    captureAnalyticsEvent("resume_viewed", {
+      placement: "please-call-me-when-you-have-a-chance",
+    });
+    captureAnalyticsEvent("resume_viewed", { placement: "214-470-0598" });
+
+    expect(posthogMock.capture).not.toHaveBeenCalled();
+  });
+
+  it("strips query strings and fragments from SDK URL properties", () => {
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    initializeAnalytics();
+    const options = posthogMock.init.mock.calls.at(-1)?.[1] as {
+      before_send: (event: Record<string, unknown>) => Record<string, unknown>;
+    };
+
+    const event = options.before_send({
+      event: "$pageview",
+      properties: {
+        $current_url: "https://shivamkanodia.com/pitch?email=private@example.com#contact",
+        $referrer: "https://search.example/results?q=private#top",
+      },
+    });
+
+    expect(event).toEqual({
+      event: "$pageview",
+      properties: {
+        $current_url: "https://shivamkanodia.com/pitch",
+        $referrer: "https://search.example/results",
+      },
+    });
+  });
 });

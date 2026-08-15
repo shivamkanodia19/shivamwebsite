@@ -1,5 +1,10 @@
 import posthog from "posthog-js";
-import type { AnalyticsEventName, AnalyticsEventProperties } from "./events";
+import type { BeforeSendFn } from "posthog-js";
+import {
+  analyticsValueRegistry,
+  type AnalyticsEventName,
+  type AnalyticsEventProperties,
+} from "./events";
 
 const eventPropertyNames: Record<AnalyticsEventName, readonly string[]> = {
   section_viewed: ["section_id", "section_label", "visibility_threshold"],
@@ -12,14 +17,12 @@ const eventPropertyNames: Record<AnalyticsEventName, readonly string[]> = {
   contact_clicked: ["channel"],
 };
 
-const identifierProperties = new Set([
-  "section_id",
-  "element_id",
-  "project_id",
-  "placement",
-  "destination_type",
-]);
-const labelProperties = new Set(["section_label", "label", "project_name"]);
+const controlledValues = new Map(
+  Object.entries(analyticsValueRegistry).map(([propertyName, values]) => [
+    propertyName,
+    new Set<string>(values),
+  ]),
+);
 let analyticsInitialized = false;
 let replayStoppedForAdmin = false;
 let routeSyncInstalled = false;
@@ -36,21 +39,10 @@ function getCurrentPath() {
 }
 
 function isSafeAnalyticsValue(propertyName: string, value: unknown) {
-  if (identifierProperties.has(propertyName)) {
-    return typeof value === "string" && /^[a-z][a-z0-9]*(?:[-_][a-z0-9]+)*$/.test(value);
-  }
+  const allowedValues = controlledValues.get(propertyName);
 
-  if (labelProperties.has(propertyName)) {
-    return (
-      typeof value === "string" &&
-      value.length <= 80 &&
-      /^[A-Za-z0-9][A-Za-z0-9 .,'&()-]*$/.test(value) &&
-      !/^(email|name|phone|message|password)\s*[:=]/i.test(value)
-    );
-  }
-
-  if (propertyName === "channel") {
-    return value === "email" || value === "linkedin";
+  if (allowedValues) {
+    return typeof value === "string" && allowedValues.has(value);
   }
 
   if (propertyName === "visibility_threshold") {
@@ -64,6 +56,42 @@ function isSafeAnalyticsValue(propertyName: string, value: unknown) {
     value >= 0
   );
 }
+
+function sanitizeSdkUrl(value: unknown) {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  try {
+    const url = new URL(value);
+
+    if (url.protocol !== "http:" && url.protocol !== "https:") {
+      return undefined;
+    }
+
+    url.hash = "";
+    url.search = "";
+    return url.toString();
+  } catch {
+    return undefined;
+  }
+}
+
+const sanitizeSdkUrlProperties: BeforeSendFn = (event) => {
+  const properties = { ...event.properties };
+
+  for (const propertyName of ["$current_url", "$referrer"]) {
+    const sanitizedValue = sanitizeSdkUrl(properties[propertyName]);
+
+    if (sanitizedValue) {
+      properties[propertyName] = sanitizedValue;
+    } else {
+      delete properties[propertyName];
+    }
+  }
+
+  return { ...event, properties };
+};
 
 function getKnownProperties<EventName extends AnalyticsEventName>(
   eventName: EventName,
@@ -140,6 +168,7 @@ export function initializeAnalytics() {
   posthog.init(config.key, {
     api_host: config.host,
     autocapture: false,
+    before_send: sanitizeSdkUrlProperties,
     capture_pageleave: false,
     capture_pageview: false,
     person_profiles: "identified_only",
