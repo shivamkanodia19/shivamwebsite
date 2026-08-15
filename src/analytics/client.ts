@@ -7,6 +7,7 @@ import {
 } from "./events";
 
 const eventPropertyNames: Record<AnalyticsEventName, readonly string[]> = {
+  $pageview: [],
   section_viewed: ["section_id", "section_label", "visibility_threshold"],
   section_engaged: ["section_id", "active_milliseconds"],
   element_clicked: ["element_id", "label", "section_id", "destination_type"],

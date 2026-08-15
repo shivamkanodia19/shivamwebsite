@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { TrackedLink } from "@/analytics/TrackedLink";
+import { captureAnalyticsEvent } from "@/analytics/client";
 
 const links = [
   ["Work", "matic"],
@@ -42,6 +44,20 @@ export function Navbar() {
 
   function navigate(id: string) {
     setMenuOpen(false);
+    const trackingByTarget = {
+      matic: { element_id: "nav-work", label: "Work", section_id: "work" },
+      research: { element_id: "nav-research", label: "Research", section_id: "research" },
+      projects: { element_id: "nav-hackathons", label: "Hackathons", section_id: "projects" },
+      builds: { element_id: "nav-builds", label: "Builds", section_id: "builds" },
+      recognition: { element_id: "nav-outside-work", label: "Outside work", section_id: "recognition" },
+    } as const;
+    const tracking = trackingByTarget[id as keyof typeof trackingByTarget];
+    if (tracking) {
+      captureAnalyticsEvent("element_clicked", {
+        ...tracking,
+        destination_type: "project",
+      });
+    }
     scrollToSection(id);
   }
 
@@ -62,7 +78,7 @@ export function Navbar() {
               {links.map(([label, id]) => <button key={id} onClick={() => navigate(id)}>{label}</button>)}
             </nav>
             <div className="nav-actions">
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="nav-resume">Resume ↗</a>
+              <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="nav-resume" tracking={{ eventName: "resume_viewed", properties: { placement: "navigation" } }}>Resume ↗</TrackedLink>
               <button
                 ref={toggleRef}
                 className="menu-toggle"
@@ -84,7 +100,7 @@ export function Navbar() {
           {links.map(([label, id], index) => (
             <button ref={index === 0 ? firstMobileLinkRef : undefined} key={id} onClick={() => navigate(id)}>{label}<span aria-hidden="true">↘</span></button>
           ))}
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a>
+          <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "resume_viewed", properties: { placement: "navigation" } }}>Resume <span aria-hidden="true">↗</span></TrackedLink>
         </nav>
       ) : null}
     </header>

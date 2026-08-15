@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { TrackedLink } from "@/analytics/TrackedLink";
 
 const pitchRoles = [
   ["/brand/matic-logo-white.svg", "Matic", "Software Engineering Intern", "2026 / Current"],
@@ -65,9 +66,9 @@ export function PitchPage() {
         <footer className="mt-5 flex flex-col gap-4 border-t border-white/15 py-5 text-xs text-[#9ba7c3] sm:flex-row sm:items-center sm:justify-between">
           <p>Texas A&amp;M / Industrial &amp; Systems Engineering Honors</p>
           <div className="flex gap-5">
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="text-white">Resume ↗</a>
-            <a href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer" className="text-white">LinkedIn ↗</a>
-            <a href="mailto:shivamkanodia77@gmail.com" className="text-white">Email ↗</a>
+            <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="text-white" tracking={{ eventName: "resume_viewed", properties: { placement: "pitch" } }}>Resume ↗</TrackedLink>
+            <TrackedLink href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer" className="text-white" tracking={{ eventName: "contact_clicked", properties: { channel: "linkedin" } }}>LinkedIn ↗</TrackedLink>
+            <TrackedLink href="mailto:shivamkanodia77@gmail.com" className="text-white" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email ↗</TrackedLink>
           </div>
         </footer>
       </div>

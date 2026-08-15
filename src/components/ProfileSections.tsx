@@ -1,3 +1,7 @@
+import { TrackedLink } from "@/analytics/TrackedLink";
+import { captureAnalyticsEvent } from "@/analytics/client";
+import { useSectionTracking } from "@/analytics/useSectionTracking";
+
 type SectionHeadingProps = {
   label: string;
   title: string;
@@ -25,6 +29,7 @@ const clinicalMilestones = [
 
 const featuredProjects = [
   {
+    id: "clara",
     name: "Clara",
     type: "Healthcare workflow",
     description: "AI voice intake concept for clinical pre-visit workflows.",
@@ -32,6 +37,7 @@ const featuredProjects = [
     proof: "Working workflow prototype",
   },
   {
+    id: "finseek",
     name: "FinSeek",
     type: "Fraud detection",
     description: "Full-stack fraud detection platform built for TAMUHack.",
@@ -39,6 +45,7 @@ const featuredProjects = [
     proof: "95%+ precision on PaySim, self-reported",
   },
   {
+    id: "celvio",
     name: "Celvio",
     type: "Medical product",
     description: "Wearable NMES rehabilitation concept.",
@@ -115,6 +122,16 @@ const tools: Tool[] = [
   },
 ];
 
+const trackedSections = [
+  { id: "work", label: "Experience" },
+  { id: "clinicalhours", label: "ClinicalHours" },
+  { id: "research", label: "Research" },
+  { id: "projects", label: "Hackathon projects" },
+  { id: "builds", label: "Personal builds" },
+  { id: "recognition", label: "Outside work" },
+  { id: "resume", label: "Resume" },
+] as const;
+
 function TradingDiagram() {
   return (
     <svg
@@ -152,6 +169,8 @@ function TradingDiagram() {
 }
 
 export function ProfileSections() {
+  useSectionTracking(trackedSections);
+
   return (
     <div className="page-sections">
       <section id="work" className="section-block featured-work">
@@ -168,9 +187,9 @@ export function ProfileSections() {
                 <span className="proof-stamp proof-stamp-light">CURRENT</span>
                 <span>2026</span>
               </div>
-              <a className="experience-logo matic-logo" href="https://maticinside.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit Matic">
+              <TrackedLink className="experience-logo matic-logo" href="https://maticinside.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit Matic" tracking={{ eventName: "project_opened", properties: { project_id: "matic", project_name: "Matic" } }}>
                 <img src="/brand/matic-logo-white.svg" alt="Matic" />
-              </a>
+              </TrackedLink>
               <p className="role-label">Software Engineering Intern</p>
               <h3>Building the inbox tool that gives doctors their time back.</h3>
               <p className="experience-summary">Software engineering on Matic&apos;s clinical intelligence platform. The current build manages physician inboxes and is projected to save each doctor over 90 minutes a day.</p>
@@ -186,9 +205,9 @@ export function ProfileSections() {
                 <span className="proof-stamp proof-stamp-dark">SUMMER 2026</span>
                 <span>CURRENT</span>
               </div>
-              <a className="experience-logo legends-logo" href="https://legendsglobal.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Legends Global">
+              <TrackedLink className="experience-logo legends-logo" href="https://legendsglobal.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Legends Global" tracking={{ eventName: "project_opened", properties: { project_id: "legends", project_name: "Legends Global" } }}>
                 <img src="/brand/legends-global-logo.svg" alt="Legends Global" />
-              </a>
+              </TrackedLink>
               <p className="role-label">Business Intelligence Intern</p>
               <h3>Data behind new products, pricing, and revenue.</h3>
               <p className="experience-summary">Business intelligence at Legends Global, using data-driven methods to introduce new products, reprice existing ones, and grow total venue revenue.</p>
@@ -211,10 +230,10 @@ export function ProfileSections() {
           <article className="clinical-case">
             <div className="clinical-story">
               <div className="clinical-brand">
-                <a href="https://clinicalhours.org/" target="_blank" rel="noopener noreferrer" aria-label="Visit ClinicalHours">
+                <TrackedLink href="https://clinicalhours.org/" target="_blank" rel="noopener noreferrer" aria-label="Visit ClinicalHours" tracking={{ eventName: "project_opened", properties: { project_id: "clinicalhours", project_name: "ClinicalHours" } }}>
                   <img src="/brand/clinicalhours-logo.png" alt="ClinicalHours logo" />
                   <strong>ClinicalHours</strong>
-                </a>
+                </TrackedLink>
                 <span>Co-founder</span>
               </div>
               <h3>Built the operating layer between clinics and student volunteers.</h3>
@@ -273,10 +292,10 @@ export function ProfileSections() {
                   <span><strong>03</strong> model families</span>
                 </div>
               </div>
-              <a href="/img/research-poster.jpg" target="_blank" rel="noopener noreferrer" className="poster-link">
+              <TrackedLink href="/img/research-poster.jpg" target="_blank" rel="noopener noreferrer" className="poster-link" tracking={{ eventName: "element_clicked", properties: { element_id: "research-poster", label: "Research poster", section_id: "research", destination_type: "project" } }}>
                 <img src="/img/research-poster.jpg" alt="Full cattle futures forecasting research poster" width="483" height="378" loading="lazy" />
                 <span>View full poster <b aria-hidden="true">↗</b></span>
-              </a>
+              </TrackedLink>
             </article>
             <article className="research-secondary">
               <p className="card-kicker">RESEARCH IN PROGRESS</p>
@@ -296,7 +315,7 @@ export function ProfileSections() {
           />
           <div className="featured-projects">
             {featuredProjects.map((project, index) => (
-              <article key={project.name} className="project-card" tabIndex={0}>
+              <article key={project.name} className="project-card" tabIndex={0} onClick={() => captureAnalyticsEvent("project_opened", { project_id: project.id, project_name: project.name })}>
                 <div className="project-index">0{index + 1}</div>
                 <p className="project-meta">{project.type}</p>
                 <h3>{project.name}</h3>
@@ -343,9 +362,9 @@ export function ProfileSections() {
                     {build.chips.map((chip) => <span key={chip}>{chip}</span>)}
                   </div>
                   {build.href ? (
-                    <a className="build-link" href={build.href} target="_blank" rel="noopener noreferrer">
+                    <TrackedLink className="build-link" href={build.href} target="_blank" rel="noopener noreferrer" tracking={{ eventName: "element_clicked", properties: { element_id: "build-felt", label: "Felt", section_id: "builds", destination_type: "external" } }}>
                       {build.linkLabel} →
-                    </a>
+                    </TrackedLink>
                   ) : null}
                 </div>
               </article>
@@ -365,9 +384,9 @@ export function ProfileSections() {
                 </>
               );
               return tool.href ? (
-                <a key={tool.name} className="tool" href={tool.href} target="_blank" rel="noopener noreferrer">
+                <TrackedLink key={tool.name} className="tool" href={tool.href} target="_blank" rel="noopener noreferrer" tracking={{ eventName: "element_clicked", properties: { element_id: "build-sticky-markdown-notes", label: "Sticky Markdown Notes", section_id: "builds", destination_type: "external" } }}>
                   {inner}
-                </a>
+                </TrackedLink>
               ) : (
                 <article key={tool.name} className="tool" tabIndex={0}>
                   {inner}
@@ -385,12 +404,12 @@ export function ProfileSections() {
             title="Strength outside the screen."
             intro="A compact personal proof point: consistent training, competition, and measurable progress."
           />
-          <a className="personal-proof" href="https://www.openpowerlifting.org/u/shivamkanodia" target="_blank" rel="noopener noreferrer">
+          <TrackedLink className="personal-proof" href="https://www.openpowerlifting.org/u/shivamkanodia" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "element_clicked", properties: { element_id: "powerlifting", label: "Powerlifting", section_id: "recognition", destination_type: "external" } }}>
             <span className="proof-stamp proof-stamp-light">USAPL</span>
             <strong>Three first-place USAPL meet results.</strong>
             <p>152.5 kg competition bench.</p>
             <b aria-hidden="true">↗</b>
-          </a>
+          </TrackedLink>
         </div>
       </section>
 
@@ -401,9 +420,9 @@ export function ProfileSections() {
             <h2>See the full record.</h2>
           </div>
           <div className="contact-actions">
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume <span aria-hidden="true">↗</span></a>
-            <a href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
-            <a href="mailto:shivamkanodia77@gmail.com">Email <span aria-hidden="true">↗</span></a>
+            <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "resume_viewed", properties: { placement: "resume-section" } }}>Resume <span aria-hidden="true">↗</span></TrackedLink>
+            <TrackedLink href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "contact_clicked", properties: { channel: "linkedin" } }}>LinkedIn <span aria-hidden="true">↗</span></TrackedLink>
+            <TrackedLink href="mailto:shivamkanodia77@gmail.com" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email <span aria-hidden="true">↗</span></TrackedLink>
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
 export type AnalyticsEventProperties = {
+  $pageview: Record<string, never>;
   section_viewed: {
     section_id: string;
     section_label: string;
@@ -29,21 +30,31 @@ export const analyticsValueRegistry = {
     "footer-resume",
     "hero-resume",
     "hero-work",
+    "nav-hackathons",
     "nav-builds",
     "nav-outside-work",
     "nav-research",
     "nav-resume",
     "nav-work",
+    "powerlifting",
     "pitch-resume",
+    "research-poster",
+    "build-felt",
+    "build-sticky-markdown-notes",
   ],
   label: [
     "Builds",
     "Email",
+    "Explore work",
+    "Felt",
     "Hackathons",
     "LinkedIn",
     "Outside work",
+    "Powerlifting",
     "Research",
+    "Research poster",
     "Resume",
+    "Sticky Markdown Notes",
     "Work",
   ],
   placement: ["footer", "hero", "navigation", "pitch", "resume-section"],

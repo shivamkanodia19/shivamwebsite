@@ -1,9 +1,11 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { TrackedLink } from "@/analytics/TrackedLink";
 
 const roles = [
   {
     company: "Matic",
     role: "Software Engineering Intern",
+    projectId: "matic",
     href: "#matic",
     logo: "/brand/matic-logo-dark.svg",
     logoClass: "credential-logo-matic",
@@ -11,6 +13,7 @@ const roles = [
   {
     company: "Legends Global",
     role: "Business Intelligence Intern",
+    projectId: "legends",
     href: "#legends",
     logo: "/brand/legends-global-logo.svg",
     logoClass: "credential-logo-legends",
@@ -18,6 +21,7 @@ const roles = [
   {
     company: "ClinicalHours",
     role: "Co-founder",
+    projectId: "clinicalhours",
     href: "#clinicalhours",
     logo: "/brand/clinicalhours-logo.png",
     logoClass: "credential-logo-clinical",
@@ -47,8 +51,8 @@ export function Hero() {
             Software engineering at Matic on physician inbox tooling. Business intelligence at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics with 600+ users.
           </motion.p>
           <motion.div {...reveal(0.2)} className="hero-actions">
-            <a href="#matic" className="button button-primary">Explore work <span aria-hidden="true">↓</span></a>
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="button button-secondary">View resume <span aria-hidden="true">↗</span></a>
+            <TrackedLink href="#matic" className="button button-primary" tracking={{ eventName: "element_clicked", properties: { element_id: "hero-work", label: "Explore work", section_id: "hero", destination_type: "project" } }}>Explore work <span aria-hidden="true">↓</span></TrackedLink>
+            <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="button button-secondary" tracking={{ eventName: "resume_viewed", properties: { placement: "hero" } }}>View resume <span aria-hidden="true">↗</span></TrackedLink>
           </motion.div>
         </div>
 
@@ -62,7 +66,7 @@ export function Hero() {
           </div>
           <div className="role-stack">
             {roles.map((item, index) => (
-              <a key={item.company} href={item.href} className="role-card">
+              <TrackedLink key={item.company} href={item.href} className="role-card" tracking={{ eventName: "project_opened", properties: { project_id: item.projectId, project_name: item.company } }}>
                 <span className="role-index">0{index + 1}</span>
                 <span className="credential-logo-box">
                   <img src={item.logo} alt={`${item.company} logo`} className={item.logoClass} />
@@ -72,7 +76,7 @@ export function Hero() {
                   <small>{item.role}</small>
                 </span>
                 <span className="role-arrow" aria-hidden="true">↘</span>
-              </a>
+              </TrackedLink>
             ))}
           </div>
           <p className="proof-footer">Texas A&amp;M / Industrial &amp; Systems Engineering Honors</p>

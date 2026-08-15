@@ -1,9 +1,14 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { BrowserRouter, useNavigate } from "react-router-dom";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   captureAnalyticsEvent,
   initializeAnalytics,
   isTrackablePath,
 } from "../src/analytics/client";
+import { TrackedLink } from "../src/analytics/TrackedLink";
+import { usePageTracking } from "../src/analytics/usePageTracking";
+import { useSectionTracking } from "../src/analytics/useSectionTracking";
 
 const posthogMock = vi.hoisted(() => ({
   capture: vi.fn(),
@@ -14,11 +19,45 @@ const posthogMock = vi.hoisted(() => ({
 
 vi.mock("posthog-js", () => ({ default: posthogMock }));
 
+class IntersectionObserverMock {
+  static instances: IntersectionObserverMock[] = [];
+  readonly observe = vi.fn();
+  readonly disconnect = vi.fn();
+
+  constructor(readonly callback: IntersectionObserverCallback) {
+    IntersectionObserverMock.instances.push(this);
+  }
+
+  emit(entries: Array<Partial<IntersectionObserverEntry>>) {
+    this.callback(entries as IntersectionObserverEntry[], this as unknown as IntersectionObserver);
+  }
+}
+
+function RouteProbe() {
+  usePageTracking();
+  const navigate = useNavigate();
+
+  return <button onClick={() => navigate("/pitch")}>Open pitch</button>;
+}
+
+function SectionProbe() {
+  useSectionTracking([{ id: "work", label: "Experience" }]);
+  return <section id="work">Work</section>;
+}
+
 describe("analytics boundary", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.unstubAllEnvs();
     window.history.replaceState({}, "", "/");
+    vi.stubGlobal("IntersectionObserver", IntersectionObserverMock);
+    IntersectionObserverMock.instances = [];
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+    Object.defineProperty(document, "visibilityState", { configurable: true, value: "visible" });
   });
 
   it("excludes the private admin route and all of its children", () => {
@@ -156,5 +195,94 @@ describe("analytics boundary", () => {
         $referrer: "https://search.example/results",
       },
     });
+  });
+
+  it("captures one pageview for the home page and another when navigating to pitch", () => {
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+
+    render(
+      <BrowserRouter>
+        <RouteProbe />
+      </BrowserRouter>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Open pitch" }));
+
+    expect(posthogMock.capture).toHaveBeenNthCalledWith(1, "$pageview", {});
+    expect(posthogMock.capture).toHaveBeenNthCalledWith(2, "$pageview", {});
+  });
+
+  it("does not capture a pageview on the private admin route", () => {
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    window.history.replaceState({}, "", "/admin");
+
+    render(
+      <BrowserRouter>
+        <RouteProbe />
+      </BrowserRouter>,
+    );
+
+    expect(posthogMock.capture).not.toHaveBeenCalled();
+  });
+
+  it("captures a section once at fifty percent visibility and pauses active time while hidden", () => {
+    vi.useFakeTimers();
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    render(<SectionProbe />);
+    const observer = IntersectionObserverMock.instances[0];
+    const section = document.getElementById("work");
+    expect(section).not.toBeNull();
+
+    act(() => {
+      observer.emit([{ target: section!, isIntersecting: true, intersectionRatio: 0.5 }]);
+      observer.emit([{ target: section!, isIntersecting: true, intersectionRatio: 0.5 }]);
+      vi.advanceTimersByTime(10_000);
+    });
+
+    expect(posthogMock.capture).toHaveBeenCalledWith("section_viewed", {
+      section_id: "work",
+      section_label: "Experience",
+      visibility_threshold: 0.5,
+    });
+    expect(posthogMock.capture).toHaveBeenCalledWith("section_engaged", {
+      section_id: "work",
+      active_milliseconds: 10_000,
+    });
+    expect(posthogMock.capture.mock.calls.filter(([eventName]) => eventName === "section_viewed")).toHaveLength(1);
+
+    Object.defineProperty(document, "visibilityState", { configurable: true, value: "hidden" });
+    act(() => vi.advanceTimersByTime(30_000));
+
+    expect(posthogMock.capture).not.toHaveBeenCalledWith("section_engaged", {
+      section_id: "work",
+      active_milliseconds: 30_000,
+    });
+  });
+
+  it("reports resume placement and emits an email contact event without the address", () => {
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    const { rerender } = render(
+      <TrackedLink href="/resume.pdf" tracking={{ eventName: "resume_viewed", properties: { placement: "hero" } }}>
+        Resume
+      </TrackedLink>,
+    );
+
+    fireEvent.click(screen.getByRole("link", { name: "Resume" }));
+    expect(posthogMock.capture).toHaveBeenCalledWith("resume_viewed", { placement: "hero" });
+
+    posthogMock.capture.mockClear();
+    rerender(
+      <TrackedLink href="mailto:shivamkanodia77@gmail.com" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>
+        Email
+      </TrackedLink>,
+    );
+    fireEvent.click(screen.getByRole("link", { name: "Email" }));
+
+    expect(posthogMock.capture).toHaveBeenCalledWith("contact_clicked", { channel: "email" });
+    expect(posthogMock.capture).toHaveBeenLastCalledWith("contact_clicked", { channel: "email" });
   });
 });

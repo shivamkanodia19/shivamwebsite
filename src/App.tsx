@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { usePageTracking } from "@/analytics/usePageTracking";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
@@ -25,6 +26,8 @@ function HomePage() {
 }
 
 function App() {
+  usePageTracking();
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
