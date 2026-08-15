@@ -8,7 +8,7 @@ import {
 const encoder = new TextEncoder();
 const testConfig: AuthConfig = {
   passwordHash: await passwordHash("correct horse battery staple"),
-  tokenSecret: "test-only-token-signing-secret",
+  tokenSecret: "test-only-token-signing-secret-123456",
 };
 
 Deno.test("verifyPassword accepts the configured password", async () => {
@@ -66,6 +66,22 @@ Deno.test("expired tokens are rejected", async () => {
   assert(!(await verifyAdminToken(token, now, testConfig)));
 });
 
+Deno.test("tokens issued too far in the future are rejected", async () => {
+  const now = new Date("2026-08-15T12:00:00.000Z");
+  const token = await signedToken({
+    aud: "admin-analytics",
+    iat: Math.floor(now.getTime() / 1000) + 61,
+    exp: Math.floor(now.getTime() / 1000) + 120,
+  }, testConfig.tokenSecret);
+
+  assert(!(await verifyAdminToken(token, now, testConfig)));
+});
+
+Deno.test("tokens cannot be issued with a short signing secret", async () => {
+  const now = new Date("2026-08-15T12:00:00.000Z");
+  await assertRejects(() => issueAdminToken(now, { tokenSecret: "too-short" }));
+});
+
 async function passwordHash(password: string): Promise<string> {
   const salt = encoder.encode("test-only-password-salt");
   const material = await crypto.subtle.importKey(
@@ -110,4 +126,13 @@ function base64Url(bytes: Uint8Array): string {
 
 function assert(condition: unknown, message = "assertion failed"): asserts condition {
   if (!condition) throw new Error(message);
+}
+
+async function assertRejects(operation: () => Promise<unknown>): Promise<void> {
+  try {
+    await operation();
+  } catch {
+    return;
+  }
+  throw new Error("expected operation to reject");
 }

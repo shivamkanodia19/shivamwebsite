@@ -1,104 +1,50 @@
-import { createClient } from "npm:@supabase/supabase-js@2";
-import { issueAdminToken, verifyPassword } from "../_shared/auth.ts";
-import { corsHeaders, isAllowedOrigin } from "../_shared/cors.ts";
+import { createClient } from "npm:@supabase/supabase-js@2.57.0";
+import { hasSecureSecret, issueAdminToken, verifyPassword } from "../_shared/auth.ts";
+import { runtimeCorsConfig } from "../_shared/cors.ts";
+import {
+  createAdminLoginHandler,
+  type ThrottleReservation,
+  type ThrottleStore,
+} from "../_shared/login.ts";
 
-const maximumPasswordLength = 1_024;
-const maxFailures = 5;
-const lockoutWindowMilliseconds = 15 * 60 * 1000;
+Deno.serve((request) => createAdminLoginHandler({
+  throttle: supabaseThrottleStore(),
+  corsConfig: runtimeCorsConfig(),
+  now: () => new Date(),
+  hashScope: (scope) => hashRateLimitScope(scope, requiredSecret("ADMIN_RATE_LIMIT_SALT")),
+  verifyPassword,
+  issueToken: issueAdminToken,
+})(request));
 
-Deno.serve(async (request) => {
-  const origin = request.headers.get("origin");
-  const headers = { ...corsHeaders(origin), "Cache-Control": "no-store" };
-
-  if (!isAllowedOrigin(origin)) {
-    return response({ error: "Invalid request" }, 403, headers);
-  }
-  if (request.method === "OPTIONS") return new Response(null, { status: 204, headers });
-  if (request.method !== "POST" || !isJsonRequest(request)) {
-    return response({ error: "Invalid request" }, 400, headers);
-  }
-
-  const password = await readPassword(request);
-  if (password === null || password.length > maximumPasswordLength) {
-    return response({ error: "Invalid request" }, 400, headers);
-  }
-
-  try {
-    const database = createClient(
-      requiredSecret("SUPABASE_URL"),
-      requiredSecret("SUPABASE_SERVICE_ROLE_KEY"),
-      { auth: { autoRefreshToken: false, persistSession: false } },
-    );
-    const ipHash = await hashIp(normalizedForwardedIp(request), requiredSecret("ADMIN_RATE_LIMIT_SALT"));
-    const cutoff = new Date(Date.now() - lockoutWindowMilliseconds).toISOString();
-    const { count, error: countError } = await database
-      .from("admin_login_attempts")
-      .select("id", { count: "exact", head: true })
-      .eq("ip_hash", ipHash)
-      .gte("attempted_at", cutoff);
-    if (countError) throw countError;
-    if ((count ?? 0) >= maxFailures) {
-      return response({ error: "Too many attempts" }, 429, headers);
-    }
-
-    if (!(await verifyPassword(password))) {
-      const { error: insertError } = await database.from("admin_login_attempts").insert({ ip_hash: ipHash });
-      if (insertError) throw insertError;
-
-      const { count: updatedCount, error: updatedCountError } = await database
-        .from("admin_login_attempts")
-        .select("id", { count: "exact", head: true })
-        .eq("ip_hash", ipHash)
-        .gte("attempted_at", cutoff);
-      if (updatedCountError) throw updatedCountError;
-      return response(
-        { error: (updatedCount ?? 0) >= maxFailures ? "Too many attempts" : "Invalid password" },
-        (updatedCount ?? 0) >= maxFailures ? 429 : 401,
-        headers,
-      );
-    }
-
-    const { error: deleteError } = await database.from("admin_login_attempts").delete().eq("ip_hash", ipHash);
-    if (deleteError) throw deleteError;
-
-    const now = new Date();
-    const token = await issueAdminToken(now);
-    return response({ token, expiresAt: new Date(now.getTime() + 8 * 60 * 60 * 1000).toISOString() }, 200, headers);
-  } catch {
-    return response({ error: "Invalid request" }, 500, headers);
-  }
-});
-
-function response(body: Record<string, string>, status: number, headers: HeadersInit): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { ...headers, "Content-Type": "application/json; charset=utf-8" },
-  });
+function supabaseThrottleStore(): ThrottleStore {
+  const database = createClient(
+    requiredSecret("SUPABASE_URL"),
+    requiredSecret("SUPABASE_SERVICE_ROLE_KEY"),
+    { auth: { autoRefreshToken: false, persistSession: false } },
+  );
+  return {
+    async reserve(ipHash, globalHash): Promise<ThrottleReservation> {
+      const { data, error } = await database
+        .rpc("reserve_admin_login_attempt", { p_ip_hash: ipHash, p_global_hash: globalHash })
+        .single();
+      if (error || !data || typeof data.allowed !== "boolean") throw error ?? new TypeError("Invalid throttle response");
+      return {
+        allowed: data.allowed,
+        lockedUntil: typeof data.locked_until === "string" ? data.locked_until : null,
+      };
+    },
+    async clear(ipHash, globalHash): Promise<void> {
+      const { error } = await database.rpc("clear_admin_login_attempts", {
+        p_ip_hash: ipHash,
+        p_global_hash: globalHash,
+      });
+      if (error) throw error;
+    },
+  };
 }
 
-function isJsonRequest(request: Request): boolean {
-  return request.headers.get("content-type")?.toLowerCase().startsWith("application/json") ?? false;
-}
-
-async function readPassword(request: Request): Promise<string | null> {
-  try {
-    const body: unknown = await request.json();
-    if (!body || typeof body !== "object" || Array.isArray(body)) return null;
-    const password = (body as Record<string, unknown>).password;
-    return typeof password === "string" ? password : null;
-  } catch {
-    return null;
-  }
-}
-
-function normalizedForwardedIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for") ?? request.headers.get("cf-connecting-ip") ?? "";
-  const firstValue = forwarded.split(",", 1)[0]?.trim().toLowerCase() ?? "";
-  const normalized = firstValue.startsWith("::ffff:") ? firstValue.slice(7) : firstValue;
-  return /^[0-9a-f:.]{3,45}$/.test(normalized) ? normalized : "unknown";
-}
-
-async function hashIp(ip: string, salt: string): Promise<string> {
+async function hashRateLimitScope(scope: string, salt: string): Promise<string> {
+  if (!hasSecureSecret(salt)) throw new TypeError("Rate-limit salt must be at least 32 characters");
   const key = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(salt),
@@ -106,7 +52,7 @@ async function hashIp(ip: string, salt: string): Promise<string> {
     false,
     ["sign"],
   );
-  const digest = new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(ip)));
+  const digest = new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(scope)));
   let binary = "";
   for (const byte of digest) binary += String.fromCharCode(byte);
   return btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "");

@@ -8,7 +8,7 @@ export function isAllowedOrigin(
   origin: string | null,
   config: CorsConfig = runtimeCorsConfig(),
 ): origin is string {
-  return origin !== null && config.allowedOrigins.includes(origin);
+  return origin !== null && isSafeOrigin(origin) && config.allowedOrigins.includes(origin);
 }
 
 export function corsHeaders(
@@ -29,10 +29,21 @@ export function corsHeaders(
   return headers;
 }
 
-function runtimeCorsConfig(): CorsConfig {
+export function runtimeCorsConfig(): CorsConfig {
   const configured = Deno.env.get("ADMIN_ALLOWED_ORIGINS")
     ?.split(",")
     .map((origin) => origin.trim())
-    .filter(Boolean) ?? [];
+    .filter(isSafeOrigin) ?? [];
   return { allowedOrigins: [...new Set([...defaultAllowedOrigins, ...configured])] };
+}
+
+function isSafeOrigin(origin: string): boolean {
+  try {
+    const url = new URL(origin);
+    if (url.origin !== origin || url.username || url.password) return false;
+    if (url.protocol === "https:") return true;
+    return url.protocol === "http:" && (url.hostname === "localhost" || url.hostname === "127.0.0.1");
+  } catch {
+    return false;
+  }
 }

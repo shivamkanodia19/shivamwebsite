@@ -15,7 +15,9 @@ type AdminTokenPayload = {
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const passwordHashPattern = /^pbkdf2-sha256\$(\d+)\$([A-Za-z0-9_-]+)\$([A-Za-z0-9_-]+)$/;
-const tokenLifetimeSeconds = 8 * 60 * 60;
+export const ADMIN_TOKEN_LIFETIME_SECONDS = 8 * 60 * 60;
+export const MINIMUM_SECRET_LENGTH = 32;
+const maximumFutureIatSkewSeconds = 60;
 
 export async function verifyPassword(
   password: string,
@@ -59,7 +61,7 @@ export async function issueAdminToken(
   const payload: AdminTokenPayload = {
     aud: "admin-analytics",
     iat: issuedAt,
-    exp: issuedAt + tokenLifetimeSeconds,
+    exp: issuedAt + ADMIN_TOKEN_LIFETIME_SECONDS,
   };
   const header = encodeBase64Url(JSON.stringify({ alg: "HS256", typ: "JWT" }));
   const body = encodeBase64Url(JSON.stringify(payload));
@@ -73,7 +75,7 @@ export async function verifyAdminToken(
   now: Date,
   config: TokenConfig = runtimeConfig(),
 ): Promise<boolean> {
-  if (typeof token !== "string" || !config.tokenSecret) return false;
+  if (typeof token !== "string" || !hasSecureSecret(config.tokenSecret)) return false;
 
   const parts = token.split(".");
   if (parts.length !== 3 || parts.some((part) => !part)) return false;
@@ -124,7 +126,8 @@ function isAdminTokenPayload(value: unknown, now: number): value is AdminTokenPa
   ) return false;
 
   return payload.exp > now && payload.exp > payload.iat &&
-    payload.exp <= payload.iat + tokenLifetimeSeconds;
+    payload.exp <= payload.iat + ADMIN_TOKEN_LIFETIME_SECONDS &&
+    payload.iat <= now + maximumFutureIatSkewSeconds;
 }
 
 function isTimestamp(value: unknown): value is number {
@@ -145,7 +148,7 @@ function epochSeconds(date: Date): number {
 }
 
 async function sign(value: string, secret: string): Promise<string> {
-  if (!secret) throw new TypeError("Missing token secret");
+  if (!hasSecureSecret(secret)) throw new TypeError("Token secret must be at least 32 characters");
   const key = await crypto.subtle.importKey(
     "raw",
     encoder.encode(secret),
@@ -155,6 +158,10 @@ async function sign(value: string, secret: string): Promise<string> {
   );
   const signature = await crypto.subtle.sign("HMAC", key, encoder.encode(value));
   return encodeBase64Url(new Uint8Array(signature));
+}
+
+export function hasSecureSecret(value: string): boolean {
+  return typeof value === "string" && value.length >= MINIMUM_SECRET_LENGTH;
 }
 
 function constantTimeEqual(left: Uint8Array, right: Uint8Array): boolean {
