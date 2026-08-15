@@ -8,6 +8,8 @@ import {
 const posthogMock = vi.hoisted(() => ({
   capture: vi.fn(),
   init: vi.fn(),
+  startSessionRecording: vi.fn(),
+  stopSessionRecording: vi.fn(),
 }));
 
 vi.mock("posthog-js", () => ({ default: posthogMock }));
@@ -81,6 +83,39 @@ describe("analytics boundary", () => {
     window.history.replaceState({}, "", "/admin/reports");
 
     captureAnalyticsEvent("resume_viewed", { placement: "admin" });
+
+    expect(posthogMock.capture).not.toHaveBeenCalled();
+  });
+
+  it("stops session replay on admin navigation and restarts it on public exit", () => {
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    initializeAnalytics();
+    posthogMock.startSessionRecording.mockClear();
+    posthogMock.stopSessionRecording.mockClear();
+
+    window.history.pushState({}, "", "/admin");
+    expect(posthogMock.stopSessionRecording).toHaveBeenCalledOnce();
+
+    window.history.pushState({}, "", "/pitch");
+    expect(posthogMock.startSessionRecording).toHaveBeenCalledOnce();
+  });
+
+  it("rejects sensitive values in otherwise allowlisted event properties", () => {
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    initializeAnalytics();
+
+    captureAnalyticsEvent("element_clicked", {
+      element_id: "contact",
+      label: "email: shivam@example.com",
+      section_id: "contact",
+      destination_type: "email",
+    });
+    captureAnalyticsEvent("project_opened", {
+      project_id: "case-study",
+      project_name: "https://example.com/?email=shivam@example.com",
+    });
 
     expect(posthogMock.capture).not.toHaveBeenCalled();
   });
