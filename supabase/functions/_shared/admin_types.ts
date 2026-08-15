@@ -20,6 +20,19 @@ export type RankedValue = {
   share: number;
 };
 
+export type SectionValue = {
+  label: string;
+  sessions: number;
+  total: number;
+  share: number;
+};
+
+export type FunnelStage = {
+  label: string;
+  sessions: number;
+  share: number;
+};
+
 export type AnalyticsCoverage = {
   requestedFrom: string;
   availableFrom: string | null;
@@ -45,7 +58,7 @@ export type AdminAnalyticsResponse = {
     resumeViews: MetricValue;
   };
   trend: TrendPoint[];
-  sections: RankedValue[];
+  sections: SectionValue[];
   actions: RankedValue[];
   acquisition: RankedValue[];
   audience: {
@@ -53,6 +66,6 @@ export type AdminAnalyticsResponse = {
     devices: RankedValue[];
     browsers: RankedValue[];
   };
-  funnel: RankedValue[];
+  funnel: FunnelStage[];
   posthogLinks: PostHogLinks;
 };

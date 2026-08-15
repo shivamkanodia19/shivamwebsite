@@ -1,5 +1,5 @@
-import type { MetricValue, PostHogLinks, RangeDays, RankedValue, TrendPoint } from "./admin_types.ts";
-export type { MetricValue, PostHogLinks, RangeDays, RankedValue, TrendPoint } from "./admin_types.ts";
+import type { FunnelStage, MetricValue, PostHogLinks, RangeDays, RankedValue, SectionValue, TrendPoint } from "./admin_types.ts";
+export type { FunnelStage, MetricValue, PostHogLinks, RangeDays, RankedValue, SectionValue, TrendPoint } from "./admin_types.ts";
 
 export class PostHogDataError extends Error {
   constructor(message: string) {
@@ -42,12 +42,12 @@ export function buildReportQueries(range: RangeDays): ReportQuery[] {
         SELECT uniq(properties.$session_id) AS total FROM events WHERE ${current} AND notEmpty(properties.$session_id)
       )
       SELECT concat(properties.section_label, ' [', properties.section_id, ']') AS label,
-        uniq(properties.$session_id) AS visitors, totals.total AS total,
+        uniq(properties.$session_id) AS sessions, totals.total AS total,
         if(totals.total = 0, 0, uniq(properties.$session_id) * 100 / totals.total) AS share
       FROM events CROSS JOIN session_totals AS totals
       WHERE event = 'section_viewed' AND ${current} AND notEmpty(properties.$session_id)
         AND notEmpty(properties.section_id) AND notEmpty(properties.section_label)
-      GROUP BY label, totals.total ORDER BY visitors DESC LIMIT 20`),
+      GROUP BY label, totals.total ORDER BY sessions DESC LIMIT 20`),
     report("actions", `WITH visitor_totals AS (
         SELECT uniq(distinct_id) AS total FROM events WHERE ${current}
       )
@@ -111,14 +111,14 @@ export function buildReportQueries(range: RangeDays): ReportQuery[] {
           (SELECT count() FROM action_stages) AS action_sessions,
           (SELECT count() FROM resume_stages) AS resume_sessions
       )
-      SELECT label, visitors, total, share FROM (
-        SELECT 1 AS stage_order, 'Visit' AS label, starting_sessions AS visitors, starting_sessions AS total,
+      SELECT label, sessions, share FROM (
+        SELECT 1 AS stage_order, 'Visit' AS label, starting_sessions AS sessions,
           if(starting_sessions = 0, 0, 100) AS share FROM stage_counts
-        UNION ALL SELECT 2 AS stage_order, 'Work view' AS label, work_sessions AS visitors, starting_sessions AS total,
+        UNION ALL SELECT 2 AS stage_order, 'Work view' AS label, work_sessions AS sessions,
           if(starting_sessions = 0, 0, work_sessions * 100 / starting_sessions) AS share FROM stage_counts
-        UNION ALL SELECT 3 AS stage_order, 'Portfolio action' AS label, action_sessions AS visitors, starting_sessions AS total,
+        UNION ALL SELECT 3 AS stage_order, 'Portfolio action' AS label, action_sessions AS sessions,
           if(starting_sessions = 0, 0, action_sessions * 100 / starting_sessions) AS share FROM stage_counts
-        UNION ALL SELECT 4 AS stage_order, 'Resume action' AS label, resume_sessions AS visitors, starting_sessions AS total,
+        UNION ALL SELECT 4 AS stage_order, 'Resume action' AS label, resume_sessions AS sessions,
           if(starting_sessions = 0, 0, resume_sessions * 100 / starting_sessions) AS share FROM stage_counts
       ) ORDER BY stage_order`),
   ];
@@ -164,15 +164,42 @@ export function normalizeRankedValues(rows: unknown): RankedValue[] {
   });
 }
 
-export function normalizeFunnel(rows: unknown): RankedValue[] {
-  const result = normalizeRankedValues(rows);
+export function normalizeSectionValues(rows: unknown): SectionValue[] {
+  if (!Array.isArray(rows)) throw new PostHogDataError("Malformed section report");
+  return rows.map((row) => {
+    if (!Array.isArray(row) || row.length !== 4 || typeof row[0] !== "string" || !row[0].trim()) {
+      throw new PostHogDataError("Malformed section row");
+    }
+    const sessions = requiredNumber(row[1]);
+    const total = requiredNumber(row[2]);
+    const share = requiredNumber(row[3]);
+    if (sessions < 0 || total < 0 || sessions > total || share < 0 || share > 100) {
+      throw new PostHogDataError("Invalid section aggregate");
+    }
+    return { label: row[0], sessions, total, share };
+  });
+}
+
+export function normalizeFunnel(rows: unknown): FunnelStage[] {
+  if (!Array.isArray(rows)) throw new PostHogDataError("Malformed funnel report");
+  if (rows.length === 0) return [];
+  const result = rows.map((row) => {
+    if (!Array.isArray(row) || row.length !== 3 || typeof row[0] !== "string" || !row[0].trim()) {
+      throw new PostHogDataError("Malformed funnel row");
+    }
+    const sessions = requiredNumber(row[1]);
+    const share = requiredNumber(row[2]);
+    if (sessions < 0 || share < 0 || share > 100) throw new PostHogDataError("Invalid funnel aggregate");
+    return { label: row[0], sessions, share };
+  });
   const labels = ["Visit", "Work view", "Portfolio action", "Resume action"];
   if (result.length !== labels.length) throw new PostHogDataError("Malformed funnel report");
   for (let index = 0; index < result.length; index += 1) {
-    if (result[index].label !== labels[index] || (index > 0 && result[index].visitors > result[index - 1].visitors)) {
+    if (result[index].label !== labels[index] || (index > 0 && result[index].sessions > result[index - 1].sessions)) {
       throw new PostHogDataError("Invalid funnel ordering");
     }
   }
+  if (result[0].sessions === 0) return [];
   return result;
 }
 

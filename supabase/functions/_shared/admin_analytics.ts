@@ -6,6 +6,7 @@ import {
   normalizeFunnel,
   normalizeKpis,
   normalizeRankedValues,
+  normalizeSectionValues,
   normalizeTrendPoints,
   parseRange,
   type ReportQuery,
@@ -84,7 +85,7 @@ async function fetchAnalytics(
 
   const kpis = normalized("kpis", normalizeKpis([]), normalizeKpis);
   const trend = normalized("trend", [], normalizeTrendPoints);
-  const sections = normalized("sections", [], normalizeRankedValues);
+  const sections = normalized("sections", [], normalizeSectionValues);
   const actions = normalized("actions", [], normalizeRankedValues);
   const acquisition = normalized("acquisition", [], normalizeRankedValues);
   const audience = normalized("audience", { countries: [], devices: [], browsers: [] }, normalizeAudience);

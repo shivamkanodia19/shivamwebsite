@@ -5,6 +5,7 @@ import {
   normalizeFunnel,
   normalizeKpis,
   normalizeRankedValues,
+  normalizeSectionValues,
   parseRange,
 } from "../_shared/posthog.ts";
 
@@ -60,20 +61,44 @@ Deno.test("normalizeRankedValues rejects rows that could not have come from an a
 });
 
 Deno.test("normalizeRankedValues preserves the report-defined denominator and share", () => {
-  const [section] = normalizeRankedValues([["Work", 8, 20, 40]]);
+  const [action] = normalizeRankedValues([["Resume: hero", 8, 20, 40]]);
 
-  assert(section.visitors === 8);
+  assert(action.visitors === 8);
+  assert(action.total === 20);
+  assert(action.share === 40);
+});
+
+Deno.test("normalizeSectionValues exposes session reach without a visitors field", () => {
+  const [section] = normalizeSectionValues([["Work", 8, 20, 40]]);
+
+  assert(section.sessions === 8);
   assert(section.total === 20);
   assert(section.share === 40);
+  assert(!("visitors" in section));
 });
 
 Deno.test("normalizeFunnel rejects non-monotonic stage counts", () => {
   assertThrows(() => normalizeFunnel([
-    ["Visit", 10, 10, 100],
-    ["Work view", 11, 10, 110],
-    ["Portfolio action", 6, 10, 60],
-    ["Resume action", 4, 10, 40],
+    ["Visit", 10, 100],
+    ["Work view", 11, 100],
+    ["Portfolio action", 6, 60],
+    ["Resume action", 4, 40],
   ]), PostHogDataError);
+});
+
+Deno.test("normalizeFunnel returns no stages when the starting session count is zero", () => {
+  const result = normalizeFunnel([
+    ["Visit", 0, 0],
+    ["Work view", 0, 0],
+    ["Portfolio action", 0, 0],
+    ["Resume action", 0, 0],
+  ]);
+
+  assert(result.length === 0);
+});
+
+Deno.test("normalizeFunnel returns no stages when the report is absent", () => {
+  assert(normalizeFunnel([]).length === 0);
 });
 
 Deno.test("report query builders are fixed, aggregate-only, and range-bound", () => {
@@ -90,7 +115,7 @@ Deno.test("report queries alias aggregates and never order by an undefined alias
   const reports = new Map(buildReportQueries(7).map((report) => [report.id, report.payload.query.query]));
 
   assert(reports.get("trend")?.includes("AS visitors"));
-  assert(reports.get("sections")?.includes("AS visitors"));
+  assert(reports.get("sections")?.includes("AS sessions"));
   assert(reports.get("actions")?.includes("AS label"));
   assert(reports.get("acquisition")?.includes("AS share"));
   assert(reports.get("audience")?.includes("AS audience_group"));
@@ -120,7 +145,7 @@ Deno.test("funnel counts ordered stages within the same anonymous session", () =
   assert(funnel.includes("e.timestamp >= v.visit_at"));
   assert(funnel.includes("e.timestamp >= w.work_at"));
   assert(funnel.includes("e.timestamp >= a.action_at"));
-  assert(funnel.includes("starting_sessions AS total"));
+  assert(funnel.includes("starting_sessions AS sessions"));
 });
 
 Deno.test("PostHog links remain under the configured project URL", () => {

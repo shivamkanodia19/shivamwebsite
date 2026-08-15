@@ -48,9 +48,12 @@ Deno.test("analytics returns the stable private aggregate response contract", as
   assert(body.rangeDays === 30);
   assert(body.coverage.partial === false);
   assert(body.kpis.visitors.value === 10);
+  assert(body.sections[0].sessions === 8);
+  assert(!("visitors" in body.sections[0]));
   assert(body.sections[0].share === 40);
   assert(body.audience.countries[0].label === "United States");
-  assert(body.funnel.map((stage) => stage.visitors).join(",") === "10,8,6,4");
+  assert(body.funnel.map((stage) => stage.sessions).join(",") === "10,8,6,4");
+  assert(body.funnel.every((stage) => !("visitors" in stage)));
   assert(!/distinct_id|person_id|session_id/.test(JSON.stringify(body)));
 });
 
@@ -126,7 +129,7 @@ function fixture(id: ReportQuery["id"]): unknown[] {
     case "actions": return [["Resume: hero", 5, 10, 50]];
     case "acquisition": return [["Direct", 10, 10, 100]];
     case "audience": return [["country", "United States", 8, 10, 80]];
-    case "funnel": return [["Visit", 10, 10, 100], ["Work view", 8, 10, 80], ["Portfolio action", 6, 10, 60], ["Resume action", 4, 10, 40]];
+    case "funnel": return [["Visit", 10, 100], ["Work view", 8, 80], ["Portfolio action", 6, 60], ["Resume action", 4, 40]];
   }
 }
 
