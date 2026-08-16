@@ -1,16 +1,17 @@
-import { createAdminAnalyticsHandler, parseTrackingStartedAt } from "../_shared/admin_analytics.ts";
+import { createAdminAnalyticsHandler, parseReportStartDates } from "../_shared/admin_analytics.ts";
 import type { AdminAnalyticsResponse } from "../_shared/admin_types.ts";
 import type { ReportQuery } from "../_shared/posthog.ts";
 
 const origin = "https://shivamkanodia.com";
 const now = new Date("2026-08-15T12:00:00.000Z");
 
-Deno.test("analytics tracking start accepts only real ISO calendar dates", () => {
-  assert(parseTrackingStartedAt("2026-08-15") === "2026-08-15");
-  for (const value of ["", "08/15/2026", "2026-02-30", "2026-8-5"]) {
+Deno.test("report start dates require a complete exact map of ISO date/times", () => {
+  const parsed = parseReportStartDates(JSON.stringify(reportStartDates));
+  assert(parsed.kpis === "2026-07-01T00:00:00.000Z");
+  for (const value of ["", "[]", JSON.stringify({ ...reportStartDates, funnel: "2026-08-15" }), JSON.stringify({ ...reportStartDates, funnel: "2026-02-30T00:00:00Z" }), JSON.stringify({ ...reportStartDates, funnel: undefined }), JSON.stringify({ ...reportStartDates, extra: "2026-08-15T00:00:00Z" })]) {
     let rejected = false;
     try {
-      parseTrackingStartedAt(value);
+      parseReportStartDates(value);
     } catch {
       rejected = true;
     }
@@ -62,7 +63,8 @@ Deno.test("analytics returns the stable private aggregate response contract", as
   assert(body.coverage.partial === false);
   assert(body.trackingHealth === "healthy");
   assert(Object.values(body.reportStatus).every((report) => report.availability === "available"));
-  assert(Object.values(body.reportStatus).every((report) => report.availableFrom === "2026-07-01"));
+  assert(body.reportStatus.kpis.availableFrom === "2026-07-01T00:00:00.000Z");
+  assert(body.reportStatus.funnel.availableFrom === "2026-07-07T00:00:00.000Z");
   assert(body.kpis.visitors.value === 10);
   assert(body.sections[0].sessions === 8);
   assert(!("visitors" in body.sections[0]));
@@ -94,7 +96,10 @@ Deno.test("analytics preserves successful modules when one report fails", async 
 });
 
 Deno.test("analytics marks reports partial when the requested range predates tracking", async () => {
-  const handler = createHandler({ trackingStartedAt: "2026-08-10" });
+  const handler = createHandler({ reportStartDates: {
+    kpis: "2026-08-01T00:00:00.000Z", trend: "2026-08-02T00:00:00.000Z", sections: "2026-08-03T00:00:00.000Z",
+    actions: "2026-08-10T00:00:00.000Z", acquisition: "2026-08-11T00:00:00.000Z", audience: "2026-08-12T00:00:00.000Z", funnel: "2026-08-13T00:00:00.000Z",
+  } });
 
   const response = await handler(request("7"));
   const body = await response.json() as AdminAnalyticsResponse;
@@ -103,8 +108,9 @@ Deno.test("analytics marks reports partial when the requested range predates tra
   assert(body.coverage.requestedFrom === "2026-08-08");
   assert(body.coverage.partial);
   assert(body.trackingHealth === "healthy");
-  assert(body.reportStatus.kpis.availableFrom === "2026-08-10");
-  assert(body.reportStatus.funnel.availableFrom === "2026-08-10");
+  assert(body.reportStatus.kpis.availableFrom === "2026-08-01T00:00:00.000Z");
+  assert(body.reportStatus.actions.availableFrom === "2026-08-10T00:00:00.000Z");
+  assert(body.reportStatus.funnel.availableFrom === "2026-08-13T00:00:00.000Z");
 });
 
 Deno.test("analytics maps complete upstream failure to a controlled error", async () => {
@@ -142,11 +148,16 @@ function createHandler(overrides: Partial<Parameters<typeof createAdminAnalytics
     verifyToken: async () => true,
     fetchReport: async (report) => fixture(report.id),
     posthogLinks: () => ({ sessions: null, heatmaps: null, paths: null, events: null }),
-    trackingStartedAt: "2026-07-01",
+    reportStartDates,
     timeoutMilliseconds: 100,
     ...overrides,
   });
 }
+
+const reportStartDates = {
+  kpis: "2026-07-01T00:00:00Z", trend: "2026-07-02T00:00:00Z", sections: "2026-07-03T00:00:00Z",
+  actions: "2026-07-04T00:00:00Z", acquisition: "2026-07-05T00:00:00Z", audience: "2026-07-06T00:00:00Z", funnel: "2026-07-07T00:00:00Z",
+};
 
 function request(range: string): Request {
   return new Request(`https://example.supabase.co/functions/v1/admin-analytics?range=${range}`, {

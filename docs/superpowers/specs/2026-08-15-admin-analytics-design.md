@@ -105,7 +105,7 @@ Production verification confirms that public pages emit the intended events, `/a
 
 ## Deployment setup
 
-Implementation can be completed without changing hosting, but live analytics requires the owner to create or connect PostHog and Supabase projects and supply deployment secrets. GitHub Actions receives only the public PostHog project key and host. Supabase receives `ADMIN_PASSWORD_HASH`, `ADMIN_TOKEN_SECRET`, `ADMIN_RATE_LIMIT_SALT`, `POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID`, and `POSTHOG_API_HOST`.
+Implementation can be completed without changing hosting, but live analytics requires the owner to create or connect PostHog and Supabase projects and supply deployment secrets. GitHub Actions receives only the public PostHog project key and host. Supabase receives `ADMIN_PASSWORD_HASH`, `ADMIN_TOKEN_SECRET`, `ADMIN_RATE_LIMIT_SALT`, `POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID`, `POSTHOG_API_HOST`, and the complete per-report ISO date/time map `ANALYTICS_REPORT_START_DATES`.
 
 The administrator chooses the password during secret configuration. No default password is committed. Rotating the password hash or token secret invalidates future or existing sessions respectively.
 

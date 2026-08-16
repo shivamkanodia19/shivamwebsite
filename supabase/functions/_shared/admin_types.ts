@@ -54,6 +54,7 @@ export type AnalyticsReportCoverage = {
   availableFrom: string | null;
 };
 export type AnalyticsReportStatus = Record<AnalyticsReportKey, AnalyticsReportCoverage>;
+export type AnalyticsReportStartDates = Record<AnalyticsReportKey, string>;
 
 export type AdminAnalyticsResponse = {
   generatedAt: string;

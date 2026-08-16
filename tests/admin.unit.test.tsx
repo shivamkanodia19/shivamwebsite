@@ -353,7 +353,10 @@ describe("admin access", () => {
 
   it("names reports whose tracking began after the requested range", async () => {
     sessionStorage.setItem("admin-session-token", "signed-admin-token");
-    const reportStatus = Object.fromEntries(Object.keys(availableReportStatus).map((key) => [key, { availability: "available", availableFrom: "2026-08-10" }]));
+    const reportStatus = {
+      kpis: { availability: "available", availableFrom: "2026-08-01T00:00:00.000Z" }, trend: { availability: "available", availableFrom: "2026-08-02T00:00:00.000Z" }, sections: { availability: "available", availableFrom: "2026-08-03T00:00:00.000Z" },
+      actions: { availability: "available", availableFrom: "2026-08-10T00:00:00.000Z" }, acquisition: { availability: "available", availableFrom: "2026-08-10T12:00:00.000Z" }, audience: { availability: "available", availableFrom: "2026-08-12T00:00:00.000Z" }, funnel: { availability: "available", availableFrom: "2026-08-13T00:00:00.000Z" },
+    };
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({
       ...report,
       coverage: { requestedFrom: "2026-08-08", availableFrom: "2026-08-10", partial: true },
@@ -366,7 +369,10 @@ describe("admin access", () => {
     await screen.findByRole("heading", { name: /portfolio analytics/i });
     const coverageBanner = screen.getByRole("alert");
     expect(coverageBanner.textContent).toMatch(/tracking began august 10, 2026/i);
-    expect(coverageBanner.textContent).toMatch(/kpis, traffic trend, section attention, actions, acquisition, audience, funnel/i);
+    expect(coverageBanner.textContent).toMatch(/august 10, 2026 for actions, acquisition/i);
+    expect(coverageBanner.textContent).toMatch(/august 12, 2026 for audience/i);
+    expect(coverageBanner.textContent).toMatch(/august 13, 2026 for funnel/i);
+    expect(coverageBanner.textContent).not.toMatch(/kpis|traffic trend|section attention/i);
   });
 
   it("reports the deepest journey stage with measured sessions rather than a zero-count final stage", async () => {

@@ -9,6 +9,12 @@ npm install
 npm run dev
 ```
 
+### Analytics function secrets
+
+Copy `supabase/.env.example` values into Supabase Edge Function secrets. Required secrets are `ADMIN_PASSWORD_HASH`, `ADMIN_TOKEN_SECRET`, `ADMIN_RATE_LIMIT_SALT`, `POSTHOG_API_HOST`, `POSTHOG_PERSONAL_API_KEY`, `POSTHOG_PROJECT_ID`, and `ANALYTICS_REPORT_START_DATES`.
+
+`ANALYTICS_REPORT_START_DATES` must be a complete JSON object containing `kpis`, `trend`, `sections`, `actions`, `acquisition`, `audience`, and `funnel`. Each value is the ISO date/time when that report's instrumentation became available; use the same timestamp for every key when all instrumentation launches together.
+
 ## 2) Build and deploy to `gh-pages`
 
 ```bash

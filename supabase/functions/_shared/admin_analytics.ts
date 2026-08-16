@@ -1,5 +1,5 @@
 import { corsHeaders, isAllowedOrigin, type CorsConfig } from "./cors.ts";
-import type { AdminAnalyticsResponse, AnalyticsReportStatus, PostHogLinks, RangeDays } from "./admin_types.ts";
+import type { AdminAnalyticsResponse, AnalyticsReportKey, AnalyticsReportStartDates, AnalyticsReportStatus, PostHogLinks, RangeDays } from "./admin_types.ts";
 import {
   buildReportQueries,
   normalizeAudience,
@@ -18,7 +18,7 @@ export type AdminAnalyticsDependencies = {
   verifyToken: (token: string, now: Date) => Promise<boolean>;
   fetchReport: (report: ReportQuery, signal: AbortSignal) => Promise<unknown>;
   posthogLinks: () => PostHogLinks;
-  trackingStartedAt: string;
+  reportStartDates: AnalyticsReportStartDates;
   timeoutMilliseconds: number;
 };
 
@@ -72,13 +72,13 @@ async function fetchAnalytics(
   let partial = settled.some((report) => report.failed);
   let usableReports = 0;
   const reportStatus: AnalyticsReportStatus = {
-    kpis: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
-    trend: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
-    sections: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
-    actions: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
-    acquisition: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
-    audience: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
-    funnel: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
+    kpis: { availability: "unavailable", availableFrom: dependencies.reportStartDates.kpis },
+    trend: { availability: "unavailable", availableFrom: dependencies.reportStartDates.trend },
+    sections: { availability: "unavailable", availableFrom: dependencies.reportStartDates.sections },
+    actions: { availability: "unavailable", availableFrom: dependencies.reportStartDates.actions },
+    acquisition: { availability: "unavailable", availableFrom: dependencies.reportStartDates.acquisition },
+    audience: { availability: "unavailable", availableFrom: dependencies.reportStartDates.audience },
+    funnel: { availability: "unavailable", availableFrom: dependencies.reportStartDates.funnel },
   };
   const normalized = <Value>(id: ReportQuery["id"], fallback: Value, normalizer: (rows: unknown) => Value): Value => {
     const result = byId.get(id);
@@ -103,7 +103,7 @@ async function fetchAnalytics(
   const funnel = normalized("funnel", [], normalizeFunnel);
   if (usableReports === 0) throw new Error("No analytics reports available");
   const requestedFrom = new Date(now.getTime() - range * 24 * 60 * 60 * 1_000).toISOString().slice(0, 10);
-  partial ||= Object.values(reportStatus).some((report) => report.availability === "unavailable" || (report.availableFrom !== null && report.availableFrom > requestedFrom));
+  partial ||= Object.values(reportStatus).some((report) => report.availability === "unavailable" || (report.availableFrom !== null && report.availableFrom.slice(0, 10) > requestedFrom));
   const trackingHealth = Object.values(reportStatus).every((report) => report.availability === "available") ? "healthy" : "degraded";
 
   return {
@@ -111,7 +111,7 @@ async function fetchAnalytics(
     rangeDays: range,
     coverage: {
       requestedFrom,
-      availableFrom: dependencies.trackingStartedAt,
+      availableFrom: Object.values(dependencies.reportStartDates).sort()[0],
       partial,
     },
     trackingHealth,
@@ -127,13 +127,29 @@ async function fetchAnalytics(
   };
 }
 
-export function parseTrackingStartedAt(value: string): string {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new TypeError("Invalid analytics tracking start date");
-  const parsed = new Date(`${value}T00:00:00.000Z`);
-  if (!Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== value) {
-    throw new TypeError("Invalid analytics tracking start date");
+const reportKeys: AnalyticsReportKey[] = ["kpis", "trend", "sections", "actions", "acquisition", "audience", "funnel"];
+
+export function parseReportStartDates(value: string): AnalyticsReportStartDates {
+  let parsed: unknown;
+  try { parsed = JSON.parse(value); } catch { throw new TypeError("ANALYTICS_REPORT_START_DATES must be valid JSON"); }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new TypeError("ANALYTICS_REPORT_START_DATES must be a JSON object");
+  const record = parsed as Record<string, unknown>;
+  const unexpected = Object.keys(record).filter((key) => !reportKeys.includes(key as AnalyticsReportKey));
+  if (unexpected.length) throw new TypeError(`ANALYTICS_REPORT_START_DATES has unexpected key: ${unexpected[0]}`);
+  const result = {} as AnalyticsReportStartDates;
+  for (const key of reportKeys) {
+    const timestamp = record[key];
+    if (typeof timestamp !== "string") throw new TypeError(`ANALYTICS_REPORT_START_DATES is missing ${key}`);
+    if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(timestamp)) throw new TypeError(`ANALYTICS_REPORT_START_DATES.${key} must be an ISO date/time`);
+    const date = new Date(timestamp);
+    const [year, month, day] = timestamp.slice(0, 10).split("-").map(Number);
+    const calendarDate = new Date(Date.UTC(year, month - 1, day));
+    if (!Number.isFinite(date.getTime()) || calendarDate.getUTCFullYear() !== year || calendarDate.getUTCMonth() !== month - 1 || calendarDate.getUTCDate() !== day) {
+      throw new TypeError(`ANALYTICS_REPORT_START_DATES.${key} must be an ISO date/time`);
+    }
+    result[key] = date.toISOString();
   }
-  return value;
+  return result;
 }
 
 async function fetchWithTimeout(report: ReportQuery, dependencies: AdminAnalyticsDependencies): Promise<unknown> {

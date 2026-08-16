@@ -66,7 +66,7 @@ function formatDuration(value: number) {
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat(undefined, { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })
-    .format(new Date(`${value}T12:00:00Z`));
+    .format(new Date(/^\d{4}-\d{2}-\d{2}$/.test(value) ? `${value}T12:00:00Z` : value));
 }
 
 function formatTimestamp(value: string) {
@@ -130,8 +130,9 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
     .map(([key]) => reportLabels[key]);
   const coverageStarts = new Map<string, string[]>();
   reportEntries.forEach(([key, status]) => {
-    if (status.availableFrom !== null && status.availableFrom > report.coverage.requestedFrom) {
-      coverageStarts.set(status.availableFrom, [...(coverageStarts.get(status.availableFrom) ?? []), reportLabels[key]]);
+    const startDate = status.availableFrom?.slice(0, 10);
+    if (startDate && startDate > report.coverage.requestedFrom) {
+      coverageStarts.set(startDate, [...(coverageStarts.get(startDate) ?? []), reportLabels[key]]);
     }
   });
   const coverageMessages = [...coverageStarts].map(([date, labels]) => `Tracking began ${formatDate(date)} for ${labels.join(", ")}`);
