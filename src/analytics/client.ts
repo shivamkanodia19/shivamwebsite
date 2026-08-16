@@ -39,6 +39,13 @@ function getAnalyticsConfig() {
   return key && host ? { host, key } : undefined;
 }
 
+function getDevelopmentRequestQueueConfig() {
+  if (!import.meta.env.DEV) return undefined;
+  const flushInterval = Number(import.meta.env.VITE_POSTHOG_TEST_FLUSH_INTERVAL_MS);
+  if (!Number.isInteger(flushInterval) || flushInterval < 250 || flushInterval > 5_000) return undefined;
+  return { flush_interval_ms: flushInterval };
+}
+
 function getCurrentPath() {
   return typeof window === "undefined" ? "/admin" : window.location.pathname;
 }
@@ -165,6 +172,7 @@ function installRouteSync() {
 
 export function initializeAnalytics() {
   const config = getAnalyticsConfig();
+  const requestQueueConfig = getDevelopmentRequestQueueConfig();
 
   if (!config || !isTrackablePath(getCurrentPath())) {
     return;
@@ -177,6 +185,7 @@ export function initializeAnalytics() {
     capture_pageleave: false,
     capture_pageview: false,
     person_profiles: "identified_only",
+    ...(requestQueueConfig ? { request_queue_config: requestQueueConfig } : {}),
     session_recording: {
       maskAllInputs: true,
       maskTextSelector: "*",

@@ -4,7 +4,8 @@ import { expect, test } from "./playwright-test";
 const adminPassword = "qa-owner-password-9F!";
 const adminToken = "qa-signed-admin-token";
 const publicAnonKey = "qa-public-anon-key";
-const analyticsBatchWindowMilliseconds = 1_500;
+const analyticsBatchWindowMilliseconds = 750;
+const postLogoutPrivacyWindowMilliseconds = 3_500;
 
 const availableReportStatus = {
   kpis: { availability: "available", availableFrom: "2026-08-08T00:00:00.000Z" },
@@ -167,8 +168,8 @@ async function expectNoDocumentOverflow(page: Page) {
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 }
 
-async function waitForAnalyticsBatchWindow(page: Page) {
-  await page.waitForTimeout(analyticsBatchWindowMilliseconds);
+async function waitForAnalyticsBatchWindow(page: Page, milliseconds = analyticsBatchWindowMilliseconds) {
+  await page.waitForTimeout(milliseconds);
 }
 
 async function expectVisibleFocus(locator: Locator) {
@@ -289,6 +290,8 @@ test("incorrect password, successful login, ranges, reload, external tools, logo
   await page.getByRole("button", { name: "Log out" }).click();
   await expect(page.getByLabel("Password")).toBeVisible();
   expect(await page.evaluate(() => sessionStorage.getItem("admin-session-token"))).toBeNull();
+  await waitForAnalyticsBatchWindow(page, postLogoutPrivacyWindowMilliseconds);
+  expect(posthogRequests).toEqual([]);
 });
 
 test("throttled login uses a safe retry message and stores no secret", async ({ page }) => {

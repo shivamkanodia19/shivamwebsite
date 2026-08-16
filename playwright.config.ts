@@ -16,6 +16,7 @@ export default defineConfig({
     env: {
       VITE_POSTHOG_HOST: "https://posthog.invalid",
       VITE_POSTHOG_KEY: "qa-public-project-key",
+      VITE_POSTHOG_TEST_FLUSH_INTERVAL_MS: "250",
       VITE_SUPABASE_ANON_KEY: "qa-public-anon-key",
       VITE_SUPABASE_FUNCTIONS_URL: "http://127.0.0.1:4173/functions/v1",
     },

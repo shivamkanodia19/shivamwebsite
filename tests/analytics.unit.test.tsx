@@ -86,6 +86,19 @@ describe("analytics boundary", () => {
     );
   });
 
+  it("uses the deterministic development-only PostHog flush interval when configured", () => {
+    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://posthog.invalid");
+    vi.stubEnv("VITE_POSTHOG_TEST_FLUSH_INTERVAL_MS", "250");
+
+    initializeAnalytics();
+
+    expect(posthogMock.init).toHaveBeenCalledWith(
+      "public-project-key",
+      expect.objectContaining({ request_queue_config: { flush_interval_ms: 250 } }),
+    );
+  });
+
   it("does not initialize unless both public analytics variables exist", () => {
     vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
     initializeAnalytics();
