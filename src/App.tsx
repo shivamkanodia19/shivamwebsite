@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { usePageTracking } from "@/analytics/usePageTracking";
+import { AdminPage } from "@/admin/AdminPage";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
@@ -32,6 +33,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/pitch" element={<PitchPage />} />
+      <Route path="/admin" element={<AdminPage />} />
     </Routes>
   );
 }
