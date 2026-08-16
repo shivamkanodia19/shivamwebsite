@@ -16,7 +16,7 @@ export function corsHeaders(
   config: CorsConfig = runtimeCorsConfig(),
 ): Record<string, string> {
   const headers: Record<string, string> = {
-    "Access-Control-Allow-Headers": "authorization, content-type",
+    "Access-Control-Allow-Headers": "apikey, authorization, content-type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Access-Control-Max-Age": "600",
     "Vary": "Origin",

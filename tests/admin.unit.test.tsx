@@ -1,8 +1,10 @@
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { readFileSync } from "node:fs";
 import { BrowserRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../src/App";
 import { clearSessionToken, fetchAnalytics, getSessionToken, login } from "../src/admin/api";
+import { corsHeaders } from "../supabase/functions/_shared/cors.ts";
 
 const posthogMock = vi.hoisted(() => ({
   init: vi.fn(),
@@ -151,5 +153,19 @@ describe("admin access", () => {
       }),
     );
     clearSessionToken();
+  });
+
+  it("allows the browser's apikey header in admin CORS preflight responses", () => {
+    const headers = corsHeaders("https://shivamkanodia.com", {
+      allowedOrigins: ["https://shivamkanodia.com"],
+    });
+
+    expect(headers["Access-Control-Allow-Headers"]).toBe("apikey, authorization, content-type");
+  });
+
+  it("disables platform JWT verification for the custom HMAC admin analytics bearer", () => {
+    const config = readFileSync("supabase/config.toml", "utf8");
+
+    expect(config).toMatch(/\[functions\.admin-analytics\]\s+verify_jwt\s*=\s*false/);
   });
 });

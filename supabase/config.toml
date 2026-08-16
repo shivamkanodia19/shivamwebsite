@@ -1,2 +1,5 @@
 [functions.admin-login]
 verify_jwt = false
+
+[functions.admin-analytics]
+verify_jwt = false
