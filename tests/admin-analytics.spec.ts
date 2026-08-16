@@ -1,7 +1,10 @@
-import { expect, test, type Locator, type Page, type Request } from "@playwright/test";
+import type { Locator, Page, Request } from "@playwright/test";
+import { expect, test } from "./playwright-test";
 
 const adminPassword = "qa-owner-password-9F!";
 const adminToken = "qa-signed-admin-token";
+const publicAnonKey = "qa-public-anon-key";
+const analyticsBatchWindowMilliseconds = 1_500;
 
 const availableReportStatus = {
   kpis: { availability: "available", availableFrom: "2026-08-08T00:00:00.000Z" },
@@ -108,7 +111,7 @@ function requestEvidence(request: Request): RequestEvidence {
 
 function isPostHogTelemetryRequest(request: RequestEvidence) {
   const url = new URL(request.url);
-  return /(^|\.)posthog(?:\.com|usercontent\.com)$/i.test(url.hostname);
+  return url.hostname === "posthog.invalid" || /(^|\.)posthog(?:\.com|usercontent\.com)$/i.test(url.hostname);
 }
 
 async function mockAdminApi(page: Page, options: AdminMockOptions = {}) {
@@ -120,6 +123,10 @@ async function mockAdminApi(page: Page, options: AdminMockOptions = {}) {
   page.on("console", (message) => consoleMessages.push(message.text()));
 
   await page.route("**/functions/v1/admin-login", async (route) => {
+    if (route.request().headers().apikey !== publicAnonKey) {
+      await route.fulfill({ status: 403, json: { error: "Missing routing key" } });
+      return;
+    }
     loginAttempts += 1;
     const payload = route.request().postDataJSON() as { password?: unknown };
     const response = options.login?.(String(payload.password ?? ""), loginAttempts) ?? {
@@ -129,6 +136,11 @@ async function mockAdminApi(page: Page, options: AdminMockOptions = {}) {
     await route.fulfill({ json: response.json, status: response.status });
   });
   await page.route("**/functions/v1/admin-analytics?*", async (route) => {
+    const headers = route.request().headers();
+    if (headers.apikey !== publicAnonKey || headers.authorization !== `Bearer ${adminToken}`) {
+      await route.fulfill({ status: 401, json: { error: "Unauthorized" } });
+      return;
+    }
     analyticsRequests += 1;
     const range = Number(new URL(route.request().url()).searchParams.get("range")) as 7 | 30 | 90;
     const response = options.analytics?.(range, analyticsRequests) ?? { json: reportForRange(range) };
@@ -155,6 +167,10 @@ async function expectNoDocumentOverflow(page: Page) {
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
 }
 
+async function waitForAnalyticsBatchWindow(page: Page) {
+  await page.waitForTimeout(analyticsBatchWindowMilliseconds);
+}
+
 async function expectVisibleFocus(locator: Locator) {
   await expect.poll(() => locator.evaluate((element) => {
     const style = getComputedStyle(element);
@@ -170,18 +186,20 @@ async function tabTo(page: Page, locator: Locator, direction: "forward" | "backw
   throw new Error(`Could not reach ${await locator.getAttribute("aria-label") ?? await locator.textContent() ?? "control"} with the keyboard`);
 }
 
-test("direct admin navigation exposes only the private login and emits no PostHog traffic", async ({ page }) => {
+test("direct admin navigation exposes only the private login and emits no PostHog traffic", async ({ page, posthogRequests }) => {
   const evidence = await mockAdminApi(page);
   await page.goto("/admin");
+  await waitForAnalyticsBatchWindow(page);
 
   await expect(page).toHaveURL(/\/admin$/);
   await expect(page.getByRole("heading", { name: "Private analytics" })).toBeVisible();
   await expect(page.getByLabel("Password")).toHaveAttribute("type", "password");
   await expect(page.getByRole("heading", { name: "Portfolio analytics" })).toHaveCount(0);
   expect(evidence.requests.filter(isPostHogTelemetryRequest)).toEqual([]);
+  expect(posthogRequests).toEqual([]);
 });
 
-test("incorrect password, successful login, ranges, reload, external tools, logout, and privacy boundary", async ({ page }) => {
+test("incorrect password, successful login, ranges, reload, external tools, logout, and privacy boundary", async ({ page, posthogRequests }) => {
   const evidence = await mockAdminApi(page, {
     login: (password) => password === adminPassword
       ? { json: { token: adminToken, expiresAt: "2026-08-15T13:00:00.000Z" } }
@@ -211,6 +229,7 @@ test("incorrect password, successful login, ranges, reload, external tools, logo
     await expect(link).toHaveAttribute("target", "_blank");
     await expect(link).toHaveAttribute("rel", /noreferrer/);
   }
+  await waitForAnalyticsBatchWindow(page);
 
   const storage = await page.evaluate(() => ({
     local: Object.fromEntries(Array.from({ length: localStorage.length }, (_, index) => {
@@ -226,17 +245,47 @@ test("incorrect password, successful login, ranges, reload, external tools, logo
   expect(storage.session).toEqual({ "admin-session-token": adminToken });
   expect(JSON.stringify(storage)).not.toContain(adminPassword);
   await expect(page.locator("body")).not.toContainText(adminPassword);
+  await expect(page.locator("body")).not.toContainText(adminToken);
   expect(page.url()).not.toContain(adminPassword);
+  expect(page.url()).not.toContain(adminToken);
   expect(evidence.consoleMessages.join("\n")).not.toContain(adminPassword);
+  expect(evidence.consoleMessages.join("\n")).not.toContain(adminToken);
 
-  const privateOrAnalyticsRequests = evidence.requests.filter((request) =>
-    request.url.includes("admin-analytics") || isPostHogTelemetryRequest(request),
-  );
-  for (const request of privateOrAnalyticsRequests) expect(request.postData ?? "").not.toContain(adminPassword);
+  for (const request of evidence.requests) {
+    expect(request.url).not.toContain(adminPassword);
+    expect(request.url).not.toContain(adminToken);
+    expect(request.postData ?? "").not.toContain(adminToken);
+    if (!request.url.endsWith("/functions/v1/admin-login")) {
+      expect(request.postData ?? "").not.toContain(adminPassword);
+    }
+  }
+  const passwordBodies = evidence.requests.filter((request) => request.postData?.includes(adminPassword));
+  expect(passwordBodies).toHaveLength(1);
+  expect(passwordBodies[0]?.url).toMatch(/\/functions\/v1\/admin-login$/);
+  const authorizedRequests = evidence.requests.filter((request) => request.headers.authorization?.includes(adminToken));
+  expect(authorizedRequests.length).toBeGreaterThan(0);
+  for (const request of authorizedRequests) {
+    expect(request.url).toContain("/functions/v1/admin-analytics?range=");
+    expect(request.headers.authorization).toBe(`Bearer ${adminToken}`);
+  }
+  for (const request of evidence.requests.filter((request) => !request.url.includes("/functions/v1/admin-analytics?"))) {
+    expect(JSON.stringify(request.headers)).not.toContain(adminToken);
+  }
   expect(evidence.requests.filter(isPostHogTelemetryRequest)).toEqual([]);
+  expect(posthogRequests).toEqual([]);
 
   await page.reload();
   await expect(page.getByRole("heading", { name: "Portfolio analytics" })).toBeVisible();
+  await waitForAnalyticsBatchWindow(page);
+  for (const request of evidence.requests) {
+    expect(request.url).not.toContain(adminPassword);
+    expect(request.url).not.toContain(adminToken);
+    expect(request.postData ?? "").not.toContain(adminToken);
+    if (!request.url.endsWith("/functions/v1/admin-login")) expect(request.postData ?? "").not.toContain(adminPassword);
+  }
+  expect(evidence.consoleMessages.join("\n")).not.toContain(adminPassword);
+  expect(evidence.consoleMessages.join("\n")).not.toContain(adminToken);
+  expect(posthogRequests).toEqual([]);
   await page.getByRole("button", { name: "Log out" }).click();
   await expect(page.getByLabel("Password")).toBeVisible();
   expect(await page.evaluate(() => sessionStorage.getItem("admin-session-token"))).toBeNull();
@@ -316,6 +365,22 @@ test("expired token clears the private session and returns to login", async ({ p
   await expect(page.getByRole("heading", { name: "Portfolio analytics" })).toHaveCount(0);
 });
 
+test("cold-load report failure shows a safe full-page error without aggregate data", async ({ page }) => {
+  await installSession(page);
+  await mockAdminApi(page, {
+    analytics: () => ({ status: 502, json: { error: "private upstream detail must not render" } }),
+  });
+  await page.goto("/admin");
+
+  await expect(page.getByRole("heading", { name: "Private analytics unavailable" })).toBeVisible();
+  await expect(page.getByRole("alert")).toContainText("Unable to load analytics");
+  await expect(page.locator("body")).not.toContainText("private upstream detail");
+  await expect(page.getByRole("heading", { name: "Portfolio analytics" })).toHaveCount(0);
+  await expect(page.getByText("12", { exact: true })).toHaveCount(0);
+  await page.getByRole("button", { name: "Log out" }).click();
+  await expect(page.getByLabel("Password")).toBeVisible();
+});
+
 test("keyboard-only login, range selection, audience tabs, and logout expose visible focus", async ({ page }) => {
   await mockAdminApi(page);
   await page.goto("/admin");
@@ -337,13 +402,13 @@ test("keyboard-only login, range selection, audience tabs, and logout expose vis
   await expect(range30).toBeFocused();
 
   const countryTab = page.getByRole("tab", { name: "Country" });
-  await countryTab.focus();
+  await tabTo(page, countryTab);
   await page.keyboard.press("ArrowRight");
   await expect(page.getByRole("tab", { name: "Device" })).toBeFocused();
   await expect(page.getByRole("tab", { name: "Device" })).toHaveAttribute("aria-selected", "true");
 
   const logout = page.getByRole("button", { name: "Log out" });
-  await logout.focus();
+  await tabTo(page, logout, "backward");
   await expectVisibleFocus(logout);
   await page.keyboard.press("Enter");
   await expect(page.getByLabel("Password")).toBeVisible();
@@ -371,11 +436,16 @@ for (const viewport of [
     await expect(acquisition.getByRole("columnheader", { name: "Share" })).toBeAttached();
 
     if (viewport.name === "mobile") {
-      for (const control of await page.locator(".admin-shell a, .admin-shell button").all()) {
-        if (!await control.isVisible()) continue;
-        const box = await control.boundingBox();
-        expect(box?.height ?? 0).toBeGreaterThanOrEqual(43.5);
-      }
+      const undersizedControls = await page.locator(".admin-shell a, .admin-shell button").evaluateAll((controls) => controls.flatMap((control) => {
+        const box = control.getBoundingClientRect();
+        if (!box.width || !box.height || (box.width >= 43.5 && box.height >= 43.5)) return [];
+        return [{
+          label: control.getAttribute("aria-label") || control.textContent?.trim() || control.tagName,
+          width: Number(box.width.toFixed(2)),
+          height: Number(box.height.toFixed(2)),
+        }];
+      }));
+      expect(undersizedControls).toEqual([]);
     }
 
     await page.screenshot({ path: testInfo.outputPath(`${viewport.name}-dashboard.png`), fullPage: true });

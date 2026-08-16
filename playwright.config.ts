@@ -14,7 +14,7 @@ export default defineConfig({
   webServer: {
     command: "./node_modules/.bin/vite --host 127.0.0.1 --port 4173 --strictPort",
     env: {
-      VITE_POSTHOG_HOST: "https://us.i.posthog.com",
+      VITE_POSTHOG_HOST: "https://posthog.invalid",
       VITE_POSTHOG_KEY: "qa-public-project-key",
       VITE_SUPABASE_ANON_KEY: "qa-public-anon-key",
       VITE_SUPABASE_FUNCTIONS_URL: "http://127.0.0.1:4173/functions/v1",

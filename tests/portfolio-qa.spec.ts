@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./playwright-test";
 
 const homeViewports = [
   { name: "1440x900", width: 1440, height: 900 },
@@ -7,6 +7,12 @@ const homeViewports = [
   { name: "390x844", width: 390, height: 844 },
   { name: "375x667", width: 375, height: 667 },
 ];
+
+test("public analytics attempts are contained by the QA PostHog sink", async ({ page, posthogRequests }) => {
+  await page.goto("/");
+  await expect.poll(() => posthogRequests.length, { timeout: 5_000 }).toBeGreaterThan(0);
+  expect(posthogRequests.every((request) => request.url.startsWith("https://posthog.invalid/") && request.aborted)).toBe(true);
+});
 
 for (const viewport of homeViewports) {
   test(`homepage layout ${viewport.name}`, async ({ page }) => {
