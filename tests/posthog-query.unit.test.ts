@@ -31,4 +31,13 @@ describe("PostHog aggregate semantics", () => {
       ["country", "Australia", 3, 10, 30],
     ]).countries.map(({ label }) => label)).toEqual(["Australia", "Zimbabwe"]);
   });
+
+  it("builds action labels without HogQL's incompatible CASE transform", () => {
+    const actions = buildReportQueries(7).find((report) => report.id === "actions")?.payload.query.query ?? "";
+
+    expect(actions).not.toContain("CASE event");
+    expect(actions.match(/UNION ALL/g)).toHaveLength(3);
+    expect(actions).toContain("event = 'element_clicked'");
+    expect(actions).toContain("event = 'contact_clicked'");
+  });
 });

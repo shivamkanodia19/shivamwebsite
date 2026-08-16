@@ -61,17 +61,28 @@ export function buildReportQueries(range: RangeDays): ReportQuery[] {
     report("actions", `WITH visitor_totals AS (
         SELECT uniq(distinct_id) AS total FROM events WHERE ${current}
       )
-      SELECT CASE event
-          WHEN 'element_clicked' THEN concat('Click: ', coalesce(nullIf(properties.label, ''), 'Unknown'))
-          WHEN 'project_opened' THEN concat('Project: ', coalesce(nullIf(properties.project_name, ''), 'Unknown'))
-          WHEN 'resume_viewed' THEN concat('Resume: ', coalesce(nullIf(properties.placement, ''), 'Unknown'))
-          WHEN 'contact_clicked' THEN concat('Contact: ', coalesce(nullIf(properties.channel, ''), 'Unknown'))
-        END AS label,
+      SELECT label, visitors, total, share FROM (
+      SELECT concat('Click: ', coalesce(nullIf(properties.label, ''), 'Unknown')) AS label,
         uniq(distinct_id) AS visitors, totals.total AS total,
         if(totals.total = 0, 0, uniq(distinct_id) * 100 / totals.total) AS share
       FROM events CROSS JOIN visitor_totals AS totals
-      WHERE event IN ('element_clicked', 'project_opened', 'resume_viewed', 'contact_clicked') AND ${current}
-      GROUP BY label, totals.total ORDER BY visitors DESC LIMIT 20`),
+      WHERE event = 'element_clicked' AND ${current} GROUP BY label, totals.total
+      UNION ALL SELECT concat('Project: ', coalesce(nullIf(properties.project_name, ''), 'Unknown')) AS label,
+        uniq(distinct_id) AS visitors, totals.total AS total,
+        if(totals.total = 0, 0, uniq(distinct_id) * 100 / totals.total) AS share
+      FROM events CROSS JOIN visitor_totals AS totals
+      WHERE event = 'project_opened' AND ${current} GROUP BY label, totals.total
+      UNION ALL SELECT concat('Resume: ', coalesce(nullIf(properties.placement, ''), 'Unknown')) AS label,
+        uniq(distinct_id) AS visitors, totals.total AS total,
+        if(totals.total = 0, 0, uniq(distinct_id) * 100 / totals.total) AS share
+      FROM events CROSS JOIN visitor_totals AS totals
+      WHERE event = 'resume_viewed' AND ${current} GROUP BY label, totals.total
+      UNION ALL SELECT concat('Contact: ', coalesce(nullIf(properties.channel, ''), 'Unknown')) AS label,
+        uniq(distinct_id) AS visitors, totals.total AS total,
+        if(totals.total = 0, 0, uniq(distinct_id) * 100 / totals.total) AS share
+      FROM events CROSS JOIN visitor_totals AS totals
+      WHERE event = 'contact_clicked' AND ${current} GROUP BY label, totals.total
+      ) ORDER BY visitors DESC LIMIT 20`),
     report("acquisition", `WITH pageview_totals AS (
         SELECT uniq(distinct_id) AS total FROM events WHERE event = '$pageview' AND ${current}
       )
