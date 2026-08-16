@@ -49,7 +49,11 @@ export type PostHogLinks = {
 export type AnalyticsReportKey = "kpis" | "trend" | "sections" | "actions" | "acquisition" | "audience" | "funnel";
 export type AnalyticsReportAvailability = "available" | "unavailable";
 export type AnalyticsTrackingHealth = "healthy" | "degraded";
-export type AnalyticsReportStatus = Record<AnalyticsReportKey, AnalyticsReportAvailability>;
+export type AnalyticsReportCoverage = {
+  availability: AnalyticsReportAvailability;
+  availableFrom: string | null;
+};
+export type AnalyticsReportStatus = Record<AnalyticsReportKey, AnalyticsReportCoverage>;
 
 export type AdminAnalyticsResponse = {
   generatedAt: string;

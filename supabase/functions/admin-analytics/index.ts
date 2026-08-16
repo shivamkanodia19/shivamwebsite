@@ -1,4 +1,4 @@
-import { createAdminAnalyticsHandler, type AdminAnalyticsDependencies } from "../_shared/admin_analytics.ts";
+import { createAdminAnalyticsHandler, parseTrackingStartedAt, type AdminAnalyticsDependencies } from "../_shared/admin_analytics.ts";
 import { verifyAdminToken } from "../_shared/auth.ts";
 import { runtimeCorsConfig } from "../_shared/cors.ts";
 import { createPostHogLinks, type ReportQuery } from "../_shared/posthog.ts";
@@ -15,11 +15,13 @@ function runtimeDependencies(): AdminAnalyticsDependencies {
     verifyToken: verifyAdminToken,
     fetchReport: (report, signal) => fetchPostHogReport(config, report, signal),
     posthogLinks: () => createPostHogLinks(Deno.env.get("POSTHOG_PROJECT_URL")),
+    trackingStartedAt: parseTrackingStartedAt(requiredSecret("ANALYTICS_TRACKING_STARTED_AT")),
     timeoutMilliseconds: reportTimeoutMilliseconds,
   };
 }
 
 type PostHogConfig = { apiHost: string; apiKey: string; projectId: string };
+type RequiredSecretName = "POSTHOG_API_HOST" | "POSTHOG_PERSONAL_API_KEY" | "POSTHOG_PROJECT_ID" | "ANALYTICS_TRACKING_STARTED_AT";
 
 function runtimePostHogConfig(): PostHogConfig {
   const apiHost = requiredSecret("POSTHOG_API_HOST");
@@ -52,7 +54,7 @@ async function fetchPostHogReport(
   return (body as { results: unknown }).results;
 }
 
-function requiredSecret(name: string): string {
+function requiredSecret(name: RequiredSecretName): string {
   const value = Deno.env.get(name)?.trim();
   if (!value) throw new TypeError(`Missing ${name}`);
   return value;

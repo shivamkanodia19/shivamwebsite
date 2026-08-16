@@ -1,9 +1,22 @@
-import { createAdminAnalyticsHandler } from "../_shared/admin_analytics.ts";
+import { createAdminAnalyticsHandler, parseTrackingStartedAt } from "../_shared/admin_analytics.ts";
 import type { AdminAnalyticsResponse } from "../_shared/admin_types.ts";
 import type { ReportQuery } from "../_shared/posthog.ts";
 
 const origin = "https://shivamkanodia.com";
 const now = new Date("2026-08-15T12:00:00.000Z");
+
+Deno.test("analytics tracking start accepts only real ISO calendar dates", () => {
+  assert(parseTrackingStartedAt("2026-08-15") === "2026-08-15");
+  for (const value of ["", "08/15/2026", "2026-02-30", "2026-8-5"]) {
+    let rejected = false;
+    try {
+      parseTrackingStartedAt(value);
+    } catch {
+      rejected = true;
+    }
+    assert(rejected);
+  }
+});
 
 Deno.test("analytics rejects unauthorized requests before report fetching", async () => {
   let fetches = 0;
@@ -48,7 +61,8 @@ Deno.test("analytics returns the stable private aggregate response contract", as
   assert(body.rangeDays === 30);
   assert(body.coverage.partial === false);
   assert(body.trackingHealth === "healthy");
-  assert(Object.values(body.reportStatus).every((status) => status === "available"));
+  assert(Object.values(body.reportStatus).every((report) => report.availability === "available"));
+  assert(Object.values(body.reportStatus).every((report) => report.availableFrom === "2026-07-01"));
   assert(body.kpis.visitors.value === 10);
   assert(body.sections[0].sessions === 8);
   assert(!("visitors" in body.sections[0]));
@@ -73,10 +87,24 @@ Deno.test("analytics preserves successful modules when one report fails", async 
   assert(response.status === 200);
   assert(body.coverage.partial);
   assert(body.trackingHealth === "degraded");
-  assert(body.reportStatus.actions === "unavailable");
-  assert(body.reportStatus.trend === "available");
+  assert(body.reportStatus.actions.availability === "unavailable");
+  assert(body.reportStatus.trend.availability === "available");
   assert(body.actions.length === 0);
   assert(body.trend.length === 1);
+});
+
+Deno.test("analytics marks reports partial when the requested range predates tracking", async () => {
+  const handler = createHandler({ trackingStartedAt: "2026-08-10" });
+
+  const response = await handler(request("7"));
+  const body = await response.json() as AdminAnalyticsResponse;
+
+  assert(response.status === 200);
+  assert(body.coverage.requestedFrom === "2026-08-08");
+  assert(body.coverage.partial);
+  assert(body.trackingHealth === "healthy");
+  assert(body.reportStatus.kpis.availableFrom === "2026-08-10");
+  assert(body.reportStatus.funnel.availableFrom === "2026-08-10");
 });
 
 Deno.test("analytics maps complete upstream failure to a controlled error", async () => {
@@ -114,6 +142,7 @@ function createHandler(overrides: Partial<Parameters<typeof createAdminAnalytics
     verifyToken: async () => true,
     fetchReport: async (report) => fixture(report.id),
     posthogLinks: () => ({ sessions: null, heatmaps: null, paths: null, events: null }),
+    trackingStartedAt: "2026-07-01",
     timeoutMilliseconds: 100,
     ...overrides,
   });

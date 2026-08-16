@@ -1,6 +1,6 @@
 import { useId, useState, type KeyboardEvent } from "react";
 import { TrafficTrendChart } from "./AdminCharts";
-import type { AdminAnalyticsResponse, AnalyticsReportAvailability, MetricValue, RangeDays, RankedValue } from "./types";
+import type { AdminAnalyticsResponse, AnalyticsReportAvailability, AnalyticsReportKey, MetricValue, RangeDays, RankedValue } from "./types";
 
 type AdminDashboardProps = {
   report: AdminAnalyticsResponse;
@@ -16,6 +16,15 @@ type AudienceKey = keyof AdminAnalyticsResponse["audience"];
 
 const ranges: RangeDays[] = [7, 30, 90];
 const audienceKeys: AudienceKey[] = ["countries", "devices", "browsers"];
+const reportLabels: Record<AnalyticsReportKey, string> = {
+  kpis: "KPIs",
+  trend: "traffic trend",
+  sections: "section attention",
+  actions: "actions",
+  acquisition: "acquisition",
+  audience: "audience",
+  funnel: "funnel",
+};
 
 const kpiDefinitions: Array<{
   key: keyof AdminAnalyticsResponse["kpis"];
@@ -111,14 +120,21 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
   const resumeRate = report.kpis.sessions.value && report.kpis.resumeViews.value !== null
     ? report.kpis.resumeViews.value / report.kpis.sessions.value * 100
     : null;
-  const isNewInstallation = report.reportStatus.kpis === "available"
-    && report.reportStatus.trend === "available"
-    && report.coverage.availableFrom === null
+  const isNewInstallation = report.reportStatus.kpis.availability === "available"
+    && report.reportStatus.trend.availability === "available"
     && Object.values(report.kpis).every((metric) => metric.value === null)
     && report.trend.length === 0;
-  const unavailableReportLabels = Object.entries(report.reportStatus)
-    .filter(([, status]) => status === "unavailable")
-    .map(([key]) => key === "kpis" ? "KPIs" : key === "sections" ? "section attention" : key);
+  const reportEntries = Object.entries(report.reportStatus) as Array<[AnalyticsReportKey, AdminAnalyticsResponse["reportStatus"][AnalyticsReportKey]]>;
+  const unavailableReportLabels = reportEntries
+    .filter(([, status]) => status.availability === "unavailable")
+    .map(([key]) => reportLabels[key]);
+  const coverageStarts = new Map<string, string[]>();
+  reportEntries.forEach(([key, status]) => {
+    if (status.availableFrom !== null && status.availableFrom > report.coverage.requestedFrom) {
+      coverageStarts.set(status.availableFrom, [...(coverageStarts.get(status.availableFrom) ?? []), reportLabels[key]]);
+    }
+  });
+  const coverageMessages = [...coverageStarts].map(([date, labels]) => `Tracking began ${formatDate(date)} for ${labels.join(", ")}`);
 
   function handleAudienceKeyDown(event: KeyboardEvent<HTMLButtonElement>, key: AudienceKey) {
     const currentIndex = audienceKeys.indexOf(key);
@@ -160,7 +176,7 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
           <div className="admin-health-panel">
             <div className="admin-health-copy">
               <span className={`admin-status-dot admin-status-${report.trackingHealth}`} aria-hidden="true" />
-              <p><strong>Tracking {report.trackingHealth}</strong><small>{report.trackingHealth === "healthy" ? "All aggregate reports available" : `${unavailableReportLabels.length} aggregate report${unavailableReportLabels.length === 1 ? "" : "s"} unavailable`} · Last refreshed <time dateTime={report.generatedAt}>{formatTimestamp(report.generatedAt)}</time></small></p>
+              <p><strong>Tracking {report.trackingHealth}</strong><small>{report.trackingHealth === "healthy" ? "All aggregate reports available" : unavailableReportLabels.length ? `${unavailableReportLabels.length} aggregate report${unavailableReportLabels.length === 1 ? "" : "s"} unavailable` : "Aggregate health check degraded"} · Last refreshed <time dateTime={report.generatedAt}>{formatTimestamp(report.generatedAt)}</time></small></p>
             </div>
             <button className="admin-refresh" disabled={refreshing} onClick={onRefresh} type="button">
               <span aria-hidden="true">↻</span> {refreshing ? "Refreshing…" : "Refresh"}
@@ -192,12 +208,12 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
         ) : null}
         {report.coverage.partial ? (
           <div className="admin-banner admin-banner-partial" role="alert">
-            <strong>Partial coverage.</strong> Available aggregate data begins {report.coverage.availableFrom ? formatDate(report.coverage.availableFrom) : "after this period began"}. Unavailable: {unavailableReportLabels.join(", ") || "some upstream data"}.
+            <strong>Partial coverage.</strong> {coverageMessages.length ? `${coverageMessages.join(". ")}. Earlier dates are excluded. ` : ""}{unavailableReportLabels.length ? `Unavailable: ${unavailableReportLabels.join(", ")}.` : ""}
           </div>
         ) : null}
         {isNewInstallation ? (
           <div className="admin-banner admin-banner-new">
-            <strong>Aggregate reports are healthy.</strong> There is not enough aggregate activity yet to draw a useful chart. New data will appear here as visits arrive.
+            <strong>{report.trackingHealth === "healthy" ? "Aggregate reports are healthy." : "Early aggregate data."}</strong> There is not enough aggregate activity yet to draw a useful chart. New data will appear here as visits arrive.
           </div>
         ) : null}
 
@@ -211,9 +227,9 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
               {kpiDefinitions.map(({ key, label, format }) => {
                 const metric = report.kpis[key];
                 return (
-                  <article className={`admin-kpi-card admin-kpi-${report.reportStatus.kpis}`} key={key}>
+                  <article className={`admin-kpi-card admin-kpi-${report.reportStatus.kpis.availability}`} key={key}>
                     <p className="admin-kpi-label">{label}</p>
-                    {report.reportStatus.kpis === "unavailable" ? (
+                    {report.reportStatus.kpis.availability === "unavailable" ? (
                       <><strong className="admin-kpi-value admin-kpi-value-unavailable">Unavailable</strong><span className="admin-kpi-delta admin-kpi-delta-neutral">KPI report unavailable</span></>
                     ) : (
                       <><strong className="admin-kpi-value">{metric.value === null ? "—" : format(metric.value)}</strong><MetricDelta metric={metric} /></>
@@ -229,15 +245,15 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
               <div><p className="admin-module-index">02 / TRAFFIC</p><h2 id="trend-title">Traffic over time</h2></div>
               <span>Daily</span>
             </div>
-            {report.trend.length ? <TrafficTrendChart points={report.trend} /> : <ModuleEmpty availability={report.reportStatus.trend} label="Traffic trends" />}
+            {report.trend.length ? <TrafficTrendChart points={report.trend} /> : <ModuleEmpty availability={report.reportStatus.trend.availability} label="Traffic trends" />}
           </section>
 
           <section aria-labelledby="journey-title" className="admin-module admin-journey-module">
             <div className="admin-section-heading"><p className="admin-module-index">03 / JOURNEY</p><h2 id="journey-title">Journey signals</h2></div>
             <dl className="admin-signal-list">
-              <div><dt>Most-used action</dt><dd>{report.reportStatus.actions === "unavailable" ? "Action report unavailable" : peakAction?.label ?? "No actions yet"}</dd><small>{report.reportStatus.actions === "unavailable" ? "No action aggregate available" : peakAction ? `${formatPercent(peakAction.share)} of measured action visitors` : "Waiting for aggregate activity"}</small></div>
-              <div><dt>Resume action rate</dt><dd>{report.reportStatus.kpis === "unavailable" ? "KPI report unavailable" : resumeRate === null ? "—" : formatPercent(resumeRate)}</dd><small>Per measured session</small></div>
-              <div><dt>Deepest journey stage</dt><dd>{report.reportStatus.funnel === "unavailable" ? "Funnel report unavailable" : finalFunnelStage?.label ?? "No completed journeys yet"}</dd><small>{report.reportStatus.funnel === "unavailable" ? "No funnel aggregate available" : finalFunnelStage ? `${formatCount(finalFunnelStage.sessions)} sessions · ${formatPercent(finalFunnelStage.share)}` : "Waiting for aggregate activity"}</small></div>
+              <div><dt>Most-used action</dt><dd>{report.reportStatus.actions.availability === "unavailable" ? "Action report unavailable" : peakAction?.label ?? "No actions yet"}</dd><small>{report.reportStatus.actions.availability === "unavailable" ? "No action aggregate available" : peakAction ? `${formatPercent(peakAction.share)} of measured action visitors` : "Waiting for aggregate activity"}</small></div>
+              <div><dt>Resume action rate</dt><dd>{report.reportStatus.kpis.availability === "unavailable" ? "KPI report unavailable" : resumeRate === null ? "—" : formatPercent(resumeRate)}</dd><small>Per measured session</small></div>
+              <div><dt>Deepest journey stage</dt><dd>{report.reportStatus.funnel.availability === "unavailable" ? "Funnel report unavailable" : finalFunnelStage?.label ?? "No completed journeys yet"}</dd><small>{report.reportStatus.funnel.availability === "unavailable" ? "No funnel aggregate available" : finalFunnelStage ? `${formatCount(finalFunnelStage.sessions)} sessions · ${formatPercent(finalFunnelStage.share)}` : "Waiting for aggregate activity"}</small></div>
             </dl>
           </section>
 
@@ -254,12 +270,12 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
                   </li>
                 ))}
               </ol>
-            ) : <ModuleEmpty availability={report.reportStatus.sections} label="Section attention" />}
+            ) : <ModuleEmpty availability={report.reportStatus.sections.availability} label="Section attention" />}
           </section>
 
           <section aria-labelledby="actions-title" className="admin-module admin-actions-module">
             <div className="admin-section-heading"><p className="admin-module-index">05 / ACTIONS</p><h2 id="actions-title">Ranked actions</h2></div>
-            <RankedList availability={report.reportStatus.actions} emptyLabel="Ranked actions" values={report.actions} />
+            <RankedList availability={report.reportStatus.actions.availability} emptyLabel="Ranked actions" values={report.actions} />
           </section>
 
           <section aria-labelledby="acquisition-title" className="admin-module admin-acquisition-module">
@@ -277,7 +293,7 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
                   ))}</tbody>
                 </table>
               </div>
-            ) : <ModuleEmpty availability={report.reportStatus.acquisition} label="Acquisition sources" />}
+            ) : <ModuleEmpty availability={report.reportStatus.acquisition.availability} label="Acquisition sources" />}
           </section>
 
           <section aria-labelledby="audience-title" className="admin-module admin-audience-module">
@@ -300,7 +316,7 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
               ))}
             </div>
             <div aria-labelledby={`${audienceTabId}-${audienceKey}`} id={`${audienceTabId}-panel`} role="tabpanel">
-              <RankedList availability={report.reportStatus.audience} emptyLabel={`${audienceKey.slice(0, -1)} data`} values={report.audience[audienceKey]} />
+              <RankedList availability={report.reportStatus.audience.availability} emptyLabel={`${audienceKey.slice(0, -1)} data`} values={report.audience[audienceKey]} />
             </div>
           </section>
 
@@ -319,7 +335,7 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
                   </li>
                 ))}
               </ol>
-            ) : <ModuleEmpty availability={report.reportStatus.funnel} label="Funnel data" />}
+            ) : <ModuleEmpty availability={report.reportStatus.funnel.availability} label="Funnel data" />}
           </section>
 
           <section aria-labelledby="tools-title" className="admin-module admin-tools-module admin-grid-full">

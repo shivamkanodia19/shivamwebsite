@@ -18,6 +18,7 @@ export type AdminAnalyticsDependencies = {
   verifyToken: (token: string, now: Date) => Promise<boolean>;
   fetchReport: (report: ReportQuery, signal: AbortSignal) => Promise<unknown>;
   posthogLinks: () => PostHogLinks;
+  trackingStartedAt: string;
   timeoutMilliseconds: number;
 };
 
@@ -71,13 +72,13 @@ async function fetchAnalytics(
   let partial = settled.some((report) => report.failed);
   let usableReports = 0;
   const reportStatus: AnalyticsReportStatus = {
-    kpis: "unavailable",
-    trend: "unavailable",
-    sections: "unavailable",
-    actions: "unavailable",
-    acquisition: "unavailable",
-    audience: "unavailable",
-    funnel: "unavailable",
+    kpis: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
+    trend: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
+    sections: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
+    actions: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
+    acquisition: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
+    audience: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
+    funnel: { availability: "unavailable", availableFrom: dependencies.trackingStartedAt },
   };
   const normalized = <Value>(id: ReportQuery["id"], fallback: Value, normalizer: (rows: unknown) => Value): Value => {
     const result = byId.get(id);
@@ -85,7 +86,7 @@ async function fetchAnalytics(
     try {
       const value = normalizer(result.rows);
       usableReports += 1;
-      reportStatus[id] = "available";
+      reportStatus[id].availability = "available";
       return value;
     } catch {
       partial = true;
@@ -101,14 +102,16 @@ async function fetchAnalytics(
   const audience = normalized("audience", { countries: [], devices: [], browsers: [] }, normalizeAudience);
   const funnel = normalized("funnel", [], normalizeFunnel);
   if (usableReports === 0) throw new Error("No analytics reports available");
-  const trackingHealth = Object.values(reportStatus).every((status) => status === "available") ? "healthy" : "degraded";
+  const requestedFrom = new Date(now.getTime() - range * 24 * 60 * 60 * 1_000).toISOString().slice(0, 10);
+  partial ||= Object.values(reportStatus).some((report) => report.availability === "unavailable" || (report.availableFrom !== null && report.availableFrom > requestedFrom));
+  const trackingHealth = Object.values(reportStatus).every((report) => report.availability === "available") ? "healthy" : "degraded";
 
   return {
     generatedAt: now.toISOString(),
     rangeDays: range,
     coverage: {
-      requestedFrom: new Date(now.getTime() - range * 24 * 60 * 60 * 1_000).toISOString().slice(0, 10),
-      availableFrom: trend[0]?.date ?? null,
+      requestedFrom,
+      availableFrom: dependencies.trackingStartedAt,
       partial,
     },
     trackingHealth,
@@ -122,6 +125,15 @@ async function fetchAnalytics(
     funnel,
     posthogLinks: dependencies.posthogLinks(),
   };
+}
+
+export function parseTrackingStartedAt(value: string): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new TypeError("Invalid analytics tracking start date");
+  const parsed = new Date(`${value}T00:00:00.000Z`);
+  if (!Number.isFinite(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== value) {
+    throw new TypeError("Invalid analytics tracking start date");
+  }
+  return value;
 }
 
 async function fetchWithTimeout(report: ReportQuery, dependencies: AdminAnalyticsDependencies): Promise<unknown> {

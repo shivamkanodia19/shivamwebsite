@@ -2,6 +2,7 @@ export type {
   AdminAnalyticsResponse,
   AnalyticsCoverage,
   AnalyticsReportAvailability,
+  AnalyticsReportCoverage,
   AnalyticsReportKey,
   AnalyticsReportStatus,
   AnalyticsTrackingHealth,

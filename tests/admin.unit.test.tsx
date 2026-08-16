@@ -17,13 +17,13 @@ const posthogMock = vi.hoisted(() => ({
 vi.mock("posthog-js", () => ({ default: posthogMock }));
 
 const availableReportStatus = {
-  kpis: "available",
-  trend: "available",
-  sections: "available",
-  actions: "available",
-  acquisition: "available",
-  audience: "available",
-  funnel: "available",
+  kpis: { availability: "available", availableFrom: "2026-08-08" },
+  trend: { availability: "available", availableFrom: "2026-08-08" },
+  sections: { availability: "available", availableFrom: "2026-08-08" },
+  actions: { availability: "available", availableFrom: "2026-08-08" },
+  acquisition: { availability: "available", availableFrom: "2026-08-08" },
+  audience: { availability: "available", availableFrom: "2026-08-08" },
+  funnel: { availability: "available", availableFrom: "2026-08-08" },
 } as const;
 
 const report: AdminAnalyticsResponse = {
@@ -283,7 +283,7 @@ describe("admin access", () => {
       ...report,
       coverage: { requestedFrom: "2026-08-08", availableFrom: "2026-08-12", partial: true },
       actions: [],
-      reportStatus: { ...availableReportStatus, actions: "unavailable" },
+      reportStatus: { ...availableReportStatus, actions: { availability: "unavailable", availableFrom: "2026-08-12" } },
       trackingHealth: "degraded",
     })));
 
@@ -318,7 +318,11 @@ describe("admin access", () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({
       ...emptyReport,
       coverage: { ...emptyReport.coverage, partial: true },
-      reportStatus: { ...availableReportStatus, kpis: "unavailable", trend: "unavailable" },
+      reportStatus: {
+        ...availableReportStatus,
+        kpis: { availability: "unavailable", availableFrom: "2026-08-08" },
+        trend: { availability: "unavailable", availableFrom: "2026-08-08" },
+      },
       trackingHealth: "degraded",
     })));
 
@@ -329,6 +333,40 @@ describe("admin access", () => {
     expect(screen.queryByText(/not enough aggregate activity yet/i)).toBeNull();
     expect(screen.getAllByText(/kpi report unavailable/i, { selector: ".admin-kpi-delta" })).toHaveLength(5);
     expect(screen.getByText(/traffic trends report is unavailable/i)).not.toBeNull();
+  });
+
+  it("does not make a healthy claim in the new-installation banner when tracking health is degraded", async () => {
+    sessionStorage.setItem("admin-session-token", "signed-admin-token");
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({
+      ...emptyReport,
+      reportStatus: Object.fromEntries(Object.keys(availableReportStatus).map((key) => [key, { availability: "available", availableFrom: "2026-08-15" }])),
+      trackingHealth: "degraded",
+    })));
+
+    renderAdmin();
+
+    await screen.findByRole("heading", { name: /portfolio analytics/i });
+    expect(screen.getByText(/tracking degraded/i)).not.toBeNull();
+    expect(screen.queryByText(/aggregate reports are healthy/i)).toBeNull();
+    expect(screen.getByText(/not enough aggregate activity yet/i)).not.toBeNull();
+  });
+
+  it("names reports whose tracking began after the requested range", async () => {
+    sessionStorage.setItem("admin-session-token", "signed-admin-token");
+    const reportStatus = Object.fromEntries(Object.keys(availableReportStatus).map((key) => [key, { availability: "available", availableFrom: "2026-08-10" }]));
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({
+      ...report,
+      coverage: { requestedFrom: "2026-08-08", availableFrom: "2026-08-10", partial: true },
+      reportStatus,
+      trackingHealth: "healthy",
+    })));
+
+    renderAdmin();
+
+    await screen.findByRole("heading", { name: /portfolio analytics/i });
+    const coverageBanner = screen.getByRole("alert");
+    expect(coverageBanner.textContent).toMatch(/tracking began august 10, 2026/i);
+    expect(coverageBanner.textContent).toMatch(/kpis, traffic trend, section attention, actions, acquisition, audience, funnel/i);
   });
 
   it("reports the deepest journey stage with measured sessions rather than a zero-count final stage", async () => {
