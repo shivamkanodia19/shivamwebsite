@@ -5,6 +5,7 @@ import {
   captureAnalyticsEvent,
   initializeAnalytics,
   isTrackablePath,
+  resetAnalyticsClientForTests,
 } from "../src/analytics/client";
 import { TrackedLink } from "../src/analytics/TrackedLink";
 import { usePageTracking } from "../src/analytics/usePageTracking";
@@ -13,9 +14,11 @@ import { SiteFooter } from "../src/components/SiteFooter";
 
 const posthogMock = vi.hoisted(() => ({
   capture: vi.fn(),
+  get_session_id: vi.fn(() => "session-1"),
   init: vi.fn(),
   startSessionRecording: vi.fn(),
   stopSessionRecording: vi.fn(),
+  __loaded: false,
 }));
 
 vi.mock("posthog-js", () => ({ default: posthogMock }));
@@ -56,6 +59,9 @@ describe("analytics boundary", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.unstubAllEnvs();
+    resetAnalyticsClientForTests();
+    posthogMock.__loaded = false;
+    posthogMock.get_session_id.mockReturnValue("session-1");
     window.sessionStorage.clear();
     window.history.replaceState({}, "", "/");
     vi.stubGlobal("IntersectionObserver", IntersectionObserverMock);
@@ -93,6 +99,24 @@ describe("analytics boundary", () => {
         },
       }),
     );
+  });
+
+  it("initializes the PostHog client only once across repeated mounts", () => {
+    enableAnalyticsTestMode();
+
+    initializeAnalytics();
+    initializeAnalytics();
+
+    expect(posthogMock.init).toHaveBeenCalledOnce();
+  });
+
+  it("does not reinitialize when PostHog already reports itself loaded", () => {
+    enableAnalyticsTestMode();
+    posthogMock.__loaded = true;
+
+    initializeAnalytics();
+
+    expect(posthogMock.init).not.toHaveBeenCalled();
   });
 
   it("does not initialize analytics in development without explicit safe test mode", () => {
@@ -412,6 +436,36 @@ describe("analytics boundary", () => {
     expect(sectionViews).toHaveLength(1);
     expect(engagementDeltas).toEqual([10_000, 20_000, 30_000]);
     expect(engagementDeltas.reduce((total, delta) => total + delta, 0)).toBe(60_000);
+  });
+
+  it("restarts section views and engagement milestones when PostHog starts a new session", () => {
+    vi.useFakeTimers();
+    enableAnalyticsTestMode();
+    render(<SectionProbe />);
+    const observer = IntersectionObserverMock.instances[0];
+    const section = document.getElementById("work")!;
+
+    act(() => {
+      observer.emit([{ target: section, isIntersecting: true, intersectionRatio: 0.5 }]);
+      vi.advanceTimersByTime(10_000);
+    });
+
+    expect(posthogMock.capture.mock.calls.filter(([eventName]) => eventName === "section_viewed")).toHaveLength(1);
+    expect(posthogMock.capture).toHaveBeenCalledWith("section_engaged", {
+      section_id: "work",
+      active_milliseconds: 10_000,
+    }, { send_instantly: true });
+
+    posthogMock.get_session_id.mockReturnValue("session-2");
+    act(() => vi.advanceTimersByTime(1_000));
+
+    expect(posthogMock.capture.mock.calls.filter(([eventName]) => eventName === "section_viewed")).toHaveLength(2);
+
+    act(() => vi.advanceTimersByTime(10_000));
+    const engagementDeltas = posthogMock.capture.mock.calls
+      .filter(([eventName]) => eventName === "section_engaged")
+      .map(([, properties]) => properties.active_milliseconds);
+    expect(engagementDeltas).toEqual([10_000, 10_000]);
   });
 
   it("reports resume placement and emits an email contact event without the address", () => {

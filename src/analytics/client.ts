@@ -31,6 +31,10 @@ let analyticsInitialized = false;
 let replayStoppedForAdmin = false;
 let routeSyncInstalled = false;
 
+function isPostHogLoaded() {
+  return posthog.__loaded === true;
+}
+
 function getAnalyticsConfig() {
   const key = import.meta.env.VITE_POSTHOG_KEY?.trim();
   const host = import.meta.env.VITE_POSTHOG_HOST?.trim();
@@ -254,6 +258,20 @@ function installRouteSync() {
   routeSyncInstalled = true;
 }
 
+export function getAnalyticsSessionId() {
+  try {
+    const sessionId = posthog.get_session_id?.();
+    return typeof sessionId === "string" && sessionId.length > 0 ? sessionId : null;
+  } catch {
+    return null;
+  }
+}
+
+export function resetAnalyticsClientForTests() {
+  analyticsInitialized = false;
+  replayStoppedForAdmin = false;
+}
+
 export function initializeAnalytics() {
   const config = getAnalyticsConfig();
   const requestQueueConfig = getDevelopmentRequestQueueConfig();
@@ -262,6 +280,13 @@ export function initializeAnalytics() {
     return;
   }
 
+  if (analyticsInitialized || isPostHogLoaded()) {
+    analyticsInitialized = true;
+    installRouteSync();
+    return;
+  }
+
+  analyticsInitialized = true;
   if (config.testMode && typeof window !== "undefined") {
     window.__analyticsTestCapturedPayloads = [];
   }
@@ -291,7 +316,6 @@ export function initializeAnalytics() {
       startSessionRecording: () => { posthog.startSessionRecording(); },
     };
   }
-  analyticsInitialized = true;
   installRouteSync();
 }
 

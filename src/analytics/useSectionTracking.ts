@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { captureAnalyticsEvent } from "./client";
+import { captureAnalyticsEvent, getAnalyticsSessionId } from "./client";
 
 export type SectionDefinition = {
   id: string;
@@ -16,10 +16,18 @@ type SectionSessionState = {
   viewed: boolean;
 };
 
-function readSectionState(sectionId: string): SectionSessionState {
-  const fallback = { activeMilliseconds: 0, reportedMilestones: [], viewed: false };
+function emptySectionState(): SectionSessionState {
+  return { activeMilliseconds: 0, reportedMilestones: [], viewed: false };
+}
+
+function sectionStateKey(sectionId: string, sessionId: string) {
+  return `${sectionStateStoragePrefix}${sessionId}:${sectionId}`;
+}
+
+function readSectionState(sectionId: string, sessionId: string): SectionSessionState {
+  const fallback = emptySectionState();
   try {
-    const value = window.sessionStorage.getItem(`${sectionStateStoragePrefix}${sectionId}`);
+    const value = window.sessionStorage.getItem(sectionStateKey(sectionId, sessionId));
     if (!value) return fallback;
     const parsed = JSON.parse(value) as Partial<SectionSessionState>;
     if (
@@ -37,9 +45,9 @@ function readSectionState(sectionId: string): SectionSessionState {
   }
 }
 
-function writeSectionState(sectionId: string, state: SectionSessionState) {
+function writeSectionState(sectionId: string, sessionId: string, state: SectionSessionState) {
   try {
-    window.sessionStorage.setItem(`${sectionStateStoragePrefix}${sectionId}`, JSON.stringify(state));
+    window.sessionStorage.setItem(sectionStateKey(sectionId, sessionId), JSON.stringify(state));
   } catch {
     // Analytics state is best effort and must never disrupt the public experience.
   }
@@ -51,11 +59,68 @@ export function useSectionTracking(sectionDefinitions: readonly SectionDefinitio
       return;
     }
 
-    const sectionStates = new Map(sectionDefinitions.map(({ id }) => [id, readSectionState(id)]));
+    let activeSessionId = getAnalyticsSessionId();
+    const sectionStates = new Map(
+      sectionDefinitions.map(({ id }) => [
+        id,
+        activeSessionId ? readSectionState(id, activeSessionId) : emptySectionState(),
+      ]),
+    );
     const visibleSectionIds = new Set<string>();
     const definitionsById = new Map(sectionDefinitions.map((definition) => [definition.id, definition]));
 
+    const persist = (sectionId: string, state: SectionSessionState) => {
+      if (activeSessionId) {
+        writeSectionState(sectionId, activeSessionId, state);
+      }
+    };
+
+    const markVisibleSectionViewed = (sectionId: string, definition: SectionDefinition) => {
+      const state = sectionStates.get(sectionId);
+      if (!state || state.viewed) {
+        return;
+      }
+
+      state.viewed = true;
+      persist(sectionId, state);
+      captureAnalyticsEvent("section_viewed", {
+        section_id: definition.id,
+        section_label: definition.label,
+        visibility_threshold: visibilityThreshold,
+      });
+    };
+
+    const adoptOrResetSession = (nextSessionId: string) => {
+      const previousSessionId = activeSessionId;
+      activeSessionId = nextSessionId;
+
+      if (previousSessionId === null) {
+        for (const [sectionId, state] of sectionStates) {
+          writeSectionState(sectionId, nextSessionId, state);
+        }
+        return;
+      }
+
+      for (const definition of sectionDefinitions) {
+        const nextState = readSectionState(definition.id, nextSessionId);
+        sectionStates.set(definition.id, nextState);
+        if (visibleSectionIds.has(definition.id)) {
+          markVisibleSectionViewed(definition.id, definition);
+        }
+      }
+    };
+
+    const syncSession = () => {
+      const nextSessionId = getAnalyticsSessionId();
+      if (!nextSessionId || nextSessionId === activeSessionId) {
+        return;
+      }
+
+      adoptOrResetSession(nextSessionId);
+    };
+
     const observer = new IntersectionObserver((entries) => {
+      syncSession();
       for (const entry of entries) {
         const sectionId = (entry.target as HTMLElement).id;
         const definition = definitionsById.get(sectionId);
@@ -67,16 +132,7 @@ export function useSectionTracking(sectionDefinitions: readonly SectionDefinitio
         const isVisible = entry.isIntersecting && entry.intersectionRatio >= visibilityThreshold;
         if (isVisible) {
           visibleSectionIds.add(sectionId);
-          const state = sectionStates.get(sectionId);
-          if (state && !state.viewed) {
-            state.viewed = true;
-            writeSectionState(sectionId, state);
-            captureAnalyticsEvent("section_viewed", {
-              section_id: definition.id,
-              section_label: definition.label,
-              visibility_threshold: visibilityThreshold,
-            });
-          }
+          markVisibleSectionViewed(sectionId, definition);
         } else {
           visibleSectionIds.delete(sectionId);
         }
@@ -95,6 +151,8 @@ export function useSectionTracking(sectionDefinitions: readonly SectionDefinitio
         return;
       }
 
+      syncSession();
+
       for (const sectionId of visibleSectionIds) {
         const state = sectionStates.get(sectionId);
         if (!state) continue;
@@ -109,7 +167,7 @@ export function useSectionTracking(sectionDefinitions: readonly SectionDefinitio
             });
           }
         }
-        writeSectionState(sectionId, state);
+        persist(sectionId, state);
       }
     }, 1_000);
 
