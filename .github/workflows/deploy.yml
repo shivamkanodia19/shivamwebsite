@@ -36,6 +36,11 @@ jobs:
       
       - name: Build
         run: npm run build
+        env:
+          VITE_POSTHOG_KEY: ${{ secrets.VITE_POSTHOG_KEY }}
+          VITE_POSTHOG_HOST: ${{ secrets.VITE_POSTHOG_HOST }}
+          VITE_SUPABASE_FUNCTIONS_URL: ${{ secrets.VITE_SUPABASE_FUNCTIONS_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: SPA fallback for client-side routes
         run: cp dist/index.html dist/404.html
@@ -73,4 +78,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
