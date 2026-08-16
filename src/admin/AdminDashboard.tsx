@@ -190,9 +190,9 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
             {ranges.map((option) => (
               <button
                 aria-pressed={range === option}
-                disabled={refreshing}
+                aria-disabled={refreshing || undefined}
                 key={option}
-                onClick={() => onRangeChange(option)}
+                onClick={() => { if (!refreshing) void onRangeChange(option); }}
                 type="button"
               >
                 {option} days

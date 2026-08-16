@@ -227,6 +227,33 @@ describe("admin access", () => {
     expect(screen.getByRole("button", { name: /90 days/i })).not.toBeNull();
   });
 
+  it("keeps the focused range control available without duplicate requests while loading", async () => {
+    sessionStorage.setItem("admin-session-token", "signed-admin-token");
+    let resolveRange!: (response: Response) => void;
+    const pendingRange = new Promise<Response>((resolve) => { resolveRange = resolve; });
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(jsonResponse(report))
+      .mockReturnValueOnce(pendingRange);
+    vi.stubGlobal("fetch", fetchMock);
+
+    renderAdmin();
+    await screen.findByRole("heading", { name: /portfolio analytics/i });
+    const rangeButton = screen.getByRole("button", { name: /30 days/i });
+    rangeButton.focus();
+    fireEvent.click(rangeButton);
+
+    await waitFor(() => expect(rangeButton.getAttribute("aria-disabled")).toBe("true"));
+    expect(document.activeElement).toBe(rangeButton);
+    expect(rangeButton.hasAttribute("disabled")).toBe(false);
+    fireEvent.click(rangeButton);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+
+    resolveRange(jsonResponse({ ...report, rangeDays: 30 }));
+    await waitFor(() => expect(rangeButton.hasAttribute("aria-disabled")).toBe(false));
+    expect(document.activeElement).toBe(rangeButton);
+    expect(rangeButton.getAttribute("aria-pressed")).toBe("true");
+  });
+
   it("moves through audience tabs with arrow keys", async () => {
     sessionStorage.setItem("admin-session-token", "signed-admin-token");
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse(report)));

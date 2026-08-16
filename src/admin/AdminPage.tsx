@@ -26,6 +26,7 @@ export function AdminPage() {
   const [refreshing, setRefreshing] = useState(false);
   const [staleMessage, setStaleMessage] = useState<string | null>(null);
   const reportRequestId = useRef(0);
+  const refreshingRef = useRef(false);
 
   useEffect(() => {
     if (!token) return;
@@ -76,12 +77,14 @@ export function AdminPage() {
     setError(null);
     setRange(7);
     setRefreshing(false);
+    refreshingRef.current = false;
     setStaleMessage(null);
     setAccessState("login");
   }
 
   async function updateReport(nextRange: RangeDays) {
-    if (!token || refreshing) return;
+    if (!token || refreshingRef.current) return;
+    refreshingRef.current = true;
     const requestId = ++reportRequestId.current;
     setRefreshing(true);
     setStaleMessage(null);
@@ -108,7 +111,10 @@ export function AdminPage() {
         setAccessState("error");
       }
     } finally {
-      if (requestId === reportRequestId.current) setRefreshing(false);
+      if (requestId === reportRequestId.current) {
+        refreshingRef.current = false;
+        setRefreshing(false);
+      }
     }
   }
 

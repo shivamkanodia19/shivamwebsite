@@ -215,7 +215,7 @@
 }
 
 .admin-range-controls button:not([aria-pressed="true"]):hover { background: var(--surface); border-color: var(--line); }
-.admin-range-controls button:disabled { cursor: wait; }
+.admin-range-controls button[aria-disabled="true"] { cursor: wait; }
 
 .admin-range-status {
   color: var(--admin-secondary);
