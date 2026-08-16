@@ -121,17 +121,27 @@ test("30-second evidence scan exposes proof and contact paths", async ({ page })
 test("personal builds section shows verifiable receipts", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/#builds");
-  await expect(page.getByRole("heading", { name: "Personal builds, production standards." })).toBeVisible();
-  await expect(page.locator(".build-card")).toHaveCount(3);
+  await expect(page.getByRole("heading", { name: "Things I build for myself." })).toBeVisible();
+  await expect(page.locator(".build")).toHaveCount(4);
   const shot = page.getByAltText(/Sideline Saturday gameplay/);
   await shot.scrollIntoViewIfNeeded();
   await expect.poll(() => shot.evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBe(1440);
-  for (const receipt of ["294", "0.086", "manual confirm"]) {
-    await expect(page.getByText(receipt).first()).toBeAttached();
+  for (const receipt of ["294 tests", "120 FPS", "Verified leaderboard", "56 engine tests"]) {
+    await expect(page.getByText(receipt, { exact: true })).toBeAttached();
   }
-  const card = page.locator(".build-card").first();
-  await card.focus();
-  expect(await card.evaluate((el) => getComputedStyle(el).outlineStyle)).not.toBe("none");
+  const card = page.locator(".build").first();
+  const unfocusedStyle = await card.evaluate((element) => ({
+    borderColor: getComputedStyle(element).borderColor,
+    transform: getComputedStyle(element).transform,
+  }));
+  for (let attempt = 0; attempt < 30 && !await card.evaluate((element) => element === document.activeElement); attempt += 1) {
+    await page.keyboard.press("Tab");
+  }
+  await expect(card).toBeFocused();
+  await expect.poll(() => card.evaluate((element, before) => ({
+    borderChanged: getComputedStyle(element).borderColor !== before.borderColor,
+    transformChanged: getComputedStyle(element).transform !== before.transform,
+  }), unfocusedStyle)).toEqual({ borderChanged: true, transformChanged: true });
 });
 
 test("outside work keeps only the strength record proof", async ({ page }) => {
