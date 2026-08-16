@@ -306,6 +306,6 @@ export function captureAnalyticsEvent<EventName extends AnalyticsEventName>(
   const knownProperties = getKnownProperties(eventName, properties);
 
   if (knownProperties) {
-    posthog.capture(eventName, knownProperties);
+    posthog.capture(eventName, knownProperties, { send_instantly: true });
   }
 }

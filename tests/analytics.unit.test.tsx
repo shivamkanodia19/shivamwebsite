@@ -146,10 +146,11 @@ describe("analytics boundary", () => {
 
     captureAnalyticsEvent("project_opened", rawProperties);
 
-    expect(posthogMock.capture).toHaveBeenCalledWith("project_opened", {
-      project_id: "case-study",
-      project_name: "Case Study",
-    });
+    expect(posthogMock.capture).toHaveBeenCalledWith(
+      "project_opened",
+      { project_id: "case-study", project_name: "Case Study" },
+      { send_instantly: true },
+    );
   });
 
   it("refuses to capture events while on an admin path", () => {
@@ -313,7 +314,7 @@ describe("analytics boundary", () => {
     );
     const pageviewCalls = () => posthogMock.capture.mock.calls.filter(([eventName]) => eventName === "$pageview");
 
-    expect(pageviewCalls()).toEqual([["$pageview", {}]]);
+    expect(pageviewCalls()).toEqual([["$pageview", {}, { send_instantly: true }]]);
     view.rerender(
       <BrowserRouter>
         <RouteProbe />
@@ -323,8 +324,8 @@ describe("analytics boundary", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Open pitch" }));
     expect(pageviewCalls()).toEqual([
-      ["$pageview", {}],
-      ["$pageview", {}],
+      ["$pageview", {}, { send_instantly: true }],
+      ["$pageview", {}, { send_instantly: true }],
     ]);
 
     view.rerender(
@@ -366,11 +367,11 @@ describe("analytics boundary", () => {
       section_id: "work",
       section_label: "Experience",
       visibility_threshold: 0.5,
-    });
+    }, { send_instantly: true });
     expect(posthogMock.capture).toHaveBeenCalledWith("section_engaged", {
       section_id: "work",
       active_milliseconds: 10_000,
-    });
+    }, { send_instantly: true });
     expect(posthogMock.capture.mock.calls.filter(([eventName]) => eventName === "section_viewed")).toHaveLength(1);
 
     Object.defineProperty(document, "visibilityState", { configurable: true, value: "hidden" });
@@ -422,7 +423,7 @@ describe("analytics boundary", () => {
     );
 
     fireEvent.click(screen.getByRole("link", { name: "Resume" }));
-    expect(posthogMock.capture).toHaveBeenCalledWith("resume_viewed", { placement: "hero" });
+    expect(posthogMock.capture).toHaveBeenCalledWith("resume_viewed", { placement: "hero" }, { send_instantly: true });
 
     posthogMock.capture.mockClear();
     rerender(
@@ -432,8 +433,8 @@ describe("analytics boundary", () => {
     );
     fireEvent.click(screen.getByRole("link", { name: "Email" }));
 
-    expect(posthogMock.capture).toHaveBeenCalledWith("contact_clicked", { channel: "email" });
-    expect(posthogMock.capture).toHaveBeenLastCalledWith("contact_clicked", { channel: "email" });
+    expect(posthogMock.capture).toHaveBeenCalledWith("contact_clicked", { channel: "email" }, { send_instantly: true });
+    expect(posthogMock.capture).toHaveBeenLastCalledWith("contact_clicked", { channel: "email" }, { send_instantly: true });
   });
 
   it("discloses anonymous masked analytics in the public footer", () => {
