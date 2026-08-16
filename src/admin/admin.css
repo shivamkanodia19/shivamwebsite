@@ -1,10 +1,20 @@
 .admin-shell {
+  --admin-secondary: #514c45;
   background:
     linear-gradient(rgba(216, 207, 193, .22) 1px, transparent 1px),
     var(--paper);
   background-size: 100% 84px;
   color: var(--ink);
   min-height: 100vh;
+}
+
+.admin-access-error { --admin-secondary: #514c45; }
+
+.admin-shell :is(a, button, [role="tab"]):focus-visible,
+.admin-access-error :is(a, button):focus-visible {
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 6px #17284e;
+  outline: 2px solid #17284e;
+  outline-offset: 5px;
 }
 
 .admin-header {
@@ -84,7 +94,7 @@
 
 .admin-header-nav a:hover,
 .admin-header-nav button:hover { color: var(--blue); }
-.admin-header-nav > span { color: var(--faint); }
+.admin-header-nav > span { color: var(--admin-secondary); }
 
 .admin-main {
   margin: 0 auto;
@@ -144,7 +154,7 @@
 
 .admin-health-copy p { margin: 0; }
 .admin-health-copy strong { display: block; font-size: 12px; }
-.admin-health-copy small { color: var(--faint); display: block; font-size: 9px; margin-top: 4px; }
+.admin-health-copy small { color: var(--admin-secondary); display: block; font-size: 9px; margin-top: 4px; }
 
 .admin-status-dot {
   background: var(--green);
@@ -154,6 +164,7 @@
   height: 7px;
   width: 7px;
 }
+.admin-status-degraded { background: var(--amber); border-color: var(--amber-soft); }
 
 .admin-refresh {
   align-items: center;
@@ -207,7 +218,7 @@
 .admin-range-controls button:disabled { cursor: wait; }
 
 .admin-range-status {
-  color: var(--faint);
+  color: var(--admin-secondary);
   font-size: 9px;
   letter-spacing: .04em;
   margin: 0;
@@ -253,7 +264,7 @@
 }
 
 .admin-section-heading-inline > span {
-  color: var(--faint);
+  color: var(--admin-secondary);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 9px;
   text-transform: uppercase;
@@ -302,7 +313,9 @@
 .admin-kpi-delta-up { color: var(--green); }
 .admin-kpi-delta-down { color: var(--plum); }
 .admin-kpi-delta-unchanged,
-.admin-kpi-delta-neutral { color: var(--faint); }
+.admin-kpi-delta-neutral { color: var(--admin-secondary); }
+.admin-kpi-value-unavailable { font-size: clamp(19px, 2vw, 25px); letter-spacing: -.03em; }
+.admin-kpi-unavailable { border-color: #d6ad75; }
 
 .admin-module { padding: 25px; }
 .admin-trend-module { grid-column: span 8; min-height: 500px; }
@@ -331,7 +344,7 @@
 .admin-chart-marker-visitors { fill: var(--surface); stroke: var(--blue); }
 .admin-chart-marker-sessions { fill: var(--green-soft); stroke: var(--green); }
 .admin-chart-marker-resume { fill: var(--plum-soft); stroke: var(--plum); }
-.admin-chart-axis-label { fill: var(--faint); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; }
+.admin-chart-axis-label { fill: var(--admin-secondary); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; }
 
 .admin-chart-legend {
   border-top: 1px solid var(--line);
@@ -354,7 +367,7 @@
 .admin-signal-list { margin: 0; }
 .admin-signal-list > div { border-top: 1px solid var(--line); padding: 18px 0; }
 .admin-signal-list > div:last-child { padding-bottom: 0; }
-.admin-signal-list dt { color: var(--faint); font-size: 10px; }
+.admin-signal-list dt { color: var(--admin-secondary); font-size: 10px; }
 .admin-signal-list dd { font-size: 20px; font-weight: 650; letter-spacing: -.035em; margin: 7px 0 0; }
 .admin-signal-list small { color: var(--muted); display: block; font-size: 9px; line-height: 1.45; margin-top: 6px; }
 
@@ -371,7 +384,7 @@
 .admin-bar-list strong { color: var(--blue); font-size: 11px; }
 .admin-bar-track { background: var(--blue-soft); height: 8px; margin-top: 8px; }
 .admin-bar-track span { background: var(--blue); display: block; height: 100%; min-width: 2px; }
-.admin-bar-list small { color: var(--faint); display: block; font-size: 9px; margin-top: 5px; }
+.admin-bar-list small { color: var(--admin-secondary); display: block; font-size: 9px; margin-top: 5px; }
 
 .admin-ranked-list li {
   align-items: center;
@@ -382,7 +395,7 @@
   min-height: 58px;
 }
 
-.admin-rank { color: var(--faint); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; }
+.admin-rank { color: var(--admin-secondary); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; }
 .admin-rank-label { font-size: 12px; overflow-wrap: anywhere; }
 .admin-rank-count { color: var(--muted); font-size: 9px; }
 .admin-ranked-list strong { color: var(--plum); font-size: 10px; }
@@ -397,7 +410,8 @@
   padding: 18px;
 }
 
-.admin-module-empty > span { color: var(--faint); font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.admin-module-empty > span { color: var(--admin-secondary); font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.admin-module-unavailable { background: var(--amber-soft); border-color: #d6ad75; color: #71430d; }
 .admin-module-empty p { font-size: 11px; line-height: 1.5; margin: 0; }
 
 .admin-table-scroll { overflow-x: auto; }
@@ -405,7 +419,7 @@
 .admin-data-table th,
 .admin-data-table td { border-bottom: 1px solid var(--line); padding: 14px 8px; text-align: right; }
 .admin-data-table th:first-child { text-align: left; }
-.admin-data-table thead { color: var(--faint); font-size: 8px; letter-spacing: .06em; text-transform: uppercase; }
+.admin-data-table thead { color: var(--admin-secondary); font-size: 8px; letter-spacing: .06em; text-transform: uppercase; }
 .admin-data-table tbody th { font-size: 12px; font-weight: 500; }
 .admin-data-table tbody td { color: var(--muted); font-size: 11px; }
 .admin-data-table tbody td strong { color: var(--blue); }
@@ -432,7 +446,7 @@
 
 .admin-funnel-list { display: grid; gap: 8px; }
 .admin-funnel-stage { align-items: center; display: flex; gap: 12px; }
-.admin-funnel-index { color: var(--faint); flex: 0 0 22px; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; }
+.admin-funnel-index { color: var(--admin-secondary); flex: 0 0 22px; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; }
 .admin-funnel-block {
   align-items: center;
   background: var(--blue-soft);
@@ -462,7 +476,7 @@
 .admin-tool-grid span { font-size: 13px; font-weight: 650; }
 .admin-tool-grid p { color: var(--muted); font-size: 9px; grid-column: 1 / -1; line-height: 1.5; margin: 0; }
 .admin-tool-grid b { color: var(--blue); font-family: "IBM Plex Mono", ui-monospace, monospace; }
-.admin-tool-disabled { color: var(--faint); }
+.admin-tool-disabled { color: var(--admin-secondary); }
 
 .admin-meta-module { background: var(--dark); border-color: var(--dark); color: white; }
 .admin-meta-module .admin-module-index { color: #aebdf3; }
@@ -540,7 +554,8 @@
   .admin-private-label { justify-self: end; }
   .admin-header-nav { border-top: 1px solid var(--line); grid-column: 1 / -1; justify-content: space-between; width: 100%; }
   .admin-header-nav a,
-  .admin-header-nav button { min-height: 43px; }
+  .admin-header-nav button { min-height: 44px; }
+  .admin-wordmark { align-items: center; display: flex; min-height: 44px; }
   .admin-header-nav > span { display: none; }
   .admin-main { padding: 146px 0 48px; width: calc(100% - 30px); }
   .admin-intro { gap: 28px; }
@@ -567,14 +582,23 @@
   .admin-ranked-list li { gap: 7px; grid-template-columns: 22px 1fr auto; padding: 10px 0; }
   .admin-rank-count { grid-column: 2; }
   .admin-ranked-list strong { grid-column: 3; grid-row: 1; }
-  .admin-data-table thead { display: none; }
+  .admin-data-table thead {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
   .admin-data-table,
   .admin-data-table tbody { display: block; }
   .admin-data-table tr { border-top: 1px solid var(--line); display: grid; gap: 5px; grid-template-columns: 1fr auto; padding: 12px 0; }
   .admin-data-table th,
   .admin-data-table td { border: 0; display: flex; gap: 10px; justify-content: space-between; padding: 0; text-align: right; }
   .admin-data-table th:first-child { grid-column: 1 / -1; }
-  .admin-data-table td::before { color: var(--faint); content: attr(data-label); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; text-transform: uppercase; }
+  .admin-data-table td::before { color: var(--admin-secondary); content: attr(data-label); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; text-transform: uppercase; }
   .admin-funnel-list { gap: 13px; }
   .admin-funnel-stage { align-items: flex-start; }
   .admin-funnel-block { gap: 6px 14px; grid-template-columns: 1fr auto; min-height: 74px; width: 100% !important; }
@@ -591,11 +615,15 @@
 }
 
 @media (prefers-contrast: more) {
+  .admin-shell,
+  .admin-access-error { --admin-secondary: #252724; }
   .admin-kpi-card,
   .admin-module,
   .admin-health-panel,
   .admin-header { border-color: var(--ink); }
   .admin-chart-gridline { stroke: #777; }
+  .admin-shell :is(a, button, [role="tab"]):focus-visible,
+  .admin-access-error :is(a, button):focus-visible { box-shadow: 0 0 0 3px white, 0 0 0 7px #000; outline-color: #000; }
 }
 
 @media (prefers-reduced-motion: reduce) {

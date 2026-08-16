@@ -1,5 +1,5 @@
 import { corsHeaders, isAllowedOrigin, type CorsConfig } from "./cors.ts";
-import type { AdminAnalyticsResponse, PostHogLinks, RangeDays } from "./admin_types.ts";
+import type { AdminAnalyticsResponse, AnalyticsReportStatus, PostHogLinks, RangeDays } from "./admin_types.ts";
 import {
   buildReportQueries,
   normalizeAudience,
@@ -70,12 +70,22 @@ async function fetchAnalytics(
   const byId = new Map(settled.map((report) => [report.id, report]));
   let partial = settled.some((report) => report.failed);
   let usableReports = 0;
+  const reportStatus: AnalyticsReportStatus = {
+    kpis: "unavailable",
+    trend: "unavailable",
+    sections: "unavailable",
+    actions: "unavailable",
+    acquisition: "unavailable",
+    audience: "unavailable",
+    funnel: "unavailable",
+  };
   const normalized = <Value>(id: ReportQuery["id"], fallback: Value, normalizer: (rows: unknown) => Value): Value => {
     const result = byId.get(id);
     if (!result || result.failed) return fallback;
     try {
       const value = normalizer(result.rows);
       usableReports += 1;
+      reportStatus[id] = "available";
       return value;
     } catch {
       partial = true;
@@ -91,6 +101,7 @@ async function fetchAnalytics(
   const audience = normalized("audience", { countries: [], devices: [], browsers: [] }, normalizeAudience);
   const funnel = normalized("funnel", [], normalizeFunnel);
   if (usableReports === 0) throw new Error("No analytics reports available");
+  const trackingHealth = Object.values(reportStatus).every((status) => status === "available") ? "healthy" : "degraded";
 
   return {
     generatedAt: now.toISOString(),
@@ -100,6 +111,8 @@ async function fetchAnalytics(
       availableFrom: trend[0]?.date ?? null,
       partial,
     },
+    trackingHealth,
+    reportStatus,
     kpis,
     trend,
     sections,

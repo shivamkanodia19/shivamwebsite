@@ -46,10 +46,17 @@ export type PostHogLinks = {
   events: string | null;
 };
 
+export type AnalyticsReportKey = "kpis" | "trend" | "sections" | "actions" | "acquisition" | "audience" | "funnel";
+export type AnalyticsReportAvailability = "available" | "unavailable";
+export type AnalyticsTrackingHealth = "healthy" | "degraded";
+export type AnalyticsReportStatus = Record<AnalyticsReportKey, AnalyticsReportAvailability>;
+
 export type AdminAnalyticsResponse = {
   generatedAt: string;
   rangeDays: RangeDays;
   coverage: AnalyticsCoverage;
+  trackingHealth: AnalyticsTrackingHealth;
+  reportStatus: AnalyticsReportStatus;
   kpis: {
     visitors: MetricValue;
     sessions: MetricValue;

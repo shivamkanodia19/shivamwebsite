@@ -1,6 +1,10 @@
 export type {
   AdminAnalyticsResponse,
   AnalyticsCoverage,
+  AnalyticsReportAvailability,
+  AnalyticsReportKey,
+  AnalyticsReportStatus,
+  AnalyticsTrackingHealth,
   FunnelStage,
   MetricValue,
   PostHogLinks,

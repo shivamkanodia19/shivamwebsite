@@ -16,10 +16,22 @@ const posthogMock = vi.hoisted(() => ({
 
 vi.mock("posthog-js", () => ({ default: posthogMock }));
 
+const availableReportStatus = {
+  kpis: "available",
+  trend: "available",
+  sections: "available",
+  actions: "available",
+  acquisition: "available",
+  audience: "available",
+  funnel: "available",
+} as const;
+
 const report: AdminAnalyticsResponse = {
   generatedAt: "2026-08-15T12:00:00.000Z",
   rangeDays: 7 as const,
   coverage: { requestedFrom: "2026-08-08", availableFrom: "2026-08-08", partial: false },
+  reportStatus: availableReportStatus,
+  trackingHealth: "healthy",
   kpis: {
     visitors: { value: 12, previous: 9, deltaPercent: 33.3 },
     sessions: { value: 15, previous: 10, deltaPercent: 50 },
@@ -271,6 +283,8 @@ describe("admin access", () => {
       ...report,
       coverage: { requestedFrom: "2026-08-08", availableFrom: "2026-08-12", partial: true },
       actions: [],
+      reportStatus: { ...availableReportStatus, actions: "unavailable" },
+      trackingHealth: "degraded",
     })));
 
     renderAdmin();
@@ -278,20 +292,65 @@ describe("admin access", () => {
     await screen.findByRole("heading", { name: /portfolio analytics/i });
     expect(screen.getByRole("alert").textContent).toMatch(/partial coverage/i);
     expect(screen.getByRole("alert").textContent).toMatch(/august 12, 2026/i);
-    expect(screen.getByText(/ranked actions are unavailable for this report/i)).not.toBeNull();
+    expect(screen.getByText(/ranked actions report is unavailable/i)).not.toBeNull();
+    expect(screen.getByText(/tracking degraded/i)).not.toBeNull();
     expect(screen.getByText("Work")).not.toBeNull();
   });
 
   it("uses truthful new-installation copy and does not fabricate empty charts", async () => {
     sessionStorage.setItem("admin-session-token", "signed-admin-token");
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse(emptyReport)));
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({
+      ...emptyReport,
+      reportStatus: availableReportStatus,
+      trackingHealth: "healthy",
+    })));
 
     renderAdmin();
 
     await screen.findByRole("heading", { name: /portfolio analytics/i });
-    expect(screen.getByText(/tracking is live/i)).not.toBeNull();
+    expect(screen.getByText(/tracking healthy/i)).not.toBeNull();
     expect(screen.getByText(/not enough aggregate activity yet/i)).not.toBeNull();
     expect(screen.queryByRole("img", { name: /traffic over time/i })).toBeNull();
+  });
+
+  it("does not claim a new installation when the reports needed to establish activity failed", async () => {
+    sessionStorage.setItem("admin-session-token", "signed-admin-token");
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({
+      ...emptyReport,
+      coverage: { ...emptyReport.coverage, partial: true },
+      reportStatus: { ...availableReportStatus, kpis: "unavailable", trend: "unavailable" },
+      trackingHealth: "degraded",
+    })));
+
+    renderAdmin();
+
+    await screen.findByRole("heading", { name: /portfolio analytics/i });
+    expect(screen.getByText(/tracking degraded/i)).not.toBeNull();
+    expect(screen.queryByText(/not enough aggregate activity yet/i)).toBeNull();
+    expect(screen.getAllByText(/kpi report unavailable/i, { selector: ".admin-kpi-delta" })).toHaveLength(5);
+    expect(screen.getByText(/traffic trends report is unavailable/i)).not.toBeNull();
+  });
+
+  it("reports the deepest journey stage with measured sessions rather than a zero-count final stage", async () => {
+    sessionStorage.setItem("admin-session-token", "signed-admin-token");
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(jsonResponse({
+      ...report,
+      reportStatus: availableReportStatus,
+      trackingHealth: "healthy",
+      funnel: [
+        { label: "Visit", sessions: 15, share: 100 },
+        { label: "Work view", sessions: 10, share: 66.7 },
+        { label: "Portfolio action", sessions: 2, share: 13.3 },
+        { label: "Resume action", sessions: 0, share: 0 },
+      ],
+    })));
+
+    renderAdmin();
+
+    await screen.findByRole("heading", { name: /portfolio analytics/i });
+    const journey = screen.getByRole("heading", { name: /journey signals/i }).closest("section");
+    expect(within(journey!).getByText("Portfolio action")).not.toBeNull();
+    expect(within(journey!).queryByText("Resume action")).toBeNull();
   });
 
   it("returns expired sessions to the password form and removes their token", async () => {

@@ -47,6 +47,8 @@ Deno.test("analytics returns the stable private aggregate response contract", as
   assert(body.generatedAt === now.toISOString());
   assert(body.rangeDays === 30);
   assert(body.coverage.partial === false);
+  assert(body.trackingHealth === "healthy");
+  assert(Object.values(body.reportStatus).every((status) => status === "available"));
   assert(body.kpis.visitors.value === 10);
   assert(body.sections[0].sessions === 8);
   assert(!("visitors" in body.sections[0]));
@@ -70,6 +72,9 @@ Deno.test("analytics preserves successful modules when one report fails", async 
 
   assert(response.status === 200);
   assert(body.coverage.partial);
+  assert(body.trackingHealth === "degraded");
+  assert(body.reportStatus.actions === "unavailable");
+  assert(body.reportStatus.trend === "available");
   assert(body.actions.length === 0);
   assert(body.trend.length === 1);
 });
