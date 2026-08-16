@@ -37,7 +37,7 @@ const report: AdminAnalyticsResponse = {
     sessions: { value: 15, previous: 10, deltaPercent: 50 },
     activeTime: { value: 120, previous: 100, deltaPercent: 20 },
     bounceRate: { value: 20, previous: 25, deltaPercent: -20 },
-    resumeViews: { value: 3, previous: 2, deltaPercent: 50 },
+    resumeSessions: { value: 3, previous: 2, deltaPercent: 50 },
   },
   trend: [
     { date: "2026-08-13", visitors: 3, sessions: 4, resumeViews: 1 },
@@ -83,7 +83,7 @@ const emptyReport: AdminAnalyticsResponse = {
     sessions: { value: null, previous: null, deltaPercent: null },
     activeTime: { value: null, previous: null, deltaPercent: null },
     bounceRate: { value: null, previous: null, deltaPercent: null },
-    resumeViews: { value: null, previous: null, deltaPercent: null },
+    resumeSessions: { value: null, previous: null, deltaPercent: null },
   },
   trend: [],
   sections: [],
@@ -183,7 +183,7 @@ describe("admin access", () => {
       "Deeper analysis",
       "Privacy & provenance",
     ]);
-    for (const label of ["Visitors", "Sessions", "Active time", "Bounce rate", "Resume actions"]) {
+    for (const label of ["Visitors", "Sessions", "Active time", "Bounce rate", "Resume-converting sessions"]) {
       expect(screen.getByText(label, { selector: ".admin-kpi-label" })).not.toBeNull();
     }
     expect(screen.getByRole("img", { name: /traffic over time/i })).not.toBeNull();

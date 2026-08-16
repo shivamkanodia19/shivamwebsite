@@ -14,7 +14,6 @@ export type AnalyticsEventProperties = {
   };
   project_opened: { project_id: string; project_name: string };
   resume_viewed: { placement: string };
-  external_link_clicked: { destination_type: string };
   pitch_opened: Record<string, never>;
   contact_clicked: { channel: "email" | "linkedin" };
 };

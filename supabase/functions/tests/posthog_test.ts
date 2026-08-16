@@ -26,7 +26,7 @@ Deno.test("normalizeKpis preserves absent report data instead of inventing zeroe
   assert(result.sessions.previous === null);
   assert(result.activeTime.deltaPercent === null);
   assert(result.bounceRate.value === null);
-  assert(result.resumeViews.value === null);
+  assert(result.resumeSessions.value === null);
 });
 
 Deno.test("normalizeKpis treats zero event evidence as unavailable data", () => {
@@ -132,9 +132,10 @@ Deno.test("sections and actions use controlled, non-null dimensions", () => {
   assert(sections.includes("properties.section_id"));
   assert(sections.includes("properties.section_label"));
   assert(actions.includes("CASE event"));
-  for (const event of ["element_clicked", "project_opened", "resume_viewed", "external_link_clicked", "contact_clicked"]) {
+  for (const event of ["element_clicked", "project_opened", "resume_viewed", "contact_clicked"]) {
     assert(actions.includes(`WHEN '${event}'`));
   }
+  assert(!actions.includes("external_link_clicked"));
 });
 
 Deno.test("funnel counts ordered stages within the same anonymous session", () => {

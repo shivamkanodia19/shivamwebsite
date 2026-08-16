@@ -9,6 +9,7 @@ import {
 import { TrackedLink } from "../src/analytics/TrackedLink";
 import { usePageTracking } from "../src/analytics/usePageTracking";
 import { useSectionTracking } from "../src/analytics/useSectionTracking";
+import { SiteFooter } from "../src/components/SiteFooter";
 
 const posthogMock = vi.hoisted(() => ({
   capture: vi.fn(),
@@ -45,10 +46,17 @@ function SectionProbe() {
   return <section id="work">Work</section>;
 }
 
+function enableAnalyticsTestMode() {
+  vi.stubEnv("VITE_ANALYTICS_TEST_MODE", "true");
+  vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
+  vi.stubEnv("VITE_POSTHOG_HOST", "https://posthog.invalid");
+}
+
 describe("analytics boundary", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.unstubAllEnvs();
+    window.sessionStorage.clear();
     window.history.replaceState({}, "", "/");
     vi.stubGlobal("IntersectionObserver", IntersectionObserverMock);
     IntersectionObserverMock.instances = [];
@@ -68,27 +76,44 @@ describe("analytics boundary", () => {
   });
 
   it("initializes anonymous analytics with masked session replay", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
 
     initializeAnalytics();
 
     expect(posthogMock.init).toHaveBeenCalledWith(
       "public-project-key",
       expect.objectContaining({
-        api_host: "https://eu.i.posthog.com",
+        api_host: "https://posthog.invalid",
         person_profiles: "identified_only",
         session_recording: {
+          maskAttributeFn: expect.any(Function),
           maskAllInputs: true,
+          maskCapturedNetworkRequestFn: expect.any(Function),
           maskTextSelector: "*",
         },
       }),
     );
   });
 
-  it("uses the deterministic development-only PostHog flush interval when configured", () => {
+  it("does not initialize analytics in development without explicit safe test mode", () => {
     vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
     vi.stubEnv("VITE_POSTHOG_HOST", "https://posthog.invalid");
+
+    initializeAnalytics();
+    expect(posthogMock.init).not.toHaveBeenCalled();
+
+    vi.stubEnv("VITE_ANALYTICS_TEST_MODE", "true");
+    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    initializeAnalytics();
+    expect(posthogMock.init).not.toHaveBeenCalled();
+
+    vi.stubEnv("VITE_POSTHOG_HOST", "http://127.0.0.1:9999");
+    initializeAnalytics();
+    expect(posthogMock.init).toHaveBeenCalledOnce();
+  });
+
+  it("uses the deterministic development-only PostHog flush interval when configured", () => {
+    enableAnalyticsTestMode();
     vi.stubEnv("VITE_POSTHOG_TEST_FLUSH_INTERVAL_MS", "250");
 
     initializeAnalytics();
@@ -111,8 +136,7 @@ describe("analytics boundary", () => {
   });
 
   it("drops unknown event properties before capture", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     initializeAnalytics();
     const rawProperties = {
       project_id: "case-study",
@@ -129,8 +153,7 @@ describe("analytics boundary", () => {
   });
 
   it("refuses to capture events while on an admin path", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     initializeAnalytics();
     window.history.replaceState({}, "", "/admin/reports");
 
@@ -140,8 +163,7 @@ describe("analytics boundary", () => {
   });
 
   it("stops session replay on admin navigation and restarts it on public exit", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     initializeAnalytics();
     posthogMock.startSessionRecording.mockClear();
     posthogMock.stopSessionRecording.mockClear();
@@ -154,8 +176,7 @@ describe("analytics boundary", () => {
   });
 
   it("rejects sensitive values in otherwise allowlisted event properties", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     initializeAnalytics();
 
     captureAnalyticsEvent("element_clicked", {
@@ -173,8 +194,7 @@ describe("analytics boundary", () => {
   });
 
   it("rejects arbitrary sentences and phone numbers in controlled event values", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     initializeAnalytics();
 
     captureAnalyticsEvent("resume_viewed", {
@@ -186,8 +206,7 @@ describe("analytics boundary", () => {
   });
 
   it("uses canonical current URLs for allowed routes and removes referrers", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     initializeAnalytics();
     const options = posthogMock.init.mock.calls.at(-1)?.[1] as {
       before_send: (event: Record<string, unknown>) => Record<string, unknown>;
@@ -223,8 +242,7 @@ describe("analytics boundary", () => {
   });
 
   it("drops SDK URL properties whose path is not an allowlisted public route", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     initializeAnalytics();
     const options = posthogMock.init.mock.calls.at(-1)?.[1] as {
       before_send: (event: Record<string, unknown>) => Record<string, unknown>;
@@ -241,9 +259,52 @@ describe("analytics boundary", () => {
     expect(event).toEqual({ event: "$pageview", properties: {} });
   });
 
+  it("drops every SDK event on admin and recursively strips search and hash from replay URLs", () => {
+    enableAnalyticsTestMode();
+    initializeAnalytics();
+    const options = posthogMock.init.mock.calls.at(-1)?.[1] as {
+      before_send: (event: Record<string, unknown>) => Record<string, unknown> | null;
+      session_recording: {
+        maskAttributeFn: (name: string, value: string) => string;
+        maskCapturedNetworkRequestFn: (request: { name: string; method?: string }) => { name: string; method?: string } | null;
+      };
+    };
+
+    window.history.replaceState({}, "", "/admin/reports?token=admin-secret#details");
+    expect(options.before_send({
+      event: "$snapshot",
+      properties: { $snapshot_data: { data: { href: "https://shivamkanodia.com/admin?token=admin-secret#details" } } },
+    })).toBeNull();
+    expect(options.before_send({
+      event: "$$heatmap",
+      properties: { $heatmap_data: { "https://shivamkanodia.com/admin?token=admin-secret#details": [] } },
+    })).toBeNull();
+
+    window.history.replaceState({}, "", "/pitch");
+    const sanitized = options.before_send({
+      event: "$snapshot",
+      properties: {
+        $snapshot_data: [{ data: { href: "https://shivamkanodia.com/pitch?email=private@example.com#contact" } }],
+        $heatmap_data: { "https://shivamkanodia.com/?campaign=private#hero": [{ href: "/resume.pdf?token=private#page" }] },
+      },
+    });
+    expect(sanitized).toEqual({
+      event: "$snapshot",
+      properties: {
+        $snapshot_data: [{ data: { href: "https://shivamkanodia.com/pitch" } }],
+        $heatmap_data: { "https://shivamkanodia.com/": [{ href: "/resume.pdf" }] },
+      },
+    });
+    expect(JSON.stringify(sanitized)).not.toMatch(/private|\?|#/);
+    expect(options.session_recording.maskAttributeFn("href", "/pitch?token=private#contact")).toBe("/pitch");
+    expect(options.session_recording.maskCapturedNetworkRequestFn({
+      name: "https://shivamkanodia.com/api?token=private#response",
+      method: "GET",
+    })).toEqual({ name: "https://shivamkanodia.com/api", method: "GET" });
+  });
+
   it("captures exactly one pageview for home and pitch without stable-rerender duplicates", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
 
     const view = render(
       <BrowserRouter>
@@ -275,8 +336,7 @@ describe("analytics boundary", () => {
   });
 
   it.each(["/private/customer-name", "/admin"])('does not capture a pageview on "%s"', (pathname) => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     window.history.replaceState({}, "", pathname);
 
     render(
@@ -290,8 +350,7 @@ describe("analytics boundary", () => {
 
   it("captures a section once at fifty percent visibility and pauses active time while hidden", () => {
     vi.useFakeTimers();
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     render(<SectionProbe />);
     const observer = IntersectionObserverMock.instances[0];
     const section = document.getElementById("work");
@@ -319,13 +378,43 @@ describe("analytics boundary", () => {
 
     expect(posthogMock.capture).not.toHaveBeenCalledWith("section_engaged", {
       section_id: "work",
-      active_milliseconds: 30_000,
+      active_milliseconds: 20_000,
     });
   });
 
+  it("emits milestone deltas totaling active time and persists section state across remounts", () => {
+    vi.useFakeTimers();
+    enableAnalyticsTestMode();
+    const firstView = render(<SectionProbe />);
+    const firstObserver = IntersectionObserverMock.instances.at(-1)!;
+    const firstSection = document.getElementById("work")!;
+
+    act(() => {
+      firstObserver.emit([{ target: firstSection, isIntersecting: true, intersectionRatio: 0.5 }]);
+      vi.advanceTimersByTime(10_000);
+    });
+    firstView.unmount();
+
+    const secondView = render(<SectionProbe />);
+    const secondObserver = IntersectionObserverMock.instances.at(-1)!;
+    const secondSection = document.getElementById("work")!;
+    act(() => {
+      secondObserver.emit([{ target: secondSection, isIntersecting: true, intersectionRatio: 0.5 }]);
+      vi.advanceTimersByTime(50_000);
+    });
+    secondView.unmount();
+
+    const sectionViews = posthogMock.capture.mock.calls.filter(([eventName]) => eventName === "section_viewed");
+    const engagementDeltas = posthogMock.capture.mock.calls
+      .filter(([eventName]) => eventName === "section_engaged")
+      .map(([, properties]) => properties.active_milliseconds);
+    expect(sectionViews).toHaveLength(1);
+    expect(engagementDeltas).toEqual([10_000, 20_000, 30_000]);
+    expect(engagementDeltas.reduce((total, delta) => total + delta, 0)).toBe(60_000);
+  });
+
   it("reports resume placement and emits an email contact event without the address", () => {
-    vi.stubEnv("VITE_POSTHOG_KEY", "public-project-key");
-    vi.stubEnv("VITE_POSTHOG_HOST", "https://eu.i.posthog.com");
+    enableAnalyticsTestMode();
     const { rerender } = render(
       <TrackedLink href="/resume.pdf" tracking={{ eventName: "resume_viewed", properties: { placement: "hero" } }}>
         Resume
@@ -345,5 +434,12 @@ describe("analytics boundary", () => {
 
     expect(posthogMock.capture).toHaveBeenCalledWith("contact_clicked", { channel: "email" });
     expect(posthogMock.capture).toHaveBeenLastCalledWith("contact_clicked", { channel: "email" });
+  });
+
+  it("discloses anonymous masked analytics in the public footer", () => {
+    render(<SiteFooter />);
+
+    expect(screen.getByText(/anonymous analytics measure visits and interactions/i)).toBeDefined();
+    expect(screen.getByText(/session replays mask page text and inputs/i)).toBeDefined();
   });
 });

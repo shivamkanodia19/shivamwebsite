@@ -20,6 +20,7 @@ export function SiteFooter() {
         <span>Texas A&amp;M / Industrial &amp; Systems Engineering Honors</span>
         <span>Evidence checked / 2026</span>
       </div>
+      <p className="site-container footer-privacy">Privacy: Anonymous analytics measure visits and interactions. Session replays mask page text and inputs, and analytics is disabled on private admin pages.</p>
     </footer>
   );
 }

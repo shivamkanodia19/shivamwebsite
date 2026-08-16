@@ -1,5 +1,5 @@
 import posthog from "posthog-js";
-import type { BeforeSendFn } from "posthog-js";
+import type { BeforeSendFn, CapturedNetworkRequest } from "posthog-js";
 import {
   analyticsValueRegistry,
   type AnalyticsEventName,
@@ -13,7 +13,6 @@ const eventPropertyNames: Record<AnalyticsEventName, readonly string[]> = {
   element_clicked: ["element_id", "label", "section_id", "destination_type"],
   project_opened: ["project_id", "project_name"],
   resume_viewed: ["placement"],
-  external_link_clicked: ["destination_type"],
   pitch_opened: [],
   contact_clicked: ["channel"],
 };
@@ -36,7 +35,33 @@ function getAnalyticsConfig() {
   const key = import.meta.env.VITE_POSTHOG_KEY?.trim();
   const host = import.meta.env.VITE_POSTHOG_HOST?.trim();
 
-  return key && host ? { host, key } : undefined;
+  if (!key || !host || (!import.meta.env.PROD && !isSafeAnalyticsTestMode(host))) {
+    return undefined;
+  }
+
+  return { host, key, testMode: !import.meta.env.PROD };
+}
+
+function isSafeAnalyticsTestMode(host: string) {
+  if (!import.meta.env.DEV || import.meta.env.VITE_ANALYTICS_TEST_MODE !== "true") {
+    return false;
+  }
+
+  try {
+    const url = new URL(host);
+    const isLoopback = url.hostname === "localhost" || url.hostname === "127.0.0.1" || url.hostname === "[::1]";
+    const isInvalidSink = url.hostname.endsWith(".invalid");
+    return (
+      (url.protocol === "http:" || url.protocol === "https:") &&
+      !url.username &&
+      !url.password &&
+      !url.search &&
+      !url.hash &&
+      (isLoopback || (url.protocol === "https:" && isInvalidSink))
+    );
+  } catch {
+    return false;
+  }
 }
 
 function getDevelopmentRequestQueueConfig() {
@@ -87,8 +112,55 @@ function sanitizeSdkCurrentUrl(value: unknown) {
   }
 }
 
-const sanitizeSdkUrlProperties: BeforeSendFn = (event) => {
-  const properties = { ...event.properties };
+const urlPropertyName = /(?:^|[_$-])(href|url|uri|referrer|location|src|action|name)(?:$|[_$-])/i;
+
+function sanitizeUrl(value: string, allowRelative = false) {
+  const isAbsoluteHttpUrl = /^https?:\/\//i.test(value);
+  const isRelativeUrl = allowRelative && /^(?:\/|\.\/|\.\.\/|#)/.test(value);
+  if (!isAbsoluteHttpUrl && !isRelativeUrl) {
+    return value;
+  }
+
+  try {
+    const base = "https://analytics-redaction.invalid/";
+    const url = new URL(value, base);
+    if (url.protocol !== "http:" && url.protocol !== "https:") {
+      return value;
+    }
+    url.search = "";
+    url.hash = "";
+    if (!isAbsoluteHttpUrl) {
+      return url.pathname;
+    }
+    return url.toString();
+  } catch {
+    return value;
+  }
+}
+
+function sanitizeNestedUrls(value: unknown, propertyName?: string): unknown {
+  if (typeof value === "string") {
+    return sanitizeUrl(value, propertyName ? urlPropertyName.test(propertyName) : false);
+  }
+  if (Array.isArray(value)) {
+    return value.map((item) => sanitizeNestedUrls(item, propertyName));
+  }
+  if (!value || Object.getPrototypeOf(value) !== Object.prototype) {
+    return value;
+  }
+
+  return Object.fromEntries(Object.entries(value as Record<string, unknown>).map(([key, nestedValue]) => [
+    sanitizeUrl(key),
+    sanitizeNestedUrls(nestedValue, key),
+  ]));
+}
+
+const sanitizeSdkEvent: BeforeSendFn = (event) => {
+  if (!event || !isTrackablePath(getCurrentPath())) {
+    return null;
+  }
+
+  const properties = sanitizeNestedUrls(event.properties) as Record<string, unknown>;
   const sanitizedCurrentUrl = sanitizeSdkCurrentUrl(properties.$current_url);
 
   if (sanitizedCurrentUrl) {
@@ -98,8 +170,20 @@ const sanitizeSdkUrlProperties: BeforeSendFn = (event) => {
   }
   delete properties.$referrer;
 
-  return { ...event, properties };
+  const sanitizedEvent = { ...event, properties };
+  if (getAnalyticsConfig()?.testMode && typeof window !== "undefined") {
+    window.__analyticsTestCapturedPayloads?.push(sanitizedEvent);
+  }
+  return sanitizedEvent;
 };
+
+function maskCapturedNetworkRequest(request: CapturedNetworkRequest) {
+  return { ...request, name: sanitizeUrl(request.name) };
+}
+
+function maskReplayAttribute(name: string, value: string) {
+  return sanitizeUrl(value, urlPropertyName.test(name));
+}
 
 function getKnownProperties<EventName extends AnalyticsEventName>(
   eventName: EventName,
@@ -178,19 +262,35 @@ export function initializeAnalytics() {
     return;
   }
 
+  if (config.testMode && typeof window !== "undefined") {
+    window.__analyticsTestCapturedPayloads = [];
+  }
   posthog.init(config.key, {
     api_host: config.host,
     autocapture: false,
-    before_send: sanitizeSdkUrlProperties,
+    before_send: sanitizeSdkEvent,
     capture_pageleave: false,
     capture_pageview: false,
+    disable_capture_url_hashes: true,
+    ...(config.testMode ? { disable_compression: true } : {}),
     person_profiles: "identified_only",
     ...(requestQueueConfig ? { request_queue_config: requestQueueConfig } : {}),
     session_recording: {
+      maskAttributeFn: maskReplayAttribute,
       maskAllInputs: true,
+      maskCapturedNetworkRequestFn: maskCapturedNetworkRequest,
       maskTextSelector: "*",
     },
   });
+  if (config.testMode && typeof window !== "undefined") {
+    window.__analyticsTestPostHog = {
+      capture: (event, properties) => {
+        sanitizeSdkEvent({ event, properties } as Parameters<BeforeSendFn>[0]);
+        posthog.capture(event, properties, { send_instantly: true });
+      },
+      startSessionRecording: () => { posthog.startSessionRecording(); },
+    };
+  }
   analyticsInitialized = true;
   installRouteSync();
 }

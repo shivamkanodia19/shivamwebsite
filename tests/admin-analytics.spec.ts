@@ -29,7 +29,7 @@ function reportForRange(rangeDays: 7 | 30 | 90 = 7) {
       sessions: { value: 15, previous: 10, deltaPercent: 50 },
       activeTime: { value: 120, previous: 100, deltaPercent: 20 },
       bounceRate: { value: 20, previous: 25, deltaPercent: -20 },
-      resumeViews: { value: 3, previous: 2, deltaPercent: 50 },
+      resumeSessions: { value: 3, previous: 2, deltaPercent: 50 },
     },
     trend: [
       { date: "2026-08-13", visitors: 3, sessions: 4, resumeViews: 1 },
@@ -77,7 +77,7 @@ function emptyReport() {
       sessions: { value: null, previous: null, deltaPercent: null },
       activeTime: { value: null, previous: null, deltaPercent: null },
       bounceRate: { value: null, previous: null, deltaPercent: null },
-      resumeViews: { value: null, previous: null, deltaPercent: null },
+      resumeSessions: { value: null, previous: null, deltaPercent: null },
     },
     trend: [],
     sections: [],
@@ -186,6 +186,67 @@ async function tabTo(page: Page, locator: Locator, direction: "forward" | "backw
   }
   throw new Error(`Could not reach ${await locator.getAttribute("aria-label") ?? await locator.textContent() ?? "control"} with the keyboard`);
 }
+
+test("warm SPA navigation drops admin SDK, replay, and heatmap events without leaking URL secrets", async ({ page, posthogRequests }) => {
+  const initialSecret = "initial-query-secret";
+  const adminSecret = "admin-query-secret";
+  const replaySecret = "admin-replay-secret";
+  const exitSecret = "exit-query-secret";
+
+  await page.goto(`/?campaign=${initialSecret}#private-fragment`);
+  await waitForAnalyticsBatchWindow(page);
+  expect(posthogRequests.length).toBeGreaterThan(0);
+
+  await page.evaluate(({ adminSecret, replaySecret }) => {
+    window.history.pushState({}, "", `/admin?token=${adminSecret}#private-admin`);
+    const analytics = (window as typeof window & {
+      __analyticsTestPostHog?: {
+        capture: (event: string, properties: Record<string, unknown>) => void;
+        startSessionRecording: () => void;
+      };
+    }).__analyticsTestPostHog;
+    if (!analytics) throw new Error("Analytics test harness unavailable");
+    analytics.capture("admin_sdk_attempt", { href: `https://shivamkanodia.com/admin?token=${adminSecret}#sdk` });
+    analytics.capture("$snapshot", {
+      $snapshot_data: [{ data: { href: `https://shivamkanodia.com/admin?token=${replaySecret}#snapshot` } }],
+    });
+    analytics.capture("$$heatmap", {
+      $heatmap_data: { [`https://shivamkanodia.com/admin?token=${replaySecret}#heatmap`]: [{ x: 1, y: 1 }] },
+    });
+    analytics.startSessionRecording();
+    document.body.dispatchEvent(new MouseEvent("click", { bubbles: true, clientX: 10, clientY: 10 }));
+  }, { adminSecret, replaySecret });
+  await waitForAnalyticsBatchWindow(page);
+
+  await page.evaluate(({ exitSecret }) => {
+    window.history.pushState({}, "", `/pitch?campaign=${exitSecret}#private-exit`);
+    const analytics = (window as typeof window & {
+      __analyticsTestPostHog?: { capture: (event: string, properties: Record<string, unknown>) => void };
+    }).__analyticsTestPostHog;
+    if (!analytics) throw new Error("Analytics test harness unavailable");
+    analytics.capture("public_exit_probe", {
+      href: `https://shivamkanodia.com/pitch?campaign=${exitSecret}#probe`,
+      nested: { url: `/resume.pdf?token=${exitSecret}#page` },
+    });
+  }, { exitSecret });
+  await waitForAnalyticsBatchWindow(page);
+
+  const capturedPayloads = await page.evaluate(() => window.__analyticsTestCapturedPayloads ?? []);
+  const serializedPayloads = JSON.stringify(capturedPayloads);
+  expect(serializedPayloads).toContain("public_exit_probe");
+  expect(serializedPayloads).not.toContain("admin_sdk_attempt");
+  for (const secret of [initialSecret, adminSecret, replaySecret, exitSecret, "private-fragment", "private-admin", "private-exit"]) {
+    expect(serializedPayloads).not.toContain(secret);
+    expect(serializedPayloads).not.toContain(encodeURIComponent(secret));
+  }
+  expect(serializedPayloads).toContain("https://shivamkanodia.com/pitch");
+  expect(serializedPayloads).toContain("/resume.pdf");
+  const serializedRequests = JSON.stringify(posthogRequests);
+  for (const secret of [initialSecret, adminSecret, replaySecret, exitSecret]) {
+    expect(serializedRequests).not.toContain(secret);
+    expect(serializedRequests).not.toContain(encodeURIComponent(secret));
+  }
+});
 
 test("direct admin navigation exposes only the private login and emits no PostHog traffic", async ({ page, posthogRequests }) => {
   const evidence = await mockAdminApi(page);

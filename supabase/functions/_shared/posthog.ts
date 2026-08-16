@@ -22,18 +22,28 @@ export function buildReportQueries(range: RangeDays): ReportQuery[] {
   assertRange(range);
   const current = `timestamp >= now() - INTERVAL ${range} DAY`;
   const previous = `timestamp >= now() - INTERVAL ${range * 2} DAY AND timestamp < now() - INTERVAL ${range} DAY`;
+  const currentSession = current.replaceAll("timestamp", "session_started_at");
+  const previousSession = previous.replaceAll("timestamp", "session_started_at");
 
   return [
-    report("kpis", `SELECT
+    report("kpis", `WITH session_rollup AS (
+        SELECT properties.$session_id AS session_id, min(timestamp) AS session_started_at,
+          max(if(event IN ('section_engaged', 'element_clicked', 'project_opened', 'resume_viewed', 'contact_clicked', 'pitch_opened'), 1, 0)) AS has_meaningful_engagement,
+          max(if(event = 'resume_viewed', 1, 0)) AS has_resume_conversion
+        FROM events
+        WHERE (${current} OR ${previous}) AND notEmpty(properties.$session_id)
+        GROUP BY session_id
+      ) SELECT
       countIf(${current}) AS current_events, countIf(${previous}) AS previous_events,
       uniqIf(distinct_id, ${current}) AS current_visitors, uniqIf(distinct_id, ${previous}) AS previous_visitors,
-      uniqIf(properties.$session_id, ${current}) AS current_sessions, uniqIf(properties.$session_id, ${previous}) AS previous_sessions,
+      (SELECT countIf(${currentSession}) FROM session_rollup) AS current_sessions,
+      (SELECT countIf(${previousSession}) FROM session_rollup) AS previous_sessions,
       sumIf(toFloat(properties.active_milliseconds), event = 'section_engaged' AND ${current}) / 1000 AS current_active_time,
       sumIf(toFloat(properties.active_milliseconds), event = 'section_engaged' AND ${previous}) / 1000 AS previous_active_time,
-      countIf(properties.$is_bounce = 'true' AND ${current}) * 100 / nullIf(uniqIf(properties.$session_id, ${current}), 0) AS current_bounce_rate,
-      countIf(properties.$is_bounce = 'true' AND ${previous}) * 100 / nullIf(uniqIf(properties.$session_id, ${previous}), 0) AS previous_bounce_rate,
-      countIf(event = 'resume_viewed' AND ${current}) AS current_resume_views,
-      countIf(event = 'resume_viewed' AND ${previous}) AS previous_resume_views
+      (SELECT countIf(${currentSession} AND has_meaningful_engagement = 0) * 100 / nullIf(countIf(${currentSession}), 0) FROM session_rollup) AS current_bounce_rate,
+      (SELECT countIf(${previousSession} AND has_meaningful_engagement = 0) * 100 / nullIf(countIf(${previousSession}), 0) FROM session_rollup) AS previous_bounce_rate,
+      (SELECT countIf(${currentSession} AND has_resume_conversion = 1) FROM session_rollup) AS current_resume_sessions,
+      (SELECT countIf(${previousSession} AND has_resume_conversion = 1) FROM session_rollup) AS previous_resume_sessions
       FROM events WHERE ${current} OR ${previous}`),
     report("trend", `SELECT toString(toDate(timestamp)) AS date, uniq(distinct_id) AS visitors,
       uniq(properties.$session_id) AS sessions, countIf(event = 'resume_viewed') AS resume_views
@@ -55,13 +65,12 @@ export function buildReportQueries(range: RangeDays): ReportQuery[] {
           WHEN 'element_clicked' THEN concat('Click: ', coalesce(nullIf(properties.label, ''), 'Unknown'))
           WHEN 'project_opened' THEN concat('Project: ', coalesce(nullIf(properties.project_name, ''), 'Unknown'))
           WHEN 'resume_viewed' THEN concat('Resume: ', coalesce(nullIf(properties.placement, ''), 'Unknown'))
-          WHEN 'external_link_clicked' THEN 'External link'
           WHEN 'contact_clicked' THEN concat('Contact: ', coalesce(nullIf(properties.channel, ''), 'Unknown'))
         END AS label,
         uniq(distinct_id) AS visitors, totals.total AS total,
         if(totals.total = 0, 0, uniq(distinct_id) * 100 / totals.total) AS share
       FROM events CROSS JOIN visitor_totals AS totals
-      WHERE event IN ('element_clicked', 'project_opened', 'resume_viewed', 'external_link_clicked', 'contact_clicked') AND ${current}
+      WHERE event IN ('element_clicked', 'project_opened', 'resume_viewed', 'contact_clicked') AND ${current}
       GROUP BY label, totals.total ORDER BY visitors DESC LIMIT 20`),
     report("acquisition", `WITH pageview_totals AS (
         SELECT uniq(distinct_id) AS total FROM events WHERE event = '$pageview' AND ${current}
@@ -74,6 +83,7 @@ export function buildReportQueries(range: RangeDays): ReportQuery[] {
     report("audience", `WITH pageview_totals AS (
         SELECT uniq(distinct_id) AS total FROM events WHERE event = '$pageview' AND ${current}
       )
+      SELECT audience_group, label, visitors, total, share FROM (
       SELECT 'country' AS audience_group, coalesce(nullIf(properties.$geoip_country_name, ''), 'Unknown') AS label,
         uniq(distinct_id) AS visitors, totals.total AS total,
         if(totals.total = 0, 0, uniq(distinct_id) * 100 / totals.total) AS share
@@ -85,7 +95,8 @@ export function buildReportQueries(range: RangeDays): ReportQuery[] {
       UNION ALL SELECT 'browser' AS audience_group, coalesce(nullIf(properties.$browser, ''), 'Unknown') AS label,
         uniq(distinct_id) AS visitors, totals.total AS total,
         if(totals.total = 0, 0, uniq(distinct_id) * 100 / totals.total) AS share
-      FROM events CROSS JOIN pageview_totals AS totals WHERE event = '$pageview' AND ${current} GROUP BY label, totals.total`),
+      FROM events CROSS JOIN pageview_totals AS totals WHERE event = '$pageview' AND ${current} GROUP BY label, totals.total
+      ) ORDER BY audience_group, visitors DESC, label`),
     report("funnel", `WITH visits AS (
         SELECT properties.$session_id AS session_id, min(timestamp) AS visit_at
         FROM events WHERE event = '$pageview' AND ${current} AND notEmpty(properties.$session_id) GROUP BY session_id
@@ -97,7 +108,7 @@ export function buildReportQueries(range: RangeDays): ReportQuery[] {
       ), action_stages AS (
         SELECT w.session_id AS session_id, w.visit_at AS visit_at, w.work_at AS work_at, min(e.timestamp) AS action_at
         FROM work_stages AS w INNER JOIN events AS e ON e.properties.$session_id = w.session_id
-        WHERE e.event IN ('element_clicked', 'project_opened', 'external_link_clicked', 'contact_clicked')
+        WHERE e.event IN ('element_clicked', 'project_opened', 'contact_clicked')
           AND ${current.replaceAll("timestamp", "e.timestamp")} AND e.timestamp >= w.work_at
         GROUP BY w.session_id, w.visit_at, w.work_at
       ), resume_stages AS (
@@ -124,19 +135,20 @@ export function buildReportQueries(range: RangeDays): ReportQuery[] {
   ];
 }
 
-export function normalizeKpis(rows: unknown): Record<"visitors" | "sessions" | "activeTime" | "bounceRate" | "resumeViews", MetricValue> {
+export function normalizeKpis(rows: unknown): Record<"visitors" | "sessions" | "activeTime" | "bounceRate" | "resumeSessions", MetricValue> {
   if (!Array.isArray(rows) || rows.length === 0) return emptyKpis();
   const row = rows[0];
   if (!Array.isArray(row) || row.length !== 12) throw new PostHogDataError("Malformed KPI report");
   const currentEvidence = requiredNumber(row[0]);
   const previousEvidence = requiredNumber(row[1]);
   const values = row.slice(2).map(optionalNumber);
+  assertKpiSemantics(values);
   return {
     visitors: metricWithEvidence(values[0], values[1], currentEvidence, previousEvidence),
     sessions: metricWithEvidence(values[2], values[3], currentEvidence, previousEvidence),
     activeTime: metricWithEvidence(values[4], values[5], currentEvidence, previousEvidence),
     bounceRate: metricWithEvidence(values[6], values[7], currentEvidence, previousEvidence),
-    resumeViews: metricWithEvidence(values[8], values[9], currentEvidence, previousEvidence),
+    resumeSessions: metricWithEvidence(values[8], values[9], currentEvidence, previousEvidence),
   };
 }
 
@@ -214,6 +226,9 @@ export function normalizeAudience(rows: unknown): { countries: RankedValue[]; de
     else if (row[0] === "browser") groups.browsers.push(value);
     else throw new PostHogDataError("Unknown audience group");
   }
+  for (const values of Object.values(groups)) {
+    values.sort((left, right) => right.visitors - left.visitors || left.label.localeCompare(right.label));
+  }
   return groups;
 }
 
@@ -245,9 +260,25 @@ function assertRange(range: number): asserts range is RangeDays {
   if (range !== 7 && range !== 30 && range !== 90) throw new PostHogDataError("Unsupported report range");
 }
 
-function emptyKpis(): Record<"visitors" | "sessions" | "activeTime" | "bounceRate" | "resumeViews", MetricValue> {
+function emptyKpis(): Record<"visitors" | "sessions" | "activeTime" | "bounceRate" | "resumeSessions", MetricValue> {
   const empty = () => ({ value: null, previous: null, deltaPercent: null });
-  return { visitors: empty(), sessions: empty(), activeTime: empty(), bounceRate: empty(), resumeViews: empty() };
+  return { visitors: empty(), sessions: empty(), activeTime: empty(), bounceRate: empty(), resumeSessions: empty() };
+}
+
+function assertKpiSemantics(values: Array<number | null>) {
+  const [currentVisitors, previousVisitors, currentSessions, previousSessions, currentActiveTime, previousActiveTime, currentBounceRate, previousBounceRate, currentResumeSessions, previousResumeSessions] = values;
+  for (const value of [currentVisitors, previousVisitors, currentSessions, previousSessions, currentActiveTime, previousActiveTime, currentResumeSessions, previousResumeSessions]) {
+    if (value !== null && value < 0) throw new PostHogDataError("Invalid KPI aggregate");
+  }
+  for (const value of [currentBounceRate, previousBounceRate]) {
+    if (value !== null && (value < 0 || value > 100)) throw new PostHogDataError("Invalid KPI rate");
+  }
+  if (
+    (currentSessions !== null && currentResumeSessions !== null && currentResumeSessions > currentSessions) ||
+    (previousSessions !== null && previousResumeSessions !== null && previousResumeSessions > previousSessions)
+  ) {
+    throw new PostHogDataError("Invalid resume conversion aggregate");
+  }
 }
 
 function metric(value: number | null, previous: number | null): MetricValue {

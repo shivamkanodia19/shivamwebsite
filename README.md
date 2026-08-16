@@ -17,6 +17,8 @@ Fill `.env.local` with the four values from `.env.example`. They are public brow
 - `VITE_SUPABASE_FUNCTIONS_URL`: `https://<project-ref>.supabase.co/functions/v1`.
 - `VITE_SUPABASE_ANON_KEY`: the Supabase public anonymous key.
 
+Analytics initializes only in production builds. `npm run dev` does not send events even when `.env.local` contains live PostHog values. The Playwright suite uses the separate `VITE_ANALYTICS_TEST_MODE=true` gate with a `.invalid` sink; do not add that test-only flag to `.env.local` or deployment configuration.
+
 Never put a password, password hash, Supabase service-role key, signing secret, rate-limit salt, or PostHog personal API key in `.env.local`, a `VITE_` variable, or GitHub Pages configuration.
 
 ## PostHog setup

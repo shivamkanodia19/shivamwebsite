@@ -35,7 +35,7 @@ const kpiDefinitions: Array<{
   { key: "sessions", label: "Sessions", format: formatCount },
   { key: "activeTime", label: "Active time", format: formatDuration },
   { key: "bounceRate", label: "Bounce rate", format: formatPercent },
-  { key: "resumeViews", label: "Resume actions", format: formatCount },
+  { key: "resumeSessions", label: "Resume-converting sessions", format: formatCount },
 ];
 
 const toolDefinitions: Array<{
@@ -117,8 +117,8 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Browser local time";
   const peakAction = report.actions[0];
   const finalFunnelStage = [...report.funnel].reverse().find((stage) => stage.sessions > 0);
-  const resumeRate = report.kpis.sessions.value && report.kpis.resumeViews.value !== null
-    ? report.kpis.resumeViews.value / report.kpis.sessions.value * 100
+  const resumeRate = report.kpis.sessions.value && report.kpis.resumeSessions.value !== null
+    ? report.kpis.resumeSessions.value / report.kpis.sessions.value * 100
     : null;
   const isNewInstallation = report.reportStatus.kpis.availability === "available"
     && report.reportStatus.trend.availability === "available"
@@ -253,7 +253,7 @@ export function AdminDashboard({ report, range, refreshing, staleMessage, onRang
             <div className="admin-section-heading"><p className="admin-module-index">03 / JOURNEY</p><h2 id="journey-title">Journey signals</h2></div>
             <dl className="admin-signal-list">
               <div><dt>Most-used action</dt><dd>{report.reportStatus.actions.availability === "unavailable" ? "Action report unavailable" : peakAction?.label ?? "No actions yet"}</dd><small>{report.reportStatus.actions.availability === "unavailable" ? "No action aggregate available" : peakAction ? `${formatPercent(peakAction.share)} of measured action visitors` : "Waiting for aggregate activity"}</small></div>
-              <div><dt>Resume action rate</dt><dd>{report.reportStatus.kpis.availability === "unavailable" ? "KPI report unavailable" : resumeRate === null ? "—" : formatPercent(resumeRate)}</dd><small>Per measured session</small></div>
+              <div><dt>Resume conversion rate</dt><dd>{report.reportStatus.kpis.availability === "unavailable" ? "KPI report unavailable" : resumeRate === null ? "—" : formatPercent(resumeRate)}</dd><small>Distinct sessions with a resume action</small></div>
               <div><dt>Deepest journey stage</dt><dd>{report.reportStatus.funnel.availability === "unavailable" ? "Funnel report unavailable" : finalFunnelStage?.label ?? "No completed journeys yet"}</dd><small>{report.reportStatus.funnel.availability === "unavailable" ? "No funnel aggregate available" : finalFunnelStage ? `${formatCount(finalFunnelStage.sessions)} sessions · ${formatPercent(finalFunnelStage.share)}` : "Waiting for aggregate activity"}</small></div>
             </dl>
           </section>

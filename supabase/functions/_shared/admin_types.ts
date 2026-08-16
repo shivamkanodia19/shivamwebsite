@@ -67,7 +67,7 @@ export type AdminAnalyticsResponse = {
     sessions: MetricValue;
     activeTime: MetricValue;
     bounceRate: MetricValue;
-    resumeViews: MetricValue;
+    resumeSessions: MetricValue;
   };
   trend: TrendPoint[];
   sections: SectionValue[];
