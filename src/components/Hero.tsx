@@ -79,7 +79,7 @@ export function Hero() {
               </TrackedLink>
             ))}
           </div>
-          <p className="proof-footer">Texas A&amp;M / Industrial &amp; Systems Engineering Honors</p>
+          <p className="proof-footer">Texas A&amp;M / Industrial &amp; Systems Engineering Honors, M.S. Finance</p>
         </motion.aside>
       </div>
     </section>
