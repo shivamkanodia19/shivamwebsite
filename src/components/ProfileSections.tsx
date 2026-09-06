@@ -193,11 +193,11 @@ export function ProfileSections() {
               </TrackedLink>
               <p className="role-label">Software Engineering Intern</p>
               <h3>Shipped the AI inbox that gives doctors their time back.</h3>
-              <p className="experience-summary">Built and shipped PulseMatic, an AI inbox agent on a RAG and Google ADK pipeline over athenaOne data — saving physicians 90 minutes a day, now being productized into Matic&apos;s Provider AI layer for EHRs.</p>
+              <p className="experience-summary">Built and shipped PulseMatic, an AI agent that saves physicians 90 minutes a day on their inbox — now being built into Matic&apos;s flagship AI product for doctors.</p>
               <div className="experience-signals" aria-label="Matic role scope">
-                <span>RAG + Google ADK</span>
-                <span>95% first-draft approval</span>
                 <span>90 min/day saved</span>
+                <span>95% first-draft approval</span>
+                <span>75% faster generation</span>
               </div>
             </article>
 
@@ -211,9 +211,9 @@ export function ProfileSections() {
               </TrackedLink>
               <p className="role-label">Business Insights Intern</p>
               <h3>Menu and pricing strategy for 400+ venues.</h3>
-              <p className="experience-summary">Led a menu gap analysis for AT&amp;T Stadium and built a price-elasticity framework in Databricks, scaled into a menu optimization platform routing SKUs across a 400+ venue portfolio.</p>
-              <div className="legends-signal" aria-label="From SKU data to a venue-wide pricing decision">
-                <span>SKU data</span><i aria-hidden="true" /><span>Elasticity model</span><i aria-hidden="true" /><span>400+ venues</span>
+              <p className="experience-summary">Led a menu gap analysis for AT&amp;T Stadium, then built a pricing model that scaled into a menu optimization platform across a 400+ venue portfolio.</p>
+              <div className="legends-signal" aria-label="From sales data to a venue-wide pricing decision">
+                <span>Sales data</span><i aria-hidden="true" /><span>Pricing model</span><i aria-hidden="true" /><span>400+ venues</span>
               </div>
             </article>
           </div>
@@ -320,7 +320,7 @@ export function ProfileSections() {
               <div className="research-copy">
                 <p className="card-kicker">PRESENTED / STUDENT RESEARCH WEEK</p>
                 <h3>Cattle futures forecasting for feedlot planning.</h3>
-                <p>Built a 65-input forecasting dashboard and compared SARIMA, LSTM, and XGBoost through walk-forward validation.</p>
+                <p>Built a 65-input forecasting dashboard and compared three model families through walk-forward validation.</p>
                 <div className="research-metrics">
                   <span><strong>65</strong> inputs</span>
                   <span><strong>06</strong> cost categories</span>
