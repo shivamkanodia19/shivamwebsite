@@ -24,7 +24,7 @@ const clinicalMilestones = [
   { value: "3RD", name: "Good Bull Pitch", detail: "$200 award" },
   { value: "FINALIST", name: "Ideas Challenge", detail: "McFerrin Center" },
   { value: "3 OF 60", name: "Meloy Bullet Pitch", detail: "Selected placement" },
-  { value: "1 OF 3", name: "Meloy Kickstart Launch", detail: "Selected from 11" },
+  { value: "$500", name: "Meloy Launch Accelerator", detail: "Program award" },
 ] as const;
 
 const featuredProjects = [
@@ -185,35 +185,35 @@ export function ProfileSections() {
           <div className="experience-grid">
             <article id="matic" className="experience-card matic-card">
               <div className="experience-card-topline">
-                <span className="proof-stamp proof-stamp-light">CURRENT</span>
-                <span>2026</span>
+                <span className="proof-stamp proof-stamp-light">SUMMER 2026</span>
+                <span>JUN – AUG</span>
               </div>
               <TrackedLink className="experience-logo matic-logo" href="https://maticinside.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit Matic" tracking={{ eventName: "project_opened", properties: { project_id: "matic", project_name: "Matic" } }}>
                 <img src="/brand/matic-logo-white.svg" alt="Matic" />
               </TrackedLink>
               <p className="role-label">Software Engineering Intern</p>
-              <h3>Building the inbox tool that gives doctors their time back.</h3>
-              <p className="experience-summary">Software engineering on Matic&apos;s clinical intelligence platform. The current build manages physician inboxes and is projected to save each doctor over 90 minutes a day.</p>
+              <h3>Shipped the AI inbox that gives doctors their time back.</h3>
+              <p className="experience-summary">Built and shipped PulseMatic, an AI inbox agent on a RAG and Google ADK pipeline over athenaOne data — saving physicians 90 minutes a day, now being productized into Matic&apos;s Provider AI layer for EHRs.</p>
               <div className="experience-signals" aria-label="Matic role scope">
-                <span>Physician inbox</span>
-                <span>Clinical workflows</span>
-                <span>Production software</span>
+                <span>RAG + Google ADK</span>
+                <span>95% first-draft approval</span>
+                <span>90 min/day saved</span>
               </div>
             </article>
 
             <article id="legends" className="experience-card legends-card">
               <div className="experience-card-topline">
                 <span className="proof-stamp proof-stamp-dark">SUMMER 2026</span>
-                <span>CURRENT</span>
+                <span>JUN – AUG</span>
               </div>
               <TrackedLink className="experience-logo legends-logo" href="https://legendsglobal.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Legends Global" tracking={{ eventName: "project_opened", properties: { project_id: "legends", project_name: "Legends Global" } }}>
                 <img src="/brand/legends-global-logo.svg" alt="Legends Global" />
               </TrackedLink>
-              <p className="role-label">Business Intelligence Intern</p>
-              <h3>Data behind new products, pricing, and revenue.</h3>
-              <p className="experience-summary">Business intelligence at Legends Global, using data-driven methods to introduce new products, reprice existing ones, and grow total venue revenue.</p>
-              <div className="legends-signal" aria-label="Business intelligence from data to operating decision">
-                <span>Data</span><i aria-hidden="true" /><span>Signal</span><i aria-hidden="true" /><span>Decision</span>
+              <p className="role-label">Business Insights Intern</p>
+              <h3>Menu and pricing strategy for 400+ venues.</h3>
+              <p className="experience-summary">Led a menu gap analysis for AT&amp;T Stadium and built a price-elasticity framework in Databricks, scaled into a menu optimization platform routing SKUs across a 400+ venue portfolio.</p>
+              <div className="legends-signal" aria-label="From SKU data to a venue-wide pricing decision">
+                <span>SKU data</span><i aria-hidden="true" /><span>Elasticity model</span><i aria-hidden="true" /><span>400+ venues</span>
               </div>
             </article>
           </div>
@@ -235,14 +235,14 @@ export function ProfileSections() {
                   <img src="/brand/clinicalhours-logo.png" alt="ClinicalHours logo" />
                   <strong>ClinicalHours</strong>
                 </TrackedLink>
-                <span>Co-founder</span>
+                <span className="proof-stamp proof-stamp-green">CO-FOUNDED</span>
               </div>
-              <h3>Built the operating layer between clinics and student volunteers.</h3>
-              <p>Co-founded ClinicalHours and own the product, onboarding, scheduling, and go-to-market work. 600+ student users, with a partner clinic running its volunteer program on the platform, from applications through team management.</p>
+              <h3>The operating layer between clinics and student volunteers.</h3>
+              <p>Co-founded ClinicalHours and own clinic partnerships, pricing, and go-to-market strategy. 700+ student users, with a partner clinic running its full volunteer program on the platform — from application to team management.</p>
               <div className="clinical-stats" aria-label="ClinicalHours traction">
-                <div><strong>600+</strong><span>users</span></div>
+                <div><strong>700+</strong><span>student users</span></div>
                 <div><strong>01</strong><span>partner clinic live on the platform</span></div>
-                <div><strong>05</strong><span>ownership areas</span></div>
+                <div><strong>+325%</strong><span>application volume growth</span></div>
               </div>
             </div>
 

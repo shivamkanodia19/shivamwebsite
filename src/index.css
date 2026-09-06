@@ -91,6 +91,7 @@ button { color: inherit; }
 .proof-stamp { border: 1px solid currentColor; display: inline-flex; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; padding: 7px 9px; text-transform: uppercase; }
 .proof-stamp-light { background: #dfe7ff; color: #173fae; }
 .proof-stamp-dark { background: var(--ink); color: white; }
+.proof-stamp-green { background: var(--green); border-color: var(--green); color: white; }
 
 /* Experience */
 .featured-work { background: var(--surface); border-top: 1px solid var(--line); }
@@ -117,7 +118,7 @@ button { color: inherit; }
 .legends-signal i { background: #ae6d20; height: 1px; }
 
 /* ClinicalHours */
-.clinical-section { background: var(--green-soft); }
+.clinical-section { background: #cfe9db; border-top: 4px solid var(--green); }
 .clinical-case { background: #f8fcf9; border: 1px solid #a7cbb7; padding: 34px; }
 .clinical-story { display: grid; gap: 25px 38px; grid-template-columns: minmax(0, 1.1fr) minmax(340px, .9fr); }
 .clinical-brand { align-items: center; display: flex; grid-column: 1 / -1; justify-content: space-between; }
@@ -125,6 +126,7 @@ button { color: inherit; }
 .clinical-brand img { height: 46px; width: 46px; }
 .clinical-brand strong { color: #144d38; font-size: 22px; }
 .clinical-brand > span { color: var(--green); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+.clinical-brand > .proof-stamp { color: white; }
 .clinical-story h3 { font-size: clamp(40px, 4.4vw, 60px); font-weight: 650; letter-spacing: -.06em; line-height: .99; margin: 0; text-wrap: balance; }
 .clinical-story > p { color: #456657; font-size: 16px; line-height: 1.65; margin: 4px 0 0; }
 .clinical-stats { display: grid; gap: 10px; grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }

@@ -12,7 +12,7 @@ const roles = [
   },
   {
     company: "Legends Global",
-    role: "Business Intelligence Intern",
+    role: "Business Insights Intern",
     projectId: "legends",
     href: "#legends",
     logo: "/brand/legends-global-logo.svg",
@@ -48,7 +48,7 @@ export function Hero() {
             Systems engineer.
           </motion.h1>
           <motion.p {...reveal(0.13)} className="hero-intro">
-            Software engineering at Matic on physician inbox tooling. Business intelligence at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics with 600+ users.
+            Software engineering at Matic on physician inbox tooling. Business insights at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics with 700+ users.
           </motion.p>
           <motion.div {...reveal(0.2)} className="hero-actions">
             <TrackedLink href="#matic" className="button button-primary" tracking={{ eventName: "element_clicked", properties: { element_id: "hero-work", label: "Explore work", section_id: "hero", destination_type: "project" } }}>Explore work <span aria-hidden="true">↓</span></TrackedLink>
