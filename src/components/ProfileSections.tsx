@@ -126,6 +126,7 @@ const trackedSections = [
   { id: "work", label: "Experience" },
   { id: "clinicalhours", label: "ClinicalHours" },
   { id: "research", label: "Research" },
+  { id: "options-bots", label: "Options bots" },
   { id: "projects", label: "Hackathon projects" },
   { id: "builds", label: "Personal builds" },
   { id: "recognition", label: "Outside work" },
@@ -303,6 +304,40 @@ export function ProfileSections() {
               <p>Extending the research into systems models and economic decision tools for dairy management.</p>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section id="options-bots" className="section-block bots-section">
+        <div className="site-container">
+          <SectionHeading
+            label="AlphaForge"
+            title="See how my options trading bots are doing."
+            intro="Three autonomous agents trading options against live market data in a shared paper account. The preview below is the live dashboard, not a screenshot, so it updates as they trade."
+          />
+          <div className="bots-frame">
+            <div className="bots-chrome">
+              <div className="bots-dots" aria-hidden="true"><span /><span /><span /></div>
+              <span className="bots-url">alphaforge-rho.vercel.app</span>
+              <span className="bots-live"><i aria-hidden="true" />Live</span>
+            </div>
+            <iframe
+              className="bots-iframe"
+              src="https://alphaforge-rho.vercel.app"
+              title="AlphaForge — live options trading bot portfolios"
+              loading="lazy"
+              referrerPolicy="no-referrer"
+              sandbox="allow-scripts allow-same-origin allow-popups"
+            />
+          </div>
+          <TrackedLink
+            className="bots-link"
+            href="https://alphaforge-rho.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            tracking={{ eventName: "element_clicked", properties: { element_id: "alphaforge-bots", label: "AlphaForge", section_id: "options-bots", destination_type: "external" } }}
+          >
+            Open the full dashboard <b aria-hidden="true">↗</b>
+          </TrackedLink>
         </div>
       </section>
 
