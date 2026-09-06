@@ -125,8 +125,8 @@ const tools: Tool[] = [
 const trackedSections = [
   { id: "work", label: "Experience" },
   { id: "clinicalhours", label: "ClinicalHours" },
-  { id: "research", label: "Research" },
   { id: "options-bots", label: "Options bots" },
+  { id: "research", label: "Research" },
   { id: "projects", label: "Hackathon projects" },
   { id: "builds", label: "Personal builds" },
   { id: "recognition", label: "Outside work" },
@@ -274,39 +274,6 @@ export function ProfileSections() {
         </div>
       </section>
 
-      <section id="research" className="section-block research-section">
-        <div className="site-container">
-          <SectionHeading
-            label="Research"
-            title="Models built for real decisions."
-            intro="Forecasting, validation, and decision support with Dr. Karun Kaniyamattam."
-          />
-          <div className="research-grid">
-            <article className="research-primary">
-              <div className="research-copy">
-                <p className="card-kicker">PRESENTED / STUDENT RESEARCH WEEK</p>
-                <h3>Cattle futures forecasting for feedlot planning.</h3>
-                <p>Built a 65-input forecasting dashboard and compared SARIMA, LSTM, and XGBoost through walk-forward validation.</p>
-                <div className="research-metrics">
-                  <span><strong>65</strong> inputs</span>
-                  <span><strong>06</strong> cost categories</span>
-                  <span><strong>03</strong> model families</span>
-                </div>
-              </div>
-              <TrackedLink href="/img/research-poster.jpg" target="_blank" rel="noopener noreferrer" className="poster-link" tracking={{ eventName: "element_clicked", properties: { element_id: "research-poster", label: "Research poster", section_id: "research", destination_type: "project" } }}>
-                <img src="/img/research-poster.jpg" alt="Full cattle futures forecasting research poster" width="483" height="378" loading="lazy" />
-                <span>View full poster <b aria-hidden="true">↗</b></span>
-              </TrackedLink>
-            </article>
-            <article className="research-secondary">
-              <p className="card-kicker">RESEARCH IN PROGRESS</p>
-              <h3>Dairy farm decision support.</h3>
-              <p>Extending the research into systems models and economic decision tools for dairy management.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
       <section id="options-bots" className="section-block bots-section">
         <div className="site-container">
           <SectionHeading
@@ -338,6 +305,39 @@ export function ProfileSections() {
           >
             Open the full dashboard <b aria-hidden="true">↗</b>
           </TrackedLink>
+        </div>
+      </section>
+
+      <section id="research" className="section-block research-section">
+        <div className="site-container">
+          <SectionHeading
+            label="Research"
+            title="Models built for real decisions."
+            intro="Forecasting, validation, and decision support with Dr. Karun Kaniyamattam."
+          />
+          <div className="research-grid">
+            <article className="research-primary">
+              <div className="research-copy">
+                <p className="card-kicker">PRESENTED / STUDENT RESEARCH WEEK</p>
+                <h3>Cattle futures forecasting for feedlot planning.</h3>
+                <p>Built a 65-input forecasting dashboard and compared SARIMA, LSTM, and XGBoost through walk-forward validation.</p>
+                <div className="research-metrics">
+                  <span><strong>65</strong> inputs</span>
+                  <span><strong>06</strong> cost categories</span>
+                  <span><strong>03</strong> model families</span>
+                </div>
+              </div>
+              <TrackedLink href="/img/research-poster.jpg" target="_blank" rel="noopener noreferrer" className="poster-link" tracking={{ eventName: "element_clicked", properties: { element_id: "research-poster", label: "Research poster", section_id: "research", destination_type: "project" } }}>
+                <img src="/img/research-poster.jpg" alt="Full cattle futures forecasting research poster" width="483" height="378" loading="lazy" />
+                <span>View full poster <b aria-hidden="true">↗</b></span>
+              </TrackedLink>
+            </article>
+            <article className="research-secondary">
+              <p className="card-kicker">RESEARCH IN PROGRESS</p>
+              <h3>Dairy farm decision support.</h3>
+              <p>Extending the research into systems models and economic decision tools for dairy management.</p>
+            </article>
+          </div>
         </div>
       </section>
 
