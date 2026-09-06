@@ -277,7 +277,7 @@ export function ProfileSections() {
       <section id="options-bots" className="section-block bots-section">
         <div className="site-container">
           <SectionHeading
-            label="AlphaForge"
+            label="Temper"
             title="See how my options trading bots are doing."
             intro="Three autonomous agents trading options against live market data in a shared paper account. The preview below is the live dashboard, not a screenshot, so it updates as they trade."
           />
@@ -290,7 +290,7 @@ export function ProfileSections() {
             <iframe
               className="bots-iframe"
               src="https://alphaforge-rho.vercel.app"
-              title="AlphaForge — live options trading bot portfolios"
+              title="Temper — live options trading bot portfolios"
               loading="lazy"
               referrerPolicy="no-referrer"
               sandbox="allow-scripts allow-same-origin allow-popups"
@@ -301,7 +301,7 @@ export function ProfileSections() {
             href="https://alphaforge-rho.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
-            tracking={{ eventName: "element_clicked", properties: { element_id: "alphaforge-bots", label: "AlphaForge", section_id: "options-bots", destination_type: "external" } }}
+            tracking={{ eventName: "element_clicked", properties: { element_id: "temper-bots", label: "Temper", section_id: "options-bots", destination_type: "external" } }}
           >
             Open the full dashboard <b aria-hidden="true">↗</b>
           </TrackedLink>
