@@ -48,7 +48,7 @@ export function Hero() {
             Systems engineer.
           </motion.h1>
           <motion.p {...reveal(0.13)} className="hero-intro">
-            Software engineering at Matic on physician inbox tooling. Business insights at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics with 700+ users.
+            Software engineering at Matic on physician inbox tooling. Business insights at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics.
           </motion.p>
           <motion.div {...reveal(0.2)} className="hero-actions">
             <TrackedLink href="#matic" className="button button-primary" tracking={{ eventName: "element_clicked", properties: { element_id: "hero-work", label: "Explore work", section_id: "hero", destination_type: "project" } }}>Explore work <span aria-hidden="true">↓</span></TrackedLink>
@@ -79,7 +79,7 @@ export function Hero() {
               </TrackedLink>
             ))}
           </div>
-          <p className="proof-footer">Texas A&amp;M / Industrial &amp; Systems Engineering Honors, M.S. Finance</p>
+          <p className="proof-footer">Texas A&amp;M / Industrial &amp; Systems Engineering Honors, Integrated M.S. Finance</p>
         </motion.aside>
       </div>
     </section>

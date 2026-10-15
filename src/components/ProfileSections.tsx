@@ -21,10 +21,10 @@ function SectionHeading({ label, title, intro }: SectionHeadingProps) {
 }
 
 const clinicalMilestones = [
-  { value: "3RD", name: "Good Bull Pitch", detail: "$200 award" },
+  { value: "3RD", name: "Good Bull Pitch", detail: "Pitch competition" },
   { value: "FINALIST", name: "Ideas Challenge", detail: "McFerrin Center" },
-  { value: "3 OF 60", name: "Meloy Bullet Pitch", detail: "Selected placement" },
-  { value: "$500", name: "Meloy Launch Accelerator", detail: "Program award" },
+  { value: "3RD", name: "Meloy Bullet Pitch", detail: "Pitch competition" },
+  { value: "SELECTED", name: "Meloy Launch Accelerator", detail: "Startup accelerator" },
 ] as const;
 
 const featuredProjects = [
@@ -42,7 +42,7 @@ const featuredProjects = [
     type: "Fraud detection",
     description: "Full-stack fraud detection platform built for TAMUHack.",
     ownership: "Built the model ensemble, API, risk dashboard, and containerized delivery.",
-    proof: "95%+ precision on PaySim, self-reported",
+    proof: "Built at TAMUHack",
   },
   {
     id: "celvio",
@@ -50,7 +50,7 @@ const featuredProjects = [
     type: "Medical product",
     description: "Wearable NMES rehabilitation concept.",
     ownership: "Owned product strategy, business case, PCB layout, and pulse generator circuitry.",
-    proof: "$45 COGS target and product demonstration",
+    proof: "Business case and product demonstration",
   },
 ] as const;
 
@@ -77,28 +77,28 @@ const builds: Build[] = [
     kicker: "Autonomous trading",
     title: "Agents propose. Rails decide.",
     line: "A stock and options trader where a deterministic risk engine has the final call on every order.",
-    chips: ["Stocks + options", "Risk-gated", "294 tests"],
+    chips: ["Stocks + options", "Risk-gated", "Test-covered engine"],
     diagram: true,
   },
   {
     kicker: "Multiplayer game",
     title: "Retro Bowl, but better.",
     line: "A two-player online football game running on a real-time physics engine.",
-    chips: ["2-player online", "Real-time sim", "120 FPS"],
+    chips: ["2-player online", "Real-time sim", "Physics engine"],
     shot: { src: "/img/sideline-saturday-catch.png", alt: "Sideline Saturday gameplay" },
   },
   {
     kicker: "Social trading",
     title: "Strava for paper trading.",
     line: "A social paper-trading app with a live feed and a verified-only leaderboard.",
-    chips: ["$100k accounts", "Verified leaderboard", "Risk-adjusted"],
+    chips: ["Paper accounts", "Verified leaderboard", "Risk-adjusted"],
     shot: { src: "/img/alphaforge-leaderboard.png", alt: "AlphaForge leaderboard" },
   },
   {
     kicker: "Multiplayer card game",
     title: "Poker and blackjack, coached.",
     line: "Multiplayer Hold'em with an AI opponent, plus blackjack with live strategy hints.",
-    chips: ["Realtime multiplayer", "Poker AI", "56 engine tests"],
+    chips: ["Realtime multiplayer", "Poker AI", "Strategy hints"],
     shot: { src: "/img/felt-blackjack.png", alt: "Felt blackjack table" },
     href: "https://felt.bet",
     linkLabel: "Play",
@@ -192,12 +192,12 @@ export function ProfileSections() {
                 <img src="/brand/matic-logo-white.svg" alt="Matic" />
               </TrackedLink>
               <p className="role-label">Software Engineering Intern</p>
-              <h3>Shipped the AI inbox that gives doctors their time back.</h3>
-              <p className="experience-summary">Built and shipped PulseMatic, an AI agent that saves physicians 90 minutes a day on their inbox — now being built into Matic&apos;s flagship AI product for doctors.</p>
+              <h3>Built the AI inbox that gives doctors their time back.</h3>
+              <p className="experience-summary">Built PulseMatic, an AI inbox that drafts physician responses to refills, labs, and chart updates. It is in physician testing inside Provider AI, Matic&apos;s flagship product.</p>
               <div className="experience-signals" aria-label="Matic role scope">
-                <span>90 min/day saved</span>
-                <span>95% first-draft approval</span>
-                <span>75% faster generation</span>
+                <span>Physician-tested</span>
+                <span>EHR-integrated</span>
+                <span>Inside Provider AI</span>
               </div>
             </article>
 
@@ -210,10 +210,10 @@ export function ProfileSections() {
                 <img src="/brand/legends-global-logo.svg" alt="Legends Global" />
               </TrackedLink>
               <p className="role-label">Business Insights Intern</p>
-              <h3>Menu and pricing strategy for 400+ venues.</h3>
-              <p className="experience-summary">Led a menu gap analysis for AT&amp;T Stadium, then built a pricing model that scaled into a menu optimization platform across a 400+ venue portfolio.</p>
+              <h3>Menu and pricing strategy across a venue portfolio.</h3>
+              <p className="experience-summary">Led a competitive whitespace analysis for AT&amp;T Stadium and the Dallas Cowboys, then built a pricing model that scaled into a menu optimization platform across Legends&apos; venue portfolio.</p>
               <div className="legends-signal" aria-label="From sales data to a venue-wide pricing decision">
-                <span>Sales data</span><i aria-hidden="true" /><span>Pricing model</span><i aria-hidden="true" /><span>400+ venues</span>
+                <span>Sales data</span><i aria-hidden="true" /><span>Pricing model</span><i aria-hidden="true" /><span>Venue portfolio</span>
               </div>
             </article>
           </div>
@@ -238,12 +238,7 @@ export function ProfileSections() {
                 <span className="proof-stamp proof-stamp-green">CO-FOUNDED</span>
               </div>
               <h3>The operating layer between clinics and student volunteers.</h3>
-              <p>Co-founded ClinicalHours and own clinic partnerships, pricing, and go-to-market strategy. 700+ student users, with a partner clinic running its full volunteer program on the platform — from application to team management.</p>
-              <div className="clinical-stats" aria-label="ClinicalHours traction">
-                <div><strong>700+</strong><span>student users</span></div>
-                <div><strong>01</strong><span>partner clinic live on the platform</span></div>
-                <div><strong>+325%</strong><span>application volume growth</span></div>
-              </div>
+              <p>Co-founded ClinicalHours and owned clinic partnerships, pricing, and go-to-market strategy. Our partner clinic ran its volunteer program on the platform, from application to team management.</p>
             </div>
 
             <figure className="product-proof">
@@ -320,12 +315,7 @@ export function ProfileSections() {
               <div className="research-copy">
                 <p className="card-kicker">PRESENTED / STUDENT RESEARCH WEEK</p>
                 <h3>Cattle futures forecasting for feedlot planning.</h3>
-                <p>Built a 65-input forecasting dashboard and compared three model families through walk-forward validation.</p>
-                <div className="research-metrics">
-                  <span><strong>65</strong> inputs</span>
-                  <span><strong>06</strong> cost categories</span>
-                  <span><strong>03</strong> model families</span>
-                </div>
+                <p>Built a forecasting dashboard and compared multiple model families through walk-forward validation.</p>
               </div>
               <TrackedLink href="/img/research-poster.jpg" target="_blank" rel="noopener noreferrer" className="poster-link" tracking={{ eventName: "element_clicked", properties: { element_id: "research-poster", label: "Research poster", section_id: "research", destination_type: "project" } }}>
                 <img src="/img/research-poster.jpg" alt="Full cattle futures forecasting research poster" width="483" height="378" loading="lazy" />
@@ -361,7 +351,7 @@ export function ProfileSections() {
             ))}
           </div>
 
-          <div className="archive-heading"><p className="eyebrow">More projects</p><span>04 selected</span></div>
+          <div className="archive-heading"><p className="eyebrow">More projects</p><span>Selected</span></div>
           <div className="project-archive">
             {archiveProjects.map(([name, type, proof], index) => (
               <article key={name} className="archive-row">
@@ -437,12 +427,12 @@ export function ProfileSections() {
           <SectionHeading
             label="Outside work"
             title="Strength outside the screen."
-            intro="A compact personal proof point: consistent training, competition, and measurable progress."
+            intro="A personal proof point: consistent training and competition."
           />
           <TrackedLink className="personal-proof" href="https://www.openpowerlifting.org/u/shivamkanodia" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "element_clicked", properties: { element_id: "powerlifting", label: "Powerlifting", section_id: "recognition", destination_type: "external" } }}>
             <span className="proof-stamp proof-stamp-light">USAPL</span>
             <strong>Three first-place USAPL meet results.</strong>
-            <p>152.5 kg competition bench.</p>
+            <p>Competitive powerlifter.</p>
             <b aria-hidden="true">↗</b>
           </TrackedLink>
         </div>
