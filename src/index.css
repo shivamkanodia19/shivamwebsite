@@ -81,7 +81,7 @@ button { color: inherit; }
 .role-content strong { display: block; font-size: 17px; }
 .role-content small { color: var(--muted); display: block; font-size: 11px; margin-top: 4px; }
 .role-arrow { color: var(--faint); }
-.proof-footer { color: var(--faint); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .05em; margin: 15px 0 0; text-transform: uppercase; }
+.proof-footer { color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .05em; margin: 15px 0 0; text-transform: uppercase; }
 
 /* Shared section structure */
 .section-block { padding: 84px 0; scroll-margin-top: 68px; }
@@ -95,25 +95,26 @@ button { color: inherit; }
 
 /* Experience */
 .featured-work { background: var(--surface); border-top: 1px solid var(--line); }
-.experience-grid { align-items: start; display: grid; gap: 18px; grid-template-columns: 1.18fr .82fr; }
-.experience-card { border: 1px solid var(--line); padding: 34px; }
+.experience-grid { align-items: stretch; display: grid; gap: 18px; grid-template-columns: 1.18fr .82fr; }
+.experience-card { border: 1px solid var(--line); display: flex; flex-direction: column; padding: 34px; }
 .experience-card-topline { align-items: center; display: flex; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; justify-content: space-between; letter-spacing: .08em; text-transform: uppercase; }
 .experience-logo { align-items: center; display: flex; margin-top: 47px; }
+.matic-logo { height: 61px; }
 .matic-logo img { height: 38px; width: auto; }
 .legends-logo { background: #0c1018; height: 61px; justify-content: center; padding: 14px; width: 224px; }
 .legends-logo img { height: 31px; object-fit: contain; width: 100%; }
 .role-label { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .1em; margin: 20px 0 0; text-transform: uppercase; }
 .experience-card h3 { font-size: clamp(34px, 3.6vw, 51px); font-weight: 650; letter-spacing: -.055em; line-height: 1.02; margin: 22px 0 0; text-wrap: balance; }
-.experience-summary { font-size: 15px; line-height: 1.65; margin: 20px 0 0; max-width: 670px; }
-.matic-card { background: var(--dark); border-color: var(--dark); color: white; min-height: 565px; }
+.experience-summary { font-size: 15px; line-height: 1.65; margin: 20px 0 34px; max-width: 670px; }
+.matic-card { background: var(--dark); border-color: var(--dark); color: white; }
 .matic-card .experience-summary { color: #bec8da; }
 .matic-card .experience-card-topline, .matic-card .role-label { color: #9cadca; }
-.experience-signals { border-top: 1px solid #33415b; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 39px; padding-top: 17px; }
+.experience-signals { border-top: 1px solid #33415b; display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 17px; }
 .experience-signals span { border: 1px solid #41506a; color: #d7deeb; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; padding: 8px 10px; text-transform: uppercase; }
-.legends-card { background: var(--amber-soft); border-color: #dbba82; min-height: 435px; }
+.legends-card { background: var(--amber-soft); border-color: #dbba82; }
 .legends-card .experience-card-topline, .legends-card .role-label { color: #82501a; }
 .legends-card h3 { font-size: clamp(32px, 3.1vw, 44px); }
-.legends-signal { align-items: center; border-top: 1px solid #dab87d; display: grid; gap: 8px; grid-template-columns: auto 1fr auto 1fr auto; margin-top: 30px; padding-top: 19px; }
+.legends-signal { align-items: center; border-top: 1px solid #dab87d; display: grid; gap: 8px; grid-template-columns: auto 1fr auto 1fr auto; margin-top: auto; padding-top: 19px; }
 .legends-signal span { font-size: 11px; font-weight: 650; }
 .legends-signal i { background: #ae6d20; height: 1px; }
 
@@ -129,10 +130,6 @@ button { color: inherit; }
 .clinical-brand > .proof-stamp { color: white; }
 .clinical-story h3 { font-size: clamp(40px, 4.4vw, 60px); font-weight: 650; letter-spacing: -.06em; line-height: .99; margin: 0; text-wrap: balance; }
 .clinical-story > p { color: #456657; font-size: 16px; line-height: 1.65; margin: 4px 0 0; }
-.clinical-stats { display: grid; gap: 10px; grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }
-.clinical-stats div { border-top: 1px solid #a7cbb7; padding-top: 15px; }
-.clinical-stats strong { color: var(--green); display: block; font-size: 34px; letter-spacing: -.045em; }
-.clinical-stats span { color: #557466; display: block; font-size: 12px; margin-top: 4px; }
 .product-proof { background: #0e1110; border: 1px solid #1c2e25; margin: 31px 0 0; overflow: hidden; }
 .product-proof img { aspect-ratio: 1800 / 1039; height: auto; object-fit: contain; width: 100%; }
 .product-proof figcaption { align-items: center; color: #c8d2cd; display: flex; font-size: 12px; gap: 12px; padding: 13px 15px; }
@@ -153,7 +150,7 @@ button { color: inherit; }
 .research-section { background: #e9e1d4; }
 .research-grid { display: grid; gap: 18px; grid-template-columns: 1fr 330px; }
 .research-primary { background: var(--surface); border: 1px solid var(--line); display: grid; grid-template-columns: 1fr minmax(300px, 420px); }
-.research-copy { padding: 31px; }
+.research-copy { display: flex; flex-direction: column; justify-content: center; padding: 31px; }
 .research-copy h3, .research-secondary h3 { font-size: clamp(32px, 3.3vw, 45px); font-weight: 650; letter-spacing: -.055em; line-height: 1.03; margin: 19px 0 0; }
 .research-copy > p:not(.card-kicker), .research-secondary > p:not(.card-kicker) { color: var(--muted); font-size: 14px; line-height: 1.65; margin: 17px 0 0; }
 .research-metrics { border-top: 1px solid var(--line); display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); margin-top: 26px; padding-top: 14px; }
@@ -162,7 +159,7 @@ button { color: inherit; }
 .poster-link { align-self: center; background: white; border-left: 1px solid var(--line); display: block; margin: 18px; max-width: 483px; }
 .poster-link img { height: auto; object-fit: contain; width: min(100%, 483px); }
 .poster-link span { align-items: center; border: 1px solid var(--line); display: flex; font-size: 11px; font-weight: 650; justify-content: space-between; padding: 11px 12px; }
-.research-secondary { background: #163025; color: white; padding: 31px; }
+.research-secondary { background: #163025; color: white; display: flex; flex-direction: column; justify-content: center; padding: 31px; }
 .research-secondary .card-kicker { color: #8cc7aa; }
 .research-secondary > p:not(.card-kicker) { color: #b8cabf; }
 
@@ -172,7 +169,7 @@ button { color: inherit; }
 .bots-chrome { align-items: center; background: var(--surface); border-bottom: 1px solid var(--line); display: flex; gap: 12px; padding: 11px 14px; }
 .bots-dots { display: flex; gap: 5px; }
 .bots-dots span { background: var(--line); border-radius: 50%; display: block; height: 8px; width: 8px; }
-.bots-url { color: var(--faint); flex: 1; font-family: var(--font-mono); font-size: 11px; letter-spacing: .02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bots-url { color: var(--muted); flex: 1; font-family: var(--font-mono); font-size: 11px; letter-spacing: .02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bots-live { align-items: center; color: var(--green); display: inline-flex; flex-shrink: 0; font-family: var(--font-mono); font-size: 9px; font-weight: 500; gap: 6px; letter-spacing: .1em; text-transform: uppercase; }
 .bots-live i { background: var(--green); border-radius: 50%; display: block; height: 6px; width: 6px; animation: bots-pulse 1.8s ease-in-out infinite; }
 @keyframes bots-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
@@ -212,12 +209,12 @@ button { color: inherit; }
 .featured-projects { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); }
 .project-card { background: var(--paper); border: 1px solid var(--line); min-height: 315px; padding: 25px; transition: border-color .2s ease, transform .2s ease; }
 .project-card:hover, .project-card:focus-visible { border-color: var(--blue); transform: translateY(-3px); }
-.project-index { color: var(--faint); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; }
+.project-index { color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; }
 .project-meta { color: var(--blue); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .09em; margin: 30px 0 0; text-transform: uppercase; }
-.project-card h3 { font-size: 34px; letter-spacing: -.05em; margin: 10px 0 0; }
+.project-card h3 { font-size: 34px; font-weight: 650; letter-spacing: -.05em; margin: 10px 0 0; }
 .project-description { color: var(--muted); font-size: 13px; line-height: 1.55; margin: 13px 0 0; }
 .project-owned { border-top: 1px solid var(--line); font-size: 12px; line-height: 1.55; margin: 22px 0 0; padding-top: 13px; }
-.project-card > strong { color: var(--blue); display: block; font-size: 11px; margin-top: 14px; }
+.project-card > strong { color: var(--ink); display: block; font-size: 11px; margin-top: 14px; }
 .archive-heading { align-items: center; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; margin-top: 49px; padding-bottom: 13px; }
 .archive-heading > span { color: var(--faint); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; text-transform: uppercase; }
 .archive-row { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 18px; grid-template-columns: 32px 1.15fr .9fr 1.15fr; min-height: 84px; padding: 15px 3px; }
@@ -231,7 +228,7 @@ button { color: inherit; }
 .recognition-section .section-heading { margin-bottom: 29px; }
 .personal-proof { align-items: center; background: #20221f; color: white; display: grid; gap: 19px; grid-template-columns: auto 1.3fr 1fr auto; margin-top: 27px; padding: 20px; }
 .personal-proof strong { font-size: 16px; }
-.personal-proof p { color: #b9bbb4; font-size: 12px; margin: 0; }
+.personal-proof p { color: #d4d6cf; font-size: 13px; margin: 0; }
 .resume-section { background: var(--blue); color: white; padding: 61px 0; }
 .resume-panel { align-items: end; display: flex; justify-content: space-between; }
 .resume-panel .eyebrow { color: #c9d3ff; }
@@ -243,9 +240,9 @@ button { color: inherit; }
 .footer-name { font-size: 26px; font-weight: 700; letter-spacing: -.035em; margin: 0; }
 .footer-position { color: #9b9b95; font-size: 11px; margin: 8px 0 0; }
 .footer-links { display: flex; gap: 24px; }
-.footer-links a { color: #cbc9c3; font-size: 11px; }
-.footer-meta { border-top: 1px solid #363633; color: #7b7b75; display: flex; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; justify-content: space-between; letter-spacing: .06em; margin-top: 36px; padding-top: 19px; text-transform: uppercase; }
-.footer-privacy { color: #7b7b75; font-size: 10px; line-height: 1.5; margin-bottom: 0; margin-top: 14px; }
+.footer-links a { color: #cbc9c3; font-size: 12px; padding: 8px 0; }
+.footer-meta { border-top: 1px solid #363633; color: #9b9b95; display: flex; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; justify-content: space-between; letter-spacing: .06em; margin-top: 36px; padding-top: 19px; text-transform: uppercase; }
+.footer-privacy { color: #9b9b95; font-size: 10px; line-height: 1.5; margin-bottom: 0; margin-top: 14px; }
 
 @media (max-width: 960px) {
   .site-container { width: min(calc(100% - 40px), 820px); }
@@ -294,18 +291,21 @@ button { color: inherit; }
   .credential-logo-box .credential-logo-clinical { height: 27px; width: 27px; }
   .role-content strong { font-size: 12px; }
   .role-content small { font-size: 8px; margin-top: 1px; }
-  .proof-footer { font-size: 7px; margin-top: 6px; }
+  .proof-footer { font-size: 8px; margin-top: 6px; }
   .section-block { padding: 61px 0; }
   .section-heading { display: block; margin-bottom: 29px; }
   .section-heading h2 { font-size: 37px; margin-top: 11px; }
   .section-heading > div > p { font-size: 13px; margin-top: 12px; }
   .experience-card { padding: 21px 18px; }
   .experience-logo { margin-top: 31px; }
+  .matic-logo { height: 48px; }
   .matic-logo img { height: 28px; }
   .legends-logo { height: 48px; width: 174px; }
   .experience-card h3 { font-size: 31px; margin-top: 17px; }
   .experience-summary { font-size: 13px; line-height: 1.55; margin-top: 15px; }
-  .experience-signals { margin-top: 25px; }
+  .experience-signals { gap: 6px; }
+  .experience-signals span { padding: 7px; }
+  .experience-summary { margin-bottom: 25px; }
   .legends-signal { margin-top: 23px; }
   .clinical-case { margin: 0 -1px; padding: 20px 14px; }
   .clinical-story { display: block; }
@@ -314,9 +314,6 @@ button { color: inherit; }
   .clinical-brand strong { font-size: 18px; }
   .clinical-story h3 { font-size: 36px; }
   .clinical-story > p { font-size: 14px; margin-top: 16px; }
-  .clinical-stats { gap: 7px; margin-top: 25px; }
-  .clinical-stats strong { font-size: 27px; }
-  .clinical-stats span { font-size: 9px; line-height: 1.35; }
   .product-proof { margin-top: 24px; }
   .product-proof figcaption { align-items: flex-start; flex-direction: column; font-size: 10px; gap: 5px; }
   .clinical-proof-row { display: block; margin-top: 24px; }
@@ -326,7 +323,7 @@ button { color: inherit; }
   .research-primary { display: block; }
   .research-copy, .research-secondary { padding: 22px 18px; }
   .research-copy h3, .research-secondary h3 { font-size: 32px; }
-  .poster-link { border-left: 0; margin: 10px; }
+  .poster-link { border-left: 0; margin: 0 18px 18px; }
   .bots-iframe { height: 440px; }
   .bots-url { font-size: 10px; }
   .build-card { padding: 21px 18px; }
@@ -348,6 +345,7 @@ button { color: inherit; }
   .personal-proof { align-items: start; gap: 9px; grid-template-columns: 1fr auto; padding: 17px; }
   .personal-proof span, .personal-proof strong, .personal-proof p { grid-column: 1; }
   .personal-proof b { grid-column: 2; grid-row: 1 / span 3; }
+  .personal-proof .proof-stamp { justify-self: start; }
   .resume-section { padding: 50px 0; }
   .resume-panel { align-items: flex-start; display: block; }
   .resume-panel h2 { font-size: 42px; }
@@ -381,7 +379,7 @@ button { color: inherit; }
 .build .card-kicker { margin-bottom: 7px; }
 .build h3 { font-size: clamp(19px, 1.5vw, 22px); font-weight: 650; letter-spacing: -.03em; line-height: 1.12; margin: 0; }
 .build-line { color: var(--muted); font-size: 13.5px; line-height: 1.45; margin: 9px 0 15px; }
-.build-foot { display: flex; flex-direction: column; margin-top: auto; }
+.build-foot { display: flex; flex-direction: column; justify-content: flex-start; margin-top: auto; min-height: 88px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chips span { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: .03em; padding: 4px 10px; white-space: nowrap; }
 .build-link { align-self: flex-start; color: var(--plum); font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .05em; margin-top: 13px; text-transform: uppercase; }

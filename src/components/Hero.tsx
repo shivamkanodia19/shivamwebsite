@@ -7,7 +7,7 @@ const roles = [
     role: "Software Engineering Intern",
     projectId: "matic",
     href: "#matic",
-    logo: "/brand/matic-logo-dark.svg",
+    logo: "/brand/matic-logo-white.svg",
     logoClass: "credential-logo-matic",
   },
   {

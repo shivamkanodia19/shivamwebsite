@@ -10,10 +10,10 @@ export function SiteFooter() {
           <p className="footer-position">Systems engineering across software, business intelligence, and product ownership.</p>
         </div>
         <div className="footer-links">
-          <TrackedLink href={`mailto:${contactLinks.email}`} tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email <span aria-hidden="true">↗</span></TrackedLink>
+          <TrackedLink href={`mailto:${contactLinks.email}`} tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email</TrackedLink>
           <TrackedLink href={contactLinks.linkedin} target="_blank" rel="noopener noreferrer" tracking={{ eventName: "contact_clicked", properties: { channel: "linkedin" } }}>LinkedIn <span aria-hidden="true">↗</span></TrackedLink>
           <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "resume_viewed", properties: { placement: "footer" } }}>Resume <span aria-hidden="true">↗</span></TrackedLink>
-          <TrackedLink href="/pitch" tracking={{ eventName: "pitch_opened", properties: {} }}>Pitch <span aria-hidden="true">↗</span></TrackedLink>
+          <TrackedLink href="/pitch" tracking={{ eventName: "pitch_opened", properties: {} }}>Pitch <span aria-hidden="true">→</span></TrackedLink>
         </div>
       </div>
       <div className="site-container footer-meta">

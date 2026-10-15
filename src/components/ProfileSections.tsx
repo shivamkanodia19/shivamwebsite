@@ -91,7 +91,7 @@ const builds: Build[] = [
     kicker: "Social trading",
     title: "Strava for paper trading.",
     line: "A social paper-trading app with a live feed and a verified-only leaderboard.",
-    chips: ["Paper accounts", "Verified leaderboard", "Risk-adjusted"],
+    chips: ["Paper accounts", "Leaderboard", "Risk-adjusted"],
     shot: { src: "/img/alphaforge-leaderboard.png", alt: "AlphaForge leaderboard" },
   },
   {
