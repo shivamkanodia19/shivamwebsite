@@ -1,4 +1,5 @@
 import { TrackedLink } from "@/analytics/TrackedLink";
+import { CaseLink } from "@/components/CaseLink";
 import { captureAnalyticsEvent } from "@/analytics/client";
 import { useSectionTracking } from "@/analytics/useSectionTracking";
 
@@ -179,43 +180,47 @@ export function ProfileSections() {
           <SectionHeading
             label="Experience"
             title="Engineering, intelligence, and ownership."
-            intro="Two internships inside complex operating environments, followed by a product built all the way to a clinic pilot."
+            intro="Two summer internships and a clinic product. Open a card for the work, the numbers, and how it was run."
           />
 
           <div className="experience-grid">
-            <article id="matic" className="experience-card matic-card">
+            <CaseLink id="matic" to="/work/matic" className="experience-card matic-card" projectId="matic" aria-label="Matic, Software Engineering Intern. Open the case.">
               <div className="experience-card-topline">
                 <span className="proof-stamp proof-stamp-light">SUMMER 2026</span>
-                <span>JUN – AUG</span>
+                <span>JUN TO AUG</span>
               </div>
-              <TrackedLink className="experience-logo matic-logo" href="https://maticinside.ai/" target="_blank" rel="noopener noreferrer" aria-label="Visit Matic" tracking={{ eventName: "project_opened", properties: { project_id: "matic", project_name: "Matic" } }}>
+              <span className="experience-logo matic-logo">
                 <img src="/brand/matic-logo-white.svg" alt="Matic" />
-              </TrackedLink>
+              </span>
               <p className="role-label">Software Engineering Intern</p>
-              <h3>Built the AI inbox that gives doctors their time back.</h3>
-              <p className="experience-summary">Built PulseMatic, an AI inbox that drafts physician responses to refills, labs, and chart updates. It is in physician testing inside Provider AI, Matic&apos;s flagship product.</p>
-              <div className="experience-signals" aria-label="Matic role scope">
-                <span>Physician-tested</span>
-                <span>EHR-integrated</span>
-                <span>Inside Provider AI</span>
+              <h3>The AI inbox physicians are testing.</h3>
+              <p className="experience-summary">PulseMatic drafts replies for refills, labs, and chart updates. It sits inside Provider AI, with a physician review gate.</p>
+              <div className="tease-row" aria-label="Matic impact">
+                <span>90% first-pass</span>
+                <span>-64% latency</span>
+                <span>-82% token cost</span>
               </div>
-            </article>
+              <p className="case-open">Open the case →</p>
+            </CaseLink>
 
-            <article id="legends" className="experience-card legends-card">
+            <CaseLink id="legends" to="/work/legends" className="experience-card legends-card" projectId="legends" aria-label="Legends Global, Business Insights Intern. Open the case.">
               <div className="experience-card-topline">
                 <span className="proof-stamp proof-stamp-dark">SUMMER 2026</span>
-                <span>JUN – AUG</span>
+                <span>JUN TO AUG</span>
               </div>
-              <TrackedLink className="experience-logo legends-logo" href="https://legendsglobal.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Legends Global" tracking={{ eventName: "project_opened", properties: { project_id: "legends", project_name: "Legends Global" } }}>
+              <span className="experience-logo legends-logo">
                 <img src="/brand/legends-global-logo.svg" alt="Legends Global" />
-              </TrackedLink>
+              </span>
               <p className="role-label">Business Insights Intern</p>
-              <h3>Menu and pricing strategy across a venue portfolio.</h3>
-              <p className="experience-summary">Led a competitive whitespace analysis for AT&amp;T Stadium and the Dallas Cowboys, then built a pricing model that scaled into a menu optimization platform across Legends&apos; venue portfolio.</p>
-              <div className="legends-signal" aria-label="From sales data to a venue-wide pricing decision">
-                <span>Sales data</span><i aria-hidden="true" /><span>Pricing model</span><i aria-hidden="true" /><span>Venue portfolio</span>
+              <h3>Menu and pricing across a venue portfolio.</h3>
+              <p className="experience-summary">Whitespace for AT&amp;T Stadium and the Cowboys, then pricing and menu rules for the rest of the portfolio.</p>
+              <div className="tease-row" aria-label="Legends impact">
+                <span>1,400+ SKUs</span>
+                <span>$3.6M projected</span>
+                <span>400+ venues</span>
               </div>
-            </article>
+              <p className="case-open">Open the case →</p>
+            </CaseLink>
           </div>
         </div>
       </section>
@@ -228,17 +233,19 @@ export function ProfileSections() {
             intro="Product, users, operations, and recognition in one founder story."
           />
 
-          <article className="clinical-case">
+          <CaseLink to="/work/clinicalhours" className="clinical-case" projectId="clinicalhours" aria-label="ClinicalHours, Co-founder. Open the case.">
             <div className="clinical-story">
               <div className="clinical-brand">
-                <TrackedLink href="https://clinicalhours.org/" target="_blank" rel="noopener noreferrer" aria-label="Visit ClinicalHours" tracking={{ eventName: "project_opened", properties: { project_id: "clinicalhours", project_name: "ClinicalHours" } }}>
+                <div className="clinical-brand-lockup">
                   <img src="/brand/clinicalhours-logo.png" alt="ClinicalHours logo" />
                   <strong>ClinicalHours</strong>
-                </TrackedLink>
+                </div>
                 <span className="proof-stamp proof-stamp-green">CO-FOUNDED</span>
               </div>
-              <h3>The operating layer between clinics and student volunteers.</h3>
-              <p>Co-founded ClinicalHours and owned clinic partnerships, pricing, and go-to-market strategy. Our partner clinic ran its volunteer program on the platform, from application to team management.</p>
+              <h3 id="clinical-title">The operating layer between clinics and student volunteers.</h3>
+              <p>Co-founded the product and owned partnerships, pricing, and go-to-market. One workflow, from application to team management.</p>
+              <p className="clinical-status">partner clinic live on the platform</p>
+              <p className="case-open">Open the case → <strong>700+</strong></p>
             </div>
 
             <figure className="product-proof">
@@ -265,7 +272,7 @@ export function ProfileSections() {
                 <figcaption>Presenting the product and clinic workflow.</figcaption>
               </figure>
             </div>
-          </article>
+          </CaseLink>
         </div>
       </section>
 
@@ -285,7 +292,7 @@ export function ProfileSections() {
             <iframe
               className="bots-iframe"
               src="https://alphaforge-rho.vercel.app"
-              title="Temper — live options trading bot portfolios"
+              title="Temper live options trading bot portfolios"
               loading="lazy"
               referrerPolicy="no-referrer"
               sandbox="allow-scripts allow-same-origin allow-popups"
@@ -316,6 +323,11 @@ export function ProfileSections() {
                 <p className="card-kicker">PRESENTED / STUDENT RESEARCH WEEK</p>
                 <h3>Cattle futures forecasting for feedlot planning.</h3>
                 <p>Built a forecasting dashboard and compared multiple model families through walk-forward validation.</p>
+                <div className="research-metrics" aria-label="Cattle futures model scope">
+                  <div><strong>65</strong><span>inputs</span></div>
+                  <div><strong>6</strong><span>cost groups</span></div>
+                  <div><strong>3</strong><span>model families</span></div>
+                </div>
               </div>
               <TrackedLink href="/img/research-poster.jpg" target="_blank" rel="noopener noreferrer" className="poster-link" tracking={{ eventName: "element_clicked", properties: { element_id: "research-poster", label: "Research poster", section_id: "research", destination_type: "project" } }}>
                 <img src="/img/research-poster.jpg" alt="Full cattle futures forecasting research poster" width="483" height="378" loading="lazy" />
@@ -432,7 +444,7 @@ export function ProfileSections() {
           <TrackedLink className="personal-proof" href="https://www.openpowerlifting.org/u/shivamkanodia" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "element_clicked", properties: { element_id: "powerlifting", label: "Powerlifting", section_id: "recognition", destination_type: "external" } }}>
             <span className="proof-stamp proof-stamp-light">USAPL</span>
             <strong>Three first-place USAPL meet results.</strong>
-            <p>Competitive powerlifter.</p>
+            <p>152.5 kg competition bench.</p>
             <b aria-hidden="true">↗</b>
           </TrackedLink>
         </div>

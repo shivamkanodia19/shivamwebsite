@@ -1,12 +1,13 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { TrackedLink } from "@/analytics/TrackedLink";
+import { CaseLink } from "@/components/CaseLink";
 
 const roles = [
   {
     company: "Matic",
     role: "Software Engineering Intern",
     projectId: "matic",
-    href: "#matic",
+    href: "/work/matic",
     logo: "/brand/matic-logo-white.svg",
     logoClass: "credential-logo-matic",
   },
@@ -14,7 +15,7 @@ const roles = [
     company: "Legends Global",
     role: "Business Insights Intern",
     projectId: "legends",
-    href: "#legends",
+    href: "/work/legends",
     logo: "/brand/legends-global-logo.svg",
     logoClass: "credential-logo-legends",
   },
@@ -22,7 +23,7 @@ const roles = [
     company: "ClinicalHours",
     role: "Co-founder",
     projectId: "clinicalhours",
-    href: "#clinicalhours",
+    href: "/work/clinicalhours",
     logo: "/brand/clinicalhours-logo.png",
     logoClass: "credential-logo-clinical",
   },
@@ -66,7 +67,7 @@ export function Hero() {
           </div>
           <div className="role-stack">
             {roles.map((item, index) => (
-              <TrackedLink key={item.company} href={item.href} className="role-card" tracking={{ eventName: "project_opened", properties: { project_id: item.projectId, project_name: item.company } }}>
+              <CaseLink key={item.company} to={item.href} className="role-card" projectId={item.projectId}>
                 <span className="role-index">0{index + 1}</span>
                 <span className="credential-logo-box">
                   <img src={item.logo} alt={`${item.company} logo`} className={item.logoClass} />
@@ -76,7 +77,7 @@ export function Hero() {
                   <small>{item.role}</small>
                 </span>
                 <span className="role-arrow" aria-hidden="true">↘</span>
-              </TrackedLink>
+              </CaseLink>
             ))}
           </div>
           <p className="proof-footer">Texas A&amp;M / Industrial &amp; Systems Engineering Honors, Integrated M.S. Finance</p>

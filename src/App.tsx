@@ -5,7 +5,9 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
 import { ProfileSections } from "@/components/ProfileSections";
+import { ClinicalHoursCasePage, LegendsCasePage, MaticCasePage } from "@/pages/CaseStudyPage";
 import { PitchPage } from "@/pages/PitchPage";
+import "@/components/work/case.css";
 
 function HomePage() {
   return (
@@ -32,6 +34,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/work/matic" element={<MaticCasePage />} />
+      <Route path="/work/legends" element={<LegendsCasePage />} />
+      <Route path="/work/clinicalhours" element={<ClinicalHoursCasePage />} />
       <Route path="/pitch" element={<PitchPage />} />
       <Route path="/admin" element={<AdminPage />} />
     </Routes>

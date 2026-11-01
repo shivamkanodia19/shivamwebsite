@@ -26,6 +26,9 @@ const controlledValues = new Map(
 const canonicalPageviewUrls = new Map([
   ["/", "https://shivamkanodia.com/"],
   ["/pitch", "https://shivamkanodia.com/pitch"],
+  ["/work/matic", "https://shivamkanodia.com/work/matic"],
+  ["/work/legends", "https://shivamkanodia.com/work/legends"],
+  ["/work/clinicalhours", "https://shivamkanodia.com/work/clinicalhours"],
 ]);
 let analyticsInitialized = false;
 let replayStoppedForAdmin = false;

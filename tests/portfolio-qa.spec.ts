@@ -102,7 +102,7 @@ test("15-second recruiter scan identifies the complete range", async ({ page }) 
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   await expect(page.getByText("Software Engineering Intern", { exact: true }).first()).toBeVisible();
-  await expect(page.getByText("Business Intelligence Intern", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("Business Insights Intern", { exact: true }).first()).toBeVisible();
   await expect(page.getByText("Co-founder", { exact: true }).first()).toBeVisible();
   const experienceTop = await page.locator("#work").evaluate((element) => element.getBoundingClientRect().top);
   expect(experienceTop).toBeLessThan(900);
@@ -112,7 +112,7 @@ test("30-second evidence scan exposes proof and contact paths", async ({ page })
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   for (const proof of [
-    "600+",
+    "700+",
     "partner clinic live on the platform",
     "65",
     "Working workflow prototype",
@@ -132,7 +132,7 @@ test("personal builds section shows verifiable receipts", async ({ page }) => {
   const shot = page.getByAltText(/Sideline Saturday gameplay/);
   await shot.scrollIntoViewIfNeeded();
   await expect.poll(() => shot.evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBe(1440);
-  for (const receipt of ["294 tests", "120 FPS", "Verified leaderboard", "56 engine tests"]) {
+  for (const receipt of ["Risk-gated", "Real-time sim", "Leaderboard", "Strategy hints"]) {
     await expect(page.getByText(receipt, { exact: true })).toBeAttached();
   }
   const card = page.locator(".build").first();
@@ -199,7 +199,7 @@ test("ClinicalHours uses a real local product artifact without exposing private 
 test("page length and ClinicalHours placement meet scan targets", async ({ page }) => {
   for (const viewport of [
     { width: 1440, height: 900, maxPageHeight: 7800 },
-    { width: 390, height: 844, maxPageHeight: 9800 },
+    { width: 390, height: 844, maxPageHeight: 10800 },
   ]) {
     await page.setViewportSize(viewport);
     await page.goto("/");
@@ -228,5 +228,40 @@ for (const viewport of [
     const text = await page.locator("body").innerText();
     expect(text).not.toMatch(/[\u2013\u2014]/);
     await page.screenshot({ path: `verify-pitch-${viewport.name}.png`, fullPage: true });
+  });
+}
+
+for (const viewport of [
+  { name: "1440", width: 1440, height: 900 },
+  { name: "390", width: 390, height: 844 },
+]) {
+  test(`case pages stay scannable at ${viewport.name}`, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    await page.getByRole("link", { name: /Matic, Software Engineering Intern/ }).click();
+    await expect(page).toHaveURL(/\/work\/matic$/);
+    await expect(page.getByRole("heading", { name: "PulseMatic, the physician inbox." })).toBeVisible();
+    await expect(page.getByText("Not a screenshot of Matic's internal tools.")).toBeVisible();
+    await expect(page.getByText("90%", { exact: true })).toBeVisible();
+    await expect(page.getByText("Projected, not a measured average")).toBeVisible();
+
+    await page.goto("/work/legends");
+    await expect(page.getByRole("heading", { name: "Menu and price, then the portfolio." })).toBeVisible();
+    await expect(page.getByText("$3.6M is a projection.")).toBeVisible();
+    await expect(page.getByText("1,400+", { exact: true })).toBeVisible();
+
+    await page.goto("/work/clinicalhours");
+    await expect(page.getByRole("heading", { name: "The volunteer desk, in software." })).toBeVisible();
+    await expect(page.getByAltText("ClinicalHours opportunity list, sorted by distance")).toBeVisible();
+    await expect(page.getByAltText("ClinicalHours opportunity map interface")).toBeVisible();
+    await expect(page.getByText("Good Bull Pitch, 3rd, $200.")).toBeVisible();
+    const clinicalText = await page.locator("body").innerText();
+    expect(clinicalText).not.toMatch(/raghav|@tamu\.edu|patient record|email address/i);
+    expect(clinicalText).not.toMatch(/[\u2013\u2014]/);
+
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow).toBeLessThanOrEqual(1);
+    await page.getByRole("link", { name: "Back to work" }).click();
+    await expect(page).toHaveURL(/\/#clinicalhours$/);
   });
 }

@@ -84,8 +84,8 @@ button { color: inherit; }
 .proof-footer { color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .05em; margin: 15px 0 0; text-transform: uppercase; }
 
 /* Shared section structure */
-.section-block { padding: 84px 0; scroll-margin-top: 68px; }
-.section-heading { display: grid; gap: 36px; grid-template-columns: 170px minmax(0, 1fr); margin-bottom: 46px; }
+.section-block { padding: 72px 0; scroll-margin-top: 68px; }
+.section-heading { display: grid; gap: 36px; grid-template-columns: 170px minmax(0, 1fr); margin-bottom: 32px; }
 .section-heading h2 { font-size: clamp(43px, 4.8vw, 66px); font-weight: 650; letter-spacing: -.06em; line-height: .98; margin: 0; max-width: 870px; text-wrap: balance; }
 .section-heading > div > p { color: var(--muted); font-size: 15px; line-height: 1.6; margin: 18px 0 0; max-width: 720px; }
 .proof-stamp { border: 1px solid currentColor; display: inline-flex; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; letter-spacing: .1em; padding: 7px 9px; text-transform: uppercase; }
@@ -105,7 +105,7 @@ button { color: inherit; }
 .legends-logo img { height: 31px; object-fit: contain; width: 100%; }
 .role-label { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .1em; margin: 20px 0 0; text-transform: uppercase; }
 .experience-card h3 { font-size: clamp(34px, 3.6vw, 51px); font-weight: 650; letter-spacing: -.055em; line-height: 1.02; margin: 22px 0 0; text-wrap: balance; }
-.experience-summary { font-size: 15px; line-height: 1.65; margin: 20px 0 34px; max-width: 670px; }
+.experience-summary { font-size: 15px; line-height: 1.55; margin: 16px 0 0; max-width: 670px; }
 .matic-card { background: var(--dark); border-color: var(--dark); color: white; }
 .matic-card .experience-summary { color: #bec8da; }
 .matic-card .experience-card-topline, .matic-card .role-label { color: #9cadca; }
@@ -123,7 +123,7 @@ button { color: inherit; }
 .clinical-case { background: #f8fcf9; border: 1px solid #a7cbb7; padding: 34px; }
 .clinical-story { display: grid; gap: 25px 38px; grid-template-columns: minmax(0, 1.1fr) minmax(340px, .9fr); }
 .clinical-brand { align-items: center; display: flex; grid-column: 1 / -1; justify-content: space-between; }
-.clinical-brand a { align-items: center; display: flex; gap: 11px; }
+.clinical-brand a, .clinical-brand-lockup { align-items: center; display: flex; gap: 11px; }
 .clinical-brand img { height: 46px; width: 46px; }
 .clinical-brand strong { color: #144d38; font-size: 22px; }
 .clinical-brand > span { color: var(--green); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
@@ -153,7 +153,7 @@ button { color: inherit; }
 .research-copy { display: flex; flex-direction: column; justify-content: center; padding: 31px; }
 .research-copy h3, .research-secondary h3 { font-size: clamp(32px, 3.3vw, 45px); font-weight: 650; letter-spacing: -.055em; line-height: 1.03; margin: 19px 0 0; }
 .research-copy > p:not(.card-kicker), .research-secondary > p:not(.card-kicker) { color: var(--muted); font-size: 14px; line-height: 1.65; margin: 17px 0 0; }
-.research-metrics { border-top: 1px solid var(--line); display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); margin-top: 26px; padding-top: 14px; }
+.research-metrics { border-top: 1px solid var(--line); display: grid; gap: 10px; grid-template-columns: repeat(3, 1fr); margin-top: 16px; padding-top: 12px; }
 .research-metrics span { color: var(--muted); font-size: 10px; }
 .research-metrics strong { color: var(--ink); display: block; font-size: 24px; }
 .poster-link { align-self: center; background: white; border-left: 1px solid var(--line); display: block; margin: 18px; max-width: 483px; }
@@ -173,7 +173,7 @@ button { color: inherit; }
 .bots-live { align-items: center; color: var(--green); display: inline-flex; flex-shrink: 0; font-family: var(--font-mono); font-size: 9px; font-weight: 500; gap: 6px; letter-spacing: .1em; text-transform: uppercase; }
 .bots-live i { background: var(--green); border-radius: 50%; display: block; height: 6px; width: 6px; animation: bots-pulse 1.8s ease-in-out infinite; }
 @keyframes bots-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
-.bots-iframe { background: var(--surface); border: 0; display: block; height: 640px; width: 100%; }
+.bots-iframe { background: var(--surface); border: 0; display: block; height: 520px; width: 100%; }
 .bots-link { align-items: center; color: var(--blue); display: inline-flex; font-family: var(--font-mono); font-size: 11px; font-weight: 500; gap: 8px; letter-spacing: .05em; margin-top: 16px; text-transform: uppercase; }
 .bots-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -292,12 +292,12 @@ button { color: inherit; }
   .role-content strong { font-size: 12px; }
   .role-content small { font-size: 8px; margin-top: 1px; }
   .proof-footer { font-size: 8px; margin-top: 6px; }
-  .section-block { padding: 61px 0; }
+  .section-block { padding: 48px 0; }
   .section-heading { display: block; margin-bottom: 29px; }
   .section-heading h2 { font-size: 37px; margin-top: 11px; }
   .section-heading > div > p { font-size: 13px; margin-top: 12px; }
   .experience-card { padding: 21px 18px; }
-  .experience-logo { margin-top: 31px; }
+  .experience-logo { margin-top: 14px; }
   .matic-logo { height: 48px; }
   .matic-logo img { height: 28px; }
   .legends-logo { height: 48px; width: 174px; }
@@ -324,7 +324,7 @@ button { color: inherit; }
   .research-copy, .research-secondary { padding: 22px 18px; }
   .research-copy h3, .research-secondary h3 { font-size: 32px; }
   .poster-link { border-left: 0; margin: 0 18px 18px; }
-  .bots-iframe { height: 440px; }
+  .bots-iframe { height: 360px; }
   .bots-url { font-size: 10px; }
   .build-card { padding: 21px 18px; }
   .build-card h3 { font-size: 26px; }
@@ -409,5 +409,6 @@ button { color: inherit; }
 
 @media (max-width: 860px) {
   .builds-grid { grid-template-columns: 1fr; }
+  .build-visual { aspect-ratio: 16 / 8; margin-bottom: 10px; }
   .tools-strip { grid-template-columns: 1fr; }
 }

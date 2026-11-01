@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { TrackedLink } from "@/analytics/TrackedLink";
 
 const pitchRoles = [
-  ["/brand/matic-logo-white.svg", "Matic", "Software Engineering Intern", "2026 / Current"],
-  ["/brand/legends-global-logo.svg", "Legends Global", "Business Intelligence Intern", "Summer 2026"],
-  ["/brand/clinicalhours-logo.png", "ClinicalHours", "Co-founder", "2026 / Current"],
+  ["/brand/matic-logo-white.svg", "Matic", "Software Engineering Intern", "Summer 2026"],
+  ["/brand/legends-global-logo.svg", "Legends Global", "Business Insights Intern", "Summer 2026"],
+  ["/brand/clinicalhours-logo.png", "ClinicalHours", "Co-founder", "2025 to 2026"],
 ] as const;
 
 export function PitchPage() {
@@ -25,7 +25,7 @@ export function PitchPage() {
               Systems <span className="text-[#8fa9ff]">engineer.</span>
             </h1>
             <p className="mt-6 max-w-[620px] text-[clamp(16px,1.7vw,22px)] leading-relaxed text-[#c3cbe0]">
-              Software engineering at Matic on physician inbox tooling. Business intelligence at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics with 600+ users.
+              Software engineering at Matic on physician inbox tooling. Business insights at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics with 700+ users.
             </p>
           </div>
 
@@ -49,7 +49,7 @@ export function PitchPage() {
           <article className="min-h-[210px] bg-[#e3f0e8] p-6 text-[#153d2c]">
             <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#1e6a4c]">ClinicalHours / Shipped</p>
             <h2 className="mt-8 text-2xl font-semibold tracking-[-0.035em]">Built from idea to clinic pilot.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#416453]">600+ users. Partner clinic live. Product, onboarding, scheduling, go-to-market work, and operations.</p>
+            <p className="mt-3 text-sm leading-relaxed text-[#416453]">700+ users. Partner clinic live. Product, onboarding, scheduling, go-to-market work, and operations.</p>
           </article>
           <article className="min-h-[210px] bg-[#f4e3c8] p-6 text-[#3b2914]">
             <p className="font-mono text-[10px] uppercase tracking-[0.13em] text-[#8b500f]">Research / Presented</p>
