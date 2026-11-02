@@ -144,13 +144,13 @@ function TradingDiagram() {
     >
       <defs>
         <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#625e57" />
+          <path d="M0 0 L7 4 L0 8 z" fill="#526261" />
         </marker>
         <marker id="ahp" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#185d43" />
+          <path d="M0 0 L7 4 L0 8 z" fill="#006B63" />
         </marker>
         <marker id="ahb" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#8a8379" />
+          <path d="M0 0 L7 4 L0 8 z" fill="#7A8A88" />
         </marker>
       </defs>
       <path className="edge" d="M110 120 H154" markerEnd="url(#ah)" />
@@ -194,33 +194,45 @@ export function ProfileSections() {
 
           <div className="experience-grid">
             <CaseLink id="matic" to="/work/matic" className="experience-card matic-card" projectId="matic" aria-label="Matic, Software Engineering Intern. Open the case.">
-              <div className="experience-card-topline">
-                <span className="proof-stamp proof-stamp-light">SUMMER 2026</span>
-                <span>JUN TO AUG</span>
+              <div className="experience-feature-copy">
+                <div className="experience-card-topline">
+                  <span className="proof-stamp proof-stamp-light">Summer 2026</span>
+                  <span>Jun to Aug</span>
+                </div>
+                <span className="experience-logo matic-logo">
+                  <img src="/brand/matic-logo-dark.svg" alt="Matic" />
+                </span>
+                <p className="role-label">Software Engineering Intern</p>
+                <h3>The AI inbox physicians are testing.</h3>
+                <p className="experience-summary">I built PulseMatic, an AI inbox for refills, labs, and chart updates inside Provider AI. Unsupported drafts go to a physician.</p>
+                <p className="card-note">One project. Owned end to end.</p>
+                <p className="case-open">Open the case →</p>
               </div>
-              <span className="experience-logo matic-logo">
-                <img src="/brand/matic-logo-dark.svg" alt="Matic" />
-              </span>
-              <p className="role-label">Software Engineering Intern</p>
-              <h3>The AI inbox physicians are testing.</h3>
-              <p className="experience-summary">I built PulseMatic, an AI inbox for refills, labs, and chart updates inside Provider AI. Unsupported drafts go to a physician.</p>
-              <p className="card-note">One project. Owned end to end.</p>
-              <p className="case-open">Open the case →</p>
+              <div className="experience-feature-stage" aria-hidden="true">
+                <strong>PulseMatic workflow</strong>
+                <p>Drafts for refills, labs, and chart updates stay inside Provider AI. Anything unsupported routes to a physician for review.</p>
+              </div>
             </CaseLink>
 
             <CaseLink id="legends" to="/work/legends" className="experience-card legends-card" projectId="legends" aria-label="Legends Global, Business Insights Intern. Open the case.">
-              <div className="experience-card-topline">
-                <span className="proof-stamp proof-stamp-dark">SUMMER 2026</span>
-                <span>JUN TO AUG</span>
+              <div className="experience-feature-copy">
+                <div className="experience-card-topline">
+                  <span className="proof-stamp proof-stamp-light">Summer 2026</span>
+                  <span>Jun to Aug</span>
+                </div>
+                <span className="experience-logo legends-logo">
+                  <img src="/brand/legends-global-logo-dark.svg" alt="Legends Global" />
+                </span>
+                <p className="role-label">Business Insights Intern</p>
+                <h3>Food and beverage decisions across venues.</h3>
+                <p className="experience-summary">Product and pricing work for AT&amp;T Stadium and the Cowboys, then tools that could scale across the venue portfolio.</p>
+                <p className="card-note">Four projects across the summer.</p>
+                <p className="case-open">Open the case →</p>
               </div>
-              <span className="experience-logo legends-logo">
-                <img src="/brand/legends-global-logo-dark.svg" alt="Legends Global" />
-              </span>
-              <p className="role-label">Business Insights Intern</p>
-              <h3>Food and beverage decisions across venues.</h3>
-              <p className="experience-summary">Product and pricing work for AT&amp;T Stadium and the Cowboys, then tools that could scale across the venue portfolio.</p>
-              <p className="card-note">Four projects across the summer.</p>
-              <p className="case-open">Open the case →</p>
+              <div className="experience-feature-stage" aria-hidden="true">
+                <strong>Venue intelligence</strong>
+                <p>Stadium pricing and assortment decisions turned into tools the rest of the Legends venue portfolio could reuse.</p>
+              </div>
             </CaseLink>
           </div>
         </div>

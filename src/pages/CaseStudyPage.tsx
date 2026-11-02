@@ -85,10 +85,9 @@ function CaseShell({
 
           <header className="case-hero">
             <div>
-              <p className="eyebrow">{study.company}</p>
+              <p className="case-meta">{study.company} · {study.role} · {study.when} · {study.where}</p>
               <h1>{study.title}</h1>
               <p className="case-lede">{study.lede}</p>
-              <p className="case-meta">{study.role} · {study.when} · {study.where}</p>
             </div>
             <CaseBrand study={study} />
           </header>

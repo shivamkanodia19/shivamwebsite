@@ -32,9 +32,9 @@ const roles = [
 export function Hero() {
   const reduceMotion = useReducedMotion();
   const reveal = (delay: number) => ({
-    initial: { opacity: 0, y: reduceMotion ? 0 : 14 },
+    initial: { opacity: 0, y: reduceMotion ? 0 : 10 },
     animate: { opacity: 1, y: 0 },
-    transition: { delay, duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
+    transition: { delay, duration: 0.35, ease: [0.16, 1, 0.3, 1] as const },
   });
 
   return (
@@ -45,19 +45,19 @@ export function Hero() {
           <motion.p {...reveal(0)} className="eyebrow">
             Product / Data / Operations
           </motion.p>
-          <motion.h1 {...reveal(0.06)} id="hero-title" className="hero-title">
+          <motion.h1 {...reveal(0.05)} id="hero-title" className="hero-title">
             Systems engineer.
           </motion.h1>
-          <motion.p {...reveal(0.13)} className="hero-intro">
+          <motion.p {...reveal(0.1)} className="hero-intro">
             Software engineering at Matic on a physician inbox. Food and beverage product and pricing work at Legends Global. Co-founder of ClinicalHours. Incoming Commercial Strategy &amp; Operations Intern at Zipline, Spring 2027.
           </motion.p>
-          <motion.div {...reveal(0.2)} className="hero-actions">
+          <motion.div {...reveal(0.15)} className="hero-actions">
             <TrackedLink href="#matic" className="button button-primary" tracking={{ eventName: "element_clicked", properties: { element_id: "hero-work", label: "Explore work", section_id: "hero", destination_type: "project" } }}>Explore work <span aria-hidden="true">↓</span></TrackedLink>
             <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="button button-secondary" tracking={{ eventName: "resume_viewed", properties: { placement: "hero" } }}>View resume <span aria-hidden="true">↗</span></TrackedLink>
           </motion.div>
         </div>
 
-        <motion.aside {...reveal(0.14)} className="hero-proof" aria-label="Current roles">
+        <motion.aside {...reveal(0.08)} className="hero-proof" aria-label="Current roles">
           <div className="hero-proof-heading">
             <div>
               <p className="proof-kicker">Shivam Kanodia</p>
