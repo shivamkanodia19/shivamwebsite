@@ -103,7 +103,7 @@ export const caseStudies: Record<"matic" | "legends" | "clinicalhours", CaseStud
     logo: "/brand/legends-global-logo.svg",
     logoClass: "case-logo-legends",
     title: "Food and beverage work across Legends venues.",
-    lede: "A normal insights internship: several projects, not one product. I started with product and pricing decisions at AT&T Stadium, then helped turn that work into tools the rest of the venue portfolio could use.",
+    lede: "I worked food and beverage product and pricing decisions for AT&T Stadium and the Dallas Cowboys, then helped turn that into tools the rest of the venue portfolio could use.",
     projects: [
       {
         number: "01",
