@@ -49,7 +49,7 @@ export function Hero() {
             Systems engineer.
           </motion.h1>
           <motion.p {...reveal(0.13)} className="hero-intro">
-            Software engineering at Matic on physician inbox tooling. Business insights at Legends Global across products, pricing, and revenue. Co-founder of ClinicalHours, the volunteer operating system for clinics.
+            Software engineering at Matic on a physician inbox. Food and beverage product and pricing work at Legends Global. Co-founder of ClinicalHours, the volunteer operating system for clinics.
           </motion.p>
           <motion.div {...reveal(0.2)} className="hero-actions">
             <TrackedLink href="#matic" className="button button-primary" tracking={{ eventName: "element_clicked", properties: { element_id: "hero-work", label: "Explore work", section_id: "hero", destination_type: "project" } }}>Explore work <span aria-hidden="true">↓</span></TrackedLink>

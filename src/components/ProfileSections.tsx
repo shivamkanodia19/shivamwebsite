@@ -194,12 +194,8 @@ export function ProfileSections() {
               </span>
               <p className="role-label">Software Engineering Intern</p>
               <h3>The AI inbox physicians are testing.</h3>
-              <p className="experience-summary">PulseMatic drafts replies for refills, labs, and chart updates. It sits inside Provider AI, with a physician review gate.</p>
-              <div className="tease-row" aria-label="Matic impact">
-                <span>90% first-pass</span>
-                <span>-64% latency</span>
-                <span>-82% token cost</span>
-              </div>
+              <p className="experience-summary">I built PulseMatic, an AI inbox for refills, labs, and chart updates inside Provider AI. Unsupported drafts go to a physician.</p>
+              <p className="card-note">One project. Owned end to end.</p>
               <p className="case-open">Open the case →</p>
             </CaseLink>
 
@@ -212,13 +208,9 @@ export function ProfileSections() {
                 <img src="/brand/legends-global-logo.svg" alt="Legends Global" />
               </span>
               <p className="role-label">Business Insights Intern</p>
-              <h3>Menu and pricing across a venue portfolio.</h3>
-              <p className="experience-summary">Whitespace for AT&amp;T Stadium and the Cowboys, then pricing and menu rules for the rest of the portfolio.</p>
-              <div className="tease-row" aria-label="Legends impact">
-                <span>1,400+ SKUs</span>
-                <span>$3.6M projected</span>
-                <span>400+ venues</span>
-              </div>
+              <h3>Food and beverage decisions across venues.</h3>
+              <p className="experience-summary">Product and pricing work for AT&amp;T Stadium and the Cowboys, then tools that could scale across the venue portfolio.</p>
+              <p className="card-note">Four projects across the summer.</p>
               <p className="case-open">Open the case →</p>
             </CaseLink>
           </div>

@@ -1,23 +1,25 @@
 export type CaseTone = "matic" | "legends" | "clinical";
 
-export type CaseMetric = {
-  value: string;
+export type ResultLine = {
   label: string;
-  note?: string;
+  value: string;
 };
 
-export type CaseStep = {
+export type ProcessStep = {
   title: string;
   detail: string;
 };
 
-export type CaseOp = {
+export type InternshipProject = {
+  number: string;
   title: string;
-  lines: string[];
+  what: string;
+  result: string;
 };
 
-export type CaseStudy = {
-  slug: "matic" | "legends" | "clinicalhours";
+export type SingleProjectCase = {
+  kind: "single";
+  slug: "matic" | "clinicalhours";
   tone: CaseTone;
   company: string;
   role: string;
@@ -29,13 +31,36 @@ export type CaseStudy = {
   logoClass: string;
   title: string;
   lede: string;
-  metrics: CaseMetric[];
-  steps: CaseStep[];
-  ops: CaseOp[];
+  outcome: string;
+  results: ResultLine[];
+  processLabel: string;
+  processTitle: string;
+  steps: ProcessStep[];
+  deliverableTitle: string;
 };
 
-export const caseStudies: Record<CaseStudy["slug"], CaseStudy> = {
+export type MultiProjectCase = {
+  kind: "multi";
+  slug: "legends";
+  tone: CaseTone;
+  company: string;
+  role: string;
+  when: string;
+  where: string;
+  site: string;
+  siteLabel: string;
+  logo: string;
+  logoClass: string;
+  title: string;
+  lede: string;
+  projects: InternshipProject[];
+};
+
+export type CaseStudy = SingleProjectCase | MultiProjectCase;
+
+export const caseStudies: Record<"matic" | "legends" | "clinicalhours", CaseStudy> = {
   matic: {
+    kind: "single",
     slug: "matic",
     tone: "matic",
     company: "Matic",
@@ -47,27 +72,26 @@ export const caseStudies: Record<CaseStudy["slug"], CaseStudy> = {
     logo: "/brand/matic-logo-white.svg",
     logoClass: "case-logo-matic",
     title: "PulseMatic, the physician inbox.",
-    lede: "Owned an AI inbox inside Provider AI. It drafts replies for refills, labs, and chart updates, and holds anything it cannot support.",
-    metrics: [
-      { value: "50-100", label: "Tasks a day", note: "Refills, labs, chart updates" },
-      { value: "90%", label: "First-pass approval", note: "Physician review of drafts" },
-      { value: "-64%", label: "Latency", note: "After chart-section retrieval" },
-      { value: "-82%", label: "Token cost", note: "Same retrieval change" },
-      { value: "~90 min", label: "Time back / day", note: "Projected, not a measured average" },
+    lede: "I built an AI inbox inside Provider AI. It drafts replies for refills, labs, and chart updates, and sends anything it cannot support to a physician.",
+    outcome: "Physicians approved about 90% of drafts on first pass. After switching to chart-section retrieval, latency fell 64% and token cost fell 82%. About 90 minutes a day back is a projection, not a measured average.",
+    results: [
+      { label: "Daily load", value: "50 to 100 refill, lab, and chart tasks" },
+      { label: "First-pass approval", value: "About 90% in physician review" },
+      { label: "After retrieval", value: "64% lower latency, 82% lower token cost" },
+      { label: "Where it lives", value: "Inside Provider AI, in physician testing" },
     ],
+    processLabel: "Build",
+    processTitle: "How PulseMatic came together",
     steps: [
-      { title: "Sit with physicians", detail: "Feedback became user stories and acceptance criteria for the sprint." },
-      { title: "Retrieve, don't dump", detail: "Swapped full-chart prompts for the chart sections that mattered." },
+      { title: "Sit with physicians", detail: "Their feedback became user stories and acceptance criteria for the sprint." },
+      { title: "Retrieve, don't dump", detail: "I stopped sending the full chart into the prompt and only pulled the sections that mattered." },
       { title: "Gate the draft", detail: "Accuracy checks run before release. Unsupported drafts go to a physician." },
       { title: "Ship inside the product", detail: "CI/CD on Cloud Run, then into Provider AI for physician testing." },
     ],
-    ops: [
-      { title: "Owned", lines: ["PulseMatic, end to end", "Stories and acceptance criteria", "The review gate"] },
-      { title: "Built", lines: ["Retrieval over chart sections", "Automated accuracy checks", "Cloud Run delivery"] },
-      { title: "Landed", lines: ["Physicians testing it", "Inside Provider AI", "Drafts that can be refused"] },
-    ],
+    deliverableTitle: "What the inbox looks like",
   },
   legends: {
+    kind: "multi",
     slug: "legends",
     tone: "legends",
     company: "Legends Global",
@@ -78,27 +102,37 @@ export const caseStudies: Record<CaseStudy["slug"], CaseStudy> = {
     siteLabel: "legendsglobal.com",
     logo: "/brand/legends-global-logo.svg",
     logoClass: "case-logo-legends",
-    title: "Menu and price, then the portfolio.",
-    lede: "Whitespace for AT&T Stadium and the Dallas Cowboys, then a pricing model that became menu rules across the venue portfolio.",
-    metrics: [
-      { value: "1,400+", label: "SKUs priced", note: "Elasticity and sales heatmaps" },
-      { value: "$3.6M", label: "Annual uplift", note: "Projected vs current pricing" },
-      { value: "400+", label: "Venues", note: "Menu optimization platform" },
-      { value: "10", label: "Merchandising rules", note: "Built to speed the guest decision" },
-    ],
-    steps: [
-      { title: "Find the gap", detail: "Peer NFL sales and DFW fans. New food and beverage concepts to stadium stakeholders." },
-      { title: "Price the menu", detail: "Databricks SQL on 1,400+ SKUs. An A/B pilot drawn for targeted stands." },
-      { title: "Write the rules", detail: "Graph workflows plus hard rules, so the same logic can travel." },
-      { title: "Make it trackable", detail: "A dashboard for KPIs and OKRs, designed to update across venues." },
-    ],
-    ops: [
-      { title: "Owned", lines: ["Stadium whitespace", "The pricing model", "The venue rollout shape"] },
-      { title: "Built", lines: ["Elasticity and heatmaps", "10 merchandising strategies", "KPI / OKR dashboard"] },
-      { title: "Landed", lines: ["Concepts in front of stakeholders", "A/B design for stands", "Rules aimed at 400+ venues"] },
+    title: "Food and beverage work across Legends venues.",
+    lede: "A normal insights internship: several projects, not one product. I started with product and pricing decisions at AT&T Stadium, then helped turn that work into tools the rest of the venue portfolio could use.",
+    projects: [
+      {
+        number: "01",
+        title: "Stadium food and beverage recommendations",
+        what: "For AT&T Stadium and the Dallas Cowboys, I compared peer NFL venue sales and DFW fan demographics, then presented assortment changes and new food and beverage concepts to venue stakeholders.",
+        result: "Stakeholders saw concrete add, cut, and reprice recommendations for the stadium menu.",
+      },
+      {
+        number: "02",
+        title: "Pricing model for 1,400+ SKUs",
+        what: "I modeled fan-friendly pricing in Databricks SQL from price elasticity and sales heatmaps, and designed an A/B pilot for targeted stands.",
+        result: "The model projected a $3.6M annual uplift versus current pricing. That number is a projection.",
+      },
+      {
+        number: "03",
+        title: "Menu platform for the venue portfolio",
+        what: "I helped build a menu optimization platform meant to scale across 400+ venues, applying 10 behavioral merchandising strategies through graph-based workflows and a rule-based system.",
+        result: "The goal was faster guest decisions, higher sales, and shorter lines, with the same logic reusable across venues.",
+      },
+      {
+        number: "04",
+        title: "KPI and OKR dashboard",
+        what: "I built a Claude-powered dashboard so venue teams could track and update KPIs and OKRs without hunting through spreadsheets.",
+        result: "Designed to scale across venues once the pricing and menu work was in place.",
+      },
     ],
   },
   clinicalhours: {
+    kind: "single",
     slug: "clinicalhours",
     tone: "clinical",
     company: "ClinicalHours",
@@ -110,26 +144,24 @@ export const caseStudies: Record<CaseStudy["slug"], CaseStudy> = {
     logo: "/brand/clinicalhours-logo.png",
     logoClass: "case-logo-clinical",
     title: "The volunteer desk, in software.",
-    lede: "A free-clinic operating layer from application to team management. The partner clinic ran its volunteer program on it.",
-    metrics: [
-      { value: "700+", label: "Student users", note: "Public milestone" },
-      { value: "+325%", label: "Applications", note: "Pilot clinic volume" },
-      { value: "-50%", label: "Recruiting time", note: "Same pilot" },
-      { value: "150+", label: "Pilot applications", note: "BCS Free Health Clinic" },
+    lede: "I co-founded ClinicalHours so free clinics could run volunteer recruiting and onboarding in one place. Our partner clinic moved its full volunteer program onto the platform.",
+    outcome: "700+ student users. At the pilot clinic: 150+ applications, application volume up 325%, recruiting time down 50%.",
+    results: [
+      { label: "Users", value: "700+ students on the platform" },
+      { label: "Pilot clinic", value: "BCS Free Health Clinic, full volunteer program" },
+      { label: "Applications", value: "150+, volume up 325%" },
+      { label: "Recruiting time", value: "Down about 50% at the pilot" },
+      { label: "Pricing", value: "$750 to $1,250 a year per clinic" },
     ],
+    processLabel: "Founding",
+    processTitle: "How the company moved",
     steps: [
       { title: "Talk to both sides", detail: "Clinic admins and students set the roadmap." },
       { title: "Name the price", detail: "$750 to $1,250 a year, per clinic." },
-      { title: "One path", detail: "Role-based intake, review, and onboarding. Manual coordination came out." },
+      { title: "One path", detail: "Role-based intake, review, and onboarding replaced the manual coordination." },
       { title: "Move the clinic on", detail: "BCS Free Health Clinic ran the full volunteer program on the platform." },
       { title: "Follow the data", detail: "SQL on signup, referral, and retention. Then pre-health orgs and peer referrals." },
     ],
-    ops: [
-      { title: "Owned", lines: ["Partnerships and pricing", "Go-to-market", "The pilot rollout"] },
-      { title: "Built", lines: ["Student and admin portals", "React, TypeScript, Supabase", "Outreach tooling for clinic leads"] },
-      { title: "Landed", lines: ["400 users in 2.5 months", "300 more in the next 2 weeks", "50+ clinic leads sourced"] },
-    ],
+    deliverableTitle: "What is live",
   },
 };
-
-export const caseOrder = ["matic", "legends", "clinicalhours"] as const;

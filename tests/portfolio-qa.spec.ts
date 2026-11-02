@@ -242,19 +242,25 @@ for (const viewport of [
     await expect(page).toHaveURL(/\/work\/matic$/);
     await expect(page.getByRole("heading", { name: "PulseMatic, the physician inbox." })).toBeVisible();
     await expect(page.getByText("Not a screenshot of Matic's internal tools.")).toBeVisible();
-    await expect(page.getByText("90%", { exact: true })).toBeVisible();
-    await expect(page.getByText("Projected, not a measured average")).toBeVisible();
+    await expect(page.getByText(/About 90% in physician review/)).toBeVisible();
+    await expect(page.getByText(/projection, not a measured average/)).toBeVisible();
+    await expect(page.getByText("Owned")).toHaveCount(0);
 
     await page.goto("/work/legends");
-    await expect(page.getByRole("heading", { name: "Menu and price, then the portfolio." })).toBeVisible();
-    await expect(page.getByText("$3.6M is a projection.")).toBeVisible();
-    await expect(page.getByText("1,400+", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Food and beverage work across Legends venues." })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "The projects" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Stadium food and beverage recommendations" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Pricing model for 1,400+ SKUs" })).toBeVisible();
+    await expect(page.getByText(/That number is a projection/)).toBeVisible();
+    await expect(page.getByText("whitespace", { exact: false })).toHaveCount(0);
+    await expect(page.getByText("Owned")).toHaveCount(0);
 
     await page.goto("/work/clinicalhours");
     await expect(page.getByRole("heading", { name: "The volunteer desk, in software." })).toBeVisible();
     await expect(page.getByAltText("ClinicalHours opportunity list, sorted by distance")).toBeVisible();
     await expect(page.getByAltText("ClinicalHours opportunity map interface")).toBeVisible();
     await expect(page.getByText("Good Bull Pitch, 3rd, $200.")).toBeVisible();
+    await expect(page.getByText("Owned")).toHaveCount(0);
     const clinicalText = await page.locator("body").innerText();
     expect(clinicalText).not.toMatch(/raghav|@tamu\.edu|patient record|email address/i);
     expect(clinicalText).not.toMatch(/[\u2013\u2014]/);
