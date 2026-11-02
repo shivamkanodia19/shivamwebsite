@@ -1,8 +1,16 @@
-import { copyFileSync, existsSync } from "fs";
+import { copyFileSync, existsSync, mkdirSync } from "fs";
 import path from "path";
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
+
+const spaRoutes = [
+  "pitch",
+  "admin",
+  "work/matic",
+  "work/legends",
+  "work/clinicalhours",
+];
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,13 +23,18 @@ export default defineConfig({
     react(),
     tailwindcss(),
     {
-      name: "copy-index-to-404",
+      name: "spa-fallback-pages",
       closeBundle() {
         const dist = path.resolve(__dirname, "dist");
         const indexPath = path.join(dist, "index.html");
-        const out404 = path.join(dist, "404.html");
-        if (existsSync(indexPath)) {
-          copyFileSync(indexPath, out404);
+        if (!existsSync(indexPath)) return;
+
+        copyFileSync(indexPath, path.join(dist, "404.html"));
+
+        for (const route of spaRoutes) {
+          const dir = path.join(dist, route);
+          mkdirSync(dir, { recursive: true });
+          copyFileSync(indexPath, path.join(dir, "index.html"));
         }
       },
     },
