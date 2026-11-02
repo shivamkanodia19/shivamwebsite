@@ -1,83 +1,133 @@
 import { Link } from "react-router-dom";
 import { TrackedLink } from "@/analytics/TrackedLink";
+import { CaseLink } from "@/components/CaseLink";
 
 const pitchRoles = [
-  ["/brand/zipline-logo.png", "Zipline", "Commercial Strategy & Operations Intern", "Incoming / Spring 2027"],
-  ["/brand/matic-logo-dark.svg", "Matic", "Software Engineering Intern", "Summer 2026"],
-  ["/brand/legends-global-logo-dark.svg", "Legends Global", "Business Insights Intern", "Summer 2026"],
-  ["/brand/clinicalhours-logo.png", "ClinicalHours", "Co-founder", "2025 to 2026"],
+  {
+    logo: "/brand/zipline-logo.png",
+    company: "Zipline",
+    role: "Commercial Strategy & Operations Intern",
+    date: "Incoming / Spring 2027",
+    href: "https://www.zipline.com/",
+    external: true,
+  },
+  {
+    logo: "/brand/matic-logo-dark.svg",
+    company: "Matic",
+    role: "Software Engineering Intern",
+    date: "Summer 2026",
+    href: "/work/matic",
+    projectId: "matic" as const,
+  },
+  {
+    logo: "/brand/legends-global-logo-dark.svg",
+    company: "Legends Global",
+    role: "Business Insights Intern",
+    date: "Summer 2026",
+    href: "/work/legends",
+    projectId: "legends" as const,
+  },
+  {
+    logo: "/brand/clinicalhours-logo.png",
+    company: "ClinicalHours",
+    role: "Co-founder",
+    date: "2025 to 2026",
+    href: "/work/clinicalhours",
+    projectId: "clinicalhours" as const,
+  },
 ] as const;
 
 export function PitchPage() {
   return (
-    <main className="min-h-screen bg-[#F6F8F7] px-4 py-4 font-sans text-[#182526] sm:px-8 sm:py-7">
+    <main className="min-h-screen bg-[var(--paper)] px-4 py-4 font-sans text-[var(--ink)] sm:px-8 sm:py-7">
       <div className="mx-auto max-w-[1200px]">
-        <header className="flex items-center justify-between border-b border-[#D9E2DF] pb-4">
-          <Link to="/" className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#526261] hover:text-[#182526]">
+        <header className="flex items-center justify-between border-b border-[var(--line)] pb-4">
+          <Link to="/" className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--muted)] hover:text-[var(--ink)]">
             ← Portfolio
           </Link>
-          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#7A8A88]">Evidence brief / 2026</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--faint)]">Evidence brief / 2026</p>
         </header>
 
         <section className="grid gap-8 py-10 lg:grid-cols-[1fr_1.05fr] lg:items-end lg:py-14">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#006B63]">Product / Data / Operations</p>
-            <h1 className="mt-5 max-w-[760px] font-[family-name:var(--font-display)] text-[clamp(44px,5.5vw,68px)] font-semibold leading-[1.08] tracking-[-0.03em]">
-              Systems <span className="text-[#006B63]">engineer.</span>
+            <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--accent)]">Product / Data / Operations</p>
+            <h1 className="mt-5 max-w-[760px] font-serif text-[clamp(44px,5.5vw,68px)] font-semibold leading-[1.08] tracking-[-0.03em]">
+              Shivam Kanodia
             </h1>
-            <p className="mt-6 max-w-[620px] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[#526261]">
+            <p className="mt-3 text-[clamp(20px,2vw,28px)] font-medium tracking-[-0.02em]">
+              Systems engineer working across software, analytics, and operations.
+            </p>
+            <p className="mt-6 max-w-[620px] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[var(--muted)]">
               Software engineering at Matic on a physician inbox. Food and beverage product and pricing work at Legends Global. Co-founder of ClinicalHours. Incoming Commercial Strategy &amp; Operations Intern at Zipline, Spring 2027.
             </p>
           </div>
 
           <div className="grid gap-0">
-            {pitchRoles.map(([logo, company, role, date]) => (
-              <article key={company} className="grid grid-cols-[64px_1fr_auto] items-center gap-4 border-b border-[#D9E2DF] py-3 first:border-t">
-                <div className="flex h-12 w-16 items-center justify-center overflow-hidden rounded-[10px] border border-[#D9E2DF] bg-white p-1.5">
-                  <img
-                    src={logo}
-                    alt={`${company} logo`}
-                    className={
-                      company === "ClinicalHours" || company === "Zipline"
-                        ? "h-full w-full object-cover"
-                        : "max-h-7 w-full object-contain"
-                    }
-                  />
-                </div>
-                <div>
-                  <h2 className="text-base font-semibold tracking-[-0.02em]">{company}</h2>
-                  <p className="mt-1 text-sm text-[#526261]">{role}</p>
-                </div>
-                <span className="font-mono text-[10px] uppercase tracking-[0.06em] text-[#7A8A88]">{date}</span>
-              </article>
-            ))}
+            {pitchRoles.map((item) => {
+              const body = (
+                <>
+                  <div className="flex h-12 w-16 items-center justify-center overflow-hidden rounded-[10px] border border-[var(--line)] bg-[var(--surface)] p-1.5">
+                    <img
+                      src={item.logo}
+                      alt={`${item.company} logo`}
+                      className="max-h-8 w-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h2 className="text-base font-semibold tracking-[-0.02em]">{item.company}</h2>
+                    <p className="mt-1 text-sm text-[var(--muted)]">{item.role}</p>
+                  </div>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.06em] text-[var(--faint)]">{item.date}</span>
+                </>
+              );
+              const className = "grid grid-cols-[64px_1fr_auto] items-center gap-4 border-b border-[var(--line)] py-3 first:border-t";
+              if ("external" in item && item.external) {
+                return (
+                  <TrackedLink
+                    key={item.company}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={className}
+                    tracking={{ eventName: "element_clicked", properties: { element_id: "pitch-zipline", label: "Zipline", section_id: "pitch", destination_type: "external" } }}
+                  >
+                    {body}
+                  </TrackedLink>
+                );
+              }
+              return (
+                <CaseLink key={item.company} to={item.href} className={className} projectId={item.projectId}>
+                  {body}
+                </CaseLink>
+              );
+            })}
           </div>
         </section>
 
-        <section className="grid gap-3 border-t border-[#D9E2DF] pt-5 md:grid-cols-3">
-          <article className="min-h-[210px] rounded-[14px] border border-[#D9E2DF] bg-white p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#006B63]">ClinicalHours / Shipped</p>
+        <section className="grid gap-3 border-t border-[var(--line)] pt-5 md:grid-cols-3">
+          <CaseLink to="/work/clinicalhours" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--surface)] p-6" projectId="clinicalhours">
+            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--accent)]">ClinicalHours</p>
             <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Built from idea to clinic pilot.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#526261]">700+ users. Partner clinic live. Product, onboarding, scheduling, go-to-market work, and operations.</p>
-          </article>
-          <article className="min-h-[210px] rounded-[14px] border border-[#D9E2DF] bg-[#F7EEE8] p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#A64B36]">Research / Presented</p>
-            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Forecasting for real decisions.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#526261]">65 inputs. Six cost categories. Three model families. Walk-forward validation. Texas A&amp;M Student Research Week.</p>
-          </article>
-          <article className="min-h-[210px] rounded-[14px] border border-[#D9E2DF] bg-[#E6F1ED] p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#006B63]">Projects / Built</p>
-            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Eleven verified builds.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#526261]">Healthcare intake, rehabilitation hardware, fraud detection, identity, consumer finance, study tools, CAD, simulation, trading research, a multiplayer football sim, and agent tooling.</p>
-          </article>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">700+ student users. Partner clinic live. Product, onboarding, scheduling, and go-to-market work.</p>
+          </CaseLink>
+          <CaseLink to="/work/matic" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--surface)] p-6" projectId="matic">
+            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--accent)]">Matic</p>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Physician inbox in production testing.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">About 90% first-pass approval. After section retrieval: 64% lower latency, 82% lower token cost.</p>
+          </CaseLink>
+          <CaseLink to="/work/legends" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--copper-tint)] p-6" projectId="legends">
+            <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--copper)]">Legends Global</p>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Stadium pricing decision.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Fan-friendly pricing model with a projected $3.6M annual uplift. Projection, not realized revenue.</p>
+          </CaseLink>
         </section>
 
-        <footer className="mt-5 flex flex-col gap-4 border-t border-[#D9E2DF] py-5 text-sm text-[#526261] sm:flex-row sm:items-center sm:justify-between">
+        <footer className="mt-5 flex flex-col gap-4 border-t border-[var(--line)] py-5 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
           <p>Texas A&amp;M / Industrial &amp; Systems Engineering Honors</p>
           <div className="flex gap-5">
-            <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#182526] underline-offset-3 hover:underline" tracking={{ eventName: "resume_viewed", properties: { placement: "pitch" } }}>Resume ↗</TrackedLink>
-            <TrackedLink href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#182526] underline-offset-3 hover:underline" tracking={{ eventName: "contact_clicked", properties: { channel: "linkedin" } }}>LinkedIn ↗</TrackedLink>
-            <TrackedLink href="mailto:shivamkanodia77@gmail.com" className="font-semibold text-[#182526] underline-offset-3 hover:underline" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email ↗</TrackedLink>
+            <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--ink)] underline-offset-3 hover:underline" tracking={{ eventName: "resume_viewed", properties: { placement: "pitch" } }}>Resume ↗</TrackedLink>
+            <TrackedLink href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--ink)] underline-offset-3 hover:underline" tracking={{ eventName: "contact_clicked", properties: { channel: "linkedin" } }}>LinkedIn ↗</TrackedLink>
+            <TrackedLink href="mailto:shivamkanodia77@gmail.com" className="font-semibold text-[var(--ink)] underline-offset-3 hover:underline" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email ↗</TrackedLink>
           </div>
         </footer>
       </div>

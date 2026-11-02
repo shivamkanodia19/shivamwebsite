@@ -1,6 +1,6 @@
 import { TrackedLink } from "@/analytics/TrackedLink";
 import { CaseLink } from "@/components/CaseLink";
-import { captureAnalyticsEvent } from "@/analytics/client";
+import { ClinicalClinicArtifact, LegendsDecisionArtifact, MaticWorkflowMini } from "@/components/work/DeliverableFrames";
 import { useSectionTracking } from "@/analytics/useSectionTracking";
 
 type SectionHeadingProps = {
@@ -147,7 +147,7 @@ function TradingDiagram() {
           <path d="M0 0 L7 4 L0 8 z" fill="#526261" />
         </marker>
         <marker id="ahp" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#006B63" />
+          <path d="M0 0 L7 4 L0 8 z" fill="#9D432E" />
         </marker>
         <marker id="ahb" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
           <path d="M0 0 L7 4 L0 8 z" fill="#7A8A88" />
@@ -179,18 +179,9 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="Experience"
-            title="Engineering, intelligence, and ownership."
-            intro="Two summer internships and a clinic product, with Zipline next. Open a card for the work, the numbers, and how it was run."
+            title="Selected experience"
+            intro="Two summer internships and a clinic product, with Zipline next. Open a story for the work, the numbers, and how it was run."
           />
-
-          <p className="incoming-banner">
-            <span>Next</span>
-            <span className="incoming-banner-logo" aria-hidden="true">
-              <img src="/brand/zipline-logo.png" alt="" />
-            </span>
-            <strong>Zipline</strong>
-            <em>Commercial Strategy &amp; Operations Intern · Spring 2027 · Incoming</em>
-          </p>
 
           <div className="experience-grid">
             <CaseLink id="matic" to="/work/matic" className="experience-card matic-card" projectId="matic" aria-label="Matic, Software Engineering Intern. Open the case.">
@@ -208,10 +199,7 @@ export function ProfileSections() {
                 <p className="card-note">One project. Owned end to end.</p>
                 <p className="case-open">Open the case →</p>
               </div>
-              <div className="experience-feature-stage" aria-hidden="true">
-                <strong>PulseMatic workflow</strong>
-                <p>Drafts for refills, labs, and chart updates stay inside Provider AI. Anything unsupported routes to a physician for review.</p>
-              </div>
+              <MaticWorkflowMini />
             </CaseLink>
 
             <CaseLink id="legends" to="/work/legends" className="experience-card legends-card" projectId="legends" aria-label="Legends Global, Business Insights Intern. Open the case.">
@@ -225,14 +213,11 @@ export function ProfileSections() {
                 </span>
                 <p className="role-label">Business Insights Intern</p>
                 <h3>Food and beverage decisions across venues.</h3>
-                <p className="experience-summary">Product and pricing work for AT&amp;T Stadium and the Cowboys, then tools that could scale across the venue portfolio.</p>
+                <p className="experience-summary">Product and pricing work for AT&amp;T Stadium and the Cowboys, then tools the rest of the venue portfolio could reuse.</p>
                 <p className="card-note">Four projects across the summer.</p>
                 <p className="case-open">Open the case →</p>
               </div>
-              <div className="experience-feature-stage" aria-hidden="true">
-                <strong>Venue intelligence</strong>
-                <p>Stadium pricing and assortment decisions turned into tools the rest of the Legends venue portfolio could reuse.</p>
-              </div>
+              <LegendsDecisionArtifact />
             </CaseLink>
           </div>
         </div>
@@ -257,14 +242,17 @@ export function ProfileSections() {
               </div>
               <h3 id="clinical-title">The operating layer between clinics and student volunteers.</h3>
               <p>Co-founded the product and owned partnerships, pricing, and go-to-market. One workflow, from application to team management.</p>
-              <p className="clinical-status">partner clinic live on the platform</p>
-              <p className="case-open">Open the case → <strong>700+</strong></p>
+              <p className="clinical-status">Partner clinic live on the platform · 700+ student users</p>
+              <p className="case-open">Open the case →</p>
             </div>
 
-            <figure className="product-proof">
-              <img src="/img/clinicalhours-product.png" alt="ClinicalHours opportunity map interface" width="1800" height="1039" />
-              <figcaption><span>LIVE PRODUCT</span> Opportunity discovery and tracking across clinical sites.</figcaption>
-            </figure>
+            <div className="clinical-feature-visuals">
+              <ClinicalClinicArtifact />
+              <figure className="product-proof">
+                <img src="/img/clinicalhours-product.png" alt="ClinicalHours opportunity map interface" width="1800" height="1039" />
+                <figcaption><span>LIVE PRODUCT</span> Student discovery map. Supports recruiting intake; clinic admin workflow is shown in the reconstruction above.</figcaption>
+              </figure>
+            </div>
 
             <div className="clinical-ownership" aria-label="ClinicalHours founder ownership">
               <span>Product</span><span>Onboarding</span><span>Scheduling</span><span>Go-to-market</span><span>Pilot rollout</span>
@@ -294,23 +282,24 @@ export function ProfileSections() {
           <SectionHeading
             label="Temper"
             title="See how my options trading bots are doing."
-            intro="Three autonomous agents trading options against live market data in a shared paper account. The preview below is the live dashboard, not a screenshot, so it updates as they trade."
+            intro="Three autonomous agents trading options against live market data in a shared paper account. The preview below is a paper-trading dashboard embed, not a brokerage account."
           />
           <div className="bots-frame">
             <div className="bots-chrome">
               <div className="bots-dots" aria-hidden="true"><span /><span /><span /></div>
-              <span className="bots-url">alphaforge-rho.vercel.app</span>
-              <span className="bots-live"><i aria-hidden="true" />Live</span>
+              <span className="bots-url">alphaforge-rho.vercel.app · paper trading</span>
+              <span className="bots-live"><i aria-hidden="true" />Paper · live embed</span>
             </div>
             <iframe
               className="bots-iframe"
               src="https://alphaforge-rho.vercel.app"
-              title="Temper live options trading bot portfolios"
+              title="Temper paper-trading options bot portfolios"
               loading="lazy"
               referrerPolicy="no-referrer"
               sandbox="allow-scripts allow-same-origin allow-popups"
             />
           </div>
+          <p className="bots-fallback">If the embed does not load, open the full dashboard from the link below.</p>
           <TrackedLink
             className="bots-link"
             href="https://alphaforge-rho.vercel.app"
@@ -365,7 +354,7 @@ export function ProfileSections() {
           />
           <div className="featured-projects">
             {featuredProjects.map((project, index) => (
-              <article key={project.name} className="project-card" tabIndex={0} onClick={() => captureAnalyticsEvent("project_opened", { project_id: project.id, project_name: project.name })}>
+              <article key={project.name} className="project-card">
                 <div className="project-index">0{index + 1}</div>
                 <p className="project-meta">{project.type}</p>
                 <h3>{project.name}</h3>
@@ -396,7 +385,7 @@ export function ProfileSections() {
           />
           <div className="builds-grid">
             {builds.map((build) => (
-              <article key={build.title} className="build" tabIndex={0}>
+              <article key={build.title} className="build">
                 <div className="build-visual">
                   {build.diagram ? (
                     <TradingDiagram />
@@ -438,7 +427,7 @@ export function ProfileSections() {
                   {inner}
                 </TrackedLink>
               ) : (
-                <article key={tool.name} className="tool" tabIndex={0}>
+                <article key={tool.name} className="tool">
                   {inner}
                 </article>
               );
@@ -452,7 +441,7 @@ export function ProfileSections() {
           <SectionHeading
             label="Outside work"
             title="Strength outside the screen."
-            intro="A personal proof point: consistent training and competition."
+            intro="I lift and used to play football. The competition record is optional context."
           />
           <TrackedLink className="personal-proof" href="https://www.openpowerlifting.org/u/shivamkanodia" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "element_clicked", properties: { element_id: "powerlifting", label: "Powerlifting", section_id: "recognition", destination_type: "external" } }}>
             <span className="proof-stamp proof-stamp-light">USAPL</span>

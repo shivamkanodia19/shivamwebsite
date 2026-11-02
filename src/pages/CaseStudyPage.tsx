@@ -4,7 +4,7 @@ import { captureAnalyticsEvent } from "@/analytics/client";
 import { TrackedLink } from "@/analytics/TrackedLink";
 import { Navbar } from "@/components/Navbar";
 import { SiteFooter } from "@/components/SiteFooter";
-import { ClinicalFrames, MaticFrame } from "@/components/work/DeliverableFrames";
+import { ClinicalFrames, LegendsDecisionArtifact, MaticFrame } from "@/components/work/DeliverableFrames";
 import {
   caseStudies,
   type CaseStudy,
@@ -70,18 +70,24 @@ function CaseShell({
       <Navbar />
       <main id="case-main" className={`case-page tone-${study.tone}`}>
         <div className="site-container">
-          <Link
-            className="case-back"
-            to={`/#${study.slug === "clinicalhours" ? "clinicalhours" : study.slug}`}
-            onClick={() => captureAnalyticsEvent("element_clicked", {
-              element_id: "case-back",
-              label: "Back to work",
-              section_id: "work",
-              destination_type: "project",
-            })}
-          >
-            Back to work
-          </Link>
+          <div className="case-topbar">
+            <Link
+              className="case-back"
+              to={`/#${study.slug === "clinicalhours" ? "clinicalhours" : study.slug}`}
+              onClick={() => captureAnalyticsEvent("element_clicked", {
+                element_id: "case-back",
+                label: "Back to work",
+                section_id: "work",
+                destination_type: "project",
+              })}
+            >
+              Back to work
+            </Link>
+            <div className="case-top-actions">
+              <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="case-utility" tracking={{ eventName: "resume_viewed", properties: { placement: "case" } }}>Resume ↗</TrackedLink>
+              <TrackedLink href="mailto:shivamkanodia77@gmail.com" className="case-utility" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email ↗</TrackedLink>
+            </div>
+          </div>
 
           <header className="case-hero">
             <div>
@@ -105,6 +111,14 @@ function SingleStudy({ study }: { study: SingleProjectCase }) {
 
   return (
     <CaseShell study={study}>
+      <section className="case-block case-block-first" aria-labelledby="case-ship-title">
+        <div className="case-block-head">
+          <p className="eyebrow">Deliverable</p>
+          <h2 id="case-ship-title">{study.deliverableTitle}</h2>
+        </div>
+        <Frame />
+      </section>
+
       <p className="case-outcome">{study.outcome}</p>
 
       <dl className="case-ledger">
@@ -131,14 +145,6 @@ function SingleStudy({ study }: { study: SingleProjectCase }) {
           ))}
         </ol>
       </section>
-
-      <section className="case-block" aria-labelledby="case-ship-title">
-        <div className="case-block-head">
-          <p className="eyebrow">Deliverable</p>
-          <h2 id="case-ship-title">{study.deliverableTitle}</h2>
-        </div>
-        <Frame />
-      </section>
     </CaseShell>
   );
 }
@@ -146,6 +152,14 @@ function SingleStudy({ study }: { study: SingleProjectCase }) {
 function MultiStudy({ study }: { study: MultiProjectCase }) {
   return (
     <CaseShell study={study}>
+      <section className="case-block case-block-first" aria-labelledby="case-decision-title">
+        <div className="case-block-head">
+          <p className="eyebrow">Featured decision</p>
+          <h2 id="case-decision-title">Stadium pricing model</h2>
+        </div>
+        <LegendsDecisionArtifact />
+      </section>
+
       <section className="case-block" aria-labelledby="case-projects-title">
         <div className="case-block-head">
           <p className="eyebrow">Internship</p>

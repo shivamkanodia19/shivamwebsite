@@ -6,6 +6,7 @@ import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
 import { ProfileSections } from "@/components/ProfileSections";
 import { ClinicalHoursCasePage, LegendsCasePage, MaticCasePage } from "@/pages/CaseStudyPage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PitchPage } from "@/pages/PitchPage";
 import "@/components/work/case.css";
 
@@ -39,6 +40,7 @@ function App() {
       <Route path="/work/clinicalhours" element={<ClinicalHoursCasePage />} />
       <Route path="/pitch" element={<PitchPage />} />
       <Route path="/admin" element={<AdminPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
