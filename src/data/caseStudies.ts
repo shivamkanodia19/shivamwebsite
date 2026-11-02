@@ -157,7 +157,7 @@ export const caseStudies: Record<"matic" | "legends" | "clinicalhours", CaseStud
     processTitle: "How the product and pilot moved",
     steps: [
       { title: "Talk to both sides", detail: "Clinic admins and students set the roadmap." },
-      { title: "Set proposed pricing", detail: "Proposed annual clinic pricing: $750–$1,250." },
+      { title: "Set proposed pricing", detail: "Proposed annual clinic pricing: $750 to $1,250." },
       { title: "One recruiting path", detail: "Role-based intake, review, and onboarding replaced the manual coordination." },
       { title: "Move the clinic on", detail: "BCS Free Health Clinic ran the full volunteer program on the platform." },
       { title: "Grow through orgs and peers", detail: "SQL on signup, referral, and retention. Then pre-health orgs and peer referrals." },

@@ -455,20 +455,13 @@ button { color: inherit; }
     transform: translateY(-50%);
     width: 10px;
   }
+  /* Keep clinic flow vertical/2x2; a 4-up row is too narrow in the home sidebar. */
   .clinic-flow {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    grid-template-columns: 1fr 1fr;
   }
   .clinic-flow > div { margin-bottom: 0; }
-  .clinic-flow > div:not(:last-child) { margin-right: 18px; }
-  .clinic-flow > div:not(:last-child)::after {
-    bottom: auto;
-    height: 2px;
-    left: auto;
-    right: -14px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-  }
+  .clinic-flow > div:not(:last-child)::after { display: none; }
 }
 .bots-fallback { color: var(--muted); font-size: 14px; margin: 10px 0 0; }
 .nav-contact {
@@ -492,17 +485,22 @@ button { color: inherit; }
 .clinical-section { background: var(--paper); border-top: 1px solid var(--line); }
 .clinical-case {
   background: var(--surface);
-  border: 1px solid #B7AA94;
+  border: 1px solid var(--border-emphasis);
   border-radius: var(--radius-stage);
   box-shadow: var(--shadow-stage);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 36px;
+}
+.clinical-lead {
+  align-items: start;
   display: grid;
   gap: 28px 36px;
   grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr);
-  padding: 36px;
 }
 .clinical-story { display: flex; flex-direction: column; gap: 0; min-width: 0; }
-.clinical-feature-visuals { align-self: start; display: grid; gap: 16px; min-width: 0; }
-.clinical-ownership, .clinical-proof-row { grid-column: 1 / -1; }
+.clinical-feature-visuals { align-self: stretch; display: grid; gap: 16px; min-width: 0; }
 .clinical-brand { align-items: center; display: flex; justify-content: space-between; margin-bottom: 22px; }
 .clinical-brand a, .clinical-brand-lockup { align-items: center; display: flex; gap: 12px; }
 .clinical-brand img {
@@ -527,15 +525,15 @@ button { color: inherit; }
   text-wrap: balance;
 }
 .clinical-story > p { color: var(--muted); font-size: 16px; line-height: 1.65; margin: 8px 0 0; }
-.product-proof { background: var(--ink); border: 1px solid var(--line); border-radius: 12px; margin: 28px 0 0; overflow: hidden; }
+.product-proof { background: var(--ink); border: 1px solid var(--border-emphasis); border-radius: 12px; margin: 0; overflow: hidden; }
 .product-proof img { aspect-ratio: 1800 / 1039; height: auto; object-fit: contain; width: 100%; }
-.product-proof figcaption { align-items: center; color: var(--on-navy-muted); display: flex; font-size: 13px; gap: 12px; padding: 12px 14px; }
+.product-proof figcaption { align-items: center; color: var(--on-navy-muted); display: flex; font-size: 14px; gap: 12px; line-height: 1.5; padding: 12px 14px; }
 .product-proof figcaption span { color: var(--on-navy); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .08em; }
 .clinical-ownership { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .clinical-ownership span { border: 1px solid var(--line); border-radius: 6px; color: var(--muted); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; padding: 7px 9px; text-transform: uppercase; }
-.clinical-proof-row { align-items: stretch; display: grid; gap: 18px; grid-template-columns: 1fr 300px; margin-top: 28px; }
+.clinical-proof-row { align-items: stretch; display: grid; gap: 18px; grid-template-columns: 1fr 300px; margin: 0; }
 .milestone-rail { display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); }
-.milestone-card { background: var(--accent-tint); border: 1px solid var(--line); border-radius: 12px; min-height: 120px; padding: 16px; }
+.milestone-card { background: #FFFBF4; border: 1px solid var(--border-emphasis); border-radius: 12px; min-height: 120px; padding: 16px; }
 .milestone-card > span { color: var(--accent); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .06em; }
 .milestone-card h4 { font-size: 16px; font-weight: 600; margin: 16px 0 0; }
 .milestone-card p { color: var(--muted); font-size: 12px; margin: 4px 0 0; }
@@ -676,7 +674,7 @@ button { color: inherit; }
   .experience-grid { grid-template-columns: 1fr; }
   .matic-card { min-height: 0; }
   .legends-card { min-height: 0; }
-  .clinical-story { grid-template-columns: 1fr 1fr; }
+  .clinical-lead { grid-template-columns: 1fr; }
   .research-grid { grid-template-columns: 1fr; }
   .research-primary { grid-template-columns: 1fr minmax(280px, 360px); }
   .bots-iframe { height: 520px; }
@@ -731,16 +729,16 @@ button { color: inherit; }
   .experience-signals { gap: 6px; }
   .experience-signals span { padding: 7px; }
   .legends-signal { margin-top: 23px; }
-  .clinical-case { display: flex; flex-direction: column; gap: 20px; margin: 0 -1px; padding: 20px 14px; }
+  .clinical-case { gap: 20px; margin: 0 -1px; padding: 20px 14px; }
+  .clinical-lead { display: flex; flex-direction: column; gap: 20px; }
   .clinical-story { display: block; }
   .clinical-brand { margin-bottom: 20px; }
   .clinical-brand img { height: 40px; padding: 5px; width: 40px; }
   .clinical-brand strong { font-size: 18px; }
-  .clinical-story h3 { font-size: 36px; }
-  .clinical-story > p { font-size: 14px; margin-top: 16px; }
-  .product-proof { margin-top: 24px; }
+  .clinical-story h3 { font-size: 32px; }
+  .clinical-story > p { font-size: 16px; margin-top: 16px; }
   .product-proof figcaption { align-items: flex-start; flex-direction: column; font-size: 13px; gap: 5px; }
-  .clinical-proof-row { display: block; margin-top: 24px; }
+  .clinical-proof-row { display: block; }
   .milestone-rail { display: flex; margin-right: -15px; overflow-x: auto; padding-bottom: 9px; scroll-snap-type: x mandatory; }
   .milestone-card { flex: 0 0 71%; scroll-snap-align: start; }
   .pitch-proof { margin-top: 15px; }
@@ -786,7 +784,7 @@ button { color: inherit; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
-/* Personal builds — compact card grid + tools strip (redesign 2026-08-01) */
+/* Personal builds: compact card grid + tools strip (redesign 2026-08-01) */
 .builds-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); }
 .build { background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; padding: 16px; transition: border-color .2s ease, transform .2s ease; }
 .build:hover, .build:focus-visible { border-color: var(--accent); outline: none; transform: translateY(-3px); }

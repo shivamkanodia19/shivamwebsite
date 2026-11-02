@@ -4,7 +4,7 @@ import { captureAnalyticsEvent } from "@/analytics/client";
 import { TrackedLink } from "@/analytics/TrackedLink";
 import { Navbar } from "@/components/Navbar";
 import { SiteFooter } from "@/components/SiteFooter";
-import { ClinicalFrames, LegendsDecisionArtifact, MaticFrame } from "@/components/work/DeliverableFrames";
+import { ClinicalLeadFrame, ClinicalSupportingFrames, LegendsDecisionArtifact, MaticFrame } from "@/components/work/DeliverableFrames";
 import {
   caseStudies,
   type CaseStudy,
@@ -107,16 +107,16 @@ function CaseShell({
 }
 
 function SingleStudy({ study }: { study: SingleProjectCase }) {
-  const Frame = study.slug === "matic" ? MaticFrame : ClinicalFrames;
+  const isClinical = study.slug === "clinicalhours";
 
   return (
     <CaseShell study={study}>
       <section className="case-block case-block-first" aria-labelledby="case-ship-title">
         <div className="case-block-head">
           <p className="eyebrow">Deliverable</p>
-          <h2 id="case-ship-title">{study.deliverableTitle}</h2>
+          <h2 id="case-ship-title">{isClinical ? "Clinic workflow" : study.deliverableTitle}</h2>
         </div>
-        <Frame />
+        {isClinical ? <ClinicalLeadFrame /> : <MaticFrame />}
       </section>
 
       <p className="case-outcome">{study.outcome}</p>
@@ -129,6 +129,16 @@ function SingleStudy({ study }: { study: SingleProjectCase }) {
           </div>
         ))}
       </dl>
+
+      {isClinical ? (
+        <section className="case-block" aria-labelledby="case-gallery-title">
+          <div className="case-block-head">
+            <p className="eyebrow">Evidence</p>
+            <h2 id="case-gallery-title">Live product and recognition</h2>
+          </div>
+          <ClinicalSupportingFrames />
+        </section>
+      ) : null}
 
       <section className="case-block" aria-labelledby="case-line-title">
         <div className="case-block-head">

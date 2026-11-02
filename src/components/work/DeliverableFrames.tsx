@@ -105,7 +105,7 @@ export function LegendsDecisionArtifact() {
         </div>
         <div className="decision-scope">
           <p className="decision-kicker">Separate scope</p>
-          <p>A later menu optimization platform was intended for 400+ venues — distinct from the pricing model above.</p>
+          <p>A later menu optimization platform was intended for 400+ venues, distinct from the pricing model above.</p>
         </div>
       </div>
       <figcaption>Reconstructed analysis and evaluation process from the Legends internship.</figcaption>
@@ -143,10 +143,13 @@ export function ClinicalClinicArtifact() {
   );
 }
 
-export function ClinicalFrames() {
+export function ClinicalLeadFrame() {
+  return <ClinicalClinicArtifact />;
+}
+
+export function ClinicalSupportingFrames() {
   return (
     <div className="clinical-gallery">
-      <ClinicalClinicArtifact />
       <figure className="frame frame-clinical">
         <div className="frame-chrome">
           <span className="frame-url">clinicalhours.org · opportunities</span>
@@ -179,6 +182,16 @@ export function ClinicalFrames() {
         <li>Meloy Launch, 1 of 3 teams selected from 11</li>
         <li>Good Bull Pitch, 3rd place</li>
       </ul>
+    </div>
+  );
+}
+
+/** Full gallery kept for any legacy imports; prefer lead + supporting split. */
+export function ClinicalFrames() {
+  return (
+    <div className="clinical-gallery">
+      <ClinicalLeadFrame />
+      <ClinicalSupportingFrames />
     </div>
   );
 }
