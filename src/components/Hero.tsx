@@ -8,7 +8,7 @@ const roles = [
     role: "Software Engineering Intern",
     projectId: "matic",
     href: "/work/matic",
-    logo: "/brand/matic-logo-white.svg",
+    logo: "/brand/matic-logo-dark.svg",
     logoClass: "credential-logo-matic",
   },
   {
@@ -16,7 +16,7 @@ const roles = [
     role: "Business Insights Intern",
     projectId: "legends",
     href: "/work/legends",
-    logo: "/brand/legends-global-logo.svg",
+    logo: "/brand/legends-global-logo-dark.svg",
     logoClass: "credential-logo-legends",
   },
   {
@@ -82,7 +82,7 @@ export function Hero() {
           >
             <span className="incoming-stamp">Incoming</span>
             <span className="incoming-logo-box">
-              <img src="/brand/zipline-logo-dark.svg" alt="Zipline" />
+              <img src="/brand/zipline-logo.png" alt="Zipline" />
             </span>
             <span className="incoming-copy">
               <strong>Zipline</strong>

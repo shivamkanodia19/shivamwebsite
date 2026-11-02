@@ -185,6 +185,9 @@ export function ProfileSections() {
 
           <p className="incoming-banner">
             <span>Next</span>
+            <span className="incoming-banner-logo" aria-hidden="true">
+              <img src="/brand/zipline-logo.png" alt="" />
+            </span>
             <strong>Zipline</strong>
             <em>Commercial Strategy &amp; Operations Intern · Spring 2027 · Incoming</em>
           </p>
@@ -196,7 +199,7 @@ export function ProfileSections() {
                 <span>JUN TO AUG</span>
               </div>
               <span className="experience-logo matic-logo">
-                <img src="/brand/matic-logo-white.svg" alt="Matic" />
+                <img src="/brand/matic-logo-dark.svg" alt="Matic" />
               </span>
               <p className="role-label">Software Engineering Intern</p>
               <h3>The AI inbox physicians are testing.</h3>
@@ -211,7 +214,7 @@ export function ProfileSections() {
                 <span>JUN TO AUG</span>
               </div>
               <span className="experience-logo legends-logo">
-                <img src="/brand/legends-global-logo.svg" alt="Legends Global" />
+                <img src="/brand/legends-global-logo-dark.svg" alt="Legends Global" />
               </span>
               <p className="role-label">Business Insights Intern</p>
               <h3>Food and beverage decisions across venues.</h3>

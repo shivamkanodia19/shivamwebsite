@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { TrackedLink } from "@/analytics/TrackedLink";
 
 const pitchRoles = [
-  ["/brand/zipline-logo-light.svg", "Zipline", "Commercial Strategy & Operations Intern", "Incoming / Spring 2027"],
-  ["/brand/matic-logo-white.svg", "Matic", "Software Engineering Intern", "Summer 2026"],
-  ["/brand/legends-global-logo.svg", "Legends Global", "Business Insights Intern", "Summer 2026"],
+  ["/brand/zipline-logo.png", "Zipline", "Commercial Strategy & Operations Intern", "Incoming / Spring 2027"],
+  ["/brand/matic-logo-dark.svg", "Matic", "Software Engineering Intern", "Summer 2026"],
+  ["/brand/legends-global-logo-dark.svg", "Legends Global", "Business Insights Intern", "Summer 2026"],
   ["/brand/clinicalhours-logo.png", "ClinicalHours", "Co-founder", "2025 to 2026"],
 ] as const;
 
@@ -33,8 +33,28 @@ export function PitchPage() {
           <div className="grid gap-3">
             {pitchRoles.map(([logo, company, role, date]) => (
               <article key={company} className="grid grid-cols-[74px_1fr_auto] items-center gap-4 border border-white/15 bg-white/[0.04] p-3">
-                <div className="flex h-14 items-center justify-center bg-[#0c1220] p-2">
-                  <img src={logo} alt={`${company} logo`} className={company === "ClinicalHours" ? "h-11 w-11 object-contain" : "max-h-9 w-full object-contain"} />
+                <div
+                  className={
+                    company === "Zipline"
+                      ? "flex h-14 w-[74px] items-center justify-center overflow-hidden rounded-md bg-[#f4f1ff] p-0"
+                      : company === "Matic"
+                        ? "flex h-14 items-center justify-center border border-[#c9d4f5] bg-[#eef2ff] p-2"
+                        : company === "Legends Global"
+                          ? "flex h-14 items-center justify-center border border-[#e4cfab] bg-[#fff8ee] p-2"
+                          : "flex h-14 items-center justify-center border border-[#b7d4c4] bg-[#f4faf6] p-2"
+                  }
+                >
+                  <img
+                    src={logo}
+                    alt={`${company} logo`}
+                    className={
+                      company === "ClinicalHours"
+                        ? "h-11 w-11 object-contain"
+                        : company === "Zipline"
+                          ? "h-full w-full object-cover"
+                          : "max-h-9 w-full object-contain"
+                    }
+                  />
                 </div>
                 <div>
                   <h2 className="text-base font-semibold">{company}</h2>

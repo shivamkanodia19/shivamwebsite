@@ -73,19 +73,20 @@ button { color: inherit; }
 .hero-portrait { border: 1px solid var(--line); border-radius: 50%; height: 150px; object-fit: cover; width: 150px; }
 .incoming-role {
   align-items: center;
-  background: #f7f4e8;
-  border: 1px solid #111;
+  background: #f7f4ee;
+  border: 1px solid var(--line);
   display: grid;
   gap: 12px;
-  grid-template-columns: auto 92px 1fr auto;
+  grid-template-columns: auto 52px 1fr auto;
   margin-bottom: 10px;
   min-height: 74px;
   padding: 10px 14px;
-  transition: background-color .2s ease;
+  transition: background-color .2s ease, border-color .2s ease;
 }
-.incoming-role:hover, .incoming-role:focus-visible { background: #efe9d8; }
+.incoming-role:hover, .incoming-role:focus-visible { background: #f4f1ff; border-color: #633aec; }
 .incoming-stamp {
-  border: 1px solid #111;
+  border: 1px solid #633aec;
+  color: #633aec;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 9px;
   letter-spacing: .1em;
@@ -94,38 +95,63 @@ button { color: inherit; }
 }
 .incoming-logo-box {
   align-items: center;
+  background: #f4f1ff;
+  border: 1px solid #ddd6ff;
+  border-radius: 8px;
   display: flex;
-  height: 42px;
+  height: 48px;
   justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  width: 48px;
 }
-.incoming-logo-box img { height: auto; max-height: 22px; width: 100%; object-fit: contain; }
+.incoming-logo-box img { display: block; height: 100%; object-fit: cover; width: 100%; }
 .incoming-copy strong { display: block; font-size: 16px; }
 .incoming-copy small { color: var(--muted); display: block; font-size: 11px; margin-top: 3px; }
 .incoming-banner {
-  align-items: baseline;
+  align-items: center;
+  background: #f7f4ee;
   border: 1px solid var(--line);
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 16px;
+  gap: 10px 14px;
   margin: 0 0 18px;
-  padding: 14px 16px;
+  padding: 12px 14px;
 }
 .incoming-banner span {
-  color: var(--blue);
+  color: #633aec;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 10px;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
+.incoming-banner-logo {
+  align-items: center;
+  background: #f4f1ff;
+  border: 1px solid #ddd6ff;
+  border-radius: 6px;
+  display: flex;
+  flex: 0 0 34px;
+  height: 34px;
+  justify-content: center;
+  overflow: hidden;
+  width: 34px;
+}
+.incoming-banner-logo img { display: block; height: 100%; object-fit: cover; width: 100%; }
 .incoming-banner strong { font-size: 16px; letter-spacing: -.02em; }
 .incoming-banner em { color: var(--muted); font-size: 13px; font-style: normal; }
 .role-stack { display: grid; gap: 9px; }
 .role-card { align-items: center; border: 1px solid var(--line); display: grid; gap: 14px; grid-template-columns: 30px 88px 1fr auto; min-height: 82px; padding: 11px 14px; transition: background-color .2s ease, border-color .2s ease; }
 .role-card:hover, .role-card:focus-visible { background: var(--blue-soft); border-color: var(--blue); }
 .role-index { color: var(--faint); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; }
-.credential-logo-box { align-items: center; background: var(--dark); display: flex; height: 56px; justify-content: center; padding: 10px; width: 88px; }
+.credential-logo-box { align-items: center; background: #f7f4ee; border: 1px solid var(--line); display: flex; height: 56px; justify-content: center; padding: 10px; width: 88px; }
 .credential-logo-box img { height: auto; max-height: 35px; object-fit: contain; width: 100%; }
-.credential-logo-box .credential-logo-clinical { height: 39px; width: 39px; }
+.credential-logo-box .credential-logo-matic { max-height: 30px; }
+.credential-logo-box .credential-logo-legends { max-height: 28px; }
+.credential-logo-box .credential-logo-clinical { height: 39px; max-height: none; width: 39px; }
+.role-card:has(.credential-logo-matic) .credential-logo-box { background: #eef2ff; border-color: #c9d4f5; }
+.role-card:has(.credential-logo-legends) .credential-logo-box { background: #fff8ee; border-color: #e4cfab; }
+.role-card:has(.credential-logo-clinical) .credential-logo-box { background: #f4faf6; border-color: #b7d4c4; }
 .role-content strong { display: block; font-size: 17px; }
 .role-content small { color: var(--muted); display: block; font-size: 11px; margin-top: 4px; }
 .role-arrow { color: var(--faint); }
@@ -147,18 +173,18 @@ button { color: inherit; }
 .experience-card { border: 1px solid var(--line); display: flex; flex-direction: column; padding: 34px; }
 .experience-card-topline { align-items: center; display: flex; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; justify-content: space-between; letter-spacing: .08em; text-transform: uppercase; }
 .experience-logo { align-items: center; display: flex; margin-top: 47px; }
-.matic-logo { height: 61px; }
-.matic-logo img { height: 38px; width: auto; }
-.legends-logo { background: #0c1018; height: 61px; justify-content: center; padding: 14px; width: 224px; }
+.matic-logo { background: #fffdf8; border: 1px solid #c9d4f5; height: 61px; padding: 10px 14px; width: fit-content; }
+.matic-logo img { height: 34px; width: auto; }
+.legends-logo { background: #fff8ee; border: 1px solid #e4cfab; height: 61px; justify-content: center; padding: 14px; width: 224px; }
 .legends-logo img { height: 31px; object-fit: contain; width: 100%; }
 .role-label { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 10px; letter-spacing: .1em; margin: 20px 0 0; text-transform: uppercase; }
 .experience-card h3 { font-size: clamp(34px, 3.6vw, 51px); font-weight: 650; letter-spacing: -.055em; line-height: 1.02; margin: 22px 0 0; text-wrap: balance; }
 .experience-summary { font-size: 15px; line-height: 1.55; margin: 16px 0 0; max-width: 670px; }
-.matic-card { background: var(--dark); border-color: var(--dark); color: white; }
-.matic-card .experience-summary { color: #bec8da; }
-.matic-card .experience-card-topline, .matic-card .role-label { color: #9cadca; }
-.experience-signals { border-top: 1px solid #33415b; display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 17px; }
-.experience-signals span { border: 1px solid #41506a; color: #d7deeb; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; padding: 8px 10px; text-transform: uppercase; }
+.matic-card { background: var(--blue-soft); border-color: #c9d4f5; color: var(--ink); }
+.matic-card .experience-summary { color: #4a5568; }
+.matic-card .experience-card-topline, .matic-card .role-label { color: #173fae; }
+.experience-signals { border-top: 1px solid #c9d4f5; display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 17px; }
+.experience-signals span { border: 1px solid #b7c6ef; color: #173fae; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; padding: 8px 10px; text-transform: uppercase; }
 .legends-card { background: var(--amber-soft); border-color: #dbba82; }
 .legends-card .experience-card-topline, .legends-card .role-label { color: #82501a; }
 .legends-card h3 { font-size: clamp(32px, 3.1vw, 44px); }
@@ -333,10 +359,10 @@ button { color: inherit; }
   .hero-proof-heading { margin-bottom: 9px; }
   .proof-title { display: none; }
   .hero-portrait { height: 60px; width: 60px; }
-  .incoming-role { gap: 7px; grid-template-columns: auto 58px 1fr auto; margin-bottom: 6px; min-height: 44px; padding: 6px 8px; }
+  .incoming-role { gap: 7px; grid-template-columns: auto 32px 1fr auto; margin-bottom: 6px; min-height: 44px; padding: 6px 8px; }
   .incoming-stamp { font-size: 8px; padding: 4px 5px; }
-  .incoming-logo-box { height: 28px; }
-  .incoming-logo-box img { max-height: 14px; }
+  .incoming-logo-box { height: 32px; width: 32px; }
+  .incoming-logo-box img { height: 100%; max-height: none; width: 100%; }
   .incoming-copy strong { font-size: 12px; }
   .incoming-copy small { font-size: 8px; margin-top: 1px; }
   .incoming-banner { gap: 6px 10px; margin-bottom: 12px; padding: 10px 12px; }
