@@ -333,7 +333,7 @@ button { color: inherit; }
 }
 .workflow-rail {
   display: grid;
-  gap: 10px;
+  gap: 0;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -343,6 +343,17 @@ button { color: inherit; }
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 12px 14px;
+  position: relative;
+}
+.workflow-rail li:not(:last-child) { margin-bottom: 18px; }
+.workflow-rail li:not(:last-child)::after {
+  background: var(--border-emphasis);
+  bottom: -14px;
+  content: "";
+  height: 10px;
+  left: 22px;
+  position: absolute;
+  width: 2px;
 }
 .workflow-rail strong {
   display: block;
@@ -351,18 +362,47 @@ button { color: inherit; }
   margin-bottom: 4px;
 }
 .workflow-rail span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+.workflow-branch {
+  border-left: 2px solid var(--border-emphasis);
+  color: var(--muted);
+  display: block;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.4;
+  margin-top: 10px;
+  padding-left: 10px;
+}
 .decision-board {
   display: grid;
-  gap: 12px;
-  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  grid-template-columns: 1fr;
 }
 .decision-board > div {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 14px;
+  position: relative;
 }
-.decision-board .decision-result { grid-column: 1 / -1; }
+.decision-board > .decision-stage,
+.decision-board > .decision-work,
+.decision-board > .decision-result {
+  margin-bottom: 18px;
+}
+.decision-board > .decision-stage::after,
+.decision-board > .decision-work::after {
+  background: var(--border-emphasis);
+  bottom: -14px;
+  content: "";
+  height: 10px;
+  left: 22px;
+  position: absolute;
+  width: 2px;
+}
+.decision-board .decision-scope {
+  background: transparent;
+  border-style: dashed;
+}
 .decision-kicker {
   color: var(--accent);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -375,17 +415,61 @@ button { color: inherit; }
 .decision-board strong { font-size: 28px; font-variant-numeric: tabular-nums; }
 .clinic-flow {
   display: grid;
-  gap: 10px;
-  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  grid-template-columns: 1fr;
 }
 .clinic-flow > div {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 12px 14px;
+  position: relative;
+}
+.clinic-flow > div:not(:last-child) { margin-bottom: 18px; }
+.clinic-flow > div:not(:last-child)::after {
+  background: var(--border-emphasis);
+  bottom: -14px;
+  content: "";
+  height: 10px;
+  left: 22px;
+  position: absolute;
+  width: 2px;
 }
 .clinic-flow strong { display: block; font-size: 14px; margin-bottom: 4px; }
 .clinic-flow span { color: var(--muted); font-size: 14px; line-height: 1.45; }
+@media (min-width: 981px) {
+  .workflow-rail {
+    align-items: stretch;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .workflow-rail li { margin-bottom: 0; }
+  .workflow-rail li:not(:last-child) { margin-right: 18px; }
+  .workflow-rail li:not(:last-child)::after {
+    bottom: auto;
+    height: 2px;
+    left: auto;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+  }
+  .clinic-flow {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .clinic-flow > div { margin-bottom: 0; }
+  .clinic-flow > div:not(:last-child) { margin-right: 18px; }
+  .clinic-flow > div:not(:last-child)::after {
+    bottom: auto;
+    height: 2px;
+    left: auto;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+  }
+}
 .bots-fallback { color: var(--muted); font-size: 14px; margin: 10px 0 0; }
 .nav-contact {
   color: var(--muted);
@@ -638,7 +722,6 @@ button { color: inherit; }
   .section-heading > div > p { font-size: 16px; margin-top: 12px; }
   .experience-card { display: flex; flex-direction: column; gap: 20px; padding: 28px 0; }
   .feature-artifact { padding: 14px; }
-  .decision-board, .clinic-flow { grid-template-columns: 1fr; }
   .experience-logo { margin-top: 14px; }
   .matic-logo { height: auto; }
   .matic-logo img { height: 30px; }

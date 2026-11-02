@@ -109,19 +109,19 @@ export const caseStudies: Record<"matic" | "legends" | "clinicalhours", CaseStud
         number: "01",
         title: "Stadium food and beverage recommendations",
         what: "For AT&T Stadium and the Dallas Cowboys, I compared peer NFL venue sales and DFW fan demographics, then presented assortment changes and new food and beverage concepts to venue stakeholders.",
-        result: "Stakeholders reviewed concrete add, cut, and reprice recommendations for the stadium menu. Presentation, not measured sales impact.",
+        result: "Presented assortment and pricing recommendations to venue stakeholders.",
       },
       {
         number: "02",
         title: "Pricing model for 1,400+ SKUs",
         what: "I modeled fan-friendly pricing in Databricks SQL from price elasticity and sales heatmaps, and designed an A/B pilot for targeted stands.",
-        result: "The model projected a $3.6M annual uplift versus current pricing. That number is a projection, not realized revenue.",
+        result: "Projected annual revenue opportunity of $3.6M versus current pricing.",
       },
       {
         number: "03",
         title: "Menu platform for the venue portfolio",
         what: "I helped build a menu optimization platform meant to scale across 400+ venues, applying 10 behavioral merchandising strategies through graph-based workflows and a rule-based system.",
-        result: "Intended scope across 400+ venues. Goal: faster guest decisions, higher sales, and shorter lines with reusable logic.",
+        result: "Intended menu-platform scope across 400+ venues. Goal: faster guest decisions, higher sales, and shorter lines with reusable logic.",
       },
       {
         number: "04",
@@ -157,7 +157,7 @@ export const caseStudies: Record<"matic" | "legends" | "clinicalhours", CaseStud
     processTitle: "How the product and pilot moved",
     steps: [
       { title: "Talk to both sides", detail: "Clinic admins and students set the roadmap." },
-      { title: "Set proposed pricing", detail: "Proposed annual clinic pricing of $750 to $1,250. Not presented here as collected revenue." },
+      { title: "Set proposed pricing", detail: "Proposed annual clinic pricing: $750–$1,250." },
       { title: "One recruiting path", detail: "Role-based intake, review, and onboarding replaced the manual coordination." },
       { title: "Move the clinic on", detail: "BCS Free Health Clinic ran the full volunteer program on the platform." },
       { title: "Grow through orgs and peers", detail: "SQL on signup, referral, and retention. Then pre-health orgs and peer referrals." },

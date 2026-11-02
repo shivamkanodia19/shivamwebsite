@@ -250,7 +250,7 @@ export function ProfileSections() {
               <ClinicalClinicArtifact />
               <figure className="product-proof">
                 <img src="/img/clinicalhours-product.png" alt="ClinicalHours opportunity map interface" width="1800" height="1039" />
-                <figcaption><span>LIVE PRODUCT</span> Student discovery map. Supports recruiting intake; clinic admin workflow is shown in the reconstruction above.</figcaption>
+                <figcaption><span>LIVE PRODUCT</span> Student discovery interface.</figcaption>
               </figure>
             </div>
 
