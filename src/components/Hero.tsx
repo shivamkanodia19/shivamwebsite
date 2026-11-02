@@ -49,7 +49,7 @@ export function Hero() {
             Systems engineer.
           </motion.h1>
           <motion.p {...reveal(0.13)} className="hero-intro">
-            Software engineering at Matic on a physician inbox. Food and beverage product and pricing work at Legends Global. Co-founder of ClinicalHours, the volunteer operating system for clinics.
+            Software engineering at Matic on a physician inbox. Food and beverage product and pricing work at Legends Global. Co-founder of ClinicalHours. Incoming Commercial Strategy &amp; Operations Intern at Zipline, Spring 2027.
           </motion.p>
           <motion.div {...reveal(0.2)} className="hero-actions">
             <TrackedLink href="#matic" className="button button-primary" tracking={{ eventName: "element_clicked", properties: { element_id: "hero-work", label: "Explore work", section_id: "hero", destination_type: "project" } }}>Explore work <span aria-hidden="true">↓</span></TrackedLink>
@@ -65,6 +65,31 @@ export function Hero() {
             </div>
             <img src="/headshot.jpg" alt="Shivam Kanodia" className="hero-portrait" />
           </div>
+          <TrackedLink
+            className="incoming-role"
+            href="https://www.zipline.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            tracking={{
+              eventName: "element_clicked",
+              properties: {
+                element_id: "hero-zipline",
+                label: "Zipline",
+                section_id: "hero",
+                destination_type: "external",
+              },
+            }}
+          >
+            <span className="incoming-stamp">Incoming</span>
+            <span className="incoming-logo-box">
+              <img src="/brand/zipline-logo-dark.svg" alt="Zipline" />
+            </span>
+            <span className="incoming-copy">
+              <strong>Zipline</strong>
+              <small>Commercial Strategy &amp; Operations Intern · Spring 2027</small>
+            </span>
+            <span className="role-arrow" aria-hidden="true">↗</span>
+          </TrackedLink>
           <div className="role-stack">
             {roles.map((item, index) => (
               <CaseLink key={item.company} to={item.href} className="role-card" projectId={item.projectId}>

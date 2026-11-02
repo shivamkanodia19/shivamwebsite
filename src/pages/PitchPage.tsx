@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { TrackedLink } from "@/analytics/TrackedLink";
 
 const pitchRoles = [
+  ["/brand/zipline-logo-light.svg", "Zipline", "Commercial Strategy & Operations Intern", "Incoming / Spring 2027"],
   ["/brand/matic-logo-white.svg", "Matic", "Software Engineering Intern", "Summer 2026"],
   ["/brand/legends-global-logo.svg", "Legends Global", "Business Insights Intern", "Summer 2026"],
   ["/brand/clinicalhours-logo.png", "ClinicalHours", "Co-founder", "2025 to 2026"],
@@ -25,7 +26,7 @@ export function PitchPage() {
               Systems <span className="text-[#8fa9ff]">engineer.</span>
             </h1>
             <p className="mt-6 max-w-[620px] text-[clamp(16px,1.7vw,22px)] leading-relaxed text-[#c3cbe0]">
-              Software engineering at Matic on a physician inbox. Food and beverage product and pricing work at Legends Global. Co-founder of ClinicalHours, the volunteer operating system for clinics with 700+ users.
+              Software engineering at Matic on a physician inbox. Food and beverage product and pricing work at Legends Global. Co-founder of ClinicalHours. Incoming Commercial Strategy &amp; Operations Intern at Zipline, Spring 2027.
             </p>
           </div>
 

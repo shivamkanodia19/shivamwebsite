@@ -180,8 +180,14 @@ export function ProfileSections() {
           <SectionHeading
             label="Experience"
             title="Engineering, intelligence, and ownership."
-            intro="Two summer internships and a clinic product. Open a card for the work, the numbers, and how it was run."
+            intro="Two summer internships and a clinic product, with Zipline next. Open a card for the work, the numbers, and how it was run."
           />
+
+          <p className="incoming-banner">
+            <span>Next</span>
+            <strong>Zipline</strong>
+            <em>Commercial Strategy &amp; Operations Intern · Spring 2027 · Incoming</em>
+          </p>
 
           <div className="experience-grid">
             <CaseLink id="matic" to="/work/matic" className="experience-card matic-card" projectId="matic" aria-label="Matic, Software Engineering Intern. Open the case.">
