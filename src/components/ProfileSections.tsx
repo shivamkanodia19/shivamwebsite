@@ -144,13 +144,13 @@ function TradingDiagram() {
     >
       <defs>
         <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#526261" />
+          <path className="marker-edge" d="M0 0 L7 4 L0 8 z" fill="var(--muted)" />
         </marker>
         <marker id="ahp" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#9D432E" />
+          <path className="marker-pass" d="M0 0 L7 4 L0 8 z" fill="var(--ink)" />
         </marker>
         <marker id="ahb" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#7A8A88" />
+          <path className="marker-block" d="M0 0 L7 4 L0 8 z" fill="var(--faint)" />
         </marker>
       </defs>
       <path className="edge" d="M110 120 H154" markerEnd="url(#ah)" />

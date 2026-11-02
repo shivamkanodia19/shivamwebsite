@@ -45,7 +45,7 @@
   line-height: 1;
 }
 
-.admin-wordmark span { color: var(--blue); }
+.admin-wordmark span { color: var(--accent); }
 
 .admin-private-label,
 .admin-eyebrow,
@@ -65,7 +65,7 @@
 
 .admin-private-label {
   border-left: 1px solid var(--line);
-  color: var(--blue);
+  color: var(--accent);
   font-size: 9px;
   letter-spacing: .15em;
   padding-left: 22px;
@@ -93,7 +93,7 @@
 }
 
 .admin-header-nav a:hover,
-.admin-header-nav button:hover { color: var(--blue); }
+.admin-header-nav button:hover { color: var(--accent); }
 .admin-header-nav > span { color: var(--admin-secondary); }
 
 .admin-main {
@@ -111,7 +111,7 @@
 
 .admin-eyebrow,
 .admin-module-index {
-  color: var(--blue);
+  color: var(--accent);
   font-size: 9px;
   font-weight: 500;
   letter-spacing: .15em;
@@ -157,8 +157,8 @@
 .admin-health-copy small { color: var(--admin-secondary); display: block; font-size: 9px; margin-top: 4px; }
 
 .admin-status-dot {
-  background: var(--green);
-  border: 3px solid var(--green-soft);
+  background: var(--accent);
+  border: 3px solid var(--accent-tint);
   border-radius: 50%;
   box-sizing: content-box;
   height: 7px;
@@ -183,7 +183,7 @@
   text-transform: uppercase;
 }
 
-.admin-refresh:hover { background: var(--blue-soft); color: var(--blue); }
+.admin-refresh:hover { background: var(--accent-tint); color: var(--accent); }
 .admin-refresh:disabled { cursor: wait; opacity: .6; }
 
 .admin-controls-row {
@@ -209,8 +209,8 @@
 }
 
 .admin-range-controls button[aria-pressed="true"] {
-  background: var(--blue);
-  border-color: var(--blue);
+  background: var(--accent);
+  border-color: var(--accent);
   color: white;
 }
 
@@ -235,8 +235,8 @@
 
 .admin-banner strong { margin-right: 4px; }
 .admin-banner-stale { background: var(--amber-soft); border-color: #d6ad75; color: #71430d; }
-.admin-banner-partial { background: var(--plum-soft); border-color: #c59bbb; color: var(--plum); }
-.admin-banner-new { background: var(--green-soft); border-color: #9cbda9; color: var(--green); }
+.admin-banner-partial { background: var(--accent-tint); border-color: var(--border-emphasis); color: var(--accent); }
+.admin-banner-new { background: var(--accent-tint); border-color: var(--border-emphasis); color: var(--accent); }
 
 .admin-dashboard-grid {
   display: grid;
@@ -310,8 +310,8 @@
   margin-top: 14px;
 }
 
-.admin-kpi-delta-up { color: var(--green); }
-.admin-kpi-delta-down { color: var(--plum); }
+.admin-kpi-delta-up { color: var(--accent); }
+.admin-kpi-delta-down { color: var(--ink); }
 .admin-kpi-delta-unchanged,
 .admin-kpi-delta-neutral { color: var(--admin-secondary); }
 .admin-kpi-value-unavailable { font-size: clamp(19px, 2vw, 25px); letter-spacing: -.03em; }
@@ -337,13 +337,13 @@
 .admin-trend-chart { display: block; height: auto; overflow: visible; width: 100%; }
 .admin-chart-gridline { stroke: var(--line); stroke-width: 1; }
 .admin-chart-line { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2.2; }
-.admin-chart-visitors { stroke: var(--blue); }
-.admin-chart-sessions { stroke: var(--green); stroke-dasharray: 8 5; }
-.admin-chart-resume { stroke: var(--plum); stroke-dasharray: 2 5; }
+.admin-chart-visitors { stroke: var(--accent); }
+.admin-chart-sessions { stroke: var(--copper); stroke-dasharray: 8 5; }
+.admin-chart-resume { stroke: var(--muted); stroke-dasharray: 2 5; }
 .admin-chart-marker { stroke-width: 1.5; }
-.admin-chart-marker-visitors { fill: var(--surface); stroke: var(--blue); }
-.admin-chart-marker-sessions { fill: var(--green-soft); stroke: var(--green); }
-.admin-chart-marker-resume { fill: var(--plum-soft); stroke: var(--plum); }
+.admin-chart-marker-visitors { fill: var(--surface); stroke: var(--accent); }
+.admin-chart-marker-sessions { fill: var(--copper-tint); stroke: var(--copper); }
+.admin-chart-marker-resume { fill: var(--surface); stroke: var(--muted); }
 .admin-chart-axis-label { fill: var(--admin-secondary); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 9px; }
 
 .admin-chart-legend {
@@ -360,9 +360,9 @@
 
 .admin-chart-legend span { align-items: center; display: inline-flex; gap: 7px; }
 .admin-legend-line { border-top: 2px solid; display: inline-block; height: 1px; width: 22px; }
-.admin-legend-visitors { border-color: var(--blue); }
-.admin-legend-sessions { border-color: var(--green); border-top-style: dashed; }
-.admin-legend-resume { border-color: var(--plum); border-top-style: dotted; }
+.admin-legend-visitors { border-color: var(--accent); }
+.admin-legend-sessions { border-color: var(--copper); border-top-style: dashed; }
+.admin-legend-resume { border-color: var(--muted); border-top-style: dotted; }
 
 .admin-signal-list { margin: 0; }
 .admin-signal-list > div { border-top: 1px solid var(--line); padding: 18px 0; }
@@ -381,9 +381,9 @@
 
 .admin-bar-list { display: grid; gap: 18px; }
 .admin-bar-list li > div:first-child { align-items: baseline; display: flex; font-size: 12px; justify-content: space-between; }
-.admin-bar-list strong { color: var(--blue); font-size: 11px; }
-.admin-bar-track { background: var(--blue-soft); height: 8px; margin-top: 8px; }
-.admin-bar-track span { background: var(--blue); display: block; height: 100%; min-width: 2px; }
+.admin-bar-list strong { color: var(--accent); font-size: 11px; }
+.admin-bar-track { background: var(--accent-tint); height: 8px; margin-top: 8px; }
+.admin-bar-track span { background: var(--accent); display: block; height: 100%; min-width: 2px; }
 .admin-bar-list small { color: var(--admin-secondary); display: block; font-size: 9px; margin-top: 5px; }
 
 .admin-ranked-list li {
@@ -398,7 +398,7 @@
 .admin-rank { color: var(--admin-secondary); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; }
 .admin-rank-label { font-size: 12px; overflow-wrap: anywhere; }
 .admin-rank-count { color: var(--muted); font-size: 9px; }
-.admin-ranked-list strong { color: var(--plum); font-size: 10px; }
+.admin-ranked-list strong { color: var(--accent); font-size: 10px; }
 
 .admin-module-empty {
   align-items: center;
@@ -422,7 +422,7 @@
 .admin-data-table thead { color: var(--admin-secondary); font-size: 8px; letter-spacing: .06em; text-transform: uppercase; }
 .admin-data-table tbody th { font-size: 12px; font-weight: 500; }
 .admin-data-table tbody td { color: var(--muted); font-size: 11px; }
-.admin-data-table tbody td strong { color: var(--blue); }
+.admin-data-table tbody td strong { color: var(--accent); }
 
 .admin-tabs {
   border-bottom: 1px solid var(--line);
@@ -442,15 +442,15 @@
   text-transform: uppercase;
 }
 
-.admin-tabs button[aria-selected="true"] { border-bottom-color: var(--blue); color: var(--blue); }
+.admin-tabs button[aria-selected="true"] { border-bottom-color: var(--accent); color: var(--accent); }
 
 .admin-funnel-list { display: grid; gap: 8px; }
 .admin-funnel-stage { align-items: center; display: flex; gap: 12px; }
 .admin-funnel-index { color: var(--admin-secondary); flex: 0 0 22px; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 8px; }
 .admin-funnel-block {
   align-items: center;
-  background: var(--blue-soft);
-  border-left: 4px solid var(--blue);
+  background: var(--accent-tint);
+  border-left: 4px solid var(--accent);
   display: grid;
   gap: 14px;
   grid-template-columns: minmax(120px, 1fr) auto auto;
@@ -459,7 +459,7 @@
 }
 .admin-funnel-block strong { font-size: 13px; }
 .admin-funnel-block span { color: var(--muted); font-size: 10px; }
-.admin-funnel-block b { color: var(--blue); font-size: 11px; }
+.admin-funnel-block b { color: var(--accent); font-size: 11px; }
 
 .admin-tool-grid { display: grid; gap: 9px; grid-template-columns: repeat(4, 1fr); }
 .admin-tool-grid > a,
@@ -472,10 +472,10 @@
   min-height: 128px;
   padding: 16px;
 }
-.admin-tool-grid > a:hover { border-color: var(--blue); color: var(--blue); }
+.admin-tool-grid > a:hover { border-color: var(--accent); color: var(--accent); }
 .admin-tool-grid span { font-size: 13px; font-weight: 650; }
 .admin-tool-grid p { color: var(--muted); font-size: 9px; grid-column: 1 / -1; line-height: 1.5; margin: 0; }
-.admin-tool-grid b { color: var(--blue); font-family: "IBM Plex Mono", ui-monospace, monospace; }
+.admin-tool-grid b { color: var(--accent); font-family: "IBM Plex Mono", ui-monospace, monospace; }
 .admin-tool-disabled { color: var(--admin-secondary); }
 
 .admin-meta-module { background: var(--dark); border-color: var(--dark); color: white; }
@@ -495,7 +495,7 @@
 }
 .admin-access-error h1 { font-size: 48px; }
 .admin-access-error [role="alert"] { color: #8e2f2f; font-size: 13px; line-height: 1.6; margin: 22px 0 0; }
-.admin-access-error button { align-self: flex-start; background: var(--blue); border: 1px solid var(--blue); color: white; cursor: pointer; margin-top: 25px; min-height: 44px; padding: 0 18px; }
+.admin-access-error button { align-self: flex-start; background: var(--accent); border: 1px solid var(--accent); color: white; cursor: pointer; margin-top: 25px; min-height: 44px; padding: 0 18px; }
 
 .admin-skeleton-shell { min-height: 100vh; padding-top: 80px; }
 .admin-skeleton-block { animation: admin-skeleton-pulse 1.5s ease-in-out infinite; background: linear-gradient(90deg, #e4dccf, #f7f3eb, #e4dccf); background-size: 200% 100%; border: 1px solid var(--line); }
