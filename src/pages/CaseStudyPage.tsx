@@ -4,7 +4,7 @@ import { captureAnalyticsEvent } from "@/analytics/client";
 import { TrackedLink } from "@/analytics/TrackedLink";
 import { Navbar } from "@/components/Navbar";
 import { SiteFooter } from "@/components/SiteFooter";
-import { ClinicalFrames, LegendsProjects, MaticFrame } from "@/components/work/DeliverableFrames";
+import { ClinicalFrames, MaticFrame } from "@/components/work/DeliverableFrames";
 import {
   caseStudies,
   type CaseStudy,
@@ -162,14 +162,6 @@ function MultiStudy({ study }: { study: MultiProjectCase }) {
             </article>
           ))}
         </div>
-      </section>
-
-      <section className="case-block" aria-labelledby="case-shape-title">
-        <div className="case-block-head">
-          <p className="eyebrow">Shape of the work</p>
-          <h2 id="case-shape-title">From one stadium to the portfolio</h2>
-        </div>
-        <LegendsProjects />
       </section>
     </CaseShell>
   );

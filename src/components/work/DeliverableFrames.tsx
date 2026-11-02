@@ -40,32 +40,6 @@ export function MaticFrame() {
   );
 }
 
-export function LegendsProjects() {
-  return (
-    <figure className="legends-arc" aria-label="How the Legends internship moved from one stadium to the venue portfolio">
-      <ol>
-        <li>
-          <strong>Stadium</strong>
-          <span>Food and beverage recommendations for AT&amp;T Stadium and the Cowboys</span>
-        </li>
-        <li>
-          <strong>Pricing</strong>
-          <span>1,400+ SKUs modeled for elasticity, heatmaps, and an A/B stand pilot</span>
-        </li>
-        <li>
-          <strong>Portfolio</strong>
-          <span>Menu rules and merchandising strategies meant to scale across 400+ venues</span>
-        </li>
-        <li>
-          <strong>Tracking</strong>
-          <span>A dashboard for KPIs and OKRs once the rest of the work was rolling</span>
-        </li>
-      </ol>
-      <figcaption>$3.6M annual uplift is a projection versus current pricing, not a booked result.</figcaption>
-    </figure>
-  );
-}
-
 export function ClinicalFrames() {
   return (
     <div className="clinical-gallery">

@@ -252,6 +252,7 @@ for (const viewport of [
     await expect(page.getByRole("heading", { name: "Stadium food and beverage recommendations" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Pricing model for 1,400+ SKUs" })).toBeVisible();
     await expect(page.getByText(/That number is a projection/)).toBeVisible();
+    await expect(page.getByText(/From one stadium to the portfolio/)).toHaveCount(0);
     await expect(page.getByText("whitespace", { exact: false })).toHaveCount(0);
     await expect(page.getByText("Owned")).toHaveCount(0);
 
