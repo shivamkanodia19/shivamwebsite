@@ -18,7 +18,7 @@ const stats: {
   suffix: string;
   sublabel: string;
 }[] = [
-  { key: "users",    target: 500, decimals: 0, suffix: "+", sublabel: "ClinicalHours users" },
+  { key: "users",    target: 700, decimals: 0, suffix: "+", sublabel: "ClinicalHours student users" },
   { key: "inputs",   target: 65,  decimals: 0, suffix: "",  sublabel: "Research inputs across six cost categories" },
   { key: "projects", target: 8,   decimals: 0, suffix: "",  sublabel: "Verified projects in the archive" },
   { key: "meets",    target: 3,   decimals: 0, suffix: "",  sublabel: "First-place USAPL meet results" },

@@ -22,7 +22,7 @@ const pitchRoles = [
   {
     logo: "/brand/legends-global-logo-dark.svg",
     company: "Legends Global",
-    role: "Business Intelligence Intern",
+    role: "Business Insights Intern",
     date: "Summer 2026",
     href: "/work/legends",
     projectId: "legends" as const,
@@ -108,17 +108,17 @@ export function PitchPage() {
           <CaseLink to="/work/clinicalhours" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--surface)] p-6" projectId="clinicalhours">
             <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--accent)]">ClinicalHours</p>
             <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Built from idea to clinic pilot.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">700+ student users. Partner clinic live. Product, onboarding, scheduling, and go-to-market work.</p>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">700+ student users. At the pilot clinic, applications rose 325% to 150+ and recruiting time fell 50%.</p>
           </CaseLink>
           <CaseLink to="/work/matic" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--surface)] p-6" projectId="matic">
             <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--accent)]">Matic</p>
             <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">A physician inbox in testing.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">About 90% first-pass approval. After section retrieval: 64% lower latency, 82% lower token cost.</p>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Saves physicians about 90 min/day. 90% first-pass approval, 64% lower latency, 82% lower token cost.</p>
           </CaseLink>
           <CaseLink to="/work/legends" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--copper-tint)] p-6" projectId="legends">
             <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--copper)]">Legends Global</p>
             <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Stadium pricing decision.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Fan-friendly pricing model with a projected $3.6M annual revenue opportunity.</p>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Pricing model across 1,400+ SKUs with a projected $3.6M in annual revenue uplift.</p>
           </CaseLink>
         </section>
 

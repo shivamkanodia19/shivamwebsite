@@ -13,7 +13,7 @@ const roles = [
   },
   {
     company: "Legends Global",
-    role: "Business Intelligence Intern",
+    role: "Business Insights Intern",
     projectId: "legends",
     href: "/work/legends",
     logo: "/brand/legends-global-logo-dark.svg",

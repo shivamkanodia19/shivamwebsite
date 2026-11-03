@@ -111,14 +111,14 @@ type Tool = { name: string; blurb: string; mark: string; href?: string; linkLabe
 const tools: Tool[] = [
   {
     name: "Sticky Markdown Notes",
-    blurb: "Desktop notes wired into my agent system, so each note becomes context my agents can act on.",
+    blurb: "Desktop notes wired into an agent system, so each note becomes context the agents can act on.",
     mark: "≡",
     href: "https://github.com/shivamkanodia19/sticky-markdown-note",
     linkLabel: "GitHub",
   },
   {
     name: "Google Tasks Sync",
-    blurb: "Syncs Google Tasks with my cloud agents, so a tagged task kicks off an autonomous run.",
+    blurb: "Syncs Google Tasks with cloud agents, so a tagged task kicks off an autonomous run.",
     mark: "✓",
   },
 ];
@@ -195,14 +195,14 @@ export function ProfileSections() {
                 </span>
                 <p className="role-label">Software Engineering Intern</p>
                 <h3>The AI inbox physicians are testing.</h3>
-                <p className="experience-summary">I built PulseMatic, an AI inbox for refills, labs, and chart updates inside Provider AI. Unsupported drafts go to a physician.</p>
-                <p className="card-note">One project. Owned end to end.</p>
+                <p className="experience-summary">PulseMatic, an AI inbox for refills, labs, and chart updates inside Provider AI. Unsupported drafts go to a physician.</p>
+                <p className="card-note">Saves physicians about 90 min/day. Owned end to end.</p>
                 <p className="case-open">Read the case study →</p>
               </div>
               <MaticWorkflowMini />
             </CaseLink>
 
-            <CaseLink id="legends" to="/work/legends" className="experience-card legends-card" projectId="legends" aria-label="Legends Global, Business Intelligence Intern. Read the case study.">
+            <CaseLink id="legends" to="/work/legends" className="experience-card legends-card" projectId="legends" aria-label="Legends Global, Business Insights Intern. Read the case study.">
               <div className="experience-feature-copy">
                 <div className="experience-card-topline">
                   <span className="proof-stamp proof-stamp-light">Summer 2026</span>
@@ -211,9 +211,9 @@ export function ProfileSections() {
                 <span className="experience-logo legends-logo">
                   <img src="/brand/legends-global-logo-dark.svg" alt="Legends Global" />
                 </span>
-                <p className="role-label">Business Intelligence Intern</p>
+                <p className="role-label">Business Insights Intern</p>
                 <h3>Food and beverage decisions across venues.</h3>
-                <p className="experience-summary">Product and pricing work for AT&amp;T Stadium and the Cowboys, then tools the rest of the venue portfolio could reuse.</p>
+                <p className="experience-summary">Product and pricing analysis for AT&amp;T Stadium and the Cowboys, extended into tools for the wider venue portfolio.</p>
                 <p className="card-note">Four projects across the summer.</p>
                 <p className="case-open">Read the case study →</p>
               </div>
@@ -282,7 +282,7 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="Temper"
-            title="See how my options trading bots are doing."
+            title="Options trading bots, live."
             intro="Three autonomous agents trading options against live market data in a shared paper account. The preview below is a paper-trading dashboard embed, not a brokerage account."
           />
           <div className="bots-frame">
@@ -381,8 +381,8 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="Personal builds"
-            title="Things I build for myself."
-            intro="Software I design and ship on my own time."
+            title="Personal builds."
+            intro="Software designed and shipped outside of work."
           />
           <div className="builds-grid">
             {builds.map((build) => (
@@ -442,7 +442,7 @@ export function ProfileSections() {
           <SectionHeading
             label="Outside work"
             title="Strength outside the screen."
-            intro="I lift and used to play football. The competition record is optional context."
+            intro="Competitive powerlifting. The meet record is public."
           />
           <TrackedLink className="personal-proof" href="https://www.openpowerlifting.org/u/shivamkanodia" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "element_clicked", properties: { element_id: "powerlifting", label: "Powerlifting", section_id: "recognition", destination_type: "external" } }}>
             <span className="proof-stamp proof-stamp-light">USAPL</span>

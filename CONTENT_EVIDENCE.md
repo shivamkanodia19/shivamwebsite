@@ -67,3 +67,16 @@ The repository's existing pitch, award, project, and poster images are reused at
 | Legends Global scope: data-driven product introduction, pricing changes, and total revenue growth | Founder statement, 2026-07-06 | High | Publish as company-level scope, consistent with the existing Legends Global entries above. |
 | Personal trading system: 294 unit tests, 0 live orders placed without manual confirmation | Project repository | High | Publish. Both figures are sourced directly from the repository. |
 | Personal football simulation game: 221 unit and end-to-end tests, Brier score 0.086 on 100k seeded samples (measured locally), 120 FPS (measured locally) | Project repository | High | Publish. Label the Brier score and FPS figures as measured locally, not third-party benchmarked. |
+
+## 2026-11-02 update (resume set)
+
+Source: founder-supplied resumes dated 2026-11-02. These supersede the entries above wherever they differ.
+
+| Claim | Publishing decision |
+| --- | --- |
+| Legends Global title is Business Insights Intern (June to Aug. 2026) | Use `Business Insights Intern` everywhere. |
+| ClinicalHours: 700+ student users; applications up 325% to 150+ and recruiting time down 50% at BCS Free Health Clinic; $750 to $1,250 annual per-clinic pricing; 400 users in 2.5 months, then +300 in 2 weeks; top 10% of Y Combinator applicants | Publish as stated. `700+` supersedes `600+`, `500+`, and `200+`. |
+| Matic PulseMatic: about 90 min/day saved, 50 to 100 daily tasks automated, 90% first-pass approval, 82% lower token cost, 64% lower latency | Publish as stated. |
+| Legends: $3.6M projected annual revenue uplift, 1,400+ SKUs, 400+ venue menu platform, 10 merchandising strategies, AT&T Stadium and Dallas Cowboys | Publish as stated. `$3.6M` stays labeled a projection. |
+
+Voice: site copy is impersonal (no first person), matching the resume style.

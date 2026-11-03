@@ -36,7 +36,7 @@ export function MaticFrame() {
           <p>04 Review</p>
           <div className="draft-card">
             <strong>Physician confirms supported drafts</strong>
-            <span className="draft-pass">About 90% first-pass approval</span>
+            <span className="draft-pass">90% first-pass approval</span>
           </div>
           <div className="gate">Unsupported → physician handles exception</div>
         </section>
@@ -97,15 +97,15 @@ export function LegendsDecisionArtifact() {
         </div>
         <div className="decision-stage decision-work">
           <p className="decision-kicker">Work delivered</p>
-          <p>Modeled fan-friendly repricing across 1,400+ SKUs and designed an A/B pilot for targeted stands.</p>
+          <p>Modeled price elasticity and sales heatmaps for 1,400+ SKUs and designed an A/B pilot for targeted SKUs and stands.</p>
         </div>
         <div className="decision-result">
           <p className="decision-kicker">Projected annual revenue opportunity</p>
-          <p><strong>$3.6M</strong> annual uplift versus current pricing for the stadium SKU analysis.</p>
+          <p><strong>$3.6M</strong> projected annual revenue uplift over current pricing.</p>
         </div>
         <div className="decision-scope">
           <p className="decision-kicker">Separate scope</p>
-          <p>A later menu optimization platform was intended for 400+ venues, distinct from the pricing model above.</p>
+          <p>A separate menu optimization platform is intended for 400+ venues.</p>
         </div>
       </div>
       <figcaption>Reconstructed analysis and evaluation process from the Legends internship.</figcaption>

@@ -19,9 +19,9 @@ const credentials = [
     accent: false,
   },
   {
-    label: "Public milestone",
-    value: "500+",
-    sub: "ClinicalHours users",
+    label: "ClinicalHours",
+    value: "700+",
+    sub: "student users",
     accent: false,
   },
   {

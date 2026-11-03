@@ -102,7 +102,7 @@ test("15-second recruiter scan identifies the complete range", async ({ page }) 
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto("/");
   await expect(page.getByText("Software Engineering Intern", { exact: true }).first()).toBeVisible();
-  await expect(page.getByText("Business Intelligence Intern", { exact: true }).first()).toBeVisible();
+  await expect(page.getByText("Business Insights Intern", { exact: true }).first()).toBeVisible();
   await expect(page.getByText("Co-founder", { exact: true }).first()).toBeVisible();
   const experienceTop = await page.locator("#work").evaluate((element) => element.getBoundingClientRect().top);
   expect(experienceTop).toBeLessThan(900);
