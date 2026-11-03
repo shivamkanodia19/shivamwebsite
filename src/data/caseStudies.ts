@@ -95,7 +95,7 @@ export const caseStudies: Record<"matic" | "legends" | "clinicalhours", CaseStud
     slug: "legends",
     tone: "legends",
     company: "Legends Global",
-    role: "Business Insights Intern",
+    role: "Business Intelligence Intern",
     when: "Jun to Aug 2026",
     where: "Frisco, part-time",
     site: "https://legendsglobal.com/",

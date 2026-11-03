@@ -22,7 +22,7 @@ const pitchRoles = [
   {
     logo: "/brand/legends-global-logo-dark.svg",
     company: "Legends Global",
-    role: "Business Insights Intern",
+    role: "Business Intelligence Intern",
     date: "Summer 2026",
     href: "/work/legends",
     projectId: "legends" as const,

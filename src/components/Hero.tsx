@@ -13,7 +13,7 @@ const roles = [
   },
   {
     company: "Legends Global",
-    role: "Business Insights Intern",
+    role: "Business Intelligence Intern",
     projectId: "legends",
     href: "/work/legends",
     logo: "/brand/legends-global-logo-dark.svg",
@@ -64,7 +64,7 @@ export function Hero() {
           <div className="hero-proof-heading">
             <img src="/headshot.jpg" alt="Shivam Kanodia" className="hero-portrait" />
             <div>
-              <p className="proof-kicker">Selected experience</p>
+              <p className="proof-kicker">Experience</p>
               <p className="proof-title">Internships, a clinic product, and Zipline next.</p>
             </div>
           </div>

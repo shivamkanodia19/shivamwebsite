@@ -184,7 +184,7 @@ export function ProfileSections() {
           />
 
           <div className="experience-grid">
-            <CaseLink id="matic" to="/work/matic" className="experience-card matic-card" projectId="matic" aria-label="Matic, Software Engineering Intern. Open the case.">
+            <CaseLink id="matic" to="/work/matic" className="experience-card matic-card" projectId="matic" aria-label="Matic, Software Engineering Intern. Read the case study.">
               <div className="experience-feature-copy">
                 <div className="experience-card-topline">
                   <span className="proof-stamp proof-stamp-light">Summer 2026</span>
@@ -197,12 +197,12 @@ export function ProfileSections() {
                 <h3>The AI inbox physicians are testing.</h3>
                 <p className="experience-summary">I built PulseMatic, an AI inbox for refills, labs, and chart updates inside Provider AI. Unsupported drafts go to a physician.</p>
                 <p className="card-note">One project. Owned end to end.</p>
-                <p className="case-open">Open the case →</p>
+                <p className="case-open">Read the case study →</p>
               </div>
               <MaticWorkflowMini />
             </CaseLink>
 
-            <CaseLink id="legends" to="/work/legends" className="experience-card legends-card" projectId="legends" aria-label="Legends Global, Business Insights Intern. Open the case.">
+            <CaseLink id="legends" to="/work/legends" className="experience-card legends-card" projectId="legends" aria-label="Legends Global, Business Intelligence Intern. Read the case study.">
               <div className="experience-feature-copy">
                 <div className="experience-card-topline">
                   <span className="proof-stamp proof-stamp-light">Summer 2026</span>
@@ -211,11 +211,11 @@ export function ProfileSections() {
                 <span className="experience-logo legends-logo">
                   <img src="/brand/legends-global-logo-dark.svg" alt="Legends Global" />
                 </span>
-                <p className="role-label">Business Insights Intern</p>
+                <p className="role-label">Business Intelligence Intern</p>
                 <h3>Food and beverage decisions across venues.</h3>
                 <p className="experience-summary">Product and pricing work for AT&amp;T Stadium and the Cowboys, then tools the rest of the venue portfolio could reuse.</p>
                 <p className="card-note">Four projects across the summer.</p>
-                <p className="case-open">Open the case →</p>
+                <p className="case-open">Read the case study →</p>
               </div>
               <LegendsDecisionArtifact />
             </CaseLink>
@@ -231,7 +231,7 @@ export function ProfileSections() {
             intro="Product, users, operations, and recognition in one founder story."
           />
 
-          <CaseLink to="/work/clinicalhours" className="clinical-case" projectId="clinicalhours" aria-label="ClinicalHours, Co-founder. Open the case.">
+          <CaseLink to="/work/clinicalhours" className="clinical-case" projectId="clinicalhours" aria-label="ClinicalHours, Co-founder. Read the case study.">
             <div className="clinical-lead">
               <div className="clinical-story">
                 <div className="clinical-brand">
@@ -247,7 +247,7 @@ export function ProfileSections() {
                 <div className="clinical-ownership" aria-label="ClinicalHours founder ownership">
                   <span>Product</span><span>Onboarding</span><span>Scheduling</span><span>Go-to-market</span><span>Pilot rollout</span>
                 </div>
-                <p className="case-open">Open the case →</p>
+                <p className="case-open">Read the case study →</p>
               </div>
               <div className="clinical-feature-visuals">
                 <ClinicalClinicArtifact />

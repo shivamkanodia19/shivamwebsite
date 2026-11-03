@@ -9,8 +9,8 @@ export function NotFoundPage() {
       <main className="not-found-page">
         <div className="site-container">
           <p className="eyebrow">404</p>
-          <h1>This page is not here.</h1>
-          <p>The route does not match a public page on this site.</p>
+          <h1>Page not found.</h1>
+          <p>This address does not match any page on this site.</p>
           <Link to="/" className="button button-primary">Back to portfolio</Link>
         </div>
       </main>

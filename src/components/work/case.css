@@ -418,13 +418,14 @@
 .matic-card .case-open,
 .legends-card .case-open { color: var(--accent); }
 .clinical-case .case-open { color: var(--accent); margin-top: 22px; }
-.clinical-status {
+.clinical-case .clinical-status {
   color: var(--accent);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: .06em;
+  font-size: 12px;
+  letter-spacing: .04em;
+  line-height: 1.5;
   margin: 14px 0 0;
-  text-transform: uppercase;
+  text-transform: none;
 }
 .card-note {
   color: inherit;
