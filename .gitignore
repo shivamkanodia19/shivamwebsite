@@ -46,8 +46,6 @@ linkedin-*.json
 check_prompt.mjs
 
 # Planning/research artifacts
-prd/
-implementation/
 _spec_extract.txt
 claude.md
 

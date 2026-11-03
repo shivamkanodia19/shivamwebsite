@@ -402,7 +402,6 @@
 
 .tone-matic, .tone-legends, .tone-clinical { background: var(--paper); }
 
-.experience-card .tease-row { margin-top: auto; }
 .experience-card.matic-card:hover, .experience-card.matic-card:focus-visible { border-color: var(--border-emphasis); }
 .experience-card.legends-card:hover, .experience-card.legends-card:focus-visible { border-color: var(--border-emphasis); }
 .clinical-case:hover, .clinical-case:focus-visible { border-color: var(--border-emphasis); }

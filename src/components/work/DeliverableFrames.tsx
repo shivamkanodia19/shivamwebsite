@@ -185,13 +185,3 @@ export function ClinicalSupportingFrames() {
     </div>
   );
 }
-
-/** Full gallery kept for any legacy imports; prefer lead + supporting split. */
-export function ClinicalFrames() {
-  return (
-    <div className="clinical-gallery">
-      <ClinicalLeadFrame />
-      <ClinicalSupportingFrames />
-    </div>
-  );
-}

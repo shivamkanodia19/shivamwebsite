@@ -1,4 +1,4 @@
-import { contactLinks } from "@/data/slides";
+import { contactLinks } from "@/data/contact";
 import { TrackedLink } from "@/analytics/TrackedLink";
 
 export function SiteFooter() {

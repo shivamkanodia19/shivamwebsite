@@ -1,3 +1,4 @@
+import { contactLinks } from "@/data/contact";
 import { TrackedLink } from "@/analytics/TrackedLink";
 import { CaseLink } from "@/components/CaseLink";
 import { ClinicalClinicArtifact, LegendsDecisionArtifact, MaticWorkflowMini } from "@/components/work/DeliverableFrames";
@@ -461,8 +462,8 @@ export function ProfileSections() {
           </div>
           <div className="contact-actions">
             <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "resume_viewed", properties: { placement: "resume-section" } }}>Resume <span aria-hidden="true">↗</span></TrackedLink>
-            <TrackedLink href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "contact_clicked", properties: { channel: "linkedin" } }}>LinkedIn <span aria-hidden="true">↗</span></TrackedLink>
-            <TrackedLink href="mailto:shivamkanodia77@gmail.com" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email <span aria-hidden="true">↗</span></TrackedLink>
+            <TrackedLink href={contactLinks.linkedin} target="_blank" rel="noopener noreferrer" tracking={{ eventName: "contact_clicked", properties: { channel: "linkedin" } }}>LinkedIn <span aria-hidden="true">↗</span></TrackedLink>
+            <TrackedLink href={`mailto:${contactLinks.email}`} tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email <span aria-hidden="true">↗</span></TrackedLink>
           </div>
         </div>
       </section>

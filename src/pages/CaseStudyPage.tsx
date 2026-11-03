@@ -1,3 +1,4 @@
+import { contactLinks } from "@/data/contact";
 import { useEffect, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { captureAnalyticsEvent } from "@/analytics/client";
@@ -85,7 +86,7 @@ function CaseShell({
             </Link>
             <div className="case-top-actions">
               <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="case-utility" tracking={{ eventName: "resume_viewed", properties: { placement: "case" } }}>Resume ↗</TrackedLink>
-              <TrackedLink href="mailto:shivamkanodia77@gmail.com" className="case-utility" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email ↗</TrackedLink>
+              <TrackedLink href={`mailto:${contactLinks.email}`} className="case-utility" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email ↗</TrackedLink>
             </div>
           </div>
 

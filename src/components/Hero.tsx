@@ -1,3 +1,4 @@
+import { contactLinks } from "@/data/contact";
 import { motion, useReducedMotion } from "framer-motion";
 import { TrackedLink } from "@/analytics/TrackedLink";
 import { CaseLink } from "@/components/CaseLink";
@@ -56,7 +57,7 @@ export function Hero() {
           <motion.div {...reveal(0.16)} className="hero-actions">
             <TrackedLink href="#work" className="button button-primary" tracking={{ eventName: "element_clicked", properties: { element_id: "hero-work", label: "Explore work", section_id: "hero", destination_type: "project" } }}>Explore work <span aria-hidden="true">↓</span></TrackedLink>
             <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="button button-secondary" tracking={{ eventName: "resume_viewed", properties: { placement: "hero" } }}>Resume <span aria-hidden="true">↗</span></TrackedLink>
-            <TrackedLink href="mailto:shivamkanodia77@gmail.com" className="button button-secondary" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email <span aria-hidden="true">↗</span></TrackedLink>
+            <TrackedLink href={`mailto:${contactLinks.email}`} className="button button-secondary" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email <span aria-hidden="true">↗</span></TrackedLink>
           </motion.div>
         </div>
 

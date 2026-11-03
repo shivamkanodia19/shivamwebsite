@@ -1,3 +1,4 @@
+import { contactLinks } from "@/data/contact";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { TrackedLink } from "@/analytics/TrackedLink";
@@ -78,7 +79,7 @@ export function Navbar() {
               {links.map(([label, id]) => <button key={id} onClick={() => navigate(id)}>{label}</button>)}
             </nav>
             <div className="nav-actions">
-              <TrackedLink href="mailto:shivamkanodia77@gmail.com" className="nav-contact" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email</TrackedLink>
+              <TrackedLink href={`mailto:${contactLinks.email}`} className="nav-contact" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email</TrackedLink>
               <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="nav-resume" tracking={{ eventName: "resume_viewed", properties: { placement: "navigation" } }}>Resume ↗</TrackedLink>
               <button
                 ref={toggleRef}
@@ -94,7 +95,7 @@ export function Navbar() {
           </>
         ) : (
           <div className="nav-actions case-nav-actions">
-            <TrackedLink href="mailto:shivamkanodia77@gmail.com" className="nav-contact" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email</TrackedLink>
+            <TrackedLink href={`mailto:${contactLinks.email}`} className="nav-contact" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email</TrackedLink>
             <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="nav-resume" tracking={{ eventName: "resume_viewed", properties: { placement: "navigation" } }}>Resume ↗</TrackedLink>
             <Link to="/" className="nav-resume">Back to portfolio</Link>
           </div>

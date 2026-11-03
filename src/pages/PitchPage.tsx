@@ -1,3 +1,4 @@
+import { contactLinks } from "@/data/contact";
 import { Link } from "react-router-dom";
 import { TrackedLink } from "@/analytics/TrackedLink";
 import { CaseLink } from "@/components/CaseLink";
@@ -96,7 +97,7 @@ export function PitchPage() {
                 );
               }
               return (
-                <CaseLink key={item.company} to={item.href} className={className} projectId={item.projectId}>
+                <CaseLink key={item.company} to={item.href} className={className} projectId={"projectId" in item ? item.projectId : undefined}>
                   {body}
                 </CaseLink>
               );
@@ -126,8 +127,8 @@ export function PitchPage() {
           <p>Texas A&amp;M / Industrial &amp; Systems Engineering Honors</p>
           <div className="flex gap-5">
             <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--ink)] underline-offset-3 hover:underline" tracking={{ eventName: "resume_viewed", properties: { placement: "pitch" } }}>Resume ↗</TrackedLink>
-            <TrackedLink href="https://www.linkedin.com/in/shivamkanodia19/" target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--ink)] underline-offset-3 hover:underline" tracking={{ eventName: "contact_clicked", properties: { channel: "linkedin" } }}>LinkedIn ↗</TrackedLink>
-            <TrackedLink href="mailto:shivamkanodia77@gmail.com" className="font-semibold text-[var(--ink)] underline-offset-3 hover:underline" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email ↗</TrackedLink>
+            <TrackedLink href={contactLinks.linkedin} target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--ink)] underline-offset-3 hover:underline" tracking={{ eventName: "contact_clicked", properties: { channel: "linkedin" } }}>LinkedIn ↗</TrackedLink>
+            <TrackedLink href={`mailto:${contactLinks.email}`} className="font-semibold text-[var(--ink)] underline-offset-3 hover:underline" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email ↗</TrackedLink>
           </div>
         </footer>
       </div>
