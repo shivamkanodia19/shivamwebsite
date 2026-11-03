@@ -421,7 +421,7 @@
 }
 .flow { position: relative; }
 .flow-track {
-  background: var(--line);
+  background: var(--border-emphasis);
   height: 2px;
   left: 8%;
   position: absolute;
@@ -455,8 +455,6 @@
   position: relative;
 }
 .flow-step {
-  animation: step-on 8s ease-in-out infinite;
-  animation-delay: calc(var(--i) * 2s - 1s);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -464,9 +462,9 @@
   text-align: center;
   align-items: center;
 }
-@keyframes step-on {
-  0%, 24%, 100% { opacity: .72; }
-  8%, 16% { opacity: 1; }
+@keyframes vis-on {
+  0%, 24%, 100% { border-color: var(--line); box-shadow: none; }
+  8%, 16% { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent); }
 }
 .flow-index { color: var(--accent); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; letter-spacing: .06em; }
 .flow-visual {
@@ -475,6 +473,8 @@
   border: 1px solid var(--line);
   border-radius: 12px;
   display: flex;
+  animation: vis-on 8s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 2s - 1s);
   height: 76px;
   justify-content: center;
   margin: 2px 0 8px;
@@ -576,8 +576,12 @@
   .v-chart i:nth-child(n+4) { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .flow-dot, .flow-step, .v-inbox i, .v-lines i, .v-chart i, .v-check svg path, .v-dots i, .v-grid i, .curve-ring, .tool-strip-inner { animation: none !important; }
+  .flow-dot, .flow-visual, .v-inbox i, .v-lines i, .v-chart i, .v-check svg path, .v-dots i, .v-grid i, .curve-ring, .tool-strip-inner { animation: none !important; }
   .flow-dot { display: none; }
   .v-check svg path { stroke-dashoffset: 0; }
-  .flow-step { opacity: 1; }
 }
+
+.experience-card .curve-figure { grid-template-columns: 1fr; }
+.experience-card .curve-notes { grid-template-columns: 1fr; }
+.clinical-case .clinical-story .case-open { font-size: 11px; letter-spacing: .08em; line-height: 1.4; }
+.experience-card .curve { max-width: 420px; }

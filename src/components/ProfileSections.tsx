@@ -181,7 +181,7 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="Experience"
-            title="Experience"
+            title="Two internships, one startup."
           />
 
           <div className="experience-grid">

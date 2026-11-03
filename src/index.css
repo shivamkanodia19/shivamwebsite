@@ -477,7 +477,7 @@ button { color: inherit; }
   .hero-shell { min-height: 0; }
   .hero-grid { gap: 30px; grid-template-columns: 1fr; min-height: 0; }
   .hero-copy { max-width: 760px; }
-  .hero-proof { margin-left: auto; max-width: 680px; width: 100%; }
+  .hero-proof { max-width: 680px; width: 100%; }
   .hero-portrait { height: 118px; width: 118px; }
   .section-heading { gap: 25px; grid-template-columns: 130px 1fr; }
   .experience-grid { grid-template-columns: 1fr; }
