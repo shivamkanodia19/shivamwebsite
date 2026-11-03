@@ -3,6 +3,7 @@ import { TrackedLink } from "@/analytics/TrackedLink";
 import { CaseLink } from "@/components/CaseLink";
 import { ClinicalClinicArtifact, LegendsDecisionArtifact, MaticWorkflowMini } from "@/components/work/DeliverableFrames";
 import { useSectionTracking } from "@/analytics/useSectionTracking";
+import { ForecastSketch } from "@/components/Motion";
 
 type SectionHeadingProps = {
   label: string;
@@ -23,10 +24,10 @@ function SectionHeading({ label, title, intro }: SectionHeadingProps) {
 }
 
 const clinicalMilestones = [
-  { value: "3RD", name: "Good Bull Pitch", detail: "Pitch competition" },
-  { value: "FINALIST", name: "Ideas Challenge", detail: "McFerrin Center" },
-  { value: "3RD", name: "Meloy Bullet Pitch", detail: "Pitch competition" },
-  { value: "SELECTED", name: "Meloy Launch Accelerator", detail: "Startup accelerator" },
+  { value: "3rd place", name: "Good Bull Pitch" },
+  { value: "Finalist", name: "Texas A&M Ideas Challenge" },
+  { value: "3rd of 60", name: "Meloy Bullet Pitch" },
+  { value: "1 of 3 teams selected from 11", name: "Meloy Kickstart Launch" },
 ] as const;
 
 const featuredProjects = [
@@ -180,8 +181,7 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="Experience"
-            title="Selected experience"
-            intro="Two summer internships and a clinic product, with Zipline next. Open a story for the work, the numbers, and how it was run."
+            title="Experience"
           />
 
           <div className="experience-grid">
@@ -195,9 +195,9 @@ export function ProfileSections() {
                   <img src="/brand/matic-logo-dark.svg" alt="Matic" />
                 </span>
                 <p className="role-label">Software Engineering Intern</p>
-                <h3>The AI inbox physicians are testing.</h3>
-                <p className="experience-summary">PulseMatic, an AI inbox for refills, labs, and chart updates inside Provider AI. Unsupported drafts go to a physician.</p>
-                <p className="card-note">Saves physicians about 90 min/day. Owned end to end.</p>
+                <h3>An AI inbox for physicians.</h3>
+                <p className="experience-summary">PulseMatic drafts replies to refill, lab, and chart requests inside Provider AI. Unsupported drafts go to a physician.</p>
+                <p className="card-note">Saves physicians about 90 min/day.</p>
                 <p className="case-open">Read the case study →</p>
               </div>
               <MaticWorkflowMini />
@@ -213,10 +213,9 @@ export function ProfileSections() {
                   <img src="/brand/legends-global-logo-dark.svg" alt="Legends Global" />
                 </span>
                 <p className="role-label">Business Insights Intern</p>
-                <h3>Food and beverage decisions across venues.</h3>
-                <p className="experience-summary">Product and pricing analysis for AT&amp;T Stadium and the Cowboys, extended into tools for the wider venue portfolio.</p>
-                <p className="card-note">Four projects across the summer.</p>
-                <p className="case-open">Read the case study →</p>
+                <h3>Food and beverage pricing.</h3>
+                <p className="experience-summary">Pricing and product analysis for AT&amp;T Stadium and the Cowboys, extended into tools for the wider venue portfolio.</p>
+                                <p className="case-open">Read the case study →</p>
               </div>
               <LegendsDecisionArtifact />
             </CaseLink>
@@ -228,8 +227,7 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="ClinicalHours"
-            title="Built from idea to clinic pilot."
-            intro="Product, users, operations, and recognition in one founder story."
+            title="Idea to clinic pilot."
           />
 
           <CaseLink to="/work/clinicalhours" className="clinical-case" projectId="clinicalhours" aria-label="ClinicalHours, Co-founder. Read the case study.">
@@ -242,12 +240,10 @@ export function ProfileSections() {
                   </div>
                   <span className="proof-stamp proof-stamp-green">CO-FOUNDED</span>
                 </div>
-                <h3 id="clinical-title">The operating layer between clinics and student volunteers.</h3>
-                <p>Co-founded the product and owned partnerships, pricing, and go-to-market. One workflow, from application to team management.</p>
-                <p className="clinical-status">Partner clinic live on the platform · 700+ student users</p>
-                <div className="clinical-ownership" aria-label="ClinicalHours founder ownership">
-                  <span>Product</span><span>Onboarding</span><span>Scheduling</span><span>Go-to-market</span><span>Pilot rollout</span>
-                </div>
+                <h3 id="clinical-title">Volunteer operating system for clinics.</h3>
+                <p>Co-founded the product and owned partnerships, pricing, and go-to-market. One workflow from application to scheduling.</p>
+                <p className="clinical-status">700+ student users · partner clinic live</p>
+
                 <p className="case-open">Read the case study →</p>
               </div>
               <div className="clinical-feature-visuals">
@@ -257,22 +253,18 @@ export function ProfileSections() {
 
             <figure className="product-proof">
               <img src="/img/clinicalhours-product.png" alt="ClinicalHours opportunity map interface" width="1800" height="1039" />
-              <figcaption><span>LIVE PRODUCT</span> Student discovery interface.</figcaption>
+              <figcaption><span>LIVE PRODUCT</span> Student opportunity map.</figcaption>
             </figure>
 
             <div className="clinical-proof-row">
-              <div className="milestone-rail" aria-label="ClinicalHours recognition">
+              <ul className="milestone-list" aria-label="ClinicalHours recognition">
                 {clinicalMilestones.map((item) => (
-                  <article key={item.name} className="milestone-card">
-                    <span>{item.value}</span>
-                    <h4>{item.name}</h4>
-                    <p>{item.detail}</p>
-                  </article>
+                  <li key={item.name}><strong>{item.name}</strong><span>{item.value}</span></li>
                 ))}
-              </div>
+              </ul>
               <figure className="pitch-proof">
-                <img src="/img/clinicalhours-pitch.jpg" alt="Shivam presenting ClinicalHours to judges" loading="lazy" />
-                <figcaption>Presenting the product and clinic workflow.</figcaption>
+                <img src="/img/clinicalhours-pitch.jpg" alt="Shivam Kanodia pitching ClinicalHours to judges" loading="lazy" />
+                <figcaption>Pitching ClinicalHours.</figcaption>
               </figure>
             </div>
           </CaseLink>
@@ -284,7 +276,7 @@ export function ProfileSections() {
           <SectionHeading
             label="Temper"
             title="Options trading bots, live."
-            intro="Three autonomous agents trading options against live market data in a shared paper account. The preview below is a paper-trading dashboard embed, not a brokerage account."
+            intro="Three autonomous agents trade options on live market data in a shared paper account. Paper trading only."
           />
           <div className="bots-frame">
             <div className="bots-chrome">
@@ -318,21 +310,18 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="Research"
-            title="Models built for real decisions."
-            intro="Forecasting, validation, and decision support with Dr. Karun Kaniyamattam."
+            title="Forecasting research."
+            intro="With Dr. Karun Kaniyamattam, Texas A&M."
           />
           <div className="research-grid">
             <article className="research-primary">
               <div className="research-copy">
                 <p className="card-kicker">PRESENTED / STUDENT RESEARCH WEEK</p>
                 <h3>Cattle futures forecasting for feedlot planning.</h3>
-                <p>Built a forecasting dashboard and compared multiple model families through walk-forward validation.</p>
-                <div className="research-metrics" aria-label="Cattle futures model scope">
-                  <div><strong>65</strong><span>inputs</span></div>
-                  <div><strong>6</strong><span>cost groups</span></div>
-                  <div><strong>3</strong><span>model families</span></div>
+                <p>Forecasting dashboard with 65 inputs across six categories. SARIMA, LSTM, and XGBoost compared with walk-forward validation.</p>
+                <ForecastSketch />
+                <div className="model-chips" aria-label="Models compared"><span>SARIMA</span><span>LSTM</span><span>XGBoost</span></div>
                 </div>
-              </div>
               <TrackedLink href="/img/research-poster.jpg" target="_blank" rel="noopener noreferrer" className="poster-link" tracking={{ eventName: "element_clicked", properties: { element_id: "research-poster", label: "Research poster", section_id: "research", destination_type: "project" } }}>
                 <img src="/img/research-poster.jpg" alt="Full cattle futures forecasting research poster" width="483" height="378" loading="lazy" />
                 <span>View full poster <b aria-hidden="true">↗</b></span>
@@ -341,7 +330,7 @@ export function ProfileSections() {
             <article className="research-secondary">
               <p className="card-kicker">RESEARCH IN PROGRESS</p>
               <h3>Dairy farm decision support.</h3>
-              <p>Extending the research into systems models and economic decision tools for dairy management.</p>
+              <p>Systems modeling and machine learning for dairy-farm decisions.</p>
             </article>
           </div>
         </div>
@@ -351,8 +340,8 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="Hackathon projects"
-            title="A wider build range."
-            intro="Competition and hackathon builds across healthcare, machine learning, hardware, and consumer products."
+            title="Projects."
+            intro="Competition and hackathon builds."
           />
           <div className="featured-projects">
             {featuredProjects.map((project, index) => (
@@ -367,7 +356,7 @@ export function ProfileSections() {
             ))}
           </div>
 
-          <div className="archive-heading"><p className="eyebrow">More projects</p><span>Selected</span></div>
+          <div className="archive-heading"><p className="eyebrow">More projects</p></div>
           <div className="project-archive">
             {archiveProjects.map(([name, type, proof], index) => (
               <article key={name} className="archive-row">
@@ -383,7 +372,6 @@ export function ProfileSections() {
           <SectionHeading
             label="Personal builds"
             title="Personal builds."
-            intro="Software designed and shipped outside of work."
           />
           <div className="builds-grid">
             {builds.map((build) => (
@@ -442,8 +430,7 @@ export function ProfileSections() {
         <div className="site-container">
           <SectionHeading
             label="Outside work"
-            title="Strength outside the screen."
-            intro="Competitive powerlifting. The meet record is public."
+            title="Powerlifting."
           />
           <TrackedLink className="personal-proof" href="https://www.openpowerlifting.org/u/shivamkanodia" target="_blank" rel="noopener noreferrer" tracking={{ eventName: "element_clicked", properties: { element_id: "powerlifting", label: "Powerlifting", section_id: "recognition", destination_type: "external" } }}>
             <span className="proof-stamp proof-stamp-light">USAPL</span>

@@ -114,7 +114,7 @@ function SingleStudy({ study }: { study: SingleProjectCase }) {
     <CaseShell study={study}>
       <section className="case-block case-block-first" aria-labelledby="case-ship-title">
         <div className="case-block-head">
-          <p className="eyebrow">Deliverable</p>
+          <p className="eyebrow">Workflow</p>
           <h2 id="case-ship-title">{isClinical ? "Clinic workflow" : study.deliverableTitle}</h2>
         </div>
         {isClinical ? <ClinicalLeadFrame /> : <MaticFrame />}
@@ -135,7 +135,7 @@ function SingleStudy({ study }: { study: SingleProjectCase }) {
         <section className="case-block" aria-labelledby="case-gallery-title">
           <div className="case-block-head">
             <p className="eyebrow">Evidence</p>
-            <h2 id="case-gallery-title">Live product and recognition</h2>
+            <h2 id="case-gallery-title">Product and recognition</h2>
           </div>
           <ClinicalSupportingFrames />
         </section>
@@ -165,16 +165,16 @@ function MultiStudy({ study }: { study: MultiProjectCase }) {
     <CaseShell study={study}>
       <section className="case-block case-block-first" aria-labelledby="case-decision-title">
         <div className="case-block-head">
-          <p className="eyebrow">Featured decision</p>
-          <h2 id="case-decision-title">Stadium pricing model</h2>
+          <p className="eyebrow">Pricing analysis</p>
+          <h2 id="case-decision-title">Food and beverage pricing model</h2>
         </div>
         <LegendsDecisionArtifact />
       </section>
 
       <section className="case-block" aria-labelledby="case-projects-title">
         <div className="case-block-head">
-          <p className="eyebrow">Internship</p>
-          <h2 id="case-projects-title">The projects</h2>
+          <p className="eyebrow">Projects</p>
+          <h2 id="case-projects-title">Four projects</h2>
         </div>
         <div className="project-chapters">
           {study.projects.map((project) => (

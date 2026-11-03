@@ -7,7 +7,7 @@ export function SiteFooter() {
       <div className="site-container footer-grid">
         <div>
           <p className="footer-name">Shivam Kanodia</p>
-          <p className="footer-position">Systems engineering across software, business intelligence, and product ownership.</p>
+          <p className="footer-position">Systems engineering across software, analytics, and product.</p>
         </div>
         <div className="footer-links">
           <TrackedLink href={`mailto:${contactLinks.email}`} tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email</TrackedLink>
@@ -20,7 +20,7 @@ export function SiteFooter() {
         <span>Texas A&amp;M / Industrial &amp; Systems Engineering Honors, Integrated M.S. Finance</span>
         <span>Updated Nov 2026</span>
       </div>
-      <p className="site-container footer-privacy">Privacy: Anonymous analytics measure visits and interactions. Session replays mask page text and inputs, and analytics is disabled on private admin pages.</p>
+      <p className="site-container footer-privacy">Privacy: Anonymous analytics measure visits and interactions. Session replays mask page text and inputs. Analytics is off on private admin pages.</p>
     </footer>
   );
 }

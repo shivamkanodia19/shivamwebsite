@@ -4,6 +4,7 @@ import { AdminPage } from "@/admin/AdminPage";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Hero } from "@/components/Hero";
 import { Navbar } from "@/components/Navbar";
+import { ScrollProgress } from "@/components/Motion";
 import { ProfileSections } from "@/components/ProfileSections";
 import { ClinicalHoursCasePage, LegendsCasePage, MaticCasePage } from "@/pages/CaseStudyPage";
 import { NotFoundPage } from "@/pages/NotFoundPage";
@@ -19,6 +20,7 @@ function HomePage() {
       >
         Skip to content
       </a>
+      <ScrollProgress />
       <Navbar />
       <main id="main">
         <Hero />

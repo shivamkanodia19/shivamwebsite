@@ -1,5 +1,6 @@
 import { contactLinks } from "@/data/contact";
 import { motion, useReducedMotion } from "framer-motion";
+import { ToolStrip } from "@/components/Motion";
 import { TrackedLink } from "@/analytics/TrackedLink";
 import { CaseLink } from "@/components/CaseLink";
 
@@ -43,7 +44,7 @@ export function Hero() {
       <div className="site-container hero-grid">
         <div className="hero-copy">
           <motion.p {...reveal(0)} className="eyebrow">
-            Product / Data / Operations
+            Software / Data / Operations
           </motion.p>
           <motion.h1 {...reveal(0.04)} id="hero-title" className="hero-title">
             Shivam Kanodia
@@ -52,7 +53,7 @@ export function Hero() {
             Systems engineer working across software, analytics, and operations.
           </motion.p>
           <motion.p {...reveal(0.12)} className="hero-intro">
-            Software engineering at Matic on a physician inbox. Food and beverage product and pricing work at Legends Global. Co-founder of ClinicalHours. Incoming Commercial Strategy &amp; Operations Intern at Zipline, Spring 2027.
+            PulseMatic at Matic. Pricing analytics at Legends Global. Co-founder of ClinicalHours. Zipline next, Spring 2027.
           </motion.p>
           <motion.div {...reveal(0.16)} className="hero-actions">
             <TrackedLink href="#work" className="button button-primary" tracking={{ eventName: "element_clicked", properties: { element_id: "hero-work", label: "Explore work", section_id: "hero", destination_type: "project" } }}>Explore work <span aria-hidden="true">↓</span></TrackedLink>
@@ -66,7 +67,7 @@ export function Hero() {
             <img src="/headshot.jpg" alt="Shivam Kanodia" className="hero-portrait" />
             <div>
               <p className="proof-kicker">Experience</p>
-              <p className="proof-title">Internships, a clinic product, and Zipline next.</p>
+              <p className="proof-title">Two internships, one startup, Zipline next.</p>
             </div>
           </div>
           <TrackedLink
@@ -111,6 +112,7 @@ export function Hero() {
           <p className="proof-footer">Texas A&amp;M · Industrial &amp; Systems Engineering Honors · Integrated M.S. Finance</p>
         </motion.aside>
       </div>
+      <div className="site-container"><ToolStrip /></div>
     </section>
   );
 }

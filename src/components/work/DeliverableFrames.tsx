@@ -1,150 +1,196 @@
-export function MaticFrame() {
+import type { ReactNode } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+
+/* ---------- Shared: animated flow rail ---------- */
+
+type FlowStep = { title: string; text: string; visual: ReactNode };
+
+function FlowRail({ steps, label, note }: { steps: FlowStep[]; label: string; note?: ReactNode }) {
   return (
-    <figure className="frame frame-matic">
-      <div className="frame-chrome">
-        <span className="frame-url">PulseMatic workflow · reconstruction</span>
-        <span className="frame-tag">Labeled diagram</span>
+    <div className="flow" role="group" aria-label={label}>
+      <div className="flow-track" aria-hidden="true">
+        <span className="flow-dot" />
       </div>
-      <div
-        className="inbox inbox-flow"
-        aria-label="PulseMatic workflow: task arrives, relevant chart sections are retrieved, a draft is written, then a physician reviews or an unsupported case is escalated"
-      >
-        <section className="inbox-col">
-          <p>01 Task</p>
-          <ul>
-            <li className="is-active"><span>Refill, lab, or chart update</span></li>
-          </ul>
-          <small>Typical day: 50 to 100 tasks</small>
-        </section>
-        <section className="inbox-col">
-          <p>02 Retrieve</p>
-          <ul>
-            <li><span>Active meds</span><b>in</b></li>
-            <li><span>Last refill / recent lab</span><b>in</b></li>
-            <li className="is-out"><span>Rest of chart</span><b>out</b></li>
-          </ul>
-          <small>Section retrieval, not full-chart dump</small>
-        </section>
-        <section className="inbox-col inbox-draft">
-          <p>03 Draft</p>
-          <div className="draft-card">
-            <strong>Reply prepared from retrieved sections</strong>
-            <span>Does not send itself. Accuracy checks run before release.</span>
-          </div>
-        </section>
-        <section className="inbox-col">
-          <p>04 Review</p>
-          <div className="draft-card">
-            <strong>Physician confirms supported drafts</strong>
-            <span className="draft-pass">90% first-pass approval</span>
-          </div>
-          <div className="gate">Unsupported → physician handles exception</div>
-        </section>
-      </div>
-      <figcaption>
-        How the workflow works. Reconstruction, not a screenshot of Matic&apos;s internal tools. After section retrieval: 64% lower latency, 82% lower token cost.
-      </figcaption>
-    </figure>
+      <ol className="flow-steps">
+        {steps.map((step, i) => (
+          <li key={step.title} className="flow-step" style={{ ["--i" as string]: i }}>
+            <span className="flow-index">0{i + 1}</span>
+            <div className="flow-visual" aria-hidden="true">{step.visual}</div>
+            <strong>{step.title}</strong>
+            <span>{step.text}</span>
+          </li>
+        ))}
+      </ol>
+      {note ? <p className="flow-note">{note}</p> : null}
+    </div>
   );
 }
+
+const lines = (n: number) => (
+  <span className="v-lines">
+    {Array.from({ length: n }, (_, i) => <i key={i} style={{ ["--n" as string]: i }} />)}
+  </span>
+);
+
+/* ---------- Matic: PulseMatic workflow ---------- */
+
+const maticSteps: FlowStep[] = [
+  {
+    title: "Task",
+    text: "A refill, lab, or chart request arrives.",
+    visual: (
+      <span className="v-inbox">
+        <i /><i className="on" /><i />
+      </span>
+    ),
+  },
+  {
+    title: "Retrieve",
+    text: "Only the relevant chart sections are pulled.",
+    visual: (
+      <span className="v-chart">
+        <i className="on">Meds</i><i className="on">Labs</i><i>Notes</i><i>Imaging</i><i>History</i>
+      </span>
+    ),
+  },
+  { title: "Draft", text: "A reply is written from those sections.", visual: lines(3) },
+  {
+    title: "Review",
+    text: "A physician approves. Unsupported drafts escalate.",
+    visual: (
+      <span className="v-check">
+        <svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="10" /><path d="M7 12.5l3.2 3.2L17 9" /></svg>
+      </span>
+    ),
+  },
+];
 
 export function MaticWorkflowMini() {
   return (
     <figure className="feature-artifact">
-      <div className="feature-artifact-head">
-        <span>Fig. 01</span>
-        <span>Reconstruction</span>
-      </div>
-      <ol className="workflow-rail" aria-label="PulseMatic causal workflow">
-        <li>
-          <strong>Task</strong>
-          <span>Refill, lab, or chart update enters the inbox.</span>
-        </li>
-        <li>
-          <strong>Retrieve</strong>
-          <span>Only the chart sections that matter are pulled in.</span>
-        </li>
-        <li>
-          <strong>Draft</strong>
-          <span>A reply is written from those sections. It does not send itself.</span>
-        </li>
-        <li className="workflow-review">
-          <strong>Review</strong>
-          <span>Physician confirms supported drafts.</span>
-          <em className="workflow-branch">Unsupported → physician handles exception</em>
-        </li>
-      </ol>
-      <figcaption>Causal order for PulseMatic. Not a product screenshot.</figcaption>
+      <p className="artifact-label">PulseMatic workflow · illustration</p>
+      <FlowRail steps={maticSteps} label="PulseMatic workflow: task, retrieve, draft, review" />
     </figure>
+  );
+}
+
+export function MaticFrame() {
+  return (
+    <figure className="feature-artifact feature-artifact-wide">
+      <p className="artifact-label">PulseMatic workflow · illustration</p>
+      <FlowRail
+        steps={maticSteps}
+        label="PulseMatic workflow: task, retrieve, draft, review"
+        note="Retrieving relevant sections instead of full-chart prompts cut latency 64% and token cost 82%. 90% of drafts pass physician review on the first try."
+      />
+    </figure>
+  );
+}
+
+/* ---------- Legends: price elasticity curve ---------- */
+
+const W = 420;
+const H = 220;
+const PAD = { l: 36, r: 16, t: 14, b: 34 };
+const demand = (t: number) => {
+  // t in [0,1] along price axis; units fall convexly as price rises
+  const x = PAD.l + t * (W - PAD.l - PAD.r);
+  const y = PAD.t + (1 - 0.92 * Math.pow(1 - t, 1.7)) * (H - PAD.t - PAD.b) * 0.92 + 4;
+  return [x, y] as const;
+};
+const curvePoints = Array.from({ length: 41 }, (_, i) => demand(i / 40));
+const curvePath = curvePoints.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
+const T_CURRENT = 0.3;
+const T_PILOT = 0.52;
+const travel = Array.from({ length: 12 }, (_, i) => demand(T_CURRENT + ((T_PILOT - T_CURRENT) * i) / 11));
+const [cx0, cy0] = demand(T_CURRENT);
+const [cx1, cy1] = demand(T_PILOT);
+
+function ElasticityCurve() {
+  const reduce = useReducedMotion();
+  return (
+    <svg className="curve" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Illustrative price elasticity curve: raising price lowers units sold, with a pilot price marked past the current price">
+      <line className="curve-axis" x1={PAD.l} y1={H - PAD.b} x2={W - PAD.r} y2={H - PAD.b} />
+      <line className="curve-axis" x1={PAD.l} y1={PAD.t} x2={PAD.l} y2={H - PAD.b} />
+      <text className="curve-label" x={W - PAD.r} y={H - 10} textAnchor="end">Price →</text>
+      <text className="curve-label" x={PAD.l} y={10}>Units sold</text>
+      <line className="curve-drop" x1={cx0} y1={cy0} x2={cx0} y2={H - PAD.b} />
+      <line className="curve-drop pilot" x1={cx1} y1={cy1} x2={cx1} y2={H - PAD.b} />
+      <text className="curve-tick" x={cx0} y={H - 18} textAnchor="middle">Current</text>
+      <text className="curve-tick pilot" x={cx1} y={H - 18} textAnchor="middle">Pilot</text>
+      <motion.path
+        className="curve-line"
+        d={curvePath}
+        fill="none"
+        initial={reduce ? false : { pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 1.4, ease: "easeOut" }}
+      />
+      <circle className="curve-ring" cx={cx1} cy={cy1} r="9" />
+      <motion.circle
+        className="curve-marker"
+        r="5"
+        cx={cx0}
+        cy={cy0}
+        animate={reduce ? { cx: cx1, cy: cy1 } : { cx: travel.map((p) => p[0]), cy: travel.map((p) => p[1]) }}
+        transition={reduce ? { duration: 0 } : { duration: 3.2, ease: "linear", repeat: Infinity, repeatType: "reverse", repeatDelay: 1.2 }}
+      />
+    </svg>
   );
 }
 
 export function LegendsDecisionArtifact() {
   return (
-    <figure className="feature-artifact">
-      <div className="feature-artifact-head">
-        <span>Fig. 02</span>
-        <span>Pricing analysis</span>
-      </div>
-      <div className="decision-board" aria-label="Stadium pricing analysis and evaluation process">
-        <div className="decision-stage">
-          <p className="decision-kicker">Question</p>
-          <p>Where can AT&amp;T Stadium food and beverage pricing move without losing fan-friendly positioning?</p>
-        </div>
-        <div className="decision-stage">
-          <p className="decision-kicker">Inputs</p>
-          <p>Price elasticity · sales heatmaps · peer NFL venue comps · DFW fan demographics</p>
-        </div>
-        <div className="decision-stage decision-work">
-          <p className="decision-kicker">Work delivered</p>
-          <p>Modeled price elasticity and sales heatmaps for 1,400+ SKUs and designed an A/B pilot for targeted SKUs and stands.</p>
-        </div>
-        <div className="decision-result">
-          <p className="decision-kicker">Projected annual revenue opportunity</p>
-          <p><strong>$3.6M</strong> projected annual revenue uplift over current pricing.</p>
-        </div>
-        <div className="decision-scope">
-          <p className="decision-kicker">Separate scope</p>
-          <p>A separate menu optimization platform is intended for 400+ venues.</p>
-        </div>
-      </div>
-      <figcaption>Reconstructed analysis and evaluation process from the Legends internship.</figcaption>
+    <figure className="feature-artifact curve-figure">
+      <p className="artifact-label">Pricing model · illustration</p>
+      <ElasticityCurve />
+      <dl className="curve-notes">
+        <div><dt>Question</dt><dd>How far can stadium food and beverage prices move before demand drops?</dd></div>
+        <div><dt>Method</dt><dd>Elasticity and sales-heatmap models across 1,400+ SKUs, then an A/B pilot on targeted SKUs and stands.</dd></div>
+        <div><dt>Result</dt><dd>Projected $3.6M annual revenue uplift over current pricing.</dd></div>
+      </dl>
     </figure>
   );
 }
 
+/* ---------- ClinicalHours: clinic workflow ---------- */
+
+const clinicSteps: FlowStep[] = [
+  { title: "Apply", text: "Students submit a role-based application.", visual: lines(3) },
+  {
+    title: "Review",
+    text: "The clinic team reviews it.",
+    visual: <span className="v-check"><svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="10" /><path d="M7 12.5l3.2 3.2L17 9" /></svg></span>,
+  },
+  {
+    title: "Onboard",
+    text: "Accepted volunteers join the team.",
+    visual: <span className="v-dots"><i /><i /><i /><i /><i /><i /></span>,
+  },
+  {
+    title: "Schedule",
+    text: "Shifts and hours are tracked in one place.",
+    visual: <span className="v-grid">{Array.from({ length: 12 }, (_, i) => <i key={i} className={i % 5 === 1 ? "on" : ""} />)}</span>,
+  },
+];
+
 export function ClinicalClinicArtifact() {
   return (
     <figure className="feature-artifact">
-      <div className="feature-artifact-head">
-        <span>Fig. 03</span>
-        <span>Clinic-side reconstruction</span>
-      </div>
-      <div className="clinic-flow" aria-label="Clinic volunteer application and onboarding workflow">
-        <div>
-          <strong>01 Apply</strong>
-          <span>Student submits a role-based application.</span>
-        </div>
-        <div>
-          <strong>02 Review</strong>
-          <span>Clinic team reviews the application.</span>
-        </div>
-        <div>
-          <strong>03 Onboard</strong>
-          <span>Accepted volunteers move into scheduling and team management.</span>
-        </div>
-        <div>
-          <strong>04 Operate</strong>
-          <span>Scheduling and team management stay in one place.</span>
-        </div>
-      </div>
-      <figcaption>Labeled reconstruction of the clinic workflow described in the case.</figcaption>
+      <p className="artifact-label">Clinic workflow · illustration</p>
+      <FlowRail steps={clinicSteps} label="Clinic volunteer workflow: apply, review, onboard, schedule" />
     </figure>
   );
 }
 
 export function ClinicalLeadFrame() {
-  return <ClinicalClinicArtifact />;
+  return (
+    <figure className="feature-artifact feature-artifact-wide">
+      <p className="artifact-label">Clinic workflow · illustration</p>
+      <FlowRail steps={clinicSteps} label="Clinic volunteer workflow: apply, review, onboard, schedule" />
+    </figure>
+  );
 }
 
 export function ClinicalSupportingFrames() {
@@ -156,7 +202,7 @@ export function ClinicalSupportingFrames() {
           <span className="frame-tag">Live product</span>
         </div>
         <img src="/img/clinicalhours-opportunities.jpg" alt="ClinicalHours opportunity list, sorted by distance" width="1600" height="517" />
-        <figcaption>Student discovery interface. Find a clinic, save it, track it.</figcaption>
+        <figcaption>Students find a clinic, save it, and track it.</figcaption>
       </figure>
       <figure className="frame frame-clinical">
         <div className="frame-chrome">
@@ -164,24 +210,18 @@ export function ClinicalSupportingFrames() {
           <span className="frame-tag">Live product</span>
         </div>
         <img src="/img/clinicalhours-product.png" alt="ClinicalHours opportunity map interface" width="1800" height="1039" />
-        <figcaption>Student discovery interface on a map. Clinics, hospitals, and saved sites.</figcaption>
+        <figcaption>The same search on a map: clinics, hospitals, saved sites.</figcaption>
       </figure>
       <div className="clinical-photos">
         <figure>
-          <img src="/img/clinicalhours-pitch.jpg" alt="Shivam presenting ClinicalHours to judges" />
-          <figcaption>Supporting context. Pitching the clinic workflow.</figcaption>
+          <img src="/img/clinicalhours-pitch.jpg" alt="Shivam Kanodia pitching ClinicalHours to judges" />
+          <figcaption>Pitching ClinicalHours.</figcaption>
         </figure>
         <figure>
           <img src="/img/clinicalhours-win.jpg" alt="ClinicalHours team with the Good Bull Pitch award check" />
-          <figcaption>Good Bull Pitch, 3rd, $200.</figcaption>
+          <figcaption>Good Bull Pitch, 3rd place, $200.</figcaption>
         </figure>
       </div>
-      <ul className="recognition-list" aria-label="ClinicalHours recognition">
-        <li>Ideas Challenge finalist</li>
-        <li>Meloy Bullet Pitch, 3 of 60</li>
-        <li>Meloy Launch, 1 of 3 teams selected from 11</li>
-        <li>Good Bull Pitch, 3rd place</li>
-      </ul>
     </div>
   );
 }

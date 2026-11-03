@@ -46,7 +46,7 @@ export function PitchPage() {
           <Link to="/" className="font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--muted)] hover:text-[var(--ink)]">
             ← Portfolio
           </Link>
-          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--faint)]">Evidence brief / 2026</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--faint)]">Brief / 2026</p>
         </header>
 
         <section className="grid gap-8 py-10 lg:grid-cols-[1fr_1.05fr] lg:items-end lg:py-14">
@@ -56,11 +56,15 @@ export function PitchPage() {
               Shivam Kanodia
             </h1>
             <p className="mt-3 text-[clamp(20px,2vw,28px)] font-medium tracking-[-0.02em]">
-              Systems engineer working across software, analytics, and operations.
+              Systems engineer across software, analytics, and operations.
             </p>
             <p className="mt-6 max-w-[620px] text-[clamp(16px,1.5vw,19px)] leading-relaxed text-[var(--muted)]">
-              Software engineering at Matic on a physician inbox. Food and beverage product and pricing work at Legends Global. Co-founder of ClinicalHours. Incoming Commercial Strategy &amp; Operations Intern at Zipline, Spring 2027.
+              Software engineering at Matic. Pricing analytics at Legends Global. Co-founder of ClinicalHours. Incoming at Zipline, Spring 2027.
             </p>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <TrackedLink href={`mailto:${contactLinks.email}`} className="inline-flex items-center rounded-full bg-[var(--ink)] px-6 py-3 text-sm font-semibold text-[var(--paper)]" tracking={{ eventName: "contact_clicked", properties: { channel: "email" } }}>Email</TrackedLink>
+              <TrackedLink href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full border border-[var(--line)] px-6 py-3 text-sm font-semibold text-[var(--ink)]" tracking={{ eventName: "resume_viewed", properties: { placement: "pitch" } }}>Resume ↗</TrackedLink>
+            </div>
           </div>
 
           <div className="grid gap-0">
@@ -108,18 +112,18 @@ export function PitchPage() {
         <section className="grid gap-3 border-t border-[var(--line)] pt-5 md:grid-cols-3">
           <CaseLink to="/work/clinicalhours" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--surface)] p-6" projectId="clinicalhours">
             <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--accent)]">ClinicalHours</p>
-            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Built from idea to clinic pilot.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">700+ student users. At the pilot clinic, applications rose 325% to 150+ and recruiting time fell 50%.</p>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Idea to clinic pilot.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">700+ student users. Pilot clinic applications rose 325% to 150+; recruiting time fell 50%.</p>
           </CaseLink>
           <CaseLink to="/work/matic" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--surface)] p-6" projectId="matic">
             <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--accent)]">Matic</p>
-            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">A physician inbox in testing.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Saves physicians about 90 min/day. 90% first-pass approval, 64% lower latency, 82% lower token cost.</p>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">A physician inbox.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Saves physicians about 90 minutes a day. 90% first-pass approval, 64% lower latency, 82% lower token cost.</p>
           </CaseLink>
           <CaseLink to="/work/legends" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--copper-tint)] p-6" projectId="legends">
             <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--copper)]">Legends Global</p>
-            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Stadium pricing decision.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Pricing model across 1,400+ SKUs with a projected $3.6M in annual revenue uplift.</p>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Stadium pricing.</h2>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Pricing model for 1,400+ SKUs with $3.6M projected annual revenue uplift.</p>
           </CaseLink>
         </section>
 

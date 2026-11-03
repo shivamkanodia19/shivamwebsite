@@ -113,8 +113,8 @@ test("30-second evidence scan exposes proof and contact paths", async ({ page })
   await page.goto("/");
   for (const proof of [
     "700+ student users",
-    "Partner clinic live on the platform",
-    "65",
+    "partner clinic live",
+    "65 inputs",
     "Working workflow prototype",
   ]) {
     await expect(page.getByText(proof, { exact: false }).first()).toBeAttached();
@@ -229,18 +229,17 @@ for (const viewport of [
     await page.getByRole("link", { name: /Matic, Software Engineering Intern/ }).click();
     await expect(page).toHaveURL(/\/work\/matic$/);
     await expect(page.getByRole("heading", { name: "PulseMatic, the physician inbox." })).toBeVisible();
-    await expect(page.getByText("Not a screenshot of Matic's internal tools.")).toBeVisible();
-    await expect(page.getByText(/About 90% in physician review/)).toBeVisible();
-    await expect(page.getByText(/projection, not a measured average/)).toBeVisible();
+    await expect(page.getByText("PulseMatic workflow · illustration").first()).toBeVisible();
+    await expect(page.getByText(/90% in physician review/).first()).toBeVisible();
+    await expect(page.getByText(/90 minutes/).first()).toBeVisible();
     await expect(page.getByText("Owned")).toHaveCount(0);
 
     await page.goto("/work/legends");
     await expect(page.getByRole("heading", { name: "Food and beverage work across Legends venues." })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "The projects" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Four projects" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Stadium food and beverage recommendations" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Pricing model for 1,400+ SKUs" })).toBeVisible();
-    await expect(page.getByText("Projected annual revenue opportunity", { exact: true })).toBeVisible();
-    await expect(page.locator(".decision-result").getByText(/\$3\.6M/)).toBeVisible();
+    await expect(page.locator(".curve-notes").getByText(/\$3\.6M/)).toBeVisible();
     await expect(page.getByText(/From one stadium to the portfolio/)).toHaveCount(0);
     await expect(page.getByText("whitespace", { exact: false })).toHaveCount(0);
     await expect(page.getByText("Owned")).toHaveCount(0);
@@ -249,7 +248,7 @@ for (const viewport of [
     await expect(page.getByRole("heading", { name: "The volunteer desk, in software." })).toBeVisible();
     await expect(page.getByAltText("ClinicalHours opportunity list, sorted by distance")).toBeVisible();
     await expect(page.getByAltText("ClinicalHours opportunity map interface")).toBeVisible();
-    await expect(page.getByText("Good Bull Pitch, 3rd, $200.")).toBeVisible();
+    await expect(page.getByText("Good Bull Pitch, 3rd place, $200.")).toBeVisible();
     await expect(page.getByText("Owned")).toHaveCount(0);
     const clinicalText = await page.locator("body").innerText();
     expect(clinicalText).not.toMatch(/raghav|@tamu\.edu|patient record|email address/i);
