@@ -144,13 +144,13 @@ function TradingDiagram() {
     >
       <defs>
         <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#526261" />
+          <path className="marker-edge" d="M0 0 L7 4 L0 8 z" fill="var(--muted)" />
         </marker>
         <marker id="ahp" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#9D432E" />
+          <path className="marker-pass" d="M0 0 L7 4 L0 8 z" fill="var(--ink)" />
         </marker>
         <marker id="ahb" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-          <path d="M0 0 L7 4 L0 8 z" fill="#7A8A88" />
+          <path className="marker-block" d="M0 0 L7 4 L0 8 z" fill="var(--faint)" />
         </marker>
       </defs>
       <path className="edge" d="M110 120 H154" markerEnd="url(#ah)" />
@@ -232,31 +232,32 @@ export function ProfileSections() {
           />
 
           <CaseLink to="/work/clinicalhours" className="clinical-case" projectId="clinicalhours" aria-label="ClinicalHours, Co-founder. Open the case.">
-            <div className="clinical-story">
-              <div className="clinical-brand">
-                <div className="clinical-brand-lockup">
-                  <img src="/brand/clinicalhours-logo.png" alt="ClinicalHours logo" />
-                  <strong>ClinicalHours</strong>
+            <div className="clinical-lead">
+              <div className="clinical-story">
+                <div className="clinical-brand">
+                  <div className="clinical-brand-lockup">
+                    <img src="/brand/clinicalhours-logo.png" alt="ClinicalHours logo" />
+                    <strong>ClinicalHours</strong>
+                  </div>
+                  <span className="proof-stamp proof-stamp-green">CO-FOUNDED</span>
                 </div>
-                <span className="proof-stamp proof-stamp-green">CO-FOUNDED</span>
+                <h3 id="clinical-title">The operating layer between clinics and student volunteers.</h3>
+                <p>Co-founded the product and owned partnerships, pricing, and go-to-market. One workflow, from application to team management.</p>
+                <p className="clinical-status">Partner clinic live on the platform · 700+ student users</p>
+                <div className="clinical-ownership" aria-label="ClinicalHours founder ownership">
+                  <span>Product</span><span>Onboarding</span><span>Scheduling</span><span>Go-to-market</span><span>Pilot rollout</span>
+                </div>
+                <p className="case-open">Open the case →</p>
               </div>
-              <h3 id="clinical-title">The operating layer between clinics and student volunteers.</h3>
-              <p>Co-founded the product and owned partnerships, pricing, and go-to-market. One workflow, from application to team management.</p>
-              <p className="clinical-status">Partner clinic live on the platform · 700+ student users</p>
-              <p className="case-open">Open the case →</p>
+              <div className="clinical-feature-visuals">
+                <ClinicalClinicArtifact />
+              </div>
             </div>
 
-            <div className="clinical-feature-visuals">
-              <ClinicalClinicArtifact />
-              <figure className="product-proof">
-                <img src="/img/clinicalhours-product.png" alt="ClinicalHours opportunity map interface" width="1800" height="1039" />
-                <figcaption><span>LIVE PRODUCT</span> Student discovery map. Supports recruiting intake; clinic admin workflow is shown in the reconstruction above.</figcaption>
-              </figure>
-            </div>
-
-            <div className="clinical-ownership" aria-label="ClinicalHours founder ownership">
-              <span>Product</span><span>Onboarding</span><span>Scheduling</span><span>Go-to-market</span><span>Pilot rollout</span>
-            </div>
+            <figure className="product-proof">
+              <img src="/img/clinicalhours-product.png" alt="ClinicalHours opportunity map interface" width="1800" height="1039" />
+              <figcaption><span>LIVE PRODUCT</span> Student discovery interface.</figcaption>
+            </figure>
 
             <div className="clinical-proof-row">
               <div className="milestone-rail" aria-label="ClinicalHours recognition">

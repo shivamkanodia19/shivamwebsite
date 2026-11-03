@@ -68,9 +68,10 @@ export function MaticWorkflowMini() {
           <strong>Draft</strong>
           <span>A reply is written from those sections. It does not send itself.</span>
         </li>
-        <li>
+        <li className="workflow-review">
           <strong>Review</strong>
-          <span>Physician confirms supported drafts; unsupported cases escalate.</span>
+          <span>Physician confirms supported drafts.</span>
+          <em className="workflow-branch">Unsupported → physician handles exception</em>
         </li>
       </ol>
       <figcaption>Causal order for PulseMatic. Not a product screenshot.</figcaption>
@@ -83,27 +84,31 @@ export function LegendsDecisionArtifact() {
     <figure className="feature-artifact">
       <div className="feature-artifact-head">
         <span>Fig. 02</span>
-        <span>Pricing decision</span>
+        <span>Pricing analysis</span>
       </div>
-      <div className="decision-board" aria-label="Stadium pricing decision excerpt">
-        <div>
+      <div className="decision-board" aria-label="Stadium pricing analysis and evaluation process">
+        <div className="decision-stage">
           <p className="decision-kicker">Question</p>
           <p>Where can AT&amp;T Stadium food and beverage pricing move without losing fan-friendly positioning?</p>
         </div>
-        <div>
+        <div className="decision-stage">
           <p className="decision-kicker">Inputs</p>
           <p>Price elasticity · sales heatmaps · peer NFL venue comps · DFW fan demographics</p>
         </div>
-        <div>
-          <p className="decision-kicker">Observation</p>
+        <div className="decision-stage decision-work">
+          <p className="decision-kicker">Work delivered</p>
           <p>Modeled fan-friendly repricing across 1,400+ SKUs and designed an A/B pilot for targeted stands.</p>
         </div>
         <div className="decision-result">
-          <p className="decision-kicker">Projected opportunity</p>
-          <p><strong>$3.6M</strong> annual uplift versus current pricing. Projection, not realized revenue. Intended scope later included 400+ venues.</p>
+          <p className="decision-kicker">Projected annual revenue opportunity</p>
+          <p><strong>$3.6M</strong> annual uplift versus current pricing for the stadium SKU analysis.</p>
+        </div>
+        <div className="decision-scope">
+          <p className="decision-kicker">Separate scope</p>
+          <p>A later menu optimization platform was intended for 400+ venues, distinct from the pricing model above.</p>
         </div>
       </div>
-      <figcaption>One analytical decision from the Legends internship. Stadium context is setting, not proof of impact.</figcaption>
+      <figcaption>Reconstructed analysis and evaluation process from the Legends internship.</figcaption>
     </figure>
   );
 }
@@ -122,33 +127,36 @@ export function ClinicalClinicArtifact() {
         </div>
         <div>
           <strong>02 Review</strong>
-          <span>Clinic admin reviews against open shifts and requirements.</span>
+          <span>Clinic team reviews the application.</span>
         </div>
         <div>
           <strong>03 Onboard</strong>
           <span>Accepted volunteers move into scheduling and team management.</span>
         </div>
         <div>
-          <strong>04 Run</strong>
-          <span>BCS Free Health Clinic ran the full volunteer program on the platform.</span>
+          <strong>04 Operate</strong>
+          <span>Scheduling and team management stay in one place.</span>
         </div>
       </div>
-      <figcaption>Labeled reconstruction of the clinic workflow described in the case. Student discovery screens remain separate live product evidence.</figcaption>
+      <figcaption>Labeled reconstruction of the clinic workflow described in the case.</figcaption>
     </figure>
   );
 }
 
-export function ClinicalFrames() {
+export function ClinicalLeadFrame() {
+  return <ClinicalClinicArtifact />;
+}
+
+export function ClinicalSupportingFrames() {
   return (
     <div className="clinical-gallery">
-      <ClinicalClinicArtifact />
       <figure className="frame frame-clinical">
         <div className="frame-chrome">
           <span className="frame-url">clinicalhours.org · opportunities</span>
           <span className="frame-tag">Live product</span>
         </div>
         <img src="/img/clinicalhours-opportunities.jpg" alt="ClinicalHours opportunity list, sorted by distance" width="1600" height="517" />
-        <figcaption>Student discovery. Find a clinic, save it, track it. Supports recruiting intake, not the full clinic admin workflow alone.</figcaption>
+        <figcaption>Student discovery interface. Find a clinic, save it, track it.</figcaption>
       </figure>
       <figure className="frame frame-clinical">
         <div className="frame-chrome">
@@ -156,7 +164,7 @@ export function ClinicalFrames() {
           <span className="frame-tag">Live product</span>
         </div>
         <img src="/img/clinicalhours-product.png" alt="ClinicalHours opportunity map interface" width="1800" height="1039" />
-        <figcaption>The same directory on a map. Clinics, hospitals, and saved sites.</figcaption>
+        <figcaption>Student discovery interface on a map. Clinics, hospitals, and saved sites.</figcaption>
       </figure>
       <div className="clinical-photos">
         <figure>
@@ -174,6 +182,16 @@ export function ClinicalFrames() {
         <li>Meloy Launch, 1 of 3 teams selected from 11</li>
         <li>Good Bull Pitch, 3rd place</li>
       </ul>
+    </div>
+  );
+}
+
+/** Full gallery kept for any legacy imports; prefer lead + supporting split. */
+export function ClinicalFrames() {
+  return (
+    <div className="clinical-gallery">
+      <ClinicalLeadFrame />
+      <ClinicalSupportingFrames />
     </div>
   );
 }

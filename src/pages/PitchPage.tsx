@@ -112,13 +112,13 @@ export function PitchPage() {
           </CaseLink>
           <CaseLink to="/work/matic" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--surface)] p-6" projectId="matic">
             <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--accent)]">Matic</p>
-            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Physician inbox in production testing.</h2>
+            <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">A physician inbox in testing.</h2>
             <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">About 90% first-pass approval. After section retrieval: 64% lower latency, 82% lower token cost.</p>
           </CaseLink>
           <CaseLink to="/work/legends" className="min-h-[210px] rounded-[14px] border border-[var(--line)] bg-[var(--copper-tint)] p-6" projectId="legends">
             <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[var(--copper)]">Legends Global</p>
             <h2 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Stadium pricing decision.</h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Fan-friendly pricing model with a projected $3.6M annual uplift. Projection, not realized revenue.</p>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">Fan-friendly pricing model with a projected $3.6M annual revenue opportunity.</p>
           </CaseLink>
         </section>
 
